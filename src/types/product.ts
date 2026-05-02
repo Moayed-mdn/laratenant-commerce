@@ -28,7 +28,25 @@ export interface ProductVariant {
   attributes: { name: string; value: string }[];
 }
 
-/** Admin product type (raw API shape) */
+/**
+ * Lightweight product shape — returned by list endpoint.
+ * GET /api/v1/admin/stores/{store}/products
+ */
+export interface AdminProductListItem {
+  id: number;
+  name: string;
+  status: ProductStatus;
+  price: number;
+  stock: number;
+  thumbnail: string | null;
+  category: string | null;
+  created_at: string;
+}
+
+/**
+ * Full product shape — returned by detail endpoint.
+ * GET /api/v1/admin/stores/{store}/products/{id}
+ */
 export interface AdminProduct {
   id: number;
   store_id: number;
@@ -53,18 +71,18 @@ export interface AdminProduct {
   updated_at: string;
 }
 
-/** Product list item view (mapped for UI) */
+/**
+ * List item view — mapped for product list UI.
+ */
 export interface ProductListItemView {
   id: number;
   name: string;
-  slug: string;
   status: ProductStatus;
-  price: string;
-  compareAtPrice: string | null;
-  quantity: number;
-  sku: string | null;
-  firstImage: string | null;
-  createdAt: string;
+  price: string;           // formatted currency
+  stock: number;
+  thumbnail: string | null;
+  category: string | null;
+  createdAt: string;       // formatted date
 }
 
 /** Product detail view (mapped for edit form) */
