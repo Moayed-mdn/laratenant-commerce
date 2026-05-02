@@ -241,5 +241,71 @@
     "detail": {
       "back": "العودة إلى المنتجات"
     }
+  },
+  "orders": {
+    "title": "الطلبات",
+    "subtitle": "إدارة طلبات متجرك",
+    "filters": {
+      "search": "بحث",
+      "searchPlaceholder": "البحث برقم الطلب أو اسم العميل...",
+      "status": "الحالة",
+      "allStatuses": "جميع الحالات",
+      "paymentStatus": "حالة الدفع",
+      "allPaymentStatuses": "جميع حالات الدفع"
+    },
+    "table": {
+      "order": "الطلب",
+      "customer": "العميل",
+      "status": "الحالة",
+      "payment": "الدفع",
+      "items": "المنتجات",
+      "total": "الإجمالي",
+      "date": "التاريخ",
+      "view": "عرض",
+      "empty": "لا توجد طلبات",
+      "itemCount": "{count} منتج",
+      "itemCountPlural": "{count} منتجات"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "confirmed": "مؤكد",
+      "cancelled": "ملغي",
+      "refunded": "مسترد"
+    },
+    "paymentStatus": {
+      "pending": "قيد الانتظار",
+      "paid": "مدفوع",
+      "failed": "فشل",
+      "refunded": "مسترد"
+    },
+    "fulfillmentStatus": {
+      "unfulfilled": "غير مُنجز",
+      "partial": "مُنجز جزئياً",
+      "fulfilled": "مُنجز"
+    },
+    "detail": {
+      "title": "الطلب",
+      "back": "العودة إلى الطلبات",
+      "customer": "العميل",
+      "phone": "الهاتف",
+      "notes": "ملاحظات",
+      "lineItems": "المنتجات",
+      "summary": "ملخص الطلب",
+      "subtotal": "المجموع الفرعي",
+      "tax": "الضريبة",
+      "shipping": "الشحن",
+      "total": "الإجمالي",
+      "statusLabel": "حالة الطلب",
+      "statusUpdated": "تم تحديث حالة الطلب",
+      "updating": "جارٍ التحديث...",
+      "error": "فشل تحميل الطلب"
+    },
+    "lineItems": {
+      "product": "المنتج",
+      "sku": "رمز المنتج",
+      "quantity": "الكمية",
+      "price": "السعر",
+      "total": "الإجمالي"
+    }
   }
 }

@@ -241,5 +241,71 @@
     "detail": {
       "back": "Back to products"
     }
+  },
+  "orders": {
+    "title": "Orders",
+    "subtitle": "Manage your store orders",
+    "filters": {
+      "search": "Search",
+      "searchPlaceholder": "Search by order number or customer...",
+      "status": "Status",
+      "allStatuses": "All statuses",
+      "paymentStatus": "Payment status",
+      "allPaymentStatuses": "All payment statuses"
+    },
+    "table": {
+      "order": "Order",
+      "customer": "Customer",
+      "status": "Status",
+      "payment": "Payment",
+      "items": "Items",
+      "total": "Total",
+      "date": "Date",
+      "view": "View",
+      "empty": "No orders found",
+      "itemCount": "{count} item",
+      "itemCountPlural": "{count} items"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded"
+    },
+    "paymentStatus": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "failed": "Failed",
+      "refunded": "Refunded"
+    },
+    "fulfillmentStatus": {
+      "unfulfilled": "Unfulfilled",
+      "partial": "Partially fulfilled",
+      "fulfilled": "Fulfilled"
+    },
+    "detail": {
+      "title": "Order",
+      "back": "Back to orders",
+      "customer": "Customer",
+      "phone": "Phone",
+      "notes": "Notes",
+      "lineItems": "Items",
+      "summary": "Order summary",
+      "subtotal": "Subtotal",
+      "tax": "Tax",
+      "shipping": "Shipping",
+      "total": "Total",
+      "statusLabel": "Order status",
+      "statusUpdated": "Order status updated",
+      "updating": "Updating...",
+      "error": "Failed to load order"
+    },
+    "lineItems": {
+      "product": "Product",
+      "sku": "SKU",
+      "quantity": "Qty",
+      "price": "Price",
+      "total": "Total"
+    }
   }
 }
