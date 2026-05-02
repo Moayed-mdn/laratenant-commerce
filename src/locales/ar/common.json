@@ -149,5 +149,97 @@
       "deleteSuccess": "تم حذف العميل",
       "deleteError": "فشل حذف العميل"
     }
+  },
+  "products": {
+    "title": "المنتجات",
+    "subtitle": "إدارة منتجات متجرك",
+    "new": "منتج جديد",
+    "loading": "جارٍ التحميل...",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "filters": {
+      "search": "بحث",
+      "searchPlaceholder": "البحث بالاسم أو SKU...",
+      "status": "الحالة",
+      "allStatuses": "جميع الحالات"
+    },
+    "table": {
+      "image": "الصورة",
+      "name": "الاسم",
+      "status": "الحالة",
+      "price": "السعر",
+      "inventory": "المخزون",
+      "sku": "SKU",
+      "created": "تاريخ الإنشاء",
+      "actions": "الإجراءات",
+      "edit": "تعديل",
+      "empty": "لم يتم العثور على منتجات",
+      "inStock": "{count} في المخزون",
+      "noSku": "—",
+      "of": "من",
+      "perPage": "لكل صفحة",
+      "previous": "السابق",
+      "next": "التالي",
+      "page": "صفحة {current} من {total}"
+    },
+    "form": {
+      "createTitle": "منتج جديد",
+      "editTitle": "تعديل المنتج",
+      "sections": {
+        "basic": "المعلومات الأساسية",
+        "pricing": "التسعير",
+        "inventory": "المخزون",
+        "shipping": "الشحن",
+        "status": "حالة المنتج"
+      },
+      "fields": {
+        "name": "اسم المنتج",
+        "namePlaceholder": "مثال: تيشيرت أزرق",
+        "description": "الوصف",
+        "descriptionPlaceholder": "صف المنتج...",
+        "price": "السعر",
+        "compareAtPrice": "سعر المقارنة",
+        "costPerItem": "التكلفة لكل قطعة",
+        "sku": "SKU",
+        "skuPlaceholder": "مثال: SHIRT-BLUE-M",
+        "barcode": "الباركود",
+        "quantity": "الكمية",
+        "trackQuantity": "تتبع الكمية",
+        "weight": "الوزن",
+        "weightUnit": "الوحدة",
+        "status": "الحالة"
+      },
+      "status": {
+        "active": "نشط",
+        "draft": "مسودة",
+        "archived": "مؤرشف"
+      },
+      "weightUnits": {
+        "kg": "كجم",
+        "g": "جم",
+        "lb": "رطل",
+        "oz": "أوقية"
+      },
+      "errors": {
+        "nameRequired": "اسم المنتج مطلوب",
+        "priceMin": "يجب أن يكون السعر 0 أو أكبر",
+        "quantityMin": "يجب أن تكون الكمية 0 أو أكبر"
+      },
+      "submit": {
+        "create": "إنشاء منتج",
+        "update": "حفظ التغييرات",
+        "creating": "جارٍ الإنشاء...",
+        "updating": "جارٍ الحفظ..."
+      },
+      "createSuccess": "تم إنشاء المنتج",
+      "updateSuccess": "تم حفظ المنتج",
+      "deleteSuccess": "تم حذف المنتج",
+      "deleteError": "فشل حذف المنتج",
+      "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.",
+      "delete": "حذف المنتج"
+    },
+    "detail": {
+      "back": "العودة إلى المنتجات"
+    }
   }
 }
