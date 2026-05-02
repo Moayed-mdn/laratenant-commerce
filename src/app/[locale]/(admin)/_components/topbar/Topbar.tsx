@@ -9,9 +9,9 @@
 
 import { useParams } from 'next/navigation';
 import { useUiStore } from '@/stores/uiStore';
-import { UserMenu } from './topbar/UserMenu';
-import { ThemeToggle } from './topbar/ThemeToggle';
-import { LocaleToggle } from './topbar/LocaleToggle';
+import { UserMenu } from './UserMenu';
+import { ThemeToggle } from './ThemeToggle';
+import { LocaleToggle } from './LocaleToggle';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';

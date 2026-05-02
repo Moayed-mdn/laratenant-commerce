@@ -7,8 +7,7 @@
  */
 
 import Link from 'next/link';
-import { useQueryState } from 'nuqs';
-import { parseAsString, parseAsInteger } from 'nuqs/parsers';
+import { useQueryState, parseAsString, parseAsInteger } from 'nuqs';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useProducts } from '@/hooks/products/useProducts';
 import type { ProductFilters as ProductFiltersType } from '@/schemas/products';

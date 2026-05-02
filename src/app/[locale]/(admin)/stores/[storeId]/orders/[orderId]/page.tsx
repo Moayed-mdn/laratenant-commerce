@@ -6,7 +6,7 @@
 import { Suspense } from 'react';
 import { getTranslations } from 'next-intl/server';
 import OrderDetailContent from './_components/OrderDetailContent';
-import OrderDetailSkeleton from './_components/OrderDetailSkeleton';
+import { OrderDetailSkeleton } from './_components/OrderDetailSkeleton';
 
 interface PageProps {
   params: Promise<{ storeId: string; orderId: string; locale: string }>;
