@@ -10,9 +10,6 @@ export interface UserStore {
   role: 'store_admin' | 'staff' | 'super_admin';
 }
 
-/** Store status union type */
-export type StoreStatus = 'active' | 'inactive';
-
 /** Store type */
 export interface Store {
   id: number;
@@ -21,7 +18,7 @@ export interface Store {
   domain: string | null;
   currency: string;
   timezone: string;
-  status: StoreStatus;
+  status: 'active' | 'inactive';
   created_at: string;
   updated_at: string;
 }
