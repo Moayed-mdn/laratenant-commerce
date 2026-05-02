@@ -1,5 +1,6 @@
 /**
  * Orders skeleton loader.
+ * Pure display component - RSC (no 'use client')
  */
 
 import { Skeleton } from '@/components/ui/skeleton';
