@@ -16,7 +16,7 @@ export default async function OrderDetailCard({ order, storeId }: Props) {
     <div className="space-y-6">
       {/* Back link */}
       <Link
-        href={ROUTES.store(storeId).orders().list()}
+        href={ROUTES.store(storeId).orders.list()}
         className="text-sm text-muted-foreground hover:text-foreground"
       >
         ← {t('detail.back')}

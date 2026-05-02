@@ -56,14 +56,18 @@ export default function UsersContent({ storeId, initialFilters }: Props) {
     if (page !== 1) setPage(1);
   };
 
-  const handleRoleChange = (value: string) => {
-    setRole(value);
-    if (page !== 1) setPage(1);
+  const handleRoleChange = (value: string | null) => {
+    if (value) {
+      setRole(value);
+      if (page !== 1) setPage(1);
+    }
   };
 
-  const handleStatusChange = (value: string) => {
-    setStatus(value);
-    if (page !== 1) setPage(1);
+  const handleStatusChange = (value: string | null) => {
+    if (value) {
+      setStatus(value);
+      if (page !== 1) setPage(1);
+    }
   };
 
   return (

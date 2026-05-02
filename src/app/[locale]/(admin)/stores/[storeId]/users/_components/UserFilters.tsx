@@ -20,9 +20,9 @@ interface Props {
   search: string;
   onSearchChange: (value: string) => void;
   role: string;
-  onRoleChange: (value: string) => void;
+  onRoleChange: (value: string | null) => void;
   status: string;
-  onStatusChange: (value: string) => void;
+  onStatusChange: (value: string | null) => void;
 }
 
 export default function UserFilters({

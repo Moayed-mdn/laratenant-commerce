@@ -54,10 +54,8 @@ export default function DeleteUserButton({ storeId, userId, userName }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="destructive" size="sm">
-          {t('detail.delete')}
-        </Button>
+      <DialogTrigger render={<Button variant="destructive" size="sm" />}>
+        {t('detail.delete')}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

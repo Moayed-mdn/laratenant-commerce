@@ -20,7 +20,7 @@ interface Props {
   search: string;
   onSearchChange: (value: string) => void;
   status: string;
-  onStatusChange: (value: string) => void;
+  onStatusChange: (value: string | null) => void;
 }
 
 export default function ProductFilters({
@@ -46,7 +46,7 @@ export default function ProductFilters({
       </div>
       <Select
         value={status}
-        onValueChange={(value: string) => onStatusChange(value)}
+        onValueChange={onStatusChange}
       >
         <SelectTrigger className="w-[150px]" aria-label={t('filters.status')}>
           <SelectValue placeholder={t('filters.status')} />

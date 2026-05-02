@@ -63,8 +63,8 @@ export function ProductFormShipping({ control }: Props) {
             render={({ field }) => (
               <Select
                 value={field.value ?? ''}
-                onValueChange={(value: string) =>
-                  field.onChange(value === '' ? null : (value as WeightUnit))
+                onValueChange={(value: string | null) =>
+                  field.onChange(value === '' || !value ? null : (value as WeightUnit))
                 }
               >
                 <SelectTrigger id="weight_unit">

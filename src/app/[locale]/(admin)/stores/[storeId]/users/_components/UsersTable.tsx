@@ -111,11 +111,12 @@ export default function UsersTable({
                   {user.createdAtRelative}
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button asChild variant="ghost" size="sm">
-                    <Link href={ROUTES.store(storeId).users.detail(String(user.id))}>
-                      {t('table.view')}
-                    </Link>
-                  </Button>
+                  <Link
+                    href={ROUTES.store(storeId).users.detail(String(user.id))}
+                    className="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] hover:bg-muted hover:text-foreground"
+                  >
+                    {t('table.view')}
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}

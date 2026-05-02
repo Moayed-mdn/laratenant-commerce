@@ -42,7 +42,8 @@ export default function OrderStatusSelect({
     return <OrderStatusBadge status={currentStatus} />;
   }
 
-  const handleChange = (value: string) => {
+  const handleChange = (value: string | null) => {
+    if (!value) return;
     mutate({ status: value as OrderStatus });
   };
 

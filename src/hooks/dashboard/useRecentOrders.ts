@@ -10,7 +10,7 @@ import { getRecentOrders } from '@/lib/api/dashboard';
 import { queryKeys } from '@/lib/queryKeys';
 import { QUERY_CONFIG } from '@/config/query';
 import { mapRecentOrder } from '@/lib/mappers/dashboard';
-import type { RecentOrderItemView } from '@/types/dashboard';
+import type { RecentOrderItemView, RecentOrderItem } from '@/types/dashboard';
 import { useStoreStore, selectCurrentStoreCurrency } from '@/stores/storeStore';
 
 /**
@@ -22,7 +22,7 @@ export function useRecentOrders(storeId: string) {
   // endpoint is available. StoreInitializer will populate this later.
   const currency = useStoreStore(selectCurrentStoreCurrency);
 
-  return useQuery<RecentOrderItemView[]>({
+  return useQuery<RecentOrderItem[], Error, RecentOrderItemView[]>({
     queryKey: queryKeys.dashboard(storeId).recentOrders(),
     queryFn: () => getRecentOrders(storeId),
     staleTime: QUERY_CONFIG.staleTime,

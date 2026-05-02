@@ -16,6 +16,7 @@ import { PaymentStatusBadge } from './PaymentStatusBadge';
 
 interface OrdersTableProps {
   orders: OrderListItemView[];
+  storeId: string;
   pagination?: PaginationMeta;
   page: number;
   onPageChange: (page: number) => void;
@@ -26,6 +27,7 @@ interface OrdersTableProps {
 
 export default function OrdersTable({
   orders,
+  storeId,
   pagination,
   page,
   onPageChange,
@@ -67,7 +69,7 @@ export default function OrdersTable({
               <TableRow key={order.id}>
                 <TableCell>
                   <Link
-                    href={ROUTES.store(String(order.id)).detail(String(order.id))}
+                    href={ROUTES.store(storeId).orders.detail(String(order.id))}
                     className="font-medium text-primary hover:underline"
                   >
                     #{order.orderNumber}
@@ -98,10 +100,10 @@ export default function OrdersTable({
         </Table>
       </div>
 
-      {pagination && pagination.lastPage > 1 && (
+      {pagination && pagination.last_page > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            {t('table.page', { current: pagination.currentPage, total: pagination.lastPage })}
+            {t('table.page', { current: pagination.current_page, total: pagination.last_page })}
           </p>
           <div className="flex items-center gap-2">
             <button
@@ -115,7 +117,7 @@ export default function OrdersTable({
             <button
               type="button"
               onClick={() => onPageChange(page + 1)}
-              disabled={page >= pagination.lastPage}
+              disabled={page >= pagination.last_page}
               className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
             >
               {t('table.next')}

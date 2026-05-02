@@ -29,7 +29,7 @@ export const ROUTES = {
 
 export const API_ROUTES = {
   auth: {
-    login: () => '/api/v1/login' as const,
+    login: () => '/api/v1/users/auth/login' as const,
     logout: () => '/api/v1/logout' as const,
     me: () => '/api/v1/me' as const,
   },

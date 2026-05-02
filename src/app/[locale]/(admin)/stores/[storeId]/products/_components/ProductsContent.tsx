@@ -61,9 +61,11 @@ export default function ProductsContent({ storeId, initialFilters }: Props) {
     if (page !== 1) setPage(1);
   };
 
-  const handleStatusChange = (value: string) => {
-    setStatus(value);
-    if (page !== 1) setPage(1);
+  const handleStatusChange = (value: string | null) => {
+    if (value) {
+      setStatus(value);
+      if (page !== 1) setPage(1);
+    }
   };
 
   return (

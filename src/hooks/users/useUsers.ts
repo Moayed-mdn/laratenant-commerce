@@ -17,7 +17,7 @@ export function useUsers(storeId: string, filters: UserFilters) {
   // endpoint is available. StoreInitializer will populate this later.
 
   return useQuery<PaginatedResponse<UserListItem>, ApiError, PaginatedResponse<UserListItemView>>({
-    queryKey: queryKeys.users(storeId).list(filters),
+    queryKey: queryKeys.users(storeId).list(filters as unknown as Record<string, unknown>),
     queryFn: () => getUsers(storeId, filters),
     staleTime: QUERY_CONFIG.staleTime,
     select: (data) => ({

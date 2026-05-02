@@ -26,6 +26,7 @@ export function useLogin(options?: UseLoginOptions) {
     retry: 0, // Hard rule — mutations never retry
     onSuccess: (data) => {
       // Update auth store with user info
+      console.log('this is the data',{data})
       setUser(data.user);
 
       // Invalidate auth queries
@@ -33,10 +34,10 @@ export function useLogin(options?: UseLoginOptions) {
 
       // Determine redirect based on user's store assignment
       if (data.user.store_id !== null) {
-        options?.onSuccess(String(data.user.store_id));
+        options?.onSuccess?.(String(data.user.store_id));
       } else {
         // No store assigned — component handles error display
-        options?.onSuccess('');
+        options?.onSuccess?.('');
       }
 
       logger.info('Login successful', { userId: data.user.id });

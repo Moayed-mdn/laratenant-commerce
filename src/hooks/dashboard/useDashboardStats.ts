@@ -10,7 +10,7 @@ import { getDashboardStats } from '@/lib/api/dashboard';
 import { queryKeys } from '@/lib/queryKeys';
 import { QUERY_CONFIG } from '@/config/query';
 import { mapDashboardStats } from '@/lib/mappers/dashboard';
-import type { DashboardStatsView } from '@/types/dashboard';
+import type { DashboardStatsView, DashboardStats } from '@/types/dashboard';
 import { useStoreStore, selectCurrentStoreCurrency } from '@/stores/storeStore';
 
 /**
@@ -22,7 +22,7 @@ export function useDashboardStats(storeId: string) {
   // endpoint is available. StoreInitializer will populate this later.
   const currency = useStoreStore(selectCurrentStoreCurrency);
 
-  return useQuery<DashboardStatsView>({
+  return useQuery<DashboardStats, Error, DashboardStatsView>({
     queryKey: queryKeys.dashboard(storeId).stats(),
     queryFn: () => getDashboardStats(storeId),
     staleTime: QUERY_CONFIG.staleTime,

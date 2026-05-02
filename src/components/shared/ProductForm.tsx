@@ -24,7 +24,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import type { ProductFormData } from '@/schemas/products';
+import { ProductFormSchema, type ProductFormData } from '@/schemas/products';
 import type { ProductDetailView } from '@/types/product';
 import { ROUTES } from '@/config/routes';
 import { ProductFormBasic } from './product-form/ProductFormBasic';
@@ -50,22 +50,6 @@ export default function ProductForm({
   const t = useTranslations('products');
   const dashboardT = useTranslations('dashboard');
 
-  // Translated schema for UI validation errors
-  const schema = useMemo(() => z.object({
-    name: z.string().min(1, { message: t('form.errors.nameRequired') }).max(255),
-    description: z.string().optional(),
-    price: z.coerce.number().min(0, { message: t('form.errors.priceMin') }),
-    compare_at_price: z.coerce.number().min(0).optional().nullable(),
-    cost_per_item: z.coerce.number().min(0).optional().nullable(),
-    sku: z.string().optional().nullable(),
-    barcode: z.string().optional().nullable(),
-    quantity: z.coerce.number().int().min(0, { message: t('form.errors.quantityMin') }),
-    track_quantity: z.boolean().default(true),
-    weight: z.coerce.number().min(0).optional().nullable(),
-    weight_unit: z.enum(['kg', 'g', 'lb', 'oz']).optional().nullable(),
-    status: z.enum(['active', 'draft', 'archived']).default('draft'),
-  }), [t]);
-
   const defaultValues: ProductFormData = {
     name: initialData?.name ?? '',
     description: initialData?.description ?? '',
@@ -82,7 +66,7 @@ export default function ProductForm({
   };
 
   const form = useForm<ProductFormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(ProductFormSchema) as any,
     defaultValues,
   });
 

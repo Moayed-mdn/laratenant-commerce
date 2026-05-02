@@ -41,7 +41,7 @@ export function useUpdateOrderStatus(
     },
     onError: (error) => {
       logger.error('Update order status failed', { error, orderId });
-      options?.onError?.(error);
+      options?.onError?.(error as unknown as ApiError);
     },
   });
 }

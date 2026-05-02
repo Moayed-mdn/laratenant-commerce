@@ -7,6 +7,11 @@
 import type { AxiosError } from 'axios';
 import type { ApiError } from '@/types/api';
 
+interface ApiErrorResponse {
+  message?: string;
+  errors?: Record<string, string[]>;
+}
+
 /**
  * Normalize an unknown error into a standardized ApiError shape.
  */
@@ -14,8 +19,9 @@ export function normalizeError(error: unknown): ApiError {
   // Case 1: AxiosError with response
   if (isAxiosError(error) && error.response) {
     const status = error.response.status;
-    const message = error.response.data?.message ?? 'An error occurred';
-    const errors = error.response.data?.errors ?? {};
+    const data = error.response.data as ApiErrorResponse;
+    const message = data?.message ?? 'An error occurred';
+    const errors = data?.errors ?? {};
 
     let code: string;
     switch (status) {

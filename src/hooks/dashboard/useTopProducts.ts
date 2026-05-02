@@ -10,7 +10,7 @@ import { getTopProducts } from '@/lib/api/dashboard';
 import { queryKeys } from '@/lib/queryKeys';
 import { QUERY_CONFIG } from '@/config/query';
 import { mapTopProduct } from '@/lib/mappers/dashboard';
-import type { TopProductItemView } from '@/types/dashboard';
+import type { TopProductItemView, TopProductItem } from '@/types/dashboard';
 import { useStoreStore, selectCurrentStoreCurrency } from '@/stores/storeStore';
 
 /**
@@ -22,7 +22,7 @@ export function useTopProducts(storeId: string) {
   // endpoint is available. StoreInitializer will populate this later.
   const currency = useStoreStore(selectCurrentStoreCurrency);
 
-  return useQuery<TopProductItemView[]>({
+  return useQuery<TopProductItem[], Error, TopProductItemView[]>({
     queryKey: queryKeys.dashboard(storeId).topProducts(),
     queryFn: () => getTopProducts(storeId),
     staleTime: QUERY_CONFIG.staleTime,

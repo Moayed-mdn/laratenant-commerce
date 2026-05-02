@@ -44,7 +44,7 @@ export const selectUserRole = (state: AuthStore): UserRole | null => state.user?
  * Returns false if no user is authenticated.
  */
 export const selectCan = (state: AuthStore) => (permission: PermissionKey): boolean => {
-  const user = get().user;
+  const user = state.user;
   if (!user) return false;
   return hasPermission(user.role, permission);
 };

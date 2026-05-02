@@ -14,9 +14,9 @@ interface OrderFiltersProps {
   search: string;
   onSearchChange: (value: string) => void;
   status: string;
-  onStatusChange: (value: string) => void;
+  onStatusChange: (value: string | null) => void;
   paymentStatus: string;
-  onPaymentStatusChange: (value: string) => void;
+  onPaymentStatusChange: (value: string | null) => void;
 }
 
 export default function OrderFilters({

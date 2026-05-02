@@ -69,14 +69,18 @@ export default function OrdersContent({ storeId, initialFilters }: Props) {
     setPage(1);
   };
 
-  const handleStatusChange = (value: string) => {
-    setStatus(value);
-    setPage(1);
+  const handleStatusChange = (value: string | null) => {
+    if (value) {
+      setStatus(value as typeof statusOptions[number]);
+      setPage(1);
+    }
   };
 
-  const handlePaymentStatusChange = (value: string) => {
-    setPaymentStatus(value);
-    setPage(1);
+  const handlePaymentStatusChange = (value: string | null) => {
+    if (value) {
+      setPaymentStatus(value as typeof paymentStatusOptions[number]);
+      setPage(1);
+    }
   };
 
   const handlePageChange = (newPage: number) => {
@@ -114,6 +118,7 @@ export default function OrdersContent({ storeId, initialFilters }: Props) {
       ) : (
         <OrdersTable
           orders={data?.data ?? []}
+          storeId={storeId}
           pagination={data?.meta}
           page={filters.page}
           onPageChange={handlePageChange}
