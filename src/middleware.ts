@@ -59,9 +59,9 @@ export default function middleware(request: NextRequest): NextResponse {
 
   // If no session cookie, redirect to login with original URL as redirect param
   if (!hasSessionCookie) {
-    // Preserve locale in redirect
-    const locale = pathname.split('/')[1] || 'en';
-    const loginUrl = new URL(`/${locale}/login`, request.url);
+    // Redirect to /login without locale prefix - next-intl will handle locale
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = '/login';
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
   }

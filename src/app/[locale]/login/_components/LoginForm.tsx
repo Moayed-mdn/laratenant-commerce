@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 import { useTranslations } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 
@@ -26,11 +26,11 @@ export function LoginForm() {
   const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState(false);
 
-  // Build schema with translated error messages
-  const LoginSchema = z.object({
+  // Build schema with translated error messages - memoized to prevent recreation
+  const LoginSchema = useMemo(() => z.object({
     email: z.string().email({ message: t('errors.invalidEmail') }),
     password: z.string().min(8, { message: t('errors.passwordTooShort') }),
-  });
+  }), [t]);
 
   type LoginFormData = z.infer<typeof LoginSchema>;
 

@@ -8,7 +8,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { login, type LoginCredentials, type LoginResponse } from '@/lib/api/auth';
 import { useAuthStore } from '@/stores/authStore';
-import { queryClient } from '@/lib/queryClient';
+import queryClient from '@/lib/queryClient';
 import { queryKeys } from '@/lib/queryKeys';
 import { logger } from '@/lib/logger';
 import type { ApiError } from '@/types/api';
