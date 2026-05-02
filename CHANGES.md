@@ -1,69 +1,37 @@
-# Frontend Types Update Summary
+# Changes Summary
 
-This document summarizes the changes made to frontend TypeScript types to match the backend contract.
+## Files Created:
+- `src/types/auth.ts` — Auth response and request types
 
-## Changes Made
+## Files Modified:
+- None
 
-### 1. src/types/user.ts
+## Details
 
-**UserListItem interface** - Added missing fields:
-- `is_active: boolean`
-- `deleted_at: string | null`
+### src/types/auth.ts (NEW)
+Created new authentication types file with the following exports:
 
-**UserDetail interface** - Added missing fields:
-- `phone: string | null`
-- `is_active: boolean`
-- `deleted_at: string | null`
-- `orders_count: number`
+- **AuthUser**: Authenticated user interface returned after login or register
+  - Includes all user fields: id, name, email, phone, avatar, email_verified_at, has_password, has_google_linked, created_at, updated_at
+  - Includes `stores: UserStore[]` array imported from `@/types/store`
 
-### 2. src/types/order.ts
+- **LoginResponse**: Raw API response from POST /api/v1/users/auth/login
+  - Contains `token: string` and `user: AuthUser`
 
-**AdminOrder interface** - Added missing fields:
-- `discount_amount: number`
-- `items_count: number`
+- **RegisterResponse**: Type alias for LoginResponse (same structure)
 
-### 3. src/types/dashboard.ts
+- **MeResponse**: Type alias for AuthUser (returned directly from GET /api/v1/users/auth/me)
 
-**RecentOrderItem interface** - No changes required. The existing interface already matches the backend contract exactly as specified in the task.
+- **LoginPayload**: Login request payload with email and password
 
-### 4. src/types/product.ts
+- **RegisterPayload**: Register request payload with name, email, password, and password_confirmation
 
-**ProductVariant interface** - Added new interface:
-```typescript
-export interface ProductVariant {
-  id: number;
-  sku: string | null;
-  price: number;
-  quantity: number;
-  is_active: boolean;
-  manufacture_date: string | null;
-  expiry_date: string | null;
-  attributes: { name: string; value: string }[];
-}
-```
+- **ForgotPasswordPayload**: Forgot password request payload with email
 
-**AdminProduct interface** - Added missing fields:
-- `variants: ProductVariant[]`
-- `category_id: number | null`
-- `brand_id: number | null`
-
-### 5. src/types/store.ts
-
-**UserStore interface** - Added new interface (returned after login):
-```typescript
-export interface UserStore {
-  id: number;
-  name: string;
-  slug: string;
-  role: 'store_admin' | 'staff' | 'super_admin';
-}
-```
-
-## Files Not Modified
-
-The following type files were not modified as per the task requirements:
-- `src/types/api.ts`
-
-## Verification
-
-All changes align with the backend's variant-based product model and the API response shapes.
+## Notes:
+- ✅ AuthUser includes stores[] with UserStore type (imported from @/types/store)
+- ✅ LoginResponse includes token and user
+- ✅ MeResponse is AuthUser directly
+- ✅ LoginPayload and RegisterPayload defined
+- ✅ No existing type files were modified
+- ✅ No components or API calls were modified
