@@ -6,8 +6,7 @@
  * Manages filters, debounce, and pagination state via URL.
  */
 
-import { useQueryState } from 'nuqs';
-import { parseAsString, parseAsInteger } from 'nuqs/parsers';
+import { useQueryState, parseAsString, parseAsInteger, parseAsStringLiteral } from 'nuqs';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useOrders } from '@/hooks/orders/useOrders';
 import type { OrderFilters as OrderFiltersType } from '@/schemas/orders';
@@ -23,6 +22,10 @@ interface Props {
   initialFilters: OrderFiltersType;
 }
 
+// Status options as const arrays for parseAsStringLiteral
+const statusOptions = ['all', 'pending', 'confirmed', 'cancelled', 'refunded'] as const;
+const paymentStatusOptions = ['all', 'pending', 'paid', 'failed', 'refunded'] as const;
+
 export default function OrdersContent({ storeId, initialFilters }: Props) {
   const t = useTranslations('orders');
 
@@ -33,11 +36,11 @@ export default function OrdersContent({ storeId, initialFilters }: Props) {
   );
   const [status, setStatus] = useQueryState(
     'status',
-    parseAsString.withDefault(initialFilters.status)
+    parseAsStringLiteral(statusOptions).withDefault(initialFilters.status as typeof statusOptions[number])
   );
   const [paymentStatus, setPaymentStatus] = useQueryState(
     'payment_status',
-    parseAsString.withDefault(initialFilters.payment_status)
+    parseAsStringLiteral(paymentStatusOptions).withDefault(initialFilters.payment_status as typeof paymentStatusOptions[number])
   );
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(initialFilters.page));
   const [perPage, setPerPage] = useQueryState(
