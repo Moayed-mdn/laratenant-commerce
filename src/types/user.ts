@@ -16,3 +16,63 @@ export interface AdminUser {
   created_at: string;
   updated_at: string;
 }
+
+/** User list item (raw API shape) */
+export interface UserListItem {
+  id: number;
+  name: string;
+  email: string;
+  role: UserRole;
+  store_id: number;
+  email_verified_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** User list item view (mapped for UI) */
+export interface UserListItemView {
+  id: number;
+  name: string;
+  email: string;
+  role: UserRole;
+  roleId: string;
+  isVerified: boolean;
+  createdAt: string;
+  createdAtRelative: string;
+  initials: string;
+}
+
+/** User detail (raw API shape) */
+export interface UserDetail {
+  id: number;
+  name: string;
+  email: string;
+  role: UserRole;
+  store_id: number;
+  email_verified_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** User detail view (mapped for UI) */
+export interface UserDetailView {
+  id: number;
+  name: string;
+  email: string;
+  role: UserRole;
+  roleId: string;
+  isVerified: boolean;
+  verifiedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  initials: string;
+}
+
+/** User filters state */
+export interface UserFilters {
+  search: string;
+  role: UserRole | 'all';
+  status: 'all' | 'verified' | 'unverified';
+  page: number;
+  perPage: number;
+}

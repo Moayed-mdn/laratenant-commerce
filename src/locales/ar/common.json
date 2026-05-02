@@ -99,5 +99,55 @@
       "draft": "مسودة",
       "archived": "مؤرشف"
     }
+  },
+  "users": {
+    "title": "العملاء",
+    "subtitle": "إدارة عملاء متجرك",
+    "filters": {
+      "search": "بحث",
+      "searchPlaceholder": "البحث بالاسم أو البريد الإلكتروني...",
+      "role": "الدور",
+      "allRoles": "جميع الأدوار",
+      "status": "الحالة",
+      "allStatuses": "جميع الحالات"
+    },
+    "roles": {
+      "store_admin": "مدير المتجر",
+      "staff": "موظف",
+      "super_admin": "مدير أعلى"
+    },
+    "status": {
+      "verified": "موثّق",
+      "unverified": "غير موثّق"
+    },
+    "table": {
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "role": "الدور",
+      "status": "الحالة",
+      "created": "تاريخ الإنشاء",
+      "actions": "الإجراءات",
+      "view": "عرض",
+      "empty": "لم يتم العثور على عملاء",
+      "of": "من",
+      "perPage": "لكل صفحة",
+      "previous": "السابق",
+      "next": "التالي",
+      "page": "صفحة {current} من {total}"
+    },
+    "detail": {
+      "title": "تفاصيل العميل",
+      "back": "العودة إلى العملاء",
+      "info": "المعلومات",
+      "timestamps": "الطوابع الزمنية",
+      "emailVerified": "تم التحقق من البريد الإلكتروني",
+      "emailNotVerified": "لم يتم التحقق من البريد الإلكتروني",
+      "joined": "تاريخ الانضمام",
+      "lastUpdated": "آخر تحديث",
+      "delete": "حذف العميل",
+      "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا العميل؟ لا يمكن التراجع عن هذا الإجراء.",
+      "deleteSuccess": "تم حذف العميل",
+      "deleteError": "فشل حذف العميل"
+    }
   }
 }
