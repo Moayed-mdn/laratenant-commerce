@@ -57,5 +57,97 @@
     "toggle": "Toggle language",
     "switchToArabic": "Switch to Arabic",
     "switchToEnglish": "Switch to English"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Welcome back. Here's what's happening in your store.",
+    "error": "Failed to load dashboard data. Please refresh.",
+    "stats": {
+      "revenue": "Total Revenue",
+      "orders": "Total Orders",
+      "customers": "Total Customers",
+      "products": "Total Products"
+    },
+    "recentOrders": {
+      "title": "Recent Orders",
+      "empty": "No orders yet",
+      "order": "Order",
+      "customer": "Customer",
+      "status": "Status",
+      "total": "Total",
+      "date": "Date"
+    },
+    "topProducts": {
+      "title": "Top Products",
+      "empty": "No products yet",
+      "sold": "sold"
+    },
+    "orderStatus": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded"
+    },
+    "paymentStatus": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "failed": "Failed",
+      "refunded": "Refunded"
+    },
+    "productStatus": {
+      "active": "Active",
+      "draft": "Draft",
+      "archived": "Archived"
+    }
+  },
+  "users": {
+    "title": "Customers",
+    "subtitle": "Manage your store customers",
+    "filters": {
+      "search": "Search",
+      "searchPlaceholder": "Search by name or email...",
+      "role": "Role",
+      "allRoles": "All roles",
+      "status": "Status",
+      "allStatuses": "All statuses"
+    },
+    "roles": {
+      "store_admin": "Store Admin",
+      "staff": "Staff",
+      "super_admin": "Super Admin"
+    },
+    "status": {
+      "verified": "Verified",
+      "unverified": "Unverified"
+    },
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions",
+      "view": "View",
+      "empty": "No customers found",
+      "of": "of",
+      "perPage": "Per page",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {current} of {total}"
+    },
+    "detail": {
+      "title": "Customer Details",
+      "back": "Back to customers",
+      "info": "Information",
+      "timestamps": "Timestamps",
+      "emailVerified": "Email verified",
+      "emailNotVerified": "Email not verified",
+      "joined": "Joined",
+      "lastUpdated": "Last updated",
+      "delete": "Delete customer",
+      "deleteConfirm": "Are you sure you want to delete this customer? This action cannot be undone.",
+      "deleteSuccess": "Customer deleted",
+      "deleteError": "Failed to delete customer"
+    }
   }
 }
