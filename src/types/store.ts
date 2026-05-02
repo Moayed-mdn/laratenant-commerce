@@ -2,6 +2,14 @@
  * Store types for the admin dashboard.
  */
 
+/** User store type (returned after login) */
+export interface UserStore {
+  id: number;
+  name: string;
+  slug: string;
+  role: 'store_admin' | 'staff' | 'super_admin';
+}
+
 /** Store status union type */
 export type StoreStatus = 'active' | 'inactive';
 

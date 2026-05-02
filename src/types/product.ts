@@ -16,6 +16,18 @@ export type ProductStatus = 'active' | 'draft' | 'archived';
 /** Weight unit type */
 export type WeightUnit = 'kg' | 'g' | 'lb' | 'oz';
 
+/** Product variant type */
+export interface ProductVariant {
+  id: number;
+  sku: string | null;
+  price: number;
+  quantity: number;
+  is_active: boolean;
+  manufacture_date: string | null;
+  expiry_date: string | null;
+  attributes: { name: string; value: string }[];
+}
+
 /** Admin product type (raw API shape) */
 export interface AdminProduct {
   id: number;
@@ -34,6 +46,9 @@ export interface AdminProduct {
   weight_unit: WeightUnit | null;
   status: ProductStatus;
   images: ProductImage[];
+  variants: ProductVariant[];
+  category_id: number | null;
+  brand_id: number | null;
   created_at: string;
   updated_at: string;
 }
