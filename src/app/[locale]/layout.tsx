@@ -5,7 +5,7 @@ import { getMessages } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 import { Toaster } from '@/components/ui/sonner';
-import './globals.css';
+import '../globals.css';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',

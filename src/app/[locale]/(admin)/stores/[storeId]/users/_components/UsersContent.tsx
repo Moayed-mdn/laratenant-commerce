@@ -6,8 +6,7 @@
  * Manages filters, debounce, and pagination state via URL.
  */
 
-import { useQueryState, useQueryStates } from 'nuqs';
-import { parseAsString, parseAsInteger } from 'nuqs/parsers';
+import { useQueryState, parseAsString, parseAsInteger } from 'nuqs';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useUsers } from '@/hooks/users/useUsers';
 import type { UserFilters as UserFiltersType } from '@/schemas/users';

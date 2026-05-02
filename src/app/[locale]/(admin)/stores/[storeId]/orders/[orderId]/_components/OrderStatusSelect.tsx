@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import OrderStatusBadge from '@/app/[locale]/(admin)/stores/[storeId]/orders/_components/OrderStatusBadge';
+import { OrderStatusBadge } from '../../_components/OrderStatusBadge';
 import type { OrderStatus } from '@/types/order';
 import { logger } from '@/lib/logger';
 
