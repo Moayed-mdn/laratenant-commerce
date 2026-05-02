@@ -57,5 +57,42 @@
     "toggle": "Toggle language",
     "switchToArabic": "Switch to Arabic",
     "switchToEnglish": "Switch to English"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Welcome back. Here's what's happening in your store.",
+    "error": "Failed to load dashboard data. Please refresh.",
+    "stats": {
+      "revenue": "Total Revenue",
+      "orders": "Total Orders",
+      "customers": "Total Customers",
+      "products": "Total Products"
+    },
+    "recentOrders": {
+      "title": "Recent Orders",
+      "empty": "No orders yet",
+      "order": "Order",
+      "customer": "Customer",
+      "status": "Status",
+      "total": "Total",
+      "date": "Date"
+    },
+    "topProducts": {
+      "title": "Top Products",
+      "empty": "No products yet",
+      "sold": "sold"
+    },
+    "orderStatus": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded"
+    },
+    "paymentStatus": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "failed": "Failed",
+      "refunded": "Refunded"
+    }
   }
 }
