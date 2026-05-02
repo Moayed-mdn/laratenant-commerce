@@ -43,9 +43,11 @@ export interface AdminOrder {
   subtotal: number;
   tax: number;
   shipping: number;
+  discount_amount: number;
   total: number;
   currency: string;
   notes: string | null;
+  items_count: number;
   created_at: string;
   updated_at: string;
 }

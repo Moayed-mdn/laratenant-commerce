@@ -22,12 +22,14 @@
 # misc
 *.pem
 *.log
-*-debug.log*
-*-error.log*
+*.tmp
+*.swp
+*.swo
 
-# env files
-.env*
-!.env.example
+# Environment
+.env
+.env.local
+.env.*
 
 # vercel
 .vercel/
