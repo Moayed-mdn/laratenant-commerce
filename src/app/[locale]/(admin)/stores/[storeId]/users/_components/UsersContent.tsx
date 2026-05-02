@@ -1,88 +1,98 @@
+'use client';
+// Reason: needs nuqs state sync and debounced search
+
 /**
- * Users list page content (async RSC).
- * Fetches users data and renders the table with filters.
+ * Users list page content (client component).
+ * Manages filters, debounce, and pagination state via URL.
  */
 
-import { serverFetch } from '@/lib/api/server/client';
-import { API_ROUTES } from '@/config/routes';
-import type { ApiResponse, PaginatedResponse } from '@/types/api';
-import type { UserListItem } from '@/types/user';
-import { mapUserListItem } from '@/lib/mappers/users';
+import { useQueryState, useQueryStates } from 'nuqs';
+import { parseAsString, parseAsInteger } from 'nuqs/parsers';
+import { useDebounce } from '@/lib/hooks/useDebounce';
+import { useUsers } from '@/hooks/users/useUsers';
+import type { UserFilters as UserFiltersType } from '@/schemas/users';
+import { useTranslations } from 'next-intl';
 import { logger } from '@/lib/logger';
-import { getTranslations } from 'next-intl/server';
 import UsersTable from './UsersTable';
 import UserFilters from './UserFilters';
-import type { UserFilters as UserFiltersType } from '@/schemas/users';
 
 interface Props {
   storeId: string;
   initialFilters: UserFiltersType;
 }
 
-export default async function UsersContent({ storeId, initialFilters }: Props) {
-  const t = await getTranslations('users');
+export default function UsersContent({ storeId, initialFilters }: Props) {
+  const t = useTranslations('users');
 
-  try {
-    // Build query params for server fetch
-    const params: Record<string, string | number> = {};
+  // Nuqs state management
+  const [search, setSearch] = useQueryState('search', parseAsString.withDefault(initialFilters.search));
+  const [role, setRole] = useQueryState('role', parseAsString.withDefault(initialFilters.role));
+  const [status, setStatus] = useQueryState('status', parseAsString.withDefault(initialFilters.status));
+  const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(initialFilters.page));
+  const [perPage, setPerPage] = useQueryState('perPage', parseAsInteger.withDefault(initialFilters.perPage));
 
-    if (initialFilters.search && initialFilters.search !== '') {
-      params.search = initialFilters.search;
-    }
-    if (initialFilters.role !== 'all') {
-      params.role = initialFilters.role;
-    }
-    if (initialFilters.status !== 'all') {
-      params.status = initialFilters.status;
-    }
-    if (initialFilters.page !== 1) {
-      params.page = initialFilters.page;
-    }
-    if (initialFilters.perPage !== 10) {
-      params.per_page = initialFilters.perPage;
-    }
+  // Debounce search
+  const debouncedSearch = useDebounce(search, 300);
 
-    const response = await serverFetch<ApiResponse<PaginatedResponse<UserListItem>>>(
-      `${API_ROUTES.store(storeId).users.list()}${Object.keys(params).length ? '?' + new URLSearchParams(params as Record<string, string>).toString() : ''}`
-    );
+  // Build filters object with debounced search
+  const filters: UserFiltersType = {
+    search: debouncedSearch,
+    role: role as 'all' | 'store_admin' | 'staff' | 'super_admin',
+    status: status as 'all' | 'verified' | 'unverified',
+    page,
+    perPage,
+  };
 
-    const mappedData = response.data.data.map(mapUserListItem);
+  // Fetch data
+  const { data, isLoading, error } = useUsers(storeId, filters);
 
-    return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold">{t('title')}</h1>
-          <p className="text-muted-foreground">{t('subtitle')}</p>
-        </div>
-
-        <UserFilters
-          search={initialFilters.search}
-          role={initialFilters.role}
-          status={initialFilters.status}
-        />
-
-        <UsersTable
-          users={mappedData}
-          pagination={response.data.meta}
-          currentPage={initialFilters.page}
-          perPage={initialFilters.perPage}
-          storeId={storeId}
-        />
-      </div>
-    );
-  } catch (error) {
+  // Error handling
+  if (error) {
     logger.error('Failed to load users', { error });
-
-    return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold">{t('title')}</h1>
-          <p className="text-muted-foreground">{t('subtitle')}</p>
-        </div>
-        <div className="rounded-lg border border-destructive bg-destructive/10 p-4 text-center">
-          <p className="text-destructive">{t('table.empty')}</p>
-        </div>
-      </div>
-    );
   }
+
+  // Handler functions that reset page when filters change
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    if (page !== 1) setPage(1);
+  };
+
+  const handleRoleChange = (value: string) => {
+    setRole(value);
+    if (page !== 1) setPage(1);
+  };
+
+  const handleStatusChange = (value: string) => {
+    setStatus(value);
+    if (page !== 1) setPage(1);
+  };
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold">{t('title')}</h1>
+        <p className="text-muted-foreground">{t('subtitle')}</p>
+      </div>
+
+      <UserFilters
+        search={search}
+        onSearchChange={handleSearchChange}
+        role={role}
+        onRoleChange={handleRoleChange}
+        status={status}
+        onStatusChange={handleStatusChange}
+      />
+
+      <UsersTable
+        users={data?.data ?? []}
+        pagination={data?.meta}
+        page={page}
+        onPageChange={setPage}
+        perPage={perPage}
+        onPerPageChange={setPerPage}
+        isLoading={isLoading}
+        storeId={storeId}
+      />
+    </div>
+  );
 }

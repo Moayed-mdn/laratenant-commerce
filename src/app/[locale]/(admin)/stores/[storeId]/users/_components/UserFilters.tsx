@@ -18,11 +18,21 @@ import { Search } from 'lucide-react';
 
 interface Props {
   search: string;
+  onSearchChange: (value: string) => void;
   role: string;
+  onRoleChange: (value: string) => void;
   status: string;
+  onStatusChange: (value: string) => void;
 }
 
-export default function UserFilters({ search, role, status }: Props) {
+export default function UserFilters({
+  search,
+  onSearchChange,
+  role,
+  onRoleChange,
+  status,
+  onStatusChange,
+}: Props) {
   const t = useTranslations('users');
 
   return (
@@ -31,13 +41,13 @@ export default function UserFilters({ search, role, status }: Props) {
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <Input
           value={search}
-          readOnly
+          onChange={(e) => onSearchChange(e.target.value)}
           placeholder={t('filters.searchPlaceholder')}
           aria-label={t('filters.search')}
           className="pl-9"
         />
       </div>
-      <Select value={role}>
+      <Select value={role} onValueChange={onRoleChange}>
         <SelectTrigger className="w-[150px]" aria-label={t('filters.role')}>
           <SelectValue placeholder={t('filters.role')} />
         </SelectTrigger>
@@ -48,7 +58,7 @@ export default function UserFilters({ search, role, status }: Props) {
           <SelectItem value="super_admin">{t('roles.super_admin')}</SelectItem>
         </SelectContent>
       </Select>
-      <Select value={status}>
+      <Select value={status} onValueChange={onStatusChange}>
         <SelectTrigger className="w-[150px]" aria-label={t('filters.status')}>
           <SelectValue placeholder={t('filters.status')} />
         </SelectTrigger>

@@ -20,6 +20,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useDeleteUser } from '@/hooks/users/useDeleteUser';
+import { useAuthStore, selectCan } from '@/stores/authStore';
 
 interface Props {
   storeId: string;
@@ -31,6 +32,10 @@ export default function DeleteUserButton({ storeId, userId, userName }: Props) {
   const t = useTranslations('users');
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  
+  // Permission check
+  const can = useAuthStore(selectCan);
+  if (!can('canManageUsers')) return null;
 
   const mutation = useDeleteUser(storeId, {
     onSuccess: () => {

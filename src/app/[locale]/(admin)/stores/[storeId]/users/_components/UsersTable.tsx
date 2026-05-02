@@ -33,19 +33,33 @@ import { Button } from '@/components/ui/button';
 interface Props {
   users: UserListItemView[];
   pagination: PaginationMeta | undefined;
-  currentPage: number;
+  page: number;
+  onPageChange: (page: number) => void;
   perPage: number;
+  onPerPageChange: (perPage: number) => void;
+  isLoading: boolean;
   storeId: string;
 }
 
 export default function UsersTable({
   users,
   pagination,
-  currentPage,
+  page,
+  onPageChange,
   perPage,
+  onPerPageChange,
+  isLoading,
   storeId,
 }: Props) {
   const t = useTranslations('users');
+
+  if (isLoading) {
+    return (
+      <div className="rounded-lg border bg-card p-8 text-center">
+        <p className="text-muted-foreground">{t('loading')}</p>
+      </div>
+    );
+  }
 
   if (users.length === 0) {
     return (
@@ -115,7 +129,7 @@ export default function UsersTable({
             {pagination.from ?? 0} - {pagination.to ?? 0} {t('table.of')} {pagination.total}
           </p>
           <div className="flex items-center gap-2">
-            <Select value={String(perPage)}>
+            <Select value={String(perPage)} onValueChange={(v) => onPerPageChange(Number(v))}>
               <SelectTrigger className="w-[100px]">
                 <SelectValue placeholder={t('table.perPage')} />
               </SelectTrigger>
@@ -129,17 +143,19 @@ export default function UsersTable({
               <Button
                 variant="outline"
                 size="sm"
-                disabled={currentPage <= 1}
+                onClick={() => onPageChange(page - 1)}
+                disabled={page <= 1}
               >
                 {t('table.previous')}
               </Button>
               <span className="text-sm text-muted-foreground">
-                {t('table.page', { current: currentPage, total: pagination.last_page })}
+                {t('table.page', { current: page, total: pagination.last_page })}
               </span>
               <Button
                 variant="outline"
                 size="sm"
-                disabled={currentPage >= pagination.last_page}
+                onClick={() => onPageChange(page + 1)}
+                disabled={page >= pagination.last_page}
               >
                 {t('table.next')}
               </Button>
