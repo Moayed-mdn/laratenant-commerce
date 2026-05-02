@@ -64,7 +64,7 @@ export async function updateOrderStatus(
   payload: OrderUpdatePayload
 ): Promise<AdminOrder> {
   const response = await apiClient.patch<ApiResponse<AdminOrder>>(
-    API_ROUTES.store(storeId).orders.detail(orderId),
+    API_ROUTES.store(storeId).orders().updateStatus(orderId),
     payload
   );
 

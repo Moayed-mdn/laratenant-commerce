@@ -29,27 +29,52 @@ export const ROUTES = {
 
 export const API_ROUTES = {
   auth: {
-    login: () => '/api/v1/users/auth/login' as const,
-    logout: () => '/api/v1/logout' as const,
-    me: () => '/api/v1/me' as const,
+    csrfCookie: () => '/sanctum/csrf-cookie',
+    login: () => '/api/v1/users/auth/login',
+    logout: () => '/api/v1/users/auth/logout',
+    me: () => '/api/v1/users/auth/me',
+    register: () => '/api/v1/users/auth/register',
   },
   store: (storeId: string) => ({
-    dashboard: {
-      stats: () => `/api/v1/admin/stores/${storeId}/dashboard/stats` as const,
-      recentOrders: () => `/api/v1/admin/stores/${storeId}/dashboard/recent-orders` as const,
-      topProducts: () => `/api/v1/admin/stores/${storeId}/dashboard/top-products` as const,
-    },
-    users: {
-      list: () => `/api/v1/admin/stores/${storeId}/users` as const,
-      detail: (userId: string) => `/api/v1/admin/stores/${storeId}/users/${userId}` as const,
-    },
-    products: {
-      list: () => `/api/v1/admin/stores/${storeId}/products` as const,
-      detail: (productId: string) => `/api/v1/admin/stores/${storeId}/products/${productId}` as const,
-    },
-    orders: {
-      list: () => `/api/v1/admin/stores/${storeId}/orders` as const,
-      detail: (orderId: string) => `/api/v1/admin/stores/${storeId}/orders/${orderId}` as const,
-    },
+    dashboard: () => ({
+      stats: () =>
+        `/api/v1/admin/stores/${storeId}/dashboard/stats`,
+      recentOrders: () =>
+        `/api/v1/admin/stores/${storeId}/dashboard/recent-orders`,
+      topProducts: () =>
+        `/api/v1/admin/stores/${storeId}/dashboard/top-products`,
+    }),
+    users: () => ({
+      list: () =>
+        `/api/v1/admin/stores/${storeId}/users`,
+      detail: (userId: string) =>
+        `/api/v1/admin/stores/${storeId}/users/${userId}`,
+      block: (userId: string) =>
+        `/api/v1/admin/stores/${storeId}/users/${userId}/block`,
+      unblock: (userId: string) =>
+        `/api/v1/admin/stores/${storeId}/users/${userId}/unblock`,
+      restore: (userId: string) =>
+        `/api/v1/admin/stores/${storeId}/users/${userId}/restore`,
+    }),
+    products: () => ({
+      list: () =>
+        `/api/v1/admin/stores/${storeId}/products`,
+      detail: (productId: string) =>
+        `/api/v1/admin/stores/${storeId}/products/${productId}`,
+      restore: (productId: string) =>
+        `/api/v1/admin/stores/${storeId}/products/${productId}/restore`,
+    }),
+    orders: () => ({
+      list: () =>
+        `/api/v1/admin/stores/${storeId}/orders`,
+      detail: (orderId: string) =>
+        `/api/v1/admin/stores/${storeId}/orders/${orderId}`,
+      updateStatus: (orderId: string) =>
+        `/api/v1/admin/stores/${storeId}/orders/${orderId}/status`,
+      cancel: (orderId: string) =>
+        `/api/v1/admin/stores/${storeId}/orders/${orderId}/cancel`,
+      refund: (orderId: string) =>
+        `/api/v1/admin/stores/${storeId}/orders/${orderId}/refund`,
+    }),
   }),
 } as const;
