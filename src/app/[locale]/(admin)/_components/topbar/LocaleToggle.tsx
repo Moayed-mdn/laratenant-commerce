@@ -35,9 +35,11 @@ export function LocaleToggle() {
     // Update locale in Zustand (also updates direction)
     setLocale(newLocale);
     
-    // Build new pathname with new locale prefix
+    // Build new pathname with new locale prefix using segment splitting
     // Example: /en/stores/1/dashboard → /ar/stores/1/dashboard
-    const newPathname = pathname.replace(`/${locale}/`, `/${newLocale}/`);
+    const segments = pathname.split('/');
+    segments[1] = newLocale;
+    const newPathname = segments.join('/');
     
     router.push(newPathname);
   };

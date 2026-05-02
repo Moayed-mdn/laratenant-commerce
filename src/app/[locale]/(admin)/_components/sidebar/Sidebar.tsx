@@ -21,7 +21,7 @@ import { cn } from '@/lib/utils';
  */
 export function Sidebar() {
   const params = useParams();
-  const storeId = params.storeId as string;
+  const storeId = params.storeId as string | undefined;
 
   const isCollapsed = useUiStore(selectSidebarCollapsed);
   const toggleSidebar = useUiStore((state) => state.toggleSidebar);

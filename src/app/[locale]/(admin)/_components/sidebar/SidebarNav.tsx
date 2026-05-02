@@ -20,6 +20,7 @@ interface NavItem {
   href: string;
   icon: LucideIcon;
   show: boolean;
+  exact?: boolean;
 }
 
 interface SidebarNavProps {
@@ -41,6 +42,7 @@ export function SidebarNav({ storeId }: SidebarNavProps) {
       href: ROUTES.store(storeId).dashboard(),
       icon: LayoutDashboard,
       show: true,
+      exact: true,
     },
     {
       label: t('users'),
@@ -68,11 +70,9 @@ export function SidebarNav({ storeId }: SidebarNavProps) {
     <nav aria-label={t('mainNav')} className="flex-1 overflow-y-auto px-2 py-4">
       <ul role="list" className="space-y-1">
         {visibleItems.map((item) => {
-          // Dashboard uses exact match, others use startsWith
-          const isActive =
-            item.label === t('dashboard')
-              ? pathname === item.href
-              : pathname.startsWith(item.href);
+          const isActive = item.exact
+            ? pathname === item.href
+            : pathname.startsWith(item.href);
 
           return (
             <SidebarNavItem
