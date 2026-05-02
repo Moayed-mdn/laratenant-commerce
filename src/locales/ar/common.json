@@ -32,5 +32,30 @@
     "success": {
       "loggedIn": "مرحباً بعودتك!"
     }
+  },
+  "nav": {
+    "appName": "لوحة التحكم",
+    "dashboard": "الرئيسية",
+    "users": "العملاء",
+    "products": "المنتجات",
+    "orders": "الطلبات",
+    "mainNav": "التنقل الرئيسي",
+    "toggleSidebar": "تبديل الشريط الجانبي",
+    "toggleMenu": "تبديل القائمة"
+  },
+  "auth": {
+    "logout": "تسجيل الخروج",
+    "loggingOut": "جارٍ تسجيل الخروج...",
+    "loggedOut": "تم تسجيل خروجك"
+  },
+  "theme": {
+    "toggle": "تبديل السمة",
+    "light": "فاتح",
+    "dark": "داكن"
+  },
+  "locale": {
+    "toggle": "تبديل اللغة",
+    "switchToArabic": "التبديل إلى العربية",
+    "switchToEnglish": "التبديل إلى الإنجليزية"
   }
 }

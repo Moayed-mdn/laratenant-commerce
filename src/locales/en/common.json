@@ -32,5 +32,30 @@
     "success": {
       "loggedIn": "Welcome back!"
     }
+  },
+  "nav": {
+    "appName": "Admin Dashboard",
+    "dashboard": "Dashboard",
+    "users": "Customers",
+    "products": "Products",
+    "orders": "Orders",
+    "mainNav": "Main navigation",
+    "toggleSidebar": "Toggle sidebar",
+    "toggleMenu": "Toggle menu"
+  },
+  "auth": {
+    "logout": "Sign out",
+    "loggingOut": "Signing out...",
+    "loggedOut": "You have been signed out"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "locale": {
+    "toggle": "Toggle language",
+    "switchToArabic": "Switch to Arabic",
+    "switchToEnglish": "Switch to English"
   }
 }
