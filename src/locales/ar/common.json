@@ -9,5 +9,145 @@
   "create":  "إنشاء",
   "search":  "بحث",
   "filter":  "تصفية",
-  "actions": "الإجراءات"
+  "actions": "الإجراءات",
+  "login": {
+    "pageTitle": "تسجيل الدخول — لوحة التحكم",
+    "pageDescription": "سجّل دخولك إلى لوحة التحكم",
+    "appName": "لوحة التحكم",
+    "title": "تسجيل الدخول إلى حسابك",
+    "subtitle": "أدخل بيانات الاعتماد الخاصة بك للمتابعة",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "example@domain.com",
+    "passwordLabel": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "submitButton": "تسجيل الدخول",
+    "signingIn": "جارٍ تسجيل الدخول...",
+    "togglePassword": "إظهار أو إخفاء كلمة المرور",
+    "errors": {
+      "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح",
+      "passwordTooShort": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+      "noStoreAssigned": "حسابك غير مرتبط بأي متجر. يرجى التواصل مع الدعم.",
+      "genericError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    },
+    "success": {
+      "loggedIn": "مرحباً بعودتك!"
+    }
+  },
+  "nav": {
+    "appName": "لوحة التحكم",
+    "dashboard": "الرئيسية",
+    "users": "العملاء",
+    "products": "المنتجات",
+    "orders": "الطلبات",
+    "mainNav": "التنقل الرئيسي",
+    "toggleSidebar": "تبديل الشريط الجانبي",
+    "toggleMenu": "تبديل القائمة"
+  },
+  "auth": {
+    "logout": "تسجيل الخروج",
+    "loggingOut": "جارٍ تسجيل الخروج...",
+    "loggedOut": "تم تسجيل خروجك"
+  },
+  "theme": {
+    "toggle": "تبديل السمة",
+    "light": "فاتح",
+    "dark": "داكن"
+  },
+  "locale": {
+    "toggle": "تبديل اللغة",
+    "switchToArabic": "التبديل إلى العربية",
+    "switchToEnglish": "التبديل إلى الإنجليزية"
+  },
+  "dashboard": {
+    "title": "الرئيسية",
+    "subtitle": "مرحباً بعودتك. إليك ما يحدث في متجرك.",
+    "error": "فشل تحميل بيانات لوحة التحكم. يرجى تحديث الصفحة.",
+    "stats": {
+      "revenue": "إجمالي الإيرادات",
+      "orders": "إجمالي الطلبات",
+      "customers": "إجمالي العملاء",
+      "products": "إجمالي المنتجات"
+    },
+    "recentOrders": {
+      "title": "الطلبات الأخيرة",
+      "empty": "لا توجد طلبات بعد",
+      "order": "الطلب",
+      "customer": "العميل",
+      "status": "الحالة",
+      "total": "الإجمالي",
+      "date": "التاريخ"
+    },
+    "topProducts": {
+      "title": "أفضل المنتجات",
+      "empty": "لا توجد منتجات بعد",
+      "sold": "مبيع"
+    },
+    "orderStatus": {
+      "pending": "قيد الانتظار",
+      "confirmed": "مؤكد",
+      "cancelled": "ملغي",
+      "refunded": "مسترد"
+    },
+    "paymentStatus": {
+      "pending": "قيد الانتظار",
+      "paid": "مدفوع",
+      "failed": "فشل",
+      "refunded": "مسترد"
+    },
+    "productStatus": {
+      "active": "نشط",
+      "draft": "مسودة",
+      "archived": "مؤرشف"
+    }
+  },
+  "users": {
+    "title": "العملاء",
+    "subtitle": "إدارة عملاء متجرك",
+    "filters": {
+      "search": "بحث",
+      "searchPlaceholder": "البحث بالاسم أو البريد الإلكتروني...",
+      "role": "الدور",
+      "allRoles": "جميع الأدوار",
+      "status": "الحالة",
+      "allStatuses": "جميع الحالات"
+    },
+    "roles": {
+      "store_admin": "مدير المتجر",
+      "staff": "موظف",
+      "super_admin": "مدير أعلى"
+    },
+    "status": {
+      "verified": "موثّق",
+      "unverified": "غير موثّق"
+    },
+    "table": {
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "role": "الدور",
+      "status": "الحالة",
+      "created": "تاريخ الإنشاء",
+      "actions": "الإجراءات",
+      "view": "عرض",
+      "empty": "لم يتم العثور على عملاء",
+      "of": "من",
+      "perPage": "لكل صفحة",
+      "previous": "السابق",
+      "next": "التالي",
+      "page": "صفحة {current} من {total}"
+    },
+    "detail": {
+      "title": "تفاصيل العميل",
+      "back": "العودة إلى العملاء",
+      "info": "المعلومات",
+      "timestamps": "الطوابع الزمنية",
+      "emailVerified": "تم التحقق من البريد الإلكتروني",
+      "emailNotVerified": "لم يتم التحقق من البريد الإلكتروني",
+      "joined": "تاريخ الانضمام",
+      "lastUpdated": "آخر تحديث",
+      "delete": "حذف العميل",
+      "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا العميل؟ لا يمكن التراجع عن هذا الإجراء.",
+      "deleteSuccess": "تم حذف العميل",
+      "deleteError": "فشل حذف العميل"
+    }
+  }
 }

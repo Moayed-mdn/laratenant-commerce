@@ -35,15 +35,17 @@
   --color-subtle:      hsl(215 16% 65%);
 
   /* Sidebar — Dark Navy */
-  --color-sidebar-bg:     hsl(222 47% 11%);
-  --color-sidebar-fore:   hsl(210 40% 96%);
-  --color-sidebar-muted:  hsl(215 20% 65%);
-  --color-sidebar-active: hsl(224 76% 48%);
-  --color-sidebar-border: hsl(217 33% 17%);
-  --color-sidebar-hover:  hsl(217 33% 17%);
+  --color-sidebar:            hsl(222 47% 11%);
+  --color-sidebar-foreground: hsl(210 40% 96%);
+  --color-sidebar-muted:      hsl(215 20% 65%);
+  --color-sidebar-border:     hsl(217 33% 17%);
+  --color-sidebar-accent:     hsl(224 76% 20%);
+  --color-sidebar-accent-foreground: hsl(210 40% 98%);
+  --color-sidebar-hover:      hsl(217 33% 17%);
 
   /* Status */
   --color-success:     hsl(142 71% 45%);
+  --color-success-foreground: hsl(0 0% 100%);
   --color-success-bg:  hsl(142 71% 95%);
   --color-warning:     hsl(38  92% 50%);
   --color-warning-bg:  hsl(38  92% 95%);
@@ -77,6 +79,7 @@
     --color-primary-light:  hsl(224 76% 15%);
     --color-accent-light:   hsl(262 83% 15%);
     --color-success-bg:     hsl(142 71% 10%);
+    --color-success-foreground: hsl(0 0% 100%);
     --color-warning-bg:     hsl(38  92% 10%);
     --color-danger-bg:      hsl(0   84% 10%);
     --color-info-bg:        hsl(199 89% 10%);
