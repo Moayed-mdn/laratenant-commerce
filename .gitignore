@@ -1,6 +1,6 @@
 # dependencies
-/node_modules
-/.pnp
+/node_modules/
+.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -9,15 +9,15 @@
 !.yarn/versions
 
 # testing
-/coverage
-/.nyc_output
+/coverage/
+/.nyc_output/
 
 # next.js
 /.next/
 /out/
 
 # production
-/build
+/build/
 
 # misc
 *.pem
@@ -30,7 +30,7 @@
 !.env.example
 
 # vercel
-.vercel
+.vercel/
 
 # typescript
 next-env.d.ts
@@ -52,5 +52,4 @@ ehthumbs.db
 *.swo
 
 # Turbo cache
-.turbo
-
+.turbo/
