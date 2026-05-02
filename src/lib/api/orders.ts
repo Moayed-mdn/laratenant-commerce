@@ -34,7 +34,7 @@ export async function getOrders(
   }
 
   const response = await apiClient.get<ApiResponse<PaginatedResponse<AdminOrder>>>(
-    API_ROUTES.store(storeId).orders.list(),
+    API_ROUTES.store(storeId).orders().list(),
     { params }
   );
 
@@ -49,7 +49,7 @@ export async function getOrderDetail(
   orderId: string
 ): Promise<AdminOrder> {
   const response = await apiClient.get<ApiResponse<AdminOrder>>(
-    API_ROUTES.store(storeId).orders.detail(orderId)
+    API_ROUTES.store(storeId).orders().detail(orderId)
   );
 
   return response.data.data;
