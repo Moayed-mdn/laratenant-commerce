@@ -1,0 +1,13 @@
+{
+  "save":    "Save",
+  "cancel":  "Cancel",
+  "saving":  "Saving...",
+  "loading": "Loading...",
+  "confirm": "Confirm",
+  "delete":  "Delete",
+  "edit":    "Edit",
+  "create":  "Create",
+  "search":  "Search",
+  "filter":  "Filter",
+  "actions": "Actions"
+}

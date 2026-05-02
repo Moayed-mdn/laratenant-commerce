@@ -1,26 +1,112 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "tw-animate-css";
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Brand — Blue Indigo */
+  --color-primary:        hsl(224 76% 48%);
+  --color-primary-hover:  hsl(224 76% 40%);
+  --color-primary-light:  hsl(224 76% 95%);
+  --color-primary-fore:   hsl(0 0% 100%);
+
+  /* Secondary — Slate */
+  --color-secondary:       hsl(215 25% 27%);
+  --color-secondary-hover: hsl(215 25% 20%);
+  --color-secondary-light: hsl(215 25% 95%);
+  --color-secondary-fore:  hsl(0 0% 100%);
+
+  /* Accent — Violet */
+  --color-accent:       hsl(262 83% 58%);
+  --color-accent-hover: hsl(262 83% 50%);
+  --color-accent-light: hsl(262 83% 95%);
+  --color-accent-fore:  hsl(0 0% 100%);
+
+  /* Backgrounds */
+  --color-bg:             hsl(0 0% 98%);
+  --color-surface:        hsl(0 0% 100%);
+  --color-surface-raised: hsl(0 0% 97%);
+
+  /* Borders */
+  --color-border:         hsl(215 20% 91%);
+  --color-border-strong:  hsl(215 20% 82%);
+
+  /* Text */
+  --color-foreground:  hsl(222 47% 11%);
+  --color-muted:       hsl(215 16% 47%);
+  --color-subtle:      hsl(215 16% 65%);
+
+  /* Sidebar — Dark Navy */
+  --color-sidebar-bg:     hsl(222 47% 11%);
+  --color-sidebar-fore:   hsl(210 40% 96%);
+  --color-sidebar-muted:  hsl(215 20% 65%);
+  --color-sidebar-active: hsl(224 76% 48%);
+  --color-sidebar-border: hsl(217 33% 17%);
+  --color-sidebar-hover:  hsl(217 33% 17%);
+
+  /* Status */
+  --color-success:     hsl(142 71% 45%);
+  --color-success-bg:  hsl(142 71% 95%);
+  --color-warning:     hsl(38  92% 50%);
+  --color-warning-bg:  hsl(38  92% 95%);
+  --color-danger:      hsl(0   84% 60%);
+  --color-danger-bg:   hsl(0   84% 95%);
+  --color-info:        hsl(199 89% 48%);
+  --color-info-bg:     hsl(199 89% 95%);
+
+  /* shadcn compatibility */
+  --background:    0 0% 98%;
+  --foreground:    222 47% 11%;
+  --card:          0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --border:        215 20% 91%;
+  --input:         215 20% 91%;
+  --ring:          224 76% 48%;
+  --radius:        0.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  .dark {
+    --color-bg:             hsl(222 47% 8%);
+    --color-surface:        hsl(222 47% 11%);
+    --color-surface-raised: hsl(217 33% 15%);
+    --color-border:         hsl(217 33% 20%);
+    --color-border-strong:  hsl(217 33% 28%);
+    --color-foreground:     hsl(210 40% 96%);
+    --color-muted:          hsl(215 20% 65%);
+    --color-subtle:         hsl(215 20% 45%);
+
+    --color-primary-light:  hsl(224 76% 15%);
+    --color-accent-light:   hsl(262 83% 15%);
+    --color-success-bg:     hsl(142 71% 10%);
+    --color-warning-bg:     hsl(38  92% 10%);
+    --color-danger-bg:      hsl(0   84% 10%);
+    --color-info-bg:        hsl(199 89% 10%);
+
+    /* shadcn compatibility */
+    --background:    222 47% 8%;
+    --foreground:    210 40% 96%;
+    --card:          222 47% 11%;
+    --card-foreground: 210 40% 96%;
+    --border:        217 33% 20%;
+    --input:         217 33% 20%;
+    --ring:          224 76% 48%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* RTL support */
+  [dir="rtl"] {
+    font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
+  }
 }
