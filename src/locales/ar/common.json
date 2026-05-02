@@ -9,5 +9,28 @@
   "create":  "إنشاء",
   "search":  "بحث",
   "filter":  "تصفية",
-  "actions": "الإجراءات"
+  "actions": "الإجراءات",
+  "login": {
+    "pageTitle": "تسجيل الدخول — لوحة التحكم",
+    "pageDescription": "سجّل دخولك إلى لوحة التحكم",
+    "appName": "لوحة التحكم",
+    "title": "تسجيل الدخول إلى حسابك",
+    "subtitle": "أدخل بيانات الاعتماد الخاصة بك للمتابعة",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "example@domain.com",
+    "passwordLabel": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "submitButton": "تسجيل الدخول",
+    "signingIn": "جارٍ تسجيل الدخول...",
+    "togglePassword": "إظهار أو إخفاء كلمة المرور",
+    "errors": {
+      "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح",
+      "passwordTooShort": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+      "noStoreAssigned": "حسابك غير مرتبط بأي متجر. يرجى التواصل مع الدعم.",
+      "genericError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    },
+    "success": {
+      "loggedIn": "مرحباً بعودتك!"
+    }
+  }
 }

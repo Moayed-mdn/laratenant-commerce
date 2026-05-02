@@ -1,20 +1,30 @@
 /**
- * Next.js middleware for auth protection.
+ * Next.js middleware for auth protection and i18n routing.
  * Runs on the Edge runtime.
  */
 
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import createMiddleware from 'next-intl/middleware';
+import { routing } from '@/i18n/routing';
+
+// Create next-intl middleware
+const intlMiddleware = createMiddleware(routing);
 
 // Public routes that don't require authentication
+// Note: These include locale-prefixed versions handled by next-intl
 const PUBLIC_ROUTES = ['/login', '/logout'];
 
 /**
  * Check if a pathname is a public route.
+ * Handles both prefixed (/en/login) and non-prefixed (/login) paths.
  */
 function isPublicRoute(pathname: string): boolean {
+  // Strip locale prefix if present for checking
+  const pathWithoutLocale = pathname.replace(/^\/(en|ar)/, '');
+
   // Exact match for public routes
-  if (PUBLIC_ROUTES.includes(pathname)) {
+  if (PUBLIC_ROUTES.includes(pathWithoutLocale)) {
     return true;
   }
 
@@ -31,14 +41,17 @@ function isPublicRoute(pathname: string): boolean {
 }
 
 /**
- * Middleware to protect routes and handle auth redirects.
+ * Middleware to handle i18n routing and auth protection.
  */
-export function middleware(request: NextRequest): NextResponse {
+export default function middleware(request: NextRequest): NextResponse {
   const { pathname } = request.nextUrl;
 
-  // Allow public routes without checking auth
-  if (isPublicRoute(pathname)) {
-    return NextResponse.next();
+  // Check if this is a public route
+  const publicRoute = isPublicRoute(pathname);
+
+  // For public routes, just run i18n middleware
+  if (publicRoute) {
+    return intlMiddleware(request);
   }
 
   // Check for Laravel Sanctum session cookie
@@ -46,18 +59,20 @@ export function middleware(request: NextRequest): NextResponse {
 
   // If no session cookie, redirect to login with original URL as redirect param
   if (!hasSessionCookie) {
-    const loginUrl = new URL('/login', request.url);
+    // Preserve locale in redirect
+    const locale = pathname.split('/')[1] || 'en';
+    const loginUrl = new URL(`/${locale}/login`, request.url);
     loginUrl.searchParams.set('redirect', pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // User is authenticated, allow access
-  return NextResponse.next();
+  // User is authenticated, run i18n middleware
+  return intlMiddleware(request);
 }
 
 /**
  * Configure which routes the middleware runs on.
  */
 export const config = {
-  matcher: '/((?!_next/static|_next/image|favicon.ico).*)',
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|api).*)'],
 };

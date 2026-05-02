@@ -9,5 +9,28 @@
   "create":  "Create",
   "search":  "Search",
   "filter":  "Filter",
-  "actions": "Actions"
+  "actions": "Actions",
+  "login": {
+    "pageTitle": "Login — Admin Dashboard",
+    "pageDescription": "Sign in to your admin dashboard",
+    "appName": "Admin Dashboard",
+    "title": "Sign in to your account",
+    "subtitle": "Enter your credentials below to continue",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "submitButton": "Sign in",
+    "signingIn": "Signing in...",
+    "togglePassword": "Toggle password visibility",
+    "errors": {
+      "invalidEmail": "Please enter a valid email address",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "noStoreAssigned": "Your account has no store assigned. Contact support.",
+      "genericError": "Something went wrong. Please try again."
+    },
+    "success": {
+      "loggedIn": "Welcome back!"
+    }
+  }
 }
