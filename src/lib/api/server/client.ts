@@ -27,11 +27,16 @@ export async function serverFetch<T>(
   const cookieStore = await cookies();
   const fullUrl = `${APP_CONFIG.apiBaseUrl}${path}`;
 
+  // Build cookie header from all cookies for Sanctum authentication
+  const cookieHeader = cookieStore.getAll()
+    .map(({ name, value }) => `${name}=${value}`)
+    .join('; ');
+
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
-    Cookie: cookieStore.toString(), // Forward all cookies for Sanctum
+    Cookie: cookieHeader, // Forward all cookies for Sanctum
   };
 
   logger.debug(`[Server Fetch] ${options?.method ?? 'GET'} ${fullUrl}`);

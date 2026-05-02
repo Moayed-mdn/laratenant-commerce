@@ -43,7 +43,7 @@ apiClient.interceptors.response.use(
     // If status 401, dispatch custom event for session expiry
     if (error.response?.status === 401) {
       if (typeof window !== 'undefined') {
-        window.dispatchEvent(new CustomEvent('auth:unauthorized'));
+        window.dispatchEvent(new Event('auth:unauthorized'));
       }
     }
 

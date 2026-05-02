@@ -154,3 +154,43 @@ The login page implementation will require:
 - Server fetch does NOT have `'use server'` — it's a regular module imported by RSC
 - Custom event `auth:unauthorized` dispatched on 401 for session expiry handling
 - RTL support controlled by `FEATURES.enableRTL` flag
+
+---
+
+## Post-Review Fixes
+
+The following corrections were made after initial review:
+
+### 1. `src/lib/api/server/client.ts` - Cookie Header Construction
+
+**Issue**: Used `cookieStore.toString()` which may not properly serialize cookies in Next.js 15+.
+
+**Fix**: Changed to use `cookieStore.getAll()` with proper mapping:
+```typescript
+const cookieHeader = cookieStore.getAll()
+  .map(({ name, value }) => `${name}=${value}`)
+  .join('; ');
+```
+
+**Also confirmed**: `cookies()` is called with `await` as required by Next.js 15+.
+
+### 2. `src/lib/api/client/axios.ts` - Event Dispatch Type
+
+**Issue**: Used `CustomEvent` which requires additional typing and may cause issues in some environments.
+
+**Fix**: Changed from `new CustomEvent('auth:unauthorized')` to `new Event('auth:unauthorized')`:
+```typescript
+if (typeof window !== 'undefined') {
+  window.dispatchEvent(new Event('auth:unauthorized'));
+}
+```
+
+**Note**: The `typeof window !== 'undefined'` guard was already present and correctly implemented.
+
+### 3. `src/middleware.ts` - Cookie Name Verification
+
+**Issue**: Needed to confirm exact cookie name for Laravel Sanctum.
+
+**Fix verified**: Already uses `request.cookies.has('laravel_session')` which is the correct Laravel default session cookie name.
+
+No change was needed — the implementation was already correct per the requirement.
