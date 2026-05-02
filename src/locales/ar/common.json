@@ -93,6 +93,11 @@
       "paid": "مدفوع",
       "failed": "فشل",
       "refunded": "مسترد"
+    },
+    "productStatus": {
+      "active": "نشط",
+      "draft": "مسودة",
+      "archived": "مؤرشف"
     }
   }
 }

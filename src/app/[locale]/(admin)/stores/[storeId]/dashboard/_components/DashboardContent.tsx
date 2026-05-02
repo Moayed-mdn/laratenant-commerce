@@ -10,9 +10,9 @@ import type { ApiResponse } from '@/types/api';
 import type { DashboardStats, RecentOrderItem, TopProductItem } from '@/types/dashboard';
 import { mapDashboardStats, mapRecentOrder, mapTopProduct } from '@/lib/mappers/dashboard';
 import { getTranslations } from 'next-intl/server';
-import { StatsGrid } from './_components/StatsGrid';
-import { RecentOrdersTable } from './_components/RecentOrdersTable';
-import { TopProductsList } from './_components/TopProductsList';
+import { StatsGrid } from './StatsGrid';
+import { RecentOrdersTable } from './RecentOrdersTable';
+import { TopProductsList } from './TopProductsList';
 import { logger } from '@/lib/logger';
 
 interface DashboardContentProps {

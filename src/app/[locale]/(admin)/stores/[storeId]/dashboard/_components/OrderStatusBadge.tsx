@@ -7,6 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import type { OrderStatus } from '@/types/order';
 import { getTranslations } from 'next-intl/server';
 
+// RSC ONLY — do not import from client components
+// Reason: uses getTranslations from next-intl/server (async RSC)
+
 interface OrderStatusBadgeProps {
   status: OrderStatus;
 }

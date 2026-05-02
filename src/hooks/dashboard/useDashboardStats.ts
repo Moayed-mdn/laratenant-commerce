@@ -18,6 +18,8 @@ import { useStoreStore, selectCurrentStoreCurrency } from '@/stores/storeStore';
  * @param storeId - Store ID from URL params
  */
 export function useDashboardStats(storeId: string) {
+  // TODO: storeStore currency defaults to 'USD' until store settings
+  // endpoint is available. StoreInitializer will populate this later.
   const currency = useStoreStore(selectCurrentStoreCurrency);
 
   return useQuery<DashboardStatsView>({

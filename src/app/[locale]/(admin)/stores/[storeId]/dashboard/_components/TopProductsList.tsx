@@ -47,7 +47,7 @@ export async function TopProductsList({ products, storeId }: TopProductsListProp
                 <div className="text-right">
                   <div className="text-sm font-medium">{product.revenue}</div>
                   <Badge variant="outline" className="text-xs">
-                    {product.status}
+                    {t(`productStatus.${product.status}`)}
                   </Badge>
                 </div>
               </li>

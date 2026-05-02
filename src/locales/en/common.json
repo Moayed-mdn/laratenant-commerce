@@ -93,6 +93,11 @@
       "paid": "Paid",
       "failed": "Failed",
       "refunded": "Refunded"
+    },
+    "productStatus": {
+      "active": "Active",
+      "draft": "Draft",
+      "archived": "Archived"
     }
   }
 }
