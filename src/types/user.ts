@@ -24,6 +24,8 @@ export interface UserListItem {
   email: string;
   role: UserRole;
   store_id: number;
+  is_active: boolean;
+  deleted_at: string | null;
   email_verified_at: string | null;
   created_at: string;
   updated_at: string;
@@ -47,9 +49,13 @@ export interface UserDetail {
   id: number;
   name: string;
   email: string;
+  phone: string | null;
   role: UserRole;
   store_id: number;
+  is_active: boolean;
+  deleted_at: string | null;
   email_verified_at: string | null;
+  orders_count: number;
   created_at: string;
   updated_at: string;
 }
