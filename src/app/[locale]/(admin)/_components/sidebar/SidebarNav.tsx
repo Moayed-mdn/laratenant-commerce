@@ -7,12 +7,12 @@
  * Reason for 'use client': needs active route detection via usePathname.
  */
 
-import { usePathname } from 'next/navigation';
+import { usePathname } from '@/lib/navigation';
 import { useCan } from '@/stores/authStore';
 import { useUiStore, selectSidebarCollapsed } from '@/stores/uiStore';
 import { SidebarNavItem } from './SidebarNavItem';
 import { ROUTES } from '@/config/routes';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { LayoutDashboard, Users, Package, ShoppingCart, type LucideIcon } from 'lucide-react';
 
 interface NavItem {
@@ -37,31 +37,30 @@ export function SidebarNav({ storeId }: SidebarNavProps) {
   const canManageOrders = useCan('canManageOrders');
   const isCollapsed = useUiStore(selectSidebarCollapsed);
   const t = useTranslations('nav');
-  const locale = useLocale();
 
   const navItems: NavItem[] = [
     {
       label: t('dashboard'),
-      href: ROUTES.store(locale, storeId).dashboard(),
+      href: ROUTES.store(storeId).dashboard(),
       icon: LayoutDashboard,
       show: true,
       exact: true,
     },
     {
       label: t('users'),
-      href: ROUTES.store(locale, storeId).users.list(),
+      href: ROUTES.store(storeId).users.list(),
       icon: Users,
       show: canManageUsers,
     },
     {
       label: t('products'),
-      href: ROUTES.store(locale, storeId).products.list(),
+      href: ROUTES.store(storeId).products.list(),
       icon: Package,
       show: canManageProducts,
     },
     {
       label: t('orders'),
-      href: ROUTES.store(locale, storeId).orders.list(),
+      href: ROUTES.store(storeId).orders.list(),
       icon: ShoppingCart,
       show: canManageOrders,
     },

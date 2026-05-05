@@ -8,6 +8,8 @@
  */
 
 import { useUiStore, selectSidebarCollapsed, selectIsRTL } from '@/stores/uiStore';
+import { useLocale } from 'next-intl';
+import { useEffect } from 'react';
 import { Sidebar } from './sidebar/Sidebar';
 import { Topbar } from './topbar/Topbar';
 import { MobileNav } from './MobileNav';
@@ -24,6 +26,12 @@ interface AdminShellProps {
 export function AdminShell({ children }: AdminShellProps) {
   const isCollapsed = useUiStore(selectSidebarCollapsed);
   const isRTL = useUiStore(selectIsRTL);
+  const locale = useLocale();
+  const setDirection = useUiStore((state) => state.setDirection);
+
+  useEffect(() => {
+    setDirection(locale as 'en' | 'ar');
+  }, [locale, setDirection]);
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">

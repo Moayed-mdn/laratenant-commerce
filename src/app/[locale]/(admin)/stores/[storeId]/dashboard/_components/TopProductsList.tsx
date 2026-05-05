@@ -4,7 +4,7 @@
  */
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import { ROUTES } from '@/config/routes';
 import { Badge } from '@/components/ui/badge';
 import { getTranslations } from 'next-intl/server';
@@ -13,13 +13,12 @@ import type { TopProductItemView } from '@/types/dashboard';
 interface TopProductsListProps {
   products: TopProductItemView[];
   storeId: string;
-  locale: string;
 }
 
 /**
  * List displaying top products for the dashboard.
  */
-export async function TopProductsList({ products, storeId, locale }: TopProductsListProps) {
+export async function TopProductsList({ products, storeId }: TopProductsListProps) {
   const t = await getTranslations('dashboard');
 
   return (
@@ -36,7 +35,7 @@ export async function TopProductsList({ products, storeId, locale }: TopProducts
               <li key={product.id} className="flex items-center justify-between">
                 <div className="flex flex-col gap-0.5">
                   <Link
-                    href={ROUTES.store(locale, storeId).products.edit(String(product.id))}
+                    href={ROUTES.store(storeId).products.edit(String(product.id))}
                     className="text-sm font-medium hover:underline"
                   >
                     {product.name}

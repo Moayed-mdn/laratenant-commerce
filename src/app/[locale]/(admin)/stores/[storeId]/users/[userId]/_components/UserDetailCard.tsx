@@ -4,7 +4,7 @@
  */
 
 import { getTranslations } from 'next-intl/server';
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import { ROUTES } from '@/config/routes';
 import type { UserDetailView } from '@/types/user';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,17 +19,16 @@ import { ArrowLeft } from 'lucide-react';
 interface Props {
   user: UserDetailView;
   storeId: string;
-  locale: string;
 }
 
-export default async function UserDetailCard({ user, storeId, locale }: Props) {
+export default async function UserDetailCard({ user, storeId }: Props) {
   const t = await getTranslations('users');
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Link
-          href={ROUTES.store(locale, storeId).users.list()}
+          href={ROUTES.store(storeId).users.list()}
           className="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] hover:bg-muted hover:text-foreground"
         >
           <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />

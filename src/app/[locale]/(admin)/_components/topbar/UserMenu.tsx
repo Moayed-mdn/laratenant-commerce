@@ -9,8 +9,8 @@
 
 import { useAuthStore, selectUser } from '@/stores/authStore';
 import { useLogout } from '@/hooks/auth/useLogout';
-import { useRouter } from 'next/navigation';
-import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from '@/lib/navigation';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { ROUTES } from '@/config/routes';
 import {
@@ -33,12 +33,11 @@ export function UserMenu() {
   const user = useAuthStore(selectUser);
   const router = useRouter();
   const t = useTranslations('auth');
-  const locale = useLocale();
 
   const { mutate: logout, isPending } = useLogout({
     onSuccess: () => {
       toast.success(t('loggedOut'));
-      router.push(ROUTES.auth.login(locale));
+      router.push(ROUTES.auth.login());
     },
     onError: (error) => {
       logger.error('Logout error', { error });

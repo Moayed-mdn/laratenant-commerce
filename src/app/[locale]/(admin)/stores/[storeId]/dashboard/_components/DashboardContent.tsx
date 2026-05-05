@@ -17,13 +17,12 @@ import { logger } from '@/lib/logger';
 
 interface DashboardContentProps {
   storeId: string;
-  locale: string;
 }
 
 /**
  * Main dashboard content with server-side data fetching.
  */
-export default async function DashboardContent({ storeId, locale }: DashboardContentProps) {
+export default async function DashboardContent({ storeId }: DashboardContentProps) {
   const t = await getTranslations('dashboard');
 
   try {
@@ -56,8 +55,8 @@ export default async function DashboardContent({ storeId, locale }: DashboardCon
         </div>
         <StatsGrid stats={stats} />
         <div className="grid gap-6 md:grid-cols-2">
-          <RecentOrdersTable orders={recentOrders} storeId={storeId} locale={locale} />
-          <TopProductsList products={topProducts} storeId={storeId} locale={locale} />
+          <RecentOrdersTable orders={recentOrders} storeId={storeId} />
+          <TopProductsList products={topProducts} storeId={storeId} />
         </div>
       </div>
     );

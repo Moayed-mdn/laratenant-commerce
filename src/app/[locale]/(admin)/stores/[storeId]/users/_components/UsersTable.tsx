@@ -5,8 +5,8 @@
  * Client component for interactive pagination controls.
  */
 
-import Link from 'next/link';
-import { useTranslations, useLocale } from 'next-intl';
+import { Link } from '@/lib/navigation';
+import { useTranslations } from 'next-intl';
 import { ROUTES } from '@/config/routes';
 import type { UserListItemView } from '@/types/user';
 import type { PaginationMeta } from '@/types/api';
@@ -52,7 +52,6 @@ export default function UsersTable({
   storeId,
 }: Props) {
   const t = useTranslations('users');
-  const locale = useLocale();
 
   if (isLoading) {
     return (
@@ -113,7 +112,7 @@ export default function UsersTable({
                 </TableCell>
                 <TableCell className="text-right">
                   <Link
-                    href={ROUTES.store(locale, storeId).users.detail(String(user.id))}
+                    href={ROUTES.store(storeId).users.detail(String(user.id))}
                     className="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] hover:bg-muted hover:text-foreground"
                   >
                     {t('table.view')}

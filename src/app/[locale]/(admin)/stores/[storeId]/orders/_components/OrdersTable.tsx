@@ -5,8 +5,8 @@
 'use client';
 // Reason: displays interactive table with links and badges
 
-import Link from 'next/link';
-import { useTranslations, useLocale } from 'next-intl';
+import { Link } from '@/lib/navigation';
+import { useTranslations } from 'next-intl';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { OrderListItemView } from '@/types/order';
 import type { PaginationMeta } from '@/types/api';
@@ -36,7 +36,6 @@ export default function OrdersTable({
   isLoading,
 }: OrdersTableProps) {
   const t = useTranslations('orders');
-  const locale = useLocale();
 
   if (isLoading) {
     return null; // Skeleton handles loading state
@@ -70,7 +69,7 @@ export default function OrdersTable({
               <TableRow key={order.id}>
                 <TableCell>
                   <Link
-                    href={ROUTES.store(locale, storeId).orders.detail(String(order.id))}
+                    href={ROUTES.store(storeId).orders.detail(String(order.id))}
                     className="font-medium text-primary hover:underline"
                   >
                     #{order.orderNumber}

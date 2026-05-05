@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import { ROUTES } from '@/config/routes';
 import { getTranslations } from 'next-intl/server';
 import type { RecentOrderItemView } from '@/types/dashboard';
@@ -21,13 +21,12 @@ import { OrderStatusBadge } from './OrderStatusBadge';
 interface RecentOrdersTableProps {
   orders: RecentOrderItemView[];
   storeId: string;
-  locale: string;
 }
 
 /**
  * Table displaying recent orders for the dashboard.
  */
-export async function RecentOrdersTable({ orders, storeId, locale }: RecentOrdersTableProps) {
+export async function RecentOrdersTable({ orders, storeId }: RecentOrdersTableProps) {
   const t = await getTranslations('dashboard');
 
   return (
@@ -54,7 +53,7 @@ export async function RecentOrdersTable({ orders, storeId, locale }: RecentOrder
                 <TableRow key={order.id}>
                   <TableCell>
                     <Link
-                      href={ROUTES.store(locale, storeId).orders.detail(String(order.id))}
+                      href={ROUTES.store(storeId).orders.detail(String(order.id))}
                       className="font-medium hover:underline text-primary"
                     >
                       {order.orderNumber}

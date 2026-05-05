@@ -35,7 +35,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
 
   return (
     <Suspense fallback={<DashboardSkeleton />}>
-      <DashboardContent storeId={storeId} locale={locale} />
+      <DashboardContent storeId={storeId} />
     </Suspense>
 
   );

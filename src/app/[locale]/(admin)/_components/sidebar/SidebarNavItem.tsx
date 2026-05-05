@@ -7,7 +7,7 @@
  * Reason for 'use client': uses Link and interactive state.
  */
 
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 import type { LucideIcon } from 'lucide-react';
 

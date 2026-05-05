@@ -6,8 +6,7 @@
  * Uses shared ProductForm with create mode.
  */
 
-import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation';
+import { useRouter } from '@/lib/navigation';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { useCreateProduct } from '@/hooks/products/useCreateProduct';
@@ -22,13 +21,11 @@ interface Props {
 export default function CreateProductForm({ storeId }: Props) {
   const t = useTranslations('products');
   const router = useRouter();
-  const params = useParams();
-  const locale = params.locale as string;
 
   const mutation = useCreateProduct(storeId, {
     onSuccess: (product) => {
       toast.success(t('form.createSuccess'));
-      router.push(ROUTES.store(locale, storeId).products.edit(String(product.id)));
+      router.push(ROUTES.store(storeId).products.edit(String(product.id)));
     },
     onError: (error) => {
       toast.error(error.message);

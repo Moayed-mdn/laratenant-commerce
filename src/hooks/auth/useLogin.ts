@@ -26,9 +26,6 @@ export function useLogin(options?: UseLoginOptions) {
     retry: 0, // Hard rule — mutations never retry
     onSuccess: (data) => {
       const { token, user } = data;
-      console.log('this this NEW',{data})
-      // Store token in cookie
-      document.cookie = `token=${token}; path=/;`;
 
       // Update auth store with user info
       setUser(user);

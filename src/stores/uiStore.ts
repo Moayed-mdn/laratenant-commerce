@@ -2,7 +2,10 @@
 
 /**
  * UI state store using Zustand.
- * Manages sidebar, modals, and theme state.
+ * Manages sidebar, theme, and RTL direction state.
+ * 
+ * IMPORTANT: locale source of truth is next-intl (useLocale hook).
+ * Zustand only tracks 'direction' for RTL CSS application.
  */
 
 import { create } from 'zustand';
@@ -12,7 +15,6 @@ export interface UiState {
   sidebarOpen: boolean;
   sidebarCollapsed: boolean;
   theme: 'light' | 'dark';
-  locale: 'en' | 'ar';
   direction: 'ltr' | 'rtl';
 }
 
@@ -21,7 +23,7 @@ export interface UiActions {
   setSidebarOpen: (open: boolean) => void;
   setSidebarCollapsed: (collapsed: boolean) => void;
   setTheme: (theme: 'light' | 'dark') => void;
-  setLocale: (locale: 'en' | 'ar') => void;
+  setDirection: (locale: 'en' | 'ar') => void;
 }
 
 export type UiStore = UiState & UiActions;
@@ -31,7 +33,6 @@ export const useUiStore = create<UiStore>((set) => ({
   sidebarOpen: true,
   sidebarCollapsed: false,
   theme: 'light',
-  locale: 'en',
   direction: 'ltr',
 
   // Actions
@@ -39,9 +40,8 @@ export const useUiStore = create<UiStore>((set) => ({
   setSidebarOpen: (sidebarOpen) => set({ sidebarOpen }),
   setSidebarCollapsed: (sidebarCollapsed) => set({ sidebarCollapsed }),
   setTheme: (theme) => set({ theme }),
-  setLocale: (locale) =>
+  setDirection: (locale) =>
     set({
-      locale,
       direction: FEATURES.enableRTL ? (locale === 'ar' ? 'rtl' : 'ltr') : 'ltr',
     }),
 }));
@@ -50,7 +50,6 @@ export const useUiStore = create<UiStore>((set) => ({
 export const selectSidebarOpen = (state: UiStore): boolean => state.sidebarOpen;
 export const selectSidebarCollapsed = (state: UiStore): boolean => state.sidebarCollapsed;
 export const selectTheme = (state: UiStore): 'light' | 'dark' => state.theme;
-export const selectLocale = (state: UiStore): 'en' | 'ar' => state.locale;
 export const selectDirection = (state: UiStore): 'ltr' | 'rtl' => state.direction;
 export const selectIsDarkMode = (state: UiStore): boolean => state.theme === 'dark';
 export const selectIsRTL = (state: UiStore): boolean => state.direction === 'rtl';

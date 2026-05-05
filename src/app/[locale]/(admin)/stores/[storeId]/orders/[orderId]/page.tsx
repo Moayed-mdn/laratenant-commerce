@@ -19,7 +19,7 @@ export default async function OrderDetailPage({ params }: PageProps) {
   return (
     <div className="space-y-6">
       <Suspense fallback={<OrderDetailSkeleton />}>
-        <OrderDetailContent storeId={storeId} orderId={orderId} locale={locale} />
+        <OrderDetailContent storeId={storeId} orderId={orderId} />
       </Suspense>
     </div>
   );

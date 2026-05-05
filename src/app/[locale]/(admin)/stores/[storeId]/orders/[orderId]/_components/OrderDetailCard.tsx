@@ -1,23 +1,22 @@
 import { getTranslations } from 'next-intl/server'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import Link from 'next/link'
+import { Link } from '@/lib/navigation'
 import { ROUTES } from '@/config/routes'
 import type { OrderDetailView } from '@/types/order'
 
 interface Props {
   order: OrderDetailView
   storeId: string
-  locale: string
 }
 
-export default async function OrderDetailCard({ order, storeId, locale }: Props) {
+export default async function OrderDetailCard({ order, storeId }: Props) {
   const t = await getTranslations('orders')
 
   return (
     <div className="space-y-6">
       {/* Back link */}
       <Link
-        href={ROUTES.store(locale, storeId).orders.list()}
+        href={ROUTES.store(storeId).orders.list()}
         className="text-sm text-muted-foreground hover:text-foreground"
       >
         ← {t('detail.back')}

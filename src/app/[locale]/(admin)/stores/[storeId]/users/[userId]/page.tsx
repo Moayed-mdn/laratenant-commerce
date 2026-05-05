@@ -29,7 +29,7 @@ export default async function UserDetailPage({
 
   return (
     <Suspense fallback={<UserDetailSkeleton />}>
-      <UserDetailContent storeId={storeId} userId={userId} locale={locale} />
+      <UserDetailContent storeId={storeId} userId={userId} />
     </Suspense>
   );
 }

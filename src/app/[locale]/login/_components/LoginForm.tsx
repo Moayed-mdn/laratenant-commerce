@@ -9,12 +9,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 import { useTranslations, useLocale } from 'next-intl';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from '@/lib/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useState, useMemo, useTransition } from 'react';
 import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 
 import { login } from '@/lib/actions/auth.actions';
+import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -68,9 +70,11 @@ export function LoginForm() {
         toast.success(t('success.loggedIn'));
 
         const redirectParam = searchParams.get('redirect');
+        // next-intl router adds locale prefix automatically
+        // ROUTES paths are locale-free
         const destination = redirectParam && redirectParam.startsWith(`/${locale}`)
-          ? redirectParam
-          : `/${locale}/stores/${user.store_id}/dashboard`;
+          ? redirectParam.slice(`/${locale}`.length) // strip locale prefix for next-intl router
+          : ROUTES.store(String(user.store_id)).dashboard();
 
         router.push(destination);
       } else {

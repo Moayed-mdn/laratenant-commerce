@@ -6,8 +6,7 @@
  */
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation';
+import { useRouter } from '@/lib/navigation';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -33,8 +32,6 @@ interface Props {
 export default function DeleteProductButton({ storeId, productId, productName }: Props) {
   const t = useTranslations('products');
   const router = useRouter();
-  const params = useParams();
-  const locale = params.locale as string;
   const [open, setOpen] = useState(false);
 
   const canManageProducts = useCan('canManageProducts');
@@ -43,7 +40,7 @@ export default function DeleteProductButton({ storeId, productId, productName }:
     onSuccess: () => {
       toast.success(t('form.deleteSuccess'));
       setOpen(false);
-      router.push(ROUTES.store(locale, storeId).products.list());
+      router.push(ROUTES.store(storeId).products.list());
     },
     onError: () => {
       toast.error(t('form.deleteError'));

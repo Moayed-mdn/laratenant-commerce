@@ -16,10 +16,9 @@ import OrderStatusSelect from './OrderStatusSelect';
 interface Props {
   storeId: string;
   orderId: string;
-  locale: string;
 }
 
-export default async function OrderDetailContent({ storeId, orderId, locale }: Props) {
+export default async function OrderDetailContent({ storeId, orderId }: Props) {
   const t = await getTranslations('orders');
 
   try {
@@ -41,7 +40,7 @@ export default async function OrderDetailContent({ storeId, orderId, locale }: P
           </h1>
         </div>
 
-        <OrderDetailCard order={order} storeId={storeId} locale={locale} />
+        <OrderDetailCard order={order} storeId={storeId} />
 
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">

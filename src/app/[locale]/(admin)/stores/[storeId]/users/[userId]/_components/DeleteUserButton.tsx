@@ -6,8 +6,7 @@
  */
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation';
+import { useRouter } from '@/lib/navigation';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -33,8 +32,6 @@ interface Props {
 export default function DeleteUserButton({ storeId, userId, userName }: Props) {
   const t = useTranslations('users');
   const router = useRouter();
-  const params = useParams();
-  const locale = params.locale as string;
   const [open, setOpen] = useState(false);
 
   // Permission check - must be after all hooks
@@ -45,7 +42,7 @@ export default function DeleteUserButton({ storeId, userId, userName }: Props) {
     onSuccess: () => {
       toast.success(t('detail.deleteSuccess'));
       setOpen(false);
-      router.push(ROUTES.store(locale, storeId).users.list());
+      router.push(ROUTES.store(storeId).users.list());
     },
     onError: () => {
       toast.error(t('detail.deleteError'));
