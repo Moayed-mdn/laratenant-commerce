@@ -50,9 +50,10 @@ export default function OrderFilters({
           <SelectContent>
             <SelectItem value="all">{t('filters.allStatuses')}</SelectItem>
             <SelectItem value="pending">{t('status.pending')}</SelectItem>
-            <SelectItem value="confirmed">{t('status.confirmed')}</SelectItem>
+            <SelectItem value="processing">{t('status.processing')}</SelectItem>
+            <SelectItem value="shipped">{t('status.shipped')}</SelectItem>
+            <SelectItem value="delivered">{t('status.delivered')}</SelectItem>
             <SelectItem value="cancelled">{t('status.cancelled')}</SelectItem>
-            <SelectItem value="refunded">{t('status.refunded')}</SelectItem>
           </SelectContent>
         </Select>
       </div>

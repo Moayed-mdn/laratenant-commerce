@@ -15,31 +15,20 @@ export async function getUsers(
   storeId: string,
   filters: UserFilters
 ): Promise<PaginatedResponse<UserListItem>> {
-  // Build query params - skip defaults
   const params: Record<string, string | number> = {};
 
-  if (filters.search && filters.search !== '') {
-    params.search = filters.search;
-  }
-  if (filters.role !== 'all') {
-    params.role = filters.role;
-  }
-  if (filters.status !== 'all') {
-    params.status = filters.status;
-  }
-  if (filters.page !== 1) {
-    params.page = filters.page;
-  }
-  if (filters.perPage !== 10) {
-    params.per_page = filters.perPage;
-  }
+  if (filters.search && filters.search !== '') params.search = filters.search;
+  if (filters.role !== 'all') params.role = filters.role;
+  if (filters.status !== 'all') params.status = filters.status;
+  if (filters.page !== 1) params.page = filters.page;
+  if (filters.perPage !== 10) params.per_page = filters.perPage;
 
-  const response = await apiClient.get<ApiResponse<PaginatedResponse<UserListItem>>>(
-    API_ROUTES.store(storeId).users.list(),
+  const response = await apiClient.get<PaginatedResponse<UserListItem>>(
+    API_ROUTES.store(storeId).users().list(),
     { params }
   );
 
-  return response.data.data;
+  return response.data;
 }
 
 /**
@@ -50,7 +39,7 @@ export async function getUserDetail(
   userId: string
 ): Promise<UserDetail> {
   const response = await apiClient.get<ApiResponse<UserDetail>>(
-    API_ROUTES.store(storeId).users.detail(userId)
+    API_ROUTES.store(storeId).users().detail(userId)
   );
 
   return response.data.data;
@@ -63,5 +52,5 @@ export async function deleteUser(
   storeId: string,
   userId: string
 ): Promise<void> {
-  await apiClient.delete(API_ROUTES.store(storeId).users.detail(userId));
+  await apiClient.delete(API_ROUTES.store(storeId).users().detail(userId));
 }

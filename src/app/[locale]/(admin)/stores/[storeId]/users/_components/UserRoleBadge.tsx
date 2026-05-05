@@ -11,17 +11,21 @@ import { Badge } from '@/components/ui/badge';
 import type { UserRole } from '@/types/user';
 
 interface Props {
-  role: UserRole;
+  role: UserRole | undefined;
 }
 
 const variantMap: Record<UserRole, 'default' | 'secondary' | 'outline'> = {
   store_admin: 'default',
-  staff: 'secondary',
+  customer: 'secondary',
   super_admin: 'outline',
 };
 
 export function UserRoleBadge({ role }: Props) {
   const t = useTranslations('users');
+
+  if (!role) {
+    return <Badge variant="outline">{t('roles.unknown')}</Badge>;
+  }
 
   return (
     <Badge variant={variantMap[role]}>

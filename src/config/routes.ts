@@ -2,27 +2,36 @@
  * Route configuration.
  * All routes are functions that return strings.
  * storeId param is always a string.
+ * locale param must be included for all client-side navigation.
+ *
+ * IMPORTANT: All client-side links must include the locale prefix
+ * to support multilingual routing (e.g., /en/stores/1/dashboard or /ar/stores/1/dashboard)
+ *
+ * Example usage:
+ *   import { useLocale } from 'next-intl';
+ *   const locale = useLocale();
+ *   href={ROUTES.store(locale, storeId).dashboard()}
  */
 
 export const ROUTES = {
   auth: {
-    login: () => '/login' as const,
-    logout: () => '/logout' as const,
+    login: (locale: string) => `/${locale}/login` as const,
+    logout: (locale: string) => `/${locale}/logout` as const,
   },
-  store: (storeId: string) => ({
-    dashboard: () => `/stores/${storeId}/dashboard` as const,
+  store: (locale: string, storeId: string) => ({
+    dashboard: () => `/${locale}/stores/${storeId}/dashboard` as const,
     users: {
-      list: () => `/stores/${storeId}/users` as const,
-      detail: (userId: string) => `/stores/${storeId}/users/${userId}` as const,
+      list: () => `/${locale}/stores/${storeId}/users` as const,
+      detail: (userId: string) => `/${locale}/stores/${storeId}/users/${userId}` as const,
     },
     products: {
-      list: () => `/stores/${storeId}/products` as const,
-      new: () => `/stores/${storeId}/products/new` as const,
-      edit: (productId: string) => `/stores/${storeId}/products/${productId}` as const,
+      list: () => `/${locale}/stores/${storeId}/products` as const,
+      new: () => `/${locale}/stores/${storeId}/products/new` as const,
+      edit: (productId: string) => `/${locale}/stores/${storeId}/products/${productId}` as const,
     },
     orders: {
-      list: () => `/stores/${storeId}/orders` as const,
-      detail: (orderId: string) => `/stores/${storeId}/orders/${orderId}` as const,
+      list: () => `/${locale}/stores/${storeId}/orders` as const,
+      detail: (orderId: string) => `/${locale}/stores/${storeId}/orders/${orderId}` as const,
     },
   }),
 } as const;

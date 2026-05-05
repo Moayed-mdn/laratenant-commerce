@@ -7,6 +7,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -20,7 +21,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useDeleteUser } from '@/hooks/users/useDeleteUser';
-import { useAuthStore, selectCan } from '@/stores/authStore';
+import { useCan } from '@/stores/authStore';
+import { ROUTES } from '@/config/routes';
 
 interface Props {
   storeId: string;
@@ -31,22 +33,27 @@ interface Props {
 export default function DeleteUserButton({ storeId, userId, userName }: Props) {
   const t = useTranslations('users');
   const router = useRouter();
+  const params = useParams();
+  const locale = params.locale as string;
   const [open, setOpen] = useState(false);
-  
-  // Permission check
-  const can = useAuthStore(selectCan);
-  if (!can('canManageUsers')) return null;
 
+  // Permission check - must be after all hooks
+  const canManageUsers = useCan('canManageUsers');
+
+  // Always call useDeleteUser to maintain hook order, disable when no permission
   const mutation = useDeleteUser(storeId, {
     onSuccess: () => {
       toast.success(t('detail.deleteSuccess'));
       setOpen(false);
-      router.push(`/stores/${storeId}/users`);
+      router.push(ROUTES.store(locale, storeId).users.list());
     },
     onError: () => {
       toast.error(t('detail.deleteError'));
     },
   });
+
+  // Early return after all hooks are called
+  if (!canManageUsers) return null;
 
   const handleDelete = () => {
     mutation.mutate(userId);

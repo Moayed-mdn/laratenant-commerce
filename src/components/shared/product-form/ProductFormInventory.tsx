@@ -69,6 +69,11 @@ export function ProductFormInventory({ control, errors }: Props) {
                 type="number"
                 min="0"
                 {...field}
+                value={field.value ?? ''}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  field.onChange(value === '' ? null : parseInt(value, 10));
+                }}
               />
             )}
           />

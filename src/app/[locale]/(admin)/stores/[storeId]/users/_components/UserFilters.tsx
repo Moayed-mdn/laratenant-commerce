@@ -49,9 +49,9 @@ export default function UserFilters({
       </div>
       <Select value={role} onValueChange={onRoleChange}>
         <SelectTrigger className="w-[150px]" aria-label={t('filters.role')}>
-          <SelectValue placeholder={t('filters.role')} />
+          <SelectValue placeholder='iam here' />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent alignItemWithTrigger={false}>
           <SelectItem value="all">{t('filters.allRoles')}</SelectItem>
           <SelectItem value="store_admin">{t('roles.store_admin')}</SelectItem>
           <SelectItem value="staff">{t('roles.staff')}</SelectItem>
@@ -62,7 +62,7 @@ export default function UserFilters({
         <SelectTrigger className="w-[150px]" aria-label={t('filters.status')}>
           <SelectValue placeholder={t('filters.status')} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent alignItemWithTrigger={false}>
           <SelectItem value="all">{t('filters.allStatuses')}</SelectItem>
           <SelectItem value="verified">{t('status.verified')}</SelectItem>
           <SelectItem value="unverified">{t('status.unverified')}</SelectItem>

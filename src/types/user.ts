@@ -3,16 +3,20 @@
  */
 
 /** User role union type */
-export type UserRole = 'store_admin' | 'staff' | 'super_admin';
+export type UserRole = 'super_admin' | 'store_admin' | 'customer';
 
 /** Admin user type */
 export interface AdminUser {
   id: number;
   name: string;
   email: string;
-  role: UserRole;
+  phone?: string | null;
+  avatar?: string | null;
+  email_verified_at?: string | null;
+  has_password: boolean;
+  has_google_linked: boolean;
   store_id: number | null;
-  email_verified_at: string | null;
+  role?: UserRole;
   created_at: string;
   updated_at: string;
 }

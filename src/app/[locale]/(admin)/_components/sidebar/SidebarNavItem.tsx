@@ -37,7 +37,7 @@ export function SidebarNavItem({
         aria-current={isActive ? 'page' : undefined}
         title={isCollapsed ? label : undefined}
         className={cn(
-          'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
+          'flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors text-sidebar-accent-foreground',
           'hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
           isActive && 'bg-sidebar-accent text-sidebar-accent-foreground',
           isCollapsed && 'justify-center px-2'

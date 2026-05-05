@@ -36,7 +36,7 @@ export default function UsersContent({ storeId, initialFilters }: Props) {
   // Build filters object with debounced search
   const filters: UserFiltersType = {
     search: debouncedSearch,
-    role: role as 'all' | 'store_admin' | 'staff' | 'super_admin',
+    role: role as 'all' | 'store_admin' | 'customer' | 'super_admin',
     status: status as 'all' | 'verified' | 'unverified',
     page,
     perPage,
@@ -70,13 +70,15 @@ export default function UsersContent({ storeId, initialFilters }: Props) {
     }
   };
 
+  console.log('users data:', data, 'meta:', data?.meta);
+
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold">{t('title')}</h1>
         <p className="text-muted-foreground">{t('subtitle')}</p>
       </div>
-
+      
       <UserFilters
         search={search}
         onSearchChange={handleSearchChange}
@@ -88,7 +90,7 @@ export default function UsersContent({ storeId, initialFilters }: Props) {
 
       <UsersTable
         users={data?.data ?? []}
-        pagination={data?.meta}
+        pagination={data?.meta.pagination}
         page={page}
         onPageChange={setPage}
         perPage={perPage}

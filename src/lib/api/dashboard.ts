@@ -19,7 +19,7 @@ import type {
  */
 export async function getDashboardStats(storeId: string): Promise<DashboardStats> {
   const response = await apiClient.get<ApiResponse<DashboardStats>>(
-    API_ROUTES.store(storeId).dashboard.stats()
+    API_ROUTES.store(storeId).dashboard().stats()
   );
   return response.data.data;
 }
@@ -30,7 +30,7 @@ export async function getDashboardStats(storeId: string): Promise<DashboardStats
  */
 export async function getRecentOrders(storeId: string): Promise<RecentOrderItem[]> {
   const response = await apiClient.get<ApiResponse<RecentOrderItem[]>>(
-    API_ROUTES.store(storeId).dashboard.recentOrders()
+    API_ROUTES.store(storeId).dashboard().recentOrders()
   );
   return response.data.data;
 }
@@ -41,7 +41,7 @@ export async function getRecentOrders(storeId: string): Promise<RecentOrderItem[
  */
 export async function getTopProducts(storeId: string): Promise<TopProductItem[]> {
   const response = await apiClient.get<ApiResponse<TopProductItem[]>>(
-    API_ROUTES.store(storeId).dashboard.topProducts()
+    API_ROUTES.store(storeId).dashboard().topProducts()
   );
   return response.data.data;
 }

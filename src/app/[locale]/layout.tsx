@@ -5,6 +5,7 @@ import { getMessages } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 import { Toaster } from '@/components/ui/sonner';
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import '../globals.css';
 
 const geistSans = Geist({
@@ -43,15 +44,15 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
   return (
-    <html lang={locale} dir={dir} className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-background">
+    <div lang={locale} dir={dir} className="min-h-full flex flex-col bg-background">
+      <NuqsAdapter>
         <QueryProvider>
           <NextIntlClientProvider messages={messages}>
             {children}
             <Toaster />
           </NextIntlClientProvider>
         </QueryProvider>
-      </body>
-    </html>
+      </NuqsAdapter>
+    </div>
   );
 }

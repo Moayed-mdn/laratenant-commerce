@@ -25,11 +25,11 @@ export default async function UserDetailPage({
 }: {
   params: Promise<{ storeId: string; userId: string; locale: string }>;
 }) {
-  const { storeId, userId } = await params;
+  const { storeId, userId, locale } = await params;
 
   return (
     <Suspense fallback={<UserDetailSkeleton />}>
-      <UserDetailContent storeId={storeId} userId={userId} />
+      <UserDetailContent storeId={storeId} userId={userId} locale={locale} />
     </Suspense>
   );
 }

@@ -40,11 +40,14 @@ export const selectIsLoading = (state: AuthStore): boolean => state.isLoading;
 export const selectUserRole = (state: AuthStore): UserRole | null => state.user?.role ?? null;
 
 /**
- * Selector to check if the current user has a specific permission.
- * Returns false if no user is authenticated.
+ * Check if the current user has a specific permission.
+ * Use this as a regular function, not a selector.
+ * Example: `const canManageUsers = useCan('canManageUsers');`
  */
-export const selectCan = (state: AuthStore) => (permission: PermissionKey): boolean => {
-  const user = state.user;
-  if (!user) return false;
-  return hasPermission(user.role, permission);
-};
+export function useCan(permission: PermissionKey): boolean {
+  return useAuthStore((state) => {
+    const user = state.user;
+    if (!user || !user.role) return false;
+    return hasPermission(user.role, permission);
+  });
+}

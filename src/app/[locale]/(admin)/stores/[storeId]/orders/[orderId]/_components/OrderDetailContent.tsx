@@ -16,14 +16,15 @@ import OrderStatusSelect from './OrderStatusSelect';
 interface Props {
   storeId: string;
   orderId: string;
+  locale: string;
 }
 
-export default async function OrderDetailContent({ storeId, orderId }: Props) {
+export default async function OrderDetailContent({ storeId, orderId, locale }: Props) {
   const t = await getTranslations('orders');
 
   try {
     const response = await serverFetch<ApiResponse<AdminOrder>>(
-      API_ROUTES.store(storeId).orders.detail(orderId)
+      API_ROUTES.store(storeId).orders().detail(orderId)
     );
 
     if (!response.data) {
@@ -40,7 +41,7 @@ export default async function OrderDetailContent({ storeId, orderId }: Props) {
           </h1>
         </div>
 
-        <OrderDetailCard order={order} storeId={storeId} />
+        <OrderDetailCard order={order} storeId={storeId} locale={locale} />
 
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">

@@ -1,6 +1,7 @@
 /**
  * Server-side fetch wrapper for RSC use ONLY.
  * Never use Axios here. Use native fetch only.
+ * Uses Bearer token authentication from HttpOnly cookie.
  */
 
 import { cookies } from 'next/headers';
@@ -8,6 +9,8 @@ import { APP_CONFIG } from '@/config/app';
 import type { ApiError } from '@/types/api';
 import type { HttpMethod } from '@/types/api';
 import { logger } from '@/lib/logger';
+
+const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME ?? 'auth_token';
 
 export interface ServerFetchOptions {
   method?: HttpMethod;
@@ -17,26 +20,45 @@ export interface ServerFetchOptions {
 }
 
 /**
+ * Get Bearer token from auth cookie for server-side use.
+ */
+export async function getAuthToken(): Promise<string | null> {
+  const cookieStore = await cookies();
+  return cookieStore.get(AUTH_COOKIE_NAME)?.value ?? null;
+}
+
+/**
+ * Get auth headers with Bearer token.
+ */
+export async function getAuthHeaders(): Promise<HeadersInit> {
+  const token = await getAuthToken();
+  
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  };
+
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  return headers;
+}
+
+/**
  * Server-side fetch function for use in RSC.
- * Forwards cookies for Sanctum authentication.
+ * Uses Bearer token authentication from HttpOnly cookie.
  */
 export async function serverFetch<T>(
   path: string,
   options?: ServerFetchOptions
 ): Promise<T> {
-  const cookieStore = await cookies();
   const fullUrl = `${APP_CONFIG.apiBaseUrl}${path}`;
-
-  // Build cookie header from all cookies for Sanctum authentication
-  const cookieHeader = cookieStore.getAll()
-    .map(({ name, value }) => `${name}=${value}`)
-    .join('; ');
+  const authHeaders = await getAuthHeaders();
 
   const headers: HeadersInit = {
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
+    ...authHeaders,
     'X-Requested-With': 'XMLHttpRequest',
-    Cookie: cookieHeader, // Forward all cookies for Sanctum
   };
 
   logger.debug(`[Server Fetch] ${options?.method ?? 'GET'} ${fullUrl}`);

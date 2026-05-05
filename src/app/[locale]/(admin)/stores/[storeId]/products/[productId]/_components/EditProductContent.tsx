@@ -22,7 +22,7 @@ export default async function EditProductContent({ storeId, productId }: Props) 
 
   try {
     const response = await serverFetch<ApiResponse<AdminProduct>>(
-      API_ROUTES.store(storeId).products.detail(productId)
+      API_ROUTES.store(storeId).products().detail(productId)
     );
 
     const product = mapProductDetail(response.data);

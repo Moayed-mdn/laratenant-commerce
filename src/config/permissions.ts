@@ -22,10 +22,10 @@ export const PERMISSIONS: Record<UserRole, RolePermissions> = {
     canManageStoreSettings: true,
     canManageAllStores: false,
   },
-  staff: {
+  customer: {
     canManageUsers: false,
-    canManageProducts: true,
-    canManageOrders: true,
+    canManageProducts: false,
+    canManageOrders: false,
     canViewDashboard: true,
     canManageStoreSettings: false,
     canManageAllStores: false,

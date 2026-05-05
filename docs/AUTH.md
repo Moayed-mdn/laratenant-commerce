@@ -8,11 +8,11 @@ This document contains the Sanctum auth, httpOnly cookies, middleware, and auth 
 
 ## How It Works
 
-1. User logs in → backend returns Sanctum token
-2. Token stored in httpOnly cookie via Next.js API route
-3. Every request sends cookie automatically (`withCredentials: true`)
-4. `middleware.ts` protects all admin routes
-5. On 401 → redirect to login
+1. User logs in → backend returns a Bearer token.
+2. Token is stored in a client-accessible cookie.
+3. Every request reads the token from the cookie and sends it in the `Authorization` header.
+4. `middleware.ts` protects all admin routes.
+5. On 401 → redirect to login.
 
 ## Zustand Auth Store
 
@@ -35,8 +35,6 @@ Redirects to `/login` if no valid session.
 
 ## Rules
 
-- Token NEVER stored in localStorage
-- Token NEVER stored in sessionStorage
-- Token ALWAYS in httpOnly cookie
-- Auth state in Zustand (user info only — not token)
-- Every admin page is protected by middleware
+- Token is stored in a client-accessible cookie.
+- Auth state in Zustand (user info only — not token).
+- Every admin page is protected by middleware.

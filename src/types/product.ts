@@ -77,10 +77,13 @@ export interface AdminProduct {
 export interface ProductListItemView {
   id: number;
   name: string;
+  slug: string;
   status: ProductStatus;
   price: string;           // formatted currency
-  stock: number;
-  thumbnail: string | null;
+  compareAtPrice: string | null;
+  quantity: number;
+  sku: string | null;
+  firstImage: string | null;
   category: string | null;
   createdAt: string;       // formatted date
 }

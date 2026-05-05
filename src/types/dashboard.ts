@@ -83,7 +83,7 @@ export interface RecentOrderItemView {
 export interface TopProductItem {
   id: number;
   name: string;
-  status: ProductStatus;
+  status?: ProductStatus;
   total_sold: number;
   revenue: number;
   currency: string;

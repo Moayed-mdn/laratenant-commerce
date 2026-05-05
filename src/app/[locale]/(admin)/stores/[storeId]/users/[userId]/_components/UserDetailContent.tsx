@@ -15,19 +15,20 @@ import UserDetailCard from './UserDetailCard';
 interface Props {
   storeId: string;
   userId: string;
+  locale: string;
 }
 
-export default async function UserDetailContent({ storeId, userId }: Props) {
+export default async function UserDetailContent({ storeId, userId, locale }: Props) {
   const t = await getTranslations('users');
 
   try {
     const response = await serverFetch<ApiResponse<UserDetail>>(
-      API_ROUTES.store(storeId).users.detail(userId)
+      API_ROUTES.store(storeId).users().detail(userId)
     );
 
     const user = mapUserDetail(response.data);
 
-    return <UserDetailCard user={user} storeId={storeId} />;
+    return <UserDetailCard user={user} storeId={storeId} locale={locale} />;
   } catch (error) {
     logger.error('Failed to load user detail', { error });
 

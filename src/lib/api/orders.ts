@@ -33,12 +33,14 @@ export async function getOrders(
     params.per_page = filters.perPage;
   }
 
-  const response = await apiClient.get<ApiResponse<PaginatedResponse<AdminOrder>>>(
+  
+  const response = await apiClient.get<PaginatedResponse<AdminOrder>>(
     API_ROUTES.store(storeId).orders().list(),
     { params }
   );
 
-  return response.data.data;
+  console.log('response.data', response.data);
+  return response.data;
 }
 
 /**
@@ -48,11 +50,11 @@ export async function getOrderDetail(
   storeId: string,
   orderId: string
 ): Promise<AdminOrder> {
-  const response = await apiClient.get<ApiResponse<AdminOrder>>(
+  const response = await apiClient.get<AdminOrder>(
     API_ROUTES.store(storeId).orders().detail(orderId)
   );
 
-  return response.data.data;
+  return response.data;
 }
 
 /**

@@ -31,11 +31,12 @@ export async function generateMetadata({
  * Dashboard page component with Suspense boundary.
  */
 export default async function DashboardPage({ params }: DashboardPageProps) {
-  const { storeId } = await params;
+  const { storeId, locale } = await params;
 
   return (
     <Suspense fallback={<DashboardSkeleton />}>
-      <DashboardContent storeId={storeId} />
+      <DashboardContent storeId={storeId} locale={locale} />
     </Suspense>
+
   );
 }

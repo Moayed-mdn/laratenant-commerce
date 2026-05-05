@@ -19,6 +19,7 @@ const variantMap: Record<OrderStatus, 'outline' | 'default' | 'destructive' | 's
   confirmed: 'default',
   cancelled: 'destructive',
   refunded: 'secondary',
+  delivered: 'default',
 };
 
 /**

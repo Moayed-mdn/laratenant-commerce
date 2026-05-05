@@ -21,7 +21,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useDeleteProduct } from '@/hooks/products/useDeleteProduct';
-import { useAuthStore, selectCan } from '@/stores/authStore';
+import { useCan } from '@/stores/authStore';
 import { ROUTES } from '@/config/routes';
 
 interface Props {
@@ -37,19 +37,20 @@ export default function DeleteProductButton({ storeId, productId, productName }:
   const locale = params.locale as string;
   const [open, setOpen] = useState(false);
 
-  const can = useAuthStore(selectCan);
-  if (!can('canManageProducts')) return null;
+  const canManageProducts = useCan('canManageProducts');
 
   const mutation = useDeleteProduct(storeId, productId, {
     onSuccess: () => {
       toast.success(t('form.deleteSuccess'));
       setOpen(false);
-      router.push(`/${locale}${ROUTES.store(storeId).products.list()}`);
+      router.push(ROUTES.store(locale, storeId).products.list());
     },
     onError: () => {
       toast.error(t('form.deleteError'));
     },
   });
+
+  if (!canManageProducts) return null;
 
   const handleDelete = () => {
     mutation.mutate();
@@ -57,11 +58,13 @@ export default function DeleteProductButton({ storeId, productId, productName }:
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger>
-        <Button variant="destructive" size="sm">
-          {t('form.delete')}
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <Button variant="destructive" size="sm">
+            {t('form.delete')}
+          </Button>
+        }
+      />
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t('form.delete')}</DialogTitle>

@@ -21,12 +21,13 @@ import { OrderStatusBadge } from './OrderStatusBadge';
 interface RecentOrdersTableProps {
   orders: RecentOrderItemView[];
   storeId: string;
+  locale: string;
 }
 
 /**
  * Table displaying recent orders for the dashboard.
  */
-export async function RecentOrdersTable({ orders, storeId }: RecentOrdersTableProps) {
+export async function RecentOrdersTable({ orders, storeId, locale }: RecentOrdersTableProps) {
   const t = await getTranslations('dashboard');
 
   return (
@@ -53,7 +54,7 @@ export async function RecentOrdersTable({ orders, storeId }: RecentOrdersTablePr
                 <TableRow key={order.id}>
                   <TableCell>
                     <Link
-                      href={ROUTES.store(storeId).orders.detail(String(order.id))}
+                      href={ROUTES.store(locale, storeId).orders.detail(String(order.id))}
                       className="font-medium hover:underline text-primary"
                     >
                       {order.orderNumber}

@@ -28,7 +28,7 @@ export default function CreateProductForm({ storeId }: Props) {
   const mutation = useCreateProduct(storeId, {
     onSuccess: (product) => {
       toast.success(t('form.createSuccess'));
-      router.push(`/${locale}${ROUTES.store(storeId).products.edit(String(product.id))}`);
+      router.push(ROUTES.store(locale, storeId).products.edit(String(product.id)));
     },
     onError: (error) => {
       toast.error(error.message);

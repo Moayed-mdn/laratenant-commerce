@@ -3,16 +3,16 @@
 /**
  * SidebarNav component.
  * Renders navigation items based on user permissions.
- * 
+ *
  * Reason for 'use client': needs active route detection via usePathname.
  */
 
 import { usePathname } from 'next/navigation';
-import { useAuthStore, selectCan } from '@/stores/authStore';
+import { useCan } from '@/stores/authStore';
 import { useUiStore, selectSidebarCollapsed } from '@/stores/uiStore';
 import { SidebarNavItem } from './SidebarNavItem';
 import { ROUTES } from '@/config/routes';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { LayoutDashboard, Users, Package, ShoppingCart, type LucideIcon } from 'lucide-react';
 
 interface NavItem {
@@ -32,35 +32,38 @@ interface SidebarNavProps {
  */
 export function SidebarNav({ storeId }: SidebarNavProps) {
   const pathname = usePathname();
-  const can = useAuthStore(selectCan);
+  const canManageUsers = useCan('canManageUsers');
+  const canManageProducts = useCan('canManageProducts');
+  const canManageOrders = useCan('canManageOrders');
   const isCollapsed = useUiStore(selectSidebarCollapsed);
   const t = useTranslations('nav');
+  const locale = useLocale();
 
   const navItems: NavItem[] = [
     {
       label: t('dashboard'),
-      href: ROUTES.store(storeId).dashboard(),
+      href: ROUTES.store(locale, storeId).dashboard(),
       icon: LayoutDashboard,
       show: true,
       exact: true,
     },
     {
       label: t('users'),
-      href: ROUTES.store(storeId).users.list(),
+      href: ROUTES.store(locale, storeId).users.list(),
       icon: Users,
-      show: can('canManageUsers'),
+      show: canManageUsers,
     },
     {
       label: t('products'),
-      href: ROUTES.store(storeId).products.list(),
+      href: ROUTES.store(locale, storeId).products.list(),
       icon: Package,
-      show: can('canManageProducts'),
+      show: canManageProducts,
     },
     {
       label: t('orders'),
-      href: ROUTES.store(storeId).orders.list(),
+      href: ROUTES.store(locale, storeId).orders.list(),
       icon: ShoppingCart,
-      show: can('canManageOrders'),
+      show: canManageOrders,
     },
   ];
 

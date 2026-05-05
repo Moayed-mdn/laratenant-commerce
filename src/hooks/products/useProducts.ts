@@ -12,15 +12,13 @@ import type { ProductFilters } from '@/schemas/products';
 import type { AdminProduct, ProductListItemView } from '@/types/product';
 import type { PaginatedResponse, ApiError } from '@/types/api';
 import { mapProductListItem } from '@/lib/mappers/products';
+import { selectPaginatedList } from '@/lib/mappers/pagination';
 
 export function useProducts(storeId: string, filters: ProductFilters) {
   return useQuery<PaginatedResponse<AdminProduct>, ApiError, PaginatedResponse<ProductListItemView>>({
     queryKey: queryKeys.products(storeId).list(filters),
     queryFn: () => getProducts(storeId, filters),
     staleTime: QUERY_CONFIG.staleTime,
-    select: (data) => ({
-      ...data,
-      data: data.data.map((item) => mapProductListItem(item)),
-    }),
+    select: selectPaginatedList(mapProductListItem),
   });
 }

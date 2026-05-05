@@ -86,7 +86,8 @@
       "pending": "Pending",
       "confirmed": "Confirmed",
       "cancelled": "Cancelled",
-      "refunded": "Refunded"
+      "refunded": "Refunded",
+      "delivered": "Delivered"
     },
     "paymentStatus": {
       "pending": "Pending",
@@ -103,6 +104,7 @@
   "users": {
     "title": "Customers",
     "subtitle": "Manage your store customers",
+    "loading": "Loading...",
     "filters": {
       "search": "Search",
       "searchPlaceholder": "Search by name or email...",
@@ -114,7 +116,9 @@
     "roles": {
       "store_admin": "Store Admin",
       "staff": "Staff",
-      "super_admin": "Super Admin"
+      "super_admin": "Super Admin",
+      "customer": "Customer",
+      "unknown": "Unknown"
     },
     "status": {
       "verified": "Verified",
@@ -148,7 +152,9 @@
       "deleteConfirm": "Are you sure you want to delete this customer? This action cannot be undone.",
       "deleteSuccess": "Customer deleted",
       "deleteError": "Failed to delete customer"
-    }
+    },
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
   "products": {
     "title": "Products",
@@ -264,13 +270,17 @@
       "view": "View",
       "empty": "No orders found",
       "itemCount": "{count} item",
-      "itemCountPlural": "{count} items"
+      "itemCountPlural": "{count} items",
+      "previous": "Previous",
+      "page": "Page {current} of {total}",
+      "next": "Next"
     },
     "status": {
       "pending": "Pending",
-      "confirmed": "Confirmed",
+      "processing": "Processing",
+      "shipped": "Shipped",
       "cancelled": "Cancelled",
-      "refunded": "Refunded"
+      "delivered": "Delivered"
     },
     "paymentStatus": {
       "pending": "Pending",

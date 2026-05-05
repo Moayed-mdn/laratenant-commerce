@@ -4,26 +4,35 @@
 
 /** Wraps all single-resource API responses */
 export interface ApiResponse<T> {
+  status: boolean;
   data: T;
   message: string;
 }
 
 /** Wraps all paginated list responses */
 export interface PaginatedResponse<T> {
+  status: boolean;
+  message: string;
   data: T[];
-  meta: PaginationMeta;
-  links: PaginationLinks;
+  meta: {
+    pagination: PaginationMeta;
+  };
 }
 
 /** Pagination metadata */
 export interface PaginationMeta {
-  current_page: number;
-  from: number | null;
-  last_page: number;
-  per_page: number;
-  to: number | null;
   total: number;
+  count: number;
+  per_page: number;
+  current_page: number;
+  total_pages: number;
+  // Computed client-side (optional)
+  from?: number;
+  to?: number;
 }
+
+
+
 
 /** Pagination links */
 export interface PaginationLinks {

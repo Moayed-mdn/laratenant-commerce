@@ -24,7 +24,8 @@ export function mapProductListItem(
       : null,
     quantity: raw.quantity,
     sku: raw.sku,
-    firstImage: raw.images[0]?.url ?? null,
+    firstImage: raw.images?.[0]?.url ?? null,
+    category: null, // Category name not available in raw data, only category_id
     createdAt: formatDate(raw.created_at),
   };
 }

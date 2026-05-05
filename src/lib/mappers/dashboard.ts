@@ -83,7 +83,7 @@ export function mapTopProduct(
   return {
     id: raw.id,
     name: raw.name,
-    status: raw.status,
+    status: raw.status ?? 'draft',
     totalSold: raw.total_sold,
     totalSoldFormatted: raw.total_sold.toLocaleString(),
     revenue: formatCurrency(raw.revenue, currency),

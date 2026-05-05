@@ -65,7 +65,7 @@ This document describes all 22 foundation files created for the multi-store e-co
 ### Middleware
 - Public routes explicitly allowed: `/login`, `/logout`, `/_next/*`, `/api/*`, `/favicon.ico`
 - Redirect preserves original URL via `redirect` query param
-- Checks for `laravel_session` cookie (Laravel Sanctum default)
+- Checks for `ecommerce_session` cookie (Laravel Sanctum default)
 
 ### Query Client
 - Queries retry up to 2 times with exponential backoff
@@ -82,7 +82,7 @@ This document describes all 22 foundation files created for the multi-store e-co
 - Error responses: `{ message: string, errors?: Record<string, string[]>, status: number }`
 
 ### Authentication
-- Laravel Sanctum with httpOnly cookies (`laravel_session`)
+- Laravel Sanctum with httpOnly cookies (`ecommerce_session`)
 - CSRF token handled automatically by Sanctum's `X-Requested-With` header
 - Session expiry signaled via 401 response
 
@@ -191,6 +191,6 @@ if (typeof window !== 'undefined') {
 
 **Issue**: Needed to confirm exact cookie name for Laravel Sanctum.
 
-**Fix verified**: Already uses `request.cookies.has('laravel_session')` which is the correct Laravel default session cookie name.
+**Fix verified**: Already uses `request.cookies.has('ecommerce_session')` which is the correct Laravel default session cookie name.
 
 No change was needed — the implementation was already correct per the requirement.

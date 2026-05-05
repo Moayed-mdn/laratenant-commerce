@@ -14,20 +14,21 @@ export interface LoginCredentials {
 }
 
 export interface LoginResponse {
+  token: string;
   user: AdminUser;
-  message: string;
 }
 
 /**
  * Login user with credentials.
- * Fetches CSRF cookie before posting credentials.
  */
 export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
-  // Get CSRF cookie first (required for Laravel Sanctum)
-  await apiClient.get(API_ROUTES.auth.csrfCookie());
+  const response = await apiClient.post<ApiResponse<LoginResponse>>(
+    API_ROUTES.auth.login(),
+    credentials
+  );
 
-  const response = await apiClient.post<LoginResponse>(API_ROUTES.auth.login(), credentials);
-  return response.data;
+  // API returns { status, message, data: { token, user } }
+  return response.data.data;
 }
 
 /**

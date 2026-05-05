@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useAuthStore, selectCan } from '@/stores/authStore';
+import { useCan } from '@/stores/authStore';
 import { useUpdateOrderStatus } from '@/hooks/orders/useUpdateOrderStatus';
 import { toast } from 'sonner';
 import {
@@ -26,7 +26,7 @@ export default function OrderStatusSelect({
   storeId,
   orderId,
 }: OrderStatusSelectProps) {
-  const can = useAuthStore(selectCan);
+  const canManageOrders = useCan('canManageOrders');
   const t = useTranslations('orders');
 
   const { mutate, isPending } = useUpdateOrderStatus(storeId, orderId, {
@@ -38,7 +38,7 @@ export default function OrderStatusSelect({
     },
   });
 
-  if (!can('canManageOrders')) {
+  if (!canManageOrders) {
     return <OrderStatusBadge status={currentStatus} />;
   }
 
@@ -61,7 +61,7 @@ export default function OrderStatusSelect({
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {(['pending', 'confirmed', 'cancelled', 'refunded'] as const).map(
+          {(['pending', 'processing', 'shipped', 'delivered', 'cancelled'] as const).map(
             (status) => (
               <SelectItem key={status} value={status}>
                 {t(`status.${status}`)}

@@ -29,13 +29,13 @@ export async function getProducts(
   if (filters.perPage !== 10) {
     params.per_page = filters.perPage;
   }
-
-  const response = await apiClient.get<ApiResponse<PaginatedResponse<AdminProduct>>>(
-    API_ROUTES.store(storeId).products.list(),
+  
+  const response = await apiClient.get<PaginatedResponse<AdminProduct>>(
+    API_ROUTES.store(storeId).products().list(),
     { params }
   );
 
-  return response.data.data;
+  return response.data;
 }
 
 /**
@@ -46,7 +46,7 @@ export async function getProductDetail(
   productId: string
 ): Promise<AdminProduct> {
   const response = await apiClient.get<ApiResponse<AdminProduct>>(
-    API_ROUTES.store(storeId).products.detail(productId)
+    API_ROUTES.store(storeId).products().detail(productId)
   );
 
   return response.data.data;
@@ -60,7 +60,7 @@ export async function createProduct(
   payload: ProductCreatePayload
 ): Promise<AdminProduct> {
   const response = await apiClient.post<ApiResponse<AdminProduct>>(
-    API_ROUTES.store(storeId).products.list(),
+    API_ROUTES.store(storeId).products().list(),
     payload
   );
 
@@ -76,7 +76,7 @@ export async function updateProduct(
   payload: ProductUpdatePayload
 ): Promise<AdminProduct> {
   const response = await apiClient.patch<ApiResponse<AdminProduct>>(
-    API_ROUTES.store(storeId).products.detail(productId),
+    API_ROUTES.store(storeId).products().detail(productId),
     payload
   );
 
@@ -90,5 +90,5 @@ export async function deleteProduct(
   storeId: string,
   productId: string
 ): Promise<void> {
-  await apiClient.delete(API_ROUTES.store(storeId).products.detail(productId));
+  await apiClient.delete(API_ROUTES.store(storeId).products().detail(productId));
 }

@@ -2,29 +2,32 @@
 
 /**
  * Login form component with validation and submission handling.
+ * Uses server action for Bearer token auth with HttpOnly cookie.
  */
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useTransition } from 'react';
 import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 
-import { useLogin } from '@/hooks/auth/useLogin';
+import { login } from '@/lib/actions/auth.actions';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ROUTES } from '@/config/routes';
-import type { ApiError } from '@/types/api';
 
 export function LoginForm() {
   const t = useTranslations('login');
   const router = useRouter();
   const searchParams = useSearchParams();
+  const locale = useLocale();
+  const { setUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   // Build schema with translated error messages - memoized to prevent recreation
   const LoginSchema = useMemo(() => z.object({
@@ -43,33 +46,48 @@ export function LoginForm() {
     resolver: zodResolver(LoginSchema),
   });
 
-  const { mutate, isPending } = useLogin({
-    onSuccess: (storeId) => {
-      if (!storeId) {
-        toast.error(t('errors.noStoreAssigned'));
-      } else {
-        toast.success(t('success.loggedIn'));
-        router.push(ROUTES.store(storeId).dashboard());
-      }
-    },
-    onError: (error: ApiError) => {
-      // Handle field-level errors from API
-      if (error.errors && typeof error.errors === 'object') {
-        if (error.errors.email?.[0]) {
-          setError('email', { message: error.errors.email[0] });
-        }
-        if (error.errors.password?.[0]) {
-          setError('password', { message: error.errors.password[0] });
-        }
-      }
-
-      // Always show toast for general error
-      toast.error(error.message || t('errors.genericError'));
-    },
-  });
-
   const onSubmit = handleSubmit(async (data) => {
-    await mutate(data);
+    startTransition(async () => {
+      const formData = new FormData();
+      formData.append('email', data.email);
+      formData.append('password', data.password);
+
+      const result = await login(formData);
+
+      if (result.success) {
+        const user = result.user;
+
+        if (!user.store_id) {
+          toast.error(t('errors.noStoreAssigned'));
+          return;
+        }
+
+        // Update auth context with user
+        setUser(user);
+
+        toast.success(t('success.loggedIn'));
+
+        const redirectParam = searchParams.get('redirect');
+        const destination = redirectParam && redirectParam.startsWith(`/${locale}`)
+          ? redirectParam
+          : `/${locale}/stores/${user.store_id}/dashboard`;
+
+        router.push(destination);
+      } else {
+        // Handle field-level errors from API
+        if (result.errors && typeof result.errors === 'object') {
+          if (result.errors.email?.[0]) {
+            setError('email', { message: result.errors.email[0] });
+          }
+          if (result.errors.password?.[0]) {
+            setError('password', { message: result.errors.password[0] });
+          }
+        }
+
+        // Always show toast for general error
+        toast.error(result.error || t('errors.genericError'));
+      }
+    });
   });
 
   return (
@@ -80,6 +98,7 @@ export function LoginForm() {
         <Input
           id="email"
           type="email"
+          value='super@test.com'
           autoComplete="email"
           placeholder={t('emailPlaceholder')}
           disabled={isPending || isSubmitting}
@@ -96,6 +115,7 @@ export function LoginForm() {
         <div className="relative">
           <Input
             id="password"
+            value='password'
             type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
             placeholder={t('passwordPlaceholder')}

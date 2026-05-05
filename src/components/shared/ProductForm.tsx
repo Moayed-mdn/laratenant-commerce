@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { z } from 'zod';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -49,6 +49,7 @@ export default function ProductForm({
 }: Props) {
   const t = useTranslations('products');
   const dashboardT = useTranslations('dashboard');
+  const locale = useLocale();
 
   const defaultValues: ProductFormData = {
     name: initialData?.name ?? '',
@@ -96,7 +97,7 @@ export default function ProductForm({
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <div className="flex items-center gap-4">
-        <Link href={ROUTES.store(storeId).products.list()}>
+        <Link href={ROUTES.store(locale, storeId).products.list()}>
           <Button variant="ghost" size="icon" type="button">
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -137,11 +138,10 @@ export default function ProductForm({
             <div className="space-y-2">
               <Label htmlFor="status">{t('form.fields.status')}</Label>
               <Select
-                value={status}
+                value={status ?? 'draft'}
                 onValueChange={(value) =>
                   form.setValue('status', value as 'active' | 'draft' | 'archived')
-                }
-              >
+                }>
                 <SelectTrigger id="status">
                   <SelectValue />
                 </SelectTrigger>
@@ -163,7 +163,7 @@ export default function ProductForm({
       </Card>
 
       <div className="flex justify-end gap-2">
-        <Link href={ROUTES.store(storeId).products.list()}>
+        <Link href={ROUTES.store(locale, storeId).products.list()}>
           <Button variant="outline" type="button">
             {t('cancel')}
           </Button>

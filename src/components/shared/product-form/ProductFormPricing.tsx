@@ -36,6 +36,11 @@ export function ProductFormPricing({ control, errors }: Props) {
                 min="0"
                 step="0.01"
                 {...field}
+                value={field.value ?? ''}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  field.onChange(value === '' ? null : parseFloat(value));
+                }}
               />
             )}
           />

@@ -12,15 +12,13 @@ import type { OrderFilters } from '@/schemas/orders';
 import type { AdminOrder, OrderListItemView } from '@/types/order';
 import type { PaginatedResponse, ApiError } from '@/types/api';
 import { mapOrderListItem } from '@/lib/mappers/orders';
+import { selectPaginatedList } from '@/lib/mappers/pagination';
 
 export function useOrders(storeId: string, filters: OrderFilters) {
   return useQuery<PaginatedResponse<AdminOrder>, ApiError, PaginatedResponse<OrderListItemView>>({
     queryKey: queryKeys.orders(storeId).list(filters),
     queryFn: () => getOrders(storeId, filters),
     staleTime: QUERY_CONFIG.staleTime,
-    select: (data) => ({
-      ...data,
-      data: data.data.map((item) => mapOrderListItem(item)),
-    }),
+    select: selectPaginatedList(mapOrderListItem),
   });
 }

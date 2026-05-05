@@ -89,7 +89,7 @@ export function Sidebar() {
             <div className="flex flex-col overflow-hidden">
               <span className="truncate text-sm font-medium">{user.name}</span>
               <span className="truncate text-xs text-sidebar-muted">
-                {user.role.replace('_', ' ')}
+                {user.role?.replace('_', ' ') ?? 'User'}
               </span>
             </div>
           )}

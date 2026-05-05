@@ -23,7 +23,7 @@ interface Props {
 }
 
 // Status options as const arrays for parseAsStringLiteral
-const statusOptions = ['all', 'pending', 'confirmed', 'cancelled', 'refunded'] as const;
+const statusOptions = ['all', 'pending', 'processing', 'shipped', 'delivered', 'cancelled'] as const;
 const paymentStatusOptions = ['all', 'pending', 'paid', 'failed', 'refunded'] as const;
 
 export default function OrdersContent({ storeId, initialFilters }: Props) {
@@ -54,7 +54,7 @@ export default function OrdersContent({ storeId, initialFilters }: Props) {
   // Build filters object with debounced search
   const filters: OrderFiltersType = {
     search: debouncedSearch,
-    status: status as 'all' | 'pending' | 'confirmed' | 'cancelled' | 'refunded',
+    status: status as typeof statusOptions[number],
     payment_status: paymentStatus as 'all' | 'pending' | 'paid' | 'failed' | 'refunded',
     page: page ?? 1,
     perPage: perPage ?? 10,
@@ -119,7 +119,7 @@ export default function OrdersContent({ storeId, initialFilters }: Props) {
         <OrdersTable
           orders={data?.data ?? []}
           storeId={storeId}
-          pagination={data?.meta}
+          pagination={data?.meta.pagination}
           page={filters.page}
           onPageChange={handlePageChange}
           perPage={filters.perPage}

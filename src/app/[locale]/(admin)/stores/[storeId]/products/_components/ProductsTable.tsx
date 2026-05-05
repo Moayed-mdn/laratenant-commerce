@@ -7,7 +7,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { ROUTES } from '@/config/routes';
 import type { ProductListItemView } from '@/types/product';
 import type { PaginationMeta } from '@/types/api';
@@ -51,6 +51,7 @@ export default function ProductsTable({
   storeId,
 }: Props) {
   const t = useTranslations('products');
+  const locale = useLocale();
 
   if (isLoading) {
     return (
@@ -104,7 +105,7 @@ export default function ProductsTable({
                 </TableCell>
                 <TableCell>
                   <Link
-                    href={ROUTES.store(storeId).products.edit(String(product.id))}
+                    href={ROUTES.store(locale, storeId).products.edit(String(product.id))}
                     className="font-medium hover:underline"
                   >
                     {product.name}
@@ -129,7 +130,7 @@ export default function ProductsTable({
                   {product.createdAt}
                 </TableCell>
                 <TableCell className="text-right">
-                  <Link href={ROUTES.store(storeId).products.edit(String(product.id))}>
+                  <Link href={ROUTES.store(locale, storeId).products.edit(String(product.id))}>
                     <Button variant="ghost" size="sm">
                       {t('table.edit')}
                     </Button>
@@ -167,13 +168,13 @@ export default function ProductsTable({
                 {t('table.previous')}
               </Button>
               <span className="text-sm text-muted-foreground">
-                {t('table.page', { current: page, total: pagination.last_page })}
+                {t('table.page', { current: page, total: pagination.total_pages })}
               </span>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => onPageChange(page + 1)}
-                disabled={page >= pagination.last_page}
+                disabled={page >= pagination.total_pages}
               >
                 {t('table.next')}
               </Button>

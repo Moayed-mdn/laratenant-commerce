@@ -139,7 +139,7 @@ const LoginSchema = z.object({
 - Default page component
 
 **Logic:**
-- Checks for existing `laravel_session` cookie
+- Checks for existing `ecommerce_session` cookie
 - If authenticated, redirects to root `/`
 - Otherwise renders `LoginCard`
 
@@ -193,7 +193,7 @@ const LoginSchema = z.object({
 **Flow:**
 1. Check if route is public (login, logout, _next, api, favicon)
 2. If public: run i18n middleware only
-3. If protected: check for `laravel_session` cookie
+3. If protected: check for `ecommerce_session` cookie
 4. If no cookie: redirect to `/{locale}/login?redirect={pathname}`
 5. If authenticated: run i18n middleware
 
@@ -327,7 +327,7 @@ Laravel Sanctum requires a CSRF token for state-changing requests. The flow:
    Axios automatically includes the XSRF-TOKEN in the `X-XSRF-TOKEN` header.
 
 3. **Session establishment:**
-   - On success, Laravel sets `laravel_session` cookie (httpOnly)
+   - On success, Laravel sets `ecommerce_session` cookie (httpOnly)
    - Subsequent requests include this cookie via `withCredentials: true`
 
 ---
@@ -342,7 +342,7 @@ Request → Middleware
     ├─→ Is public route? (login, logout, _next, api, favicon)
     │       └─→ Run i18n middleware only
     │
-    ├─→ Has laravel_session cookie?
+    ├─→ Has ecommerce_session cookie?
     │       ├─→ No: Redirect to /{locale}/login?redirect={pathname}
     │       └─→ Yes: Run i18n middleware
     │
@@ -375,7 +375,7 @@ Request → Middleware
 1. **Login endpoint** (`POST /api/v1/login`):
    - Accepts `{ email, password }`
    - Returns `{ user: AdminUser, message: string }`
-   - Sets `laravel_session` and `XSRF-TOKEN` cookies on success
+   - Sets `ecommerce_session` and `XSRF-TOKEN` cookies on success
 
 2. **CSRF endpoint** (`GET /sanctum/csrf-cookie`):
    - Returns 204 No Content

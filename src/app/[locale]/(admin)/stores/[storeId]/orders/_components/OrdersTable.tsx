@@ -6,7 +6,7 @@
 // Reason: displays interactive table with links and badges
 
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import type { OrderListItemView } from '@/types/order';
 import type { PaginationMeta } from '@/types/api';
@@ -36,6 +36,7 @@ export default function OrdersTable({
   isLoading,
 }: OrdersTableProps) {
   const t = useTranslations('orders');
+  const locale = useLocale();
 
   if (isLoading) {
     return null; // Skeleton handles loading state
@@ -69,7 +70,7 @@ export default function OrdersTable({
               <TableRow key={order.id}>
                 <TableCell>
                   <Link
-                    href={ROUTES.store(storeId).orders.detail(String(order.id))}
+                    href={ROUTES.store(locale, storeId).orders.detail(String(order.id))}
                     className="font-medium text-primary hover:underline"
                   >
                     #{order.orderNumber}
@@ -100,10 +101,10 @@ export default function OrdersTable({
         </Table>
       </div>
 
-      {pagination && pagination.last_page > 1 && (
+      {pagination && pagination.total_pages > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground">
-            {t('table.page', { current: pagination.current_page, total: pagination.last_page })}
+            {t('table.page', { current: pagination.current_page, total: pagination.total_pages })}
           </p>
           <div className="flex items-center gap-2">
             <button
@@ -117,7 +118,7 @@ export default function OrdersTable({
             <button
               type="button"
               onClick={() => onPageChange(page + 1)}
-              disabled={page >= pagination.last_page}
+              disabled={page >= pagination.total_pages}
               className="inline-flex h-9 items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
             >
               {t('table.next')}

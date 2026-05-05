@@ -25,22 +25,26 @@ export function useLogin(options?: UseLoginOptions) {
     mutationFn: login,
     retry: 0, // Hard rule — mutations never retry
     onSuccess: (data) => {
+      const { token, user } = data;
+      console.log('this this NEW',{data})
+      // Store token in cookie
+      document.cookie = `token=${token}; path=/;`;
+
       // Update auth store with user info
-      console.log('this is the data',{data})
-      setUser(data.user);
+      setUser(user);
 
       // Invalidate auth queries
       queryClient.invalidateQueries({ queryKey: queryKeys.auth.me() });
 
       // Determine redirect based on user's store assignment
-      if (data.user.store_id !== null) {
-        options?.onSuccess?.(String(data.user.store_id));
+      if (user.store_id !== null) {
+        options?.onSuccess?.(String(user.store_id));
       } else {
         // No store assigned — component handles error display
         options?.onSuccess?.('');
       }
 
-      logger.info('Login successful', { userId: data.user.id });
+      logger.info('Login successful', { userId: user.id });
     },
     onError: (error: ApiError) => {
       logger.error('Login failed', { error });

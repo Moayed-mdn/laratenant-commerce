@@ -35,5 +35,8 @@ export const useStoreStore = create<StoreStore>((set) => ({
 // Selectors
 export const selectCurrentStore = (state: StoreStore): Store | null => state.currentStore;
 export const selectCurrentStoreName = (state: StoreStore): string => state.currentStore?.name ?? '';
-export const selectCurrentStoreCurrency = (state: StoreStore): string => state.currentStore?.currency ?? 'USD';
+export const selectCurrentStoreCurrency = (state: StoreStore): string => {
+  const currency = state.currentStore?.currency;
+  return typeof currency === 'string' && currency.length > 0 ? currency : 'USD';
+};
 export const selectIsStoreLoading = (state: StoreStore): boolean => state.isLoading;

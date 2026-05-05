@@ -34,6 +34,7 @@ export function ProductFormBasic({ control, errors }: Props) {
               id="name"
               placeholder={t('form.fields.namePlaceholder')}
               {...field}
+              value={field.value ?? ''}
             />
           )}
         />

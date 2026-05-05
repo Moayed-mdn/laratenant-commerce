@@ -13,13 +13,13 @@ interface PageProps {
 }
 
 export default async function OrderDetailPage({ params }: PageProps) {
-  const { storeId, orderId } = await params;
+  const { storeId, orderId, locale } = await params;
   const t = await getTranslations('orders');
 
   return (
     <div className="space-y-6">
       <Suspense fallback={<OrderDetailSkeleton />}>
-        <OrderDetailContent storeId={storeId} orderId={orderId} />
+        <OrderDetailContent storeId={storeId} orderId={orderId} locale={locale} />
       </Suspense>
     </div>
   );

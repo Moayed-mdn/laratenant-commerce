@@ -19,16 +19,17 @@ import { ArrowLeft } from 'lucide-react';
 interface Props {
   user: UserDetailView;
   storeId: string;
+  locale: string;
 }
 
-export default async function UserDetailCard({ user, storeId }: Props) {
+export default async function UserDetailCard({ user, storeId, locale }: Props) {
   const t = await getTranslations('users');
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
         <Link
-          href={ROUTES.store(storeId).users.list()}
+          href={ROUTES.store(locale, storeId).users.list()}
           className="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] hover:bg-muted hover:text-foreground"
         >
           <ArrowLeft className="mr-2 h-4 w-4" aria-hidden="true" />
@@ -72,7 +73,7 @@ export default async function UserDetailCard({ user, storeId }: Props) {
                 </div>
                 <div className="flex justify-between">
                   <dt className="text-sm text-muted-foreground">{t('table.role')}</dt>
-                  <dd className="text-sm font-medium">{t(`roles.${user.role}`)}</dd>
+                  <dd className="text-sm font-medium">{t(`roles.${user.role ?? 'unknown'}`)}</dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="text-sm text-muted-foreground">
