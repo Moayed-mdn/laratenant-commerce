@@ -28,6 +28,14 @@ export async function getAuthToken(): Promise<string | null> {
 }
 
 /**
+ * Get locale from NEXT_LOCALE cookie for server-side use.
+ */
+export async function getLocale(): Promise<string> {
+  const cookieStore = await cookies();
+  return cookieStore.get('NEXT_LOCALE')?.value ?? 'en';
+}
+
+/**
  * Get auth headers with Bearer token.
  */
 export async function getAuthHeaders(): Promise<HeadersInit> {
@@ -36,6 +44,7 @@ export async function getAuthHeaders(): Promise<HeadersInit> {
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    'Accept-Language': await getLocale(),
   };
 
   if (token) {
