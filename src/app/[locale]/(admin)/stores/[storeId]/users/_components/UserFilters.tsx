@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Search } from 'lucide-react';
+import { makeLabelByValue, renderSelectValue, type SelectOption } from '@/lib/selectOptions';
 
 interface Props {
   search: string;
@@ -35,6 +36,21 @@ export default function UserFilters({
 }: Props) {
   const t = useTranslations('users');
 
+  const roleOptions = [
+    { value: 'all', label: t('filters.allRoles') },
+    { value: 'store_admin', label: t('roles.store_admin') },
+    { value: 'staff', label: t('roles.staff') },
+  ] as const satisfies readonly SelectOption<string>[];
+
+  const statusOptions = [
+    { value: 'all', label: t('filters.allStatuses') },
+    { value: 'active', label: t('status.active') },
+    { value: 'inactive', label: t('status.inactive') },
+  ] as const satisfies readonly SelectOption<string>[];
+
+  const roleLabelByValue = makeLabelByValue(roleOptions);
+  const statusLabelByValue = makeLabelByValue(statusOptions);
+
   return (
     <div className="flex flex-wrap gap-4">
       <div className="relative flex-1 min-w-[200px]">
@@ -49,22 +65,30 @@ export default function UserFilters({
       </div>
       <Select value={role} onValueChange={onRoleChange}>
         <SelectTrigger className="w-[150px]" aria-label={t('filters.role')}>
-          <SelectValue placeholder={t('filters.role')} />
+          <SelectValue>
+            {renderSelectValue(roleLabelByValue, t('filters.role'))}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">{t('filters.allRoles')}</SelectItem>
-          <SelectItem value="store_admin">{t('roles.store_admin')}</SelectItem>
-          <SelectItem value="staff">{t('roles.staff')}</SelectItem>
+          {roleOptions.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
       <Select value={status} onValueChange={onStatusChange}>
         <SelectTrigger className="w-[150px]" aria-label={t('filters.status')}>
-          <SelectValue placeholder={t('filters.status')} />
+          <SelectValue>
+            {renderSelectValue(statusLabelByValue, t('filters.status'))}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">{t('filters.allStatuses')}</SelectItem>
-          <SelectItem value="active">{t('status.active')}</SelectItem>
-          <SelectItem value="inactive">{t('status.inactive')}</SelectItem>
+          {statusOptions.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

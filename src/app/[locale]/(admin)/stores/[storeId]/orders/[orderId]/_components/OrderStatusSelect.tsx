@@ -14,6 +14,7 @@ import {
 import { OrderStatusBadge } from '../../_components/OrderStatusBadge';
 import type { OrderStatus } from '@/types/order';
 import { logger } from '@/lib/logger';
+import { makeLabelByValue, renderSelectValue, type SelectOption } from '@/lib/selectOptions';
 
 interface OrderStatusSelectProps {
   currentStatus: OrderStatus;
@@ -28,6 +29,20 @@ export default function OrderStatusSelect({
 }: OrderStatusSelectProps) {
   const canManageOrders = useCan('canManageOrders');
   const t = useTranslations('orders');
+
+  const statusOptions = [
+    'pending',
+    'processing',
+    'shipped',
+    'delivered',
+    'cancelled',
+    'refunded',
+  ].map((status) => ({
+    value: status,
+    label: t(`status.${status}`),
+  })) as readonly SelectOption<OrderStatus>[];
+
+  const statusLabelByValue = makeLabelByValue(statusOptions);
 
   const { mutate, isPending } = useUpdateOrderStatus(storeId, orderId, {
     onSuccess: () => {
@@ -58,16 +73,16 @@ export default function OrderStatusSelect({
         disabled={isPending}
       >
         <SelectTrigger>
-          <SelectValue />
+          <SelectValue>
+            {renderSelectValue(statusLabelByValue)}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          {(['pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'] as const).map(
-            (status) => (
-              <SelectItem key={status} value={status}>
-                {t(`status.${status}`)}
-              </SelectItem>
-            )
-          )}
+          {statusOptions.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
       {isPending && (

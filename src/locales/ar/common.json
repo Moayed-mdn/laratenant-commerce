@@ -275,7 +275,10 @@
       "view": "عرض",
       "empty": "لا توجد طلبات",
       "itemCount": "{count} منتج",
-      "itemCountPlural": "{count} منتجات"
+      "itemCountPlural": "{count} منتجات",
+      "previous": "السابق",
+      "page": "صفحة {current} من {total}",
+      "next": "التالي"
     },
     "status": {
       "pending": "قيد الانتظار",

@@ -18,6 +18,7 @@ import type { Control } from 'react-hook-form';
 import type { ProductFormData } from '@/schemas/products';
 import type { WeightUnit } from '@/types/product';
 import { Controller } from 'react-hook-form';
+import { makeLabelByValue, renderSelectValue, type SelectOption } from '@/lib/selectOptions';
 
 interface Props {
   control: Control<ProductFormData>;
@@ -27,6 +28,13 @@ const weightUnits: WeightUnit[] = ['kg', 'g', 'lb', 'oz'];
 
 export function ProductFormShipping({ control }: Props) {
   const t = useTranslations('products');
+
+  const weightUnitOptions = weightUnits.map((unit) => ({
+    value: unit,
+    label: t(`form.weightUnits.${unit}`),
+  })) as readonly SelectOption<WeightUnit>[];
+
+  const weightUnitLabelByValue = makeLabelByValue(weightUnitOptions);
 
   return (
     <div className="space-y-4">
@@ -62,18 +70,20 @@ export function ProductFormShipping({ control }: Props) {
             control={control}
             render={({ field }) => (
               <Select
-                value={field.value ?? ''}
+                value={field.value ?? null}
                 onValueChange={(value: string | null) =>
                   field.onChange(value === '' || !value ? null : (value as WeightUnit))
                 }
               >
                 <SelectTrigger id="weight_unit">
-                  <SelectValue placeholder="-" />
+                  <SelectValue>
+                    {renderSelectValue(weightUnitLabelByValue, '-')}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  {weightUnits.map((unit) => (
-                    <SelectItem key={unit} value={unit}>
-                      {t(`form.weightUnits.${unit}`)}
+                  {weightUnitOptions.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
                     </SelectItem>
                   ))}
                 </SelectContent>

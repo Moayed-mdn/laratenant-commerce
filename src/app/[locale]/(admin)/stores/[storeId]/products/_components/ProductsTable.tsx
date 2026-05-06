@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+import { makeLabelByValue, renderSelectValue, type SelectOption } from '@/lib/selectOptions';
 
 interface Props {
   products: ProductListItemView[];
@@ -51,6 +52,14 @@ export default function ProductsTable({
   storeId,
 }: Props) {
   const t = useTranslations('products');
+
+  const perPageOptions = [
+    { value: '10', label: '10' },
+    { value: '25', label: '25' },
+    { value: '50', label: '50' },
+  ] as const satisfies readonly SelectOption<string>[];
+
+  const perPageLabelByValue = makeLabelByValue(perPageOptions);
 
   if (isLoading) {
     return (
@@ -149,12 +158,16 @@ export default function ProductsTable({
           <div className="flex items-center gap-2">
             <Select value={String(perPage)} onValueChange={(v) => onPerPageChange(Number(v))}>
               <SelectTrigger className="w-[100px]">
-                <SelectValue placeholder={t('table.perPage')} />
+                <SelectValue>
+                  {renderSelectValue(perPageLabelByValue, t('table.perPage'))}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="10">10</SelectItem>
-                <SelectItem value="25">25</SelectItem>
-                <SelectItem value="50">50</SelectItem>
+                {perPageOptions.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <div className="flex items-center gap-1">

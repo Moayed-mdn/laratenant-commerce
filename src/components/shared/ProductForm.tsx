@@ -8,11 +8,10 @@
  */
 
 import { Link } from '@/lib/navigation';
-import { useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { type Resolver, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { z } from 'zod';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
@@ -31,6 +30,7 @@ import { ProductFormBasic } from './product-form/ProductFormBasic';
 import { ProductFormPricing } from './product-form/ProductFormPricing';
 import { ProductFormInventory } from './product-form/ProductFormInventory';
 import { ProductFormShipping } from './product-form/ProductFormShipping';
+import { makeLabelByValue, renderSelectValue, type SelectOption } from '@/lib/selectOptions';
 
 interface Props {
   mode: 'create' | 'edit';
@@ -50,6 +50,14 @@ export default function ProductForm({
   const t = useTranslations('products');
   const dashboardT = useTranslations('dashboard');
 
+  const statusOptions = [
+    { value: 'active', label: dashboardT('productStatus.active') },
+    { value: 'draft', label: dashboardT('productStatus.draft') },
+    { value: 'inactive', label: dashboardT('productStatus.inactive') },
+  ] as const satisfies readonly SelectOption<'active' | 'inactive' | 'draft'>[];
+
+  const statusLabelByValue = makeLabelByValue(statusOptions);
+
   const defaultValues: ProductFormData = {
     name: initialData?.name ?? '',
     description: initialData?.description ?? '',
@@ -66,7 +74,7 @@ export default function ProductForm({
   };
 
   const form = useForm<ProductFormData>({
-    resolver: zodResolver(ProductFormSchema) as any,
+    resolver: zodResolver(ProductFormSchema) as unknown as Resolver<ProductFormData>,
     defaultValues,
   });
 
@@ -142,18 +150,16 @@ export default function ProductForm({
                   form.setValue('status', value as 'active' | 'inactive' | 'draft')
                 }>
                 <SelectTrigger id="status">
-                  <SelectValue />
+                  <SelectValue>
+                    {renderSelectValue(statusLabelByValue)}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="active">
-                    {dashboardT('productStatus.active')}
-                  </SelectItem>
-                  <SelectItem value="draft">
-                    {dashboardT('productStatus.draft')}
-                  </SelectItem>
-                  <SelectItem value="inactive">
-                    {dashboardT('productStatus.inactive')}
-                  </SelectItem>
+                  {statusOptions.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

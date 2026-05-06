@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Search } from 'lucide-react';
+import { makeLabelByValue, renderSelectValue, type SelectOption } from '@/lib/selectOptions';
 
 interface Props {
   search: string;
@@ -31,6 +32,15 @@ export default function ProductFilters({
 }: Props) {
   const t = useTranslations('products');
   const dashboardT = useTranslations('dashboard');
+
+  const statusOptions = [
+    { value: 'all', label: t('filters.allStatuses') },
+    { value: 'active', label: dashboardT('productStatus.active') },
+    { value: 'draft', label: dashboardT('productStatus.draft') },
+    { value: 'inactive', label: dashboardT('productStatus.inactive') },
+  ] as const satisfies readonly SelectOption<string>[];
+
+  const statusLabelByValue = makeLabelByValue(statusOptions);
 
   return (
     <div className="flex flex-wrap gap-4">
@@ -49,13 +59,16 @@ export default function ProductFilters({
         onValueChange={onStatusChange}
       >
         <SelectTrigger className="w-[150px]" aria-label={t('filters.status')}>
-          <SelectValue placeholder={t('filters.status')} />
+          <SelectValue>
+            {renderSelectValue(statusLabelByValue, t('filters.status'))}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">{t('filters.allStatuses')}</SelectItem>
-          <SelectItem value="active">{dashboardT('productStatus.active')}</SelectItem>
-          <SelectItem value="draft">{dashboardT('productStatus.draft')}</SelectItem>
-          <SelectItem value="inactive">{dashboardT('productStatus.inactive')}</SelectItem>
+          {statusOptions.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value}>
+              {opt.label}
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>

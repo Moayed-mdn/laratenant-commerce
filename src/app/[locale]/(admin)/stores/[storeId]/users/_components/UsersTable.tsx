@@ -29,6 +29,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+import { makeLabelByValue, renderSelectValue, type SelectOption } from '@/lib/selectOptions';
 
 interface Props {
   users: UserListItemView[];
@@ -52,6 +53,14 @@ export default function UsersTable({
   storeId,
 }: Props) {
   const t = useTranslations('users');
+
+  const perPageOptions = [
+    { value: '10', label: '10' },
+    { value: '25', label: '25' },
+    { value: '50', label: '50' },
+  ] as const satisfies readonly SelectOption<string>[];
+
+  const perPageLabelByValue = makeLabelByValue(perPageOptions);
 
   if (isLoading) {
     return (
@@ -113,7 +122,7 @@ export default function UsersTable({
                 <TableCell className="text-right">
                   <Link
                     href={ROUTES.store(storeId).users.detail(String(user.id))}
-                    className="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] hover:bg-muted hover:text-foreground"
+                    className="group/button inline-flex shrink-0 items-center justify-center rounded-[min(var(--radius-md),12px)] border border-transparent bg-clip-padding h-7 gap-1 px-2.5 text-[0.8rem] hover:bg-muted hover:text-foreground"
                   >
                     {t('table.view')}
                   </Link>
@@ -132,12 +141,16 @@ export default function UsersTable({
           <div className="flex items-center gap-2">
             <Select value={String(perPage)} onValueChange={(v) => onPerPageChange(Number(v))}>
               <SelectTrigger className="w-[100px]">
-                <SelectValue placeholder={t('table.perPage')} />
+                <SelectValue>
+                  {renderSelectValue(perPageLabelByValue, t('table.perPage'))}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="10">10</SelectItem>
-                <SelectItem value="25">25</SelectItem>
-                <SelectItem value="50">50</SelectItem>
+                {perPageOptions.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <div className="flex items-center gap-1">
