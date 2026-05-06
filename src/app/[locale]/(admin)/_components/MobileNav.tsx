@@ -7,7 +7,7 @@
  * Reason for 'use client': reads sidebar state from Zustand.
  */
 
-import { useUiStore, selectSidebarOpen } from '@/stores/uiStore';
+import { useUiStore, selectSidebarOpen, selectIsRTL } from '@/stores/uiStore';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { SidebarNav } from './sidebar/SidebarNav';
 import { useParams } from 'next/navigation';
@@ -21,6 +21,7 @@ export function MobileNav() {
   const storeId = params.storeId as string | undefined;
 
   const sidebarOpen = useUiStore(selectSidebarOpen);
+  const isRTL = useUiStore(selectIsRTL);
   const setSidebarOpen = useUiStore((state) => state.setSidebarOpen);
   const t = useTranslations('nav');
 
@@ -30,7 +31,7 @@ export function MobileNav() {
 
   return (
     <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-      <SheetContent side="left" className="w-60 p-0 bg-sidebar">
+      <SheetContent side={isRTL ? 'right' : 'left'} className="w-60 p-0 bg-sidebar">
         <div className="flex h-14 items-center border-b border-sidebar-border px-4">
           <span className="text-sm font-semibold text-sidebar-foreground">
             {t('appName')}
