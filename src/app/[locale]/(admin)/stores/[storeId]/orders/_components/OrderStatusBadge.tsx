@@ -20,6 +20,7 @@ const variantMap: Record<OrderStatus, 'outline' | 'default' | 'destructive' | 's
   shipped: 'default',
   delivered: 'default',
   cancelled: 'destructive',
+  refunded: 'secondary',
 };
 
 /**

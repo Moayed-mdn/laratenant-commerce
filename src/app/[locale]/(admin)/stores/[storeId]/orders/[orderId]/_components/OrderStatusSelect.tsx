@@ -61,7 +61,7 @@ export default function OrderStatusSelect({
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {(['pending', 'processing', 'shipped', 'delivered', 'cancelled'] as const).map(
+          {(['pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'] as const).map(
             (status) => (
               <SelectItem key={status} value={status}>
                 {t(`status.${status}`)}

@@ -10,10 +10,12 @@
 import { usePathname } from '@/lib/navigation';
 import { useCan } from '@/stores/authStore';
 import { useUiStore, selectSidebarCollapsed } from '@/stores/uiStore';
+import { useAuth } from '@/contexts/AuthContext';
 import { SidebarNavItem } from './SidebarNavItem';
 import { ROUTES } from '@/config/routes';
 import { useTranslations } from 'next-intl';
-import { LayoutDashboard, Users, Package, ShoppingCart, type LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { LayoutDashboard, Users, Package, ShoppingCart, Store, type LucideIcon } from 'lucide-react';
 
 interface NavItem {
   label: string;
@@ -37,6 +39,14 @@ export function SidebarNav({ storeId }: SidebarNavProps) {
   const canManageOrders = useCan('canManageOrders');
   const isCollapsed = useUiStore(selectSidebarCollapsed);
   const t = useTranslations('nav');
+  const { user } = useAuth();
+
+  const isSuperAdmin = user?.stores?.[0]?.role === 'super_admin';
+  const hasMultipleStores = (user?.stores?.length ?? 0) > 1;
+  const isStaff = user?.stores?.find(
+    s => String(s.id) === storeId
+  )?.role === 'staff';
+  const showStoresLink = !isStaff && (isSuperAdmin || hasMultipleStores);
 
   const navItems: NavItem[] = [
     {
@@ -68,6 +78,14 @@ export function SidebarNav({ storeId }: SidebarNavProps) {
 
   const visibleItems = navItems.filter((item) => item.show);
 
+  const storesItem: NavItem = {
+    label: t('stores'),
+    href: '/',
+    icon: Store,
+    show: showStoresLink,
+    exact: true,
+  };
+
   return (
     <nav aria-label={t('mainNav')} className="flex-1 overflow-y-auto px-2 py-4">
       <ul role="list" className="space-y-1">
@@ -87,6 +105,25 @@ export function SidebarNav({ storeId }: SidebarNavProps) {
             />
           );
         })}
+        {storesItem.show && (
+          <>
+            <li
+              role="separator"
+              className={cn(
+                'my-2 border-t border-sidebar-border',
+                isCollapsed && 'mx-2'
+              )}
+            />
+            <SidebarNavItem
+              key={storesItem.href}
+              label={storesItem.label}
+              href={storesItem.href}
+              icon={storesItem.icon}
+              isCollapsed={isCollapsed}
+              isActive={pathname === storesItem.href}
+            />
+          </>
+        )}
       </ul>
     </nav>
   );

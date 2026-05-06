@@ -103,8 +103,8 @@ export default function UsersTable({
                   <UserRoleBadge role={user.role} />
                 </TableCell>
                 <TableCell>
-                  <Badge variant={user.isVerified ? 'default' : 'secondary'}>
-                    {user.isVerified ? t('status.verified') : t('status.unverified')}
+                  <Badge variant={user.isActive ? 'default' : 'secondary'}>
+                    {user.isActive ? t('status.active') : t('status.inactive')}
                   </Badge>
                 </TableCell>
                 <TableCell className="text-muted-foreground text-sm">

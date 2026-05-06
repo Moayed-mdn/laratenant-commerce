@@ -7,7 +7,7 @@ import { z } from 'zod';
 
 export const ProductFiltersSchema = z.object({
   search: z.string().optional().default(''),
-  status: z.enum(['all', 'active', 'draft', 'archived']).default('all'),
+  status: z.enum(['all', 'active', 'inactive', 'draft']).default('all'),
   page: z.coerce.number().min(1).default(1),
   perPage: z.coerce.number().min(1).max(100).default(10),
 });
@@ -26,7 +26,7 @@ export const ProductFormSchema = z.object({
   track_quantity: z.boolean().default(true),
   weight: z.coerce.number().min(0).optional().nullable(),
   weight_unit: z.enum(['kg', 'g', 'lb', 'oz']).optional().nullable(),
-  status: z.enum(['active', 'draft', 'archived']).default('draft'),
+  status: z.enum(['active', 'inactive', 'draft']).default('draft'),
 });
 
 export type ProductFormData = z.infer<typeof ProductFormSchema>;

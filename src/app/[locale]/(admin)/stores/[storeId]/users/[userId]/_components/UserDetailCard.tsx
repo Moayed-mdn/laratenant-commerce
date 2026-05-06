@@ -52,8 +52,8 @@ export default async function UserDetailCard({ user, storeId }: Props) {
             </div>
             <div className="flex items-center gap-2">
               <UserRoleBadge role={user.role} />
-              <Badge variant={user.isVerified ? 'default' : 'secondary'}>
-                {user.isVerified ? t('status.verified') : t('status.unverified')}
+              <Badge variant={user.isActive ? 'default' : 'secondary'}>
+                {user.isActive ? t('status.active') : t('status.inactive')}
               </Badge>
             </div>
           </div>

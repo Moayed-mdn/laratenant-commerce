@@ -49,23 +49,22 @@ export default function UserFilters({
       </div>
       <Select value={role} onValueChange={onRoleChange}>
         <SelectTrigger className="w-[150px]" aria-label={t('filters.role')}>
-          <SelectValue placeholder='iam here' />
+          <SelectValue placeholder={t('filters.role')} />
         </SelectTrigger>
-        <SelectContent alignItemWithTrigger={false}>
+        <SelectContent>
           <SelectItem value="all">{t('filters.allRoles')}</SelectItem>
           <SelectItem value="store_admin">{t('roles.store_admin')}</SelectItem>
           <SelectItem value="staff">{t('roles.staff')}</SelectItem>
-          <SelectItem value="super_admin">{t('roles.super_admin')}</SelectItem>
         </SelectContent>
       </Select>
       <Select value={status} onValueChange={onStatusChange}>
         <SelectTrigger className="w-[150px]" aria-label={t('filters.status')}>
           <SelectValue placeholder={t('filters.status')} />
         </SelectTrigger>
-        <SelectContent alignItemWithTrigger={false}>
+        <SelectContent>
           <SelectItem value="all">{t('filters.allStatuses')}</SelectItem>
-          <SelectItem value="verified">{t('status.verified')}</SelectItem>
-          <SelectItem value="unverified">{t('status.unverified')}</SelectItem>
+          <SelectItem value="active">{t('status.active')}</SelectItem>
+          <SelectItem value="inactive">{t('status.inactive')}</SelectItem>
         </SelectContent>
       </Select>
     </div>

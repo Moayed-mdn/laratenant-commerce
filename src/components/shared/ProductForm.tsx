@@ -139,7 +139,7 @@ export default function ProductForm({
               <Select
                 value={status ?? 'draft'}
                 onValueChange={(value) =>
-                  form.setValue('status', value as 'active' | 'draft' | 'archived')
+                  form.setValue('status', value as 'active' | 'inactive' | 'draft')
                 }>
                 <SelectTrigger id="status">
                   <SelectValue />
@@ -151,8 +151,8 @@ export default function ProductForm({
                   <SelectItem value="draft">
                     {dashboardT('productStatus.draft')}
                   </SelectItem>
-                  <SelectItem value="archived">
-                    {dashboardT('productStatus.archived')}
+                  <SelectItem value="inactive">
+                    {dashboardT('productStatus.inactive')}
                   </SelectItem>
                 </SelectContent>
               </Select>

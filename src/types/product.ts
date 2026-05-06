@@ -11,7 +11,7 @@ export interface ProductImage {
 }
 
 /** Product status union type */
-export type ProductStatus = 'active' | 'draft' | 'archived';
+export type ProductStatus = 'active' | 'inactive' | 'draft';
 
 /** Weight unit type */
 export type WeightUnit = 'kg' | 'g' | 'lb' | 'oz';

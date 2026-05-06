@@ -3,10 +3,10 @@
  */
 
 /** Order status union type */
-export type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+export type OrderStatus = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded';
 
 /** Payment status union type */
-export type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded';
+export type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded' | 'partially_refunded';
 
 /** Fulfillment status union type */
 export type FulfillmentStatus = 'unfulfilled' | 'partial' | 'fulfilled';

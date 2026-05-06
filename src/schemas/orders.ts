@@ -8,7 +8,7 @@ import { z } from 'zod';
 export const OrderFiltersSchema = z.object({
   search: z.string().optional().default(''),
   status: z
-    .enum(['all', 'pending', 'processing', 'shipped', 'delivered', 'cancelled'])
+    .enum(['all', 'pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'])
     .default('all'),
   payment_status: z.enum(['all', 'pending', 'paid', 'failed', 'refunded']).default('all'),
   page: z.coerce.number().min(1).default(1),

@@ -34,7 +34,7 @@ export function AdminShell({ children }: AdminShellProps) {
   }, [locale, setDirection]);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-screen overflow-hidden ">
       {/* Sidebar — hidden on mobile */}
       <Sidebar />
 

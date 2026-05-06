@@ -45,7 +45,7 @@ export default function ProductsContent({ storeId, initialFilters }: Props) {
 
   const filters: ProductFiltersType = {
     search: debouncedSearch,
-    status: status as 'all' | 'active' | 'draft' | 'archived',
+    status: status as 'all' | 'active' | 'inactive' | 'draft',
     page,
     perPage,
   };

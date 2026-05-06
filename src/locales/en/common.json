@@ -39,6 +39,7 @@
     "users": "Customers",
     "products": "Products",
     "orders": "Orders",
+    "stores": "Stores",
     "mainNav": "Main navigation",
     "toggleSidebar": "Toggle sidebar",
     "toggleMenu": "Toggle menu"
@@ -84,21 +85,23 @@
     },
     "orderStatus": {
       "pending": "Pending",
-      "confirmed": "Confirmed",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
       "cancelled": "Cancelled",
-      "refunded": "Refunded",
-      "delivered": "Delivered"
+      "refunded": "Refunded"
     },
     "paymentStatus": {
       "pending": "Pending",
       "paid": "Paid",
       "failed": "Failed",
-      "refunded": "Refunded"
+      "refunded": "Refunded",
+      "partially_refunded": "Partially Refunded"
     },
     "productStatus": {
       "active": "Active",
       "draft": "Draft",
-      "archived": "Archived"
+      "inactive": "Inactive"
     }
   },
   "users": {
@@ -121,6 +124,8 @@
       "unknown": "Unknown"
     },
     "status": {
+      "active": "Active",
+      "inactive": "Inactive",
       "verified": "Verified",
       "unverified": "Unverified"
     },
@@ -218,7 +223,7 @@
       "status": {
         "active": "Active",
         "draft": "Draft",
-        "archived": "Archived"
+        "inactive": "Inactive"
       },
       "weightUnits": {
         "kg": "kg",
@@ -280,13 +285,15 @@
       "processing": "Processing",
       "shipped": "Shipped",
       "cancelled": "Cancelled",
-      "delivered": "Delivered"
+      "delivered": "Delivered",
+      "refunded": "Refunded"
     },
     "paymentStatus": {
       "pending": "Pending",
       "paid": "Paid",
       "failed": "Failed",
-      "refunded": "Refunded"
+      "refunded": "Refunded",
+      "partially_refunded": "Partially Refunded"
     },
     "fulfillmentStatus": {
       "unfulfilled": "Unfulfilled",

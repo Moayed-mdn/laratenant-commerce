@@ -23,7 +23,7 @@ interface Props {
 }
 
 // Status options as const arrays for parseAsStringLiteral
-const statusOptions = ['all', 'pending', 'processing', 'shipped', 'delivered', 'cancelled'] as const;
+const statusOptions = ['all', 'pending', 'processing', 'shipped', 'delivered', 'cancelled', 'refunded'] as const;
 const paymentStatusOptions = ['all', 'pending', 'paid', 'failed', 'refunded'] as const;
 
 export default function OrdersContent({ storeId, initialFilters }: Props) {

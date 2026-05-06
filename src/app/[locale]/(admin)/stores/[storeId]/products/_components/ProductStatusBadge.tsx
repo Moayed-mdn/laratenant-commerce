@@ -17,7 +17,7 @@ interface Props {
 const variantMap: Record<ProductStatus, 'default' | 'secondary' | 'outline'> = {
   active: 'default',
   draft: 'secondary',
-  archived: 'outline',
+  inactive: 'outline',
 };
 
 export function ProductStatusBadge({ status }: Props) {

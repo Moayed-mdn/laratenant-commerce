@@ -33,6 +33,7 @@ export function PaymentStatusBadge({ status }: PaymentStatusBadgeProps) {
     pending: 'outline',
     failed: 'destructive',
     refunded: 'secondary',
+    partially_refunded: 'secondary',
   };
 
   return (

@@ -16,7 +16,6 @@ import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 
 import { login } from '@/lib/actions/auth.actions';
-import { ROUTES } from '@/config/routes';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -59,22 +58,16 @@ export function LoginForm() {
       if (result.success) {
         const user = result.user;
 
-        if (!user.store_id) {
-          toast.error(t('errors.noStoreAssigned'));
-          return;
-        }
-
-        // Update auth context with user
+        // After successful login, always go to store picker
+        // Store picker handles 0, 1, or many stores automatically
         setUser(user);
-
         toast.success(t('success.loggedIn'));
 
         const redirectParam = searchParams.get('redirect');
-        // next-intl router adds locale prefix automatically
-        // ROUTES paths are locale-free
-        const destination = redirectParam && redirectParam.startsWith(`/${locale}`)
-          ? redirectParam.slice(`/${locale}`.length) // strip locale prefix for next-intl router
-          : ROUTES.store(String(user.store_id)).dashboard();
+        const destination =
+          redirectParam && redirectParam.startsWith(`/${locale}`)
+            ? redirectParam.slice(`/${locale}`.length)
+            : '/';
 
         router.push(destination);
       } else {

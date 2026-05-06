@@ -13,7 +13,7 @@ import { useAuthStore } from '@/stores/authStore';
 import type { AdminUser } from '@/types/user';
 
 interface AuthInitializerProps {
-  user: AdminUser;
+  user: AdminUser | null;
   children: React.ReactNode;
 }
 
@@ -22,12 +22,14 @@ interface AuthInitializerProps {
  * Renders children only — no visual output.
  */
 export function AuthInitializer({ user, children }: AuthInitializerProps) {
-  const setUser = useAuthStore((state) => state.setUser);
-
   useEffect(() => {
-    // Sync server-fetched user into Zustand store on mount
-    setUser(user);
-  }, [user, setUser]);
+    const { setUser, clearUser } = useAuthStore.getState();
+    if (user) {
+      setUser(user);
+    } else {
+      clearUser();
+    }
+  }, [user]);
 
   return <>{children}</>;
 }

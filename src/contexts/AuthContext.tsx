@@ -134,7 +134,7 @@ export function useAuth(): AuthContextType {
  */
 export function useHasRole(role: string): boolean {
   const { user } = useAuth();
-  return user?.role === role;
+  return user?.stores?.some(store => store.role === role) ?? false;
 }
 
 /**
@@ -142,5 +142,5 @@ export function useHasRole(role: string): boolean {
  */
 export function useStoreId(): number | null {
   const { user } = useAuth();
-  return user?.store_id ?? null;
+  return user?.stores?.[0]?.id ?? null;
 }

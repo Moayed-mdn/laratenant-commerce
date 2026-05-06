@@ -16,10 +16,11 @@ interface OrderStatusBadgeProps {
 
 const variantMap: Record<OrderStatus, 'outline' | 'default' | 'destructive' | 'secondary'> = {
   pending: 'outline',
-  confirmed: 'default',
+  processing: 'secondary',
+  shipped: 'default',
+  delivered: 'default',
   cancelled: 'destructive',
   refunded: 'secondary',
-  delivered: 'default',
 };
 
 /**

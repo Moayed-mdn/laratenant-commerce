@@ -54,6 +54,7 @@ export default function OrderFilters({
             <SelectItem value="shipped">{t('status.shipped')}</SelectItem>
             <SelectItem value="delivered">{t('status.delivered')}</SelectItem>
             <SelectItem value="cancelled">{t('status.cancelled')}</SelectItem>
+            <SelectItem value="refunded">{t('status.refunded')}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -70,6 +71,7 @@ export default function OrderFilters({
             <SelectItem value="paid">{t('paymentStatus.paid')}</SelectItem>
             <SelectItem value="failed">{t('paymentStatus.failed')}</SelectItem>
             <SelectItem value="refunded">{t('paymentStatus.refunded')}</SelectItem>
+            <SelectItem value="partially_refunded">{t('paymentStatus.partially_refunded')}</SelectItem>
           </SelectContent>
         </Select>
       </div>

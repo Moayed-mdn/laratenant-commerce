@@ -39,6 +39,7 @@
     "users": "العملاء",
     "products": "المنتجات",
     "orders": "الطلبات",
+    "stores": "المتاجر",
     "mainNav": "التنقل الرئيسي",
     "toggleSidebar": "تبديل الشريط الجانبي",
     "toggleMenu": "تبديل القائمة"
@@ -84,21 +85,23 @@
     },
     "orderStatus": {
       "pending": "قيد الانتظار",
-      "confirmed": "مؤكد",
+      "processing": "قيد المعالجة",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
       "cancelled": "ملغي",
-      "refunded": "مسترد",
-      "delivered": "تم التوصيل"
+      "refunded": "مسترد"
     },
     "paymentStatus": {
       "pending": "قيد الانتظار",
       "paid": "مدفوع",
       "failed": "فشل",
-      "refunded": "مسترد"
+      "refunded": "مسترد",
+      "partially_refunded": "مسترد جزئياً"
     },
     "productStatus": {
       "active": "نشط",
       "draft": "مسودة",
-      "archived": "مؤرشف"
+      "inactive": "غير نشط"
     }
   },
   "users": {
@@ -121,6 +124,8 @@
       "unknown": "غير معروف"
     },
     "status": {
+      "active": "نشط",
+      "inactive": "غير نشط",
       "verified": "موثّق",
       "unverified": "غير موثّق"
     },
@@ -218,7 +223,7 @@
       "status": {
         "active": "نشط",
         "draft": "مسودة",
-        "archived": "مؤرشف"
+        "inactive": "غير نشط"
       },
       "weightUnits": {
         "kg": "كجم",
@@ -274,16 +279,18 @@
     },
     "status": {
       "pending": "قيد الانتظار",
-      "confirmed": "مؤكد",
+      "processing": "قيد المعالجة",
+      "shipped": "تم الشحن",
       "cancelled": "ملغي",
-      "refunded": "مسترد",
-      "delivered": "تم التوصيل"
+      "delivered": "تم التوصيل",
+      "refunded": "مسترد"
     },
     "paymentStatus": {
       "pending": "قيد الانتظار",
       "paid": "مدفوع",
       "failed": "فشل",
-      "refunded": "مسترد"
+      "refunded": "مسترد",
+      "partially_refunded": "مسترد جزئياً"
     },
     "fulfillmentStatus": {
       "unfulfilled": "غير مُنجز",

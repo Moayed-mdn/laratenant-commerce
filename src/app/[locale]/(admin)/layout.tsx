@@ -37,8 +37,24 @@ export default async function AdminLayout({ children, params }: AdminLayoutProps
     //redirect(`/${locale}/login`);
   }
 
-  // Convert User to AdminUser format for compatibility
-  const adminUser = user as unknown as import('@/types/user').AdminUser;
+  // Map User (auth type) to AdminUser (admin store type)
+  // User has stores[] — AdminUser expects store_id and role
+  const adminUser: import('@/types/user').AdminUser | null = user
+    ? {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        avatar: user.avatar,
+        email_verified_at: user.email_verified_at,
+        has_password: user.has_password,
+        has_google_linked: user.has_google_linked,
+        store_id: user.stores?.[0]?.id ?? null,
+        role: user.stores?.[0]?.role as import('@/types/user').UserRole | undefined,
+        created_at: user.created_at,
+        updated_at: user.updated_at,
+      }
+    : null;
 
   return (
     <AuthProvider initialUser={user}>

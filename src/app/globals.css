@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@theme inline {
+@theme {
   /* Brand — Blue Indigo */
   --color-primary:        hsl(224 76% 48%);
   --color-primary-hover:  hsl(224 76% 40%);
@@ -65,34 +65,32 @@
   --radius:        0.5rem;
 }
 
-@layer base {
-  .dark {
-    --color-bg:             hsl(222 47% 8%);
-    --color-surface:        hsl(222 47% 11%);
-    --color-surface-raised: hsl(217 33% 15%);
-    --color-border:         hsl(217 33% 20%);
-    --color-border-strong:  hsl(217 33% 28%);
-    --color-foreground:     hsl(210 40% 96%);
-    --color-muted:          hsl(215 20% 65%);
-    --color-subtle:         hsl(215 20% 45%);
+.dark {
+  --color-bg:             hsl(222 47% 8%);
+  --color-surface:        hsl(222 47% 11%);
+  --color-surface-raised: hsl(217 33% 15%);
+  --color-border:         hsl(217 33% 20%);
+  --color-border-strong:  hsl(217 33% 28%);
+  --color-foreground:     hsl(210 40% 96%);
+  --color-muted:          hsl(215 20% 65%);
+  --color-subtle:         hsl(215 20% 45%);
 
-    --color-primary-light:  hsl(224 76% 15%);
-    --color-accent-light:   hsl(262 83% 15%);
-    --color-success-bg:     hsl(142 71% 10%);
-    --color-success-foreground: hsl(0 0% 100%);
-    --color-warning-bg:     hsl(38  92% 10%);
-    --color-danger-bg:      hsl(0   84% 10%);
-    --color-info-bg:        hsl(199 89% 10%);
+  --color-primary-light:  hsl(224 76% 15%);
+  --color-accent-light:   hsl(262 83% 15%);
+  --color-success-bg:     hsl(142 71% 10%);
+  --color-success-foreground: hsl(0 0% 100%);
+  --color-warning-bg:     hsl(38  92% 10%);
+  --color-danger-bg:      hsl(0   84% 10%);
+  --color-info-bg:        hsl(199 89% 10%);
 
-    /* shadcn compatibility */
-    --background:    222 47% 8%;
-    --foreground:    210 40% 96%;
-    --card:          222 47% 11%;
-    --card-foreground: 210 40% 96%;
-    --border:        217 33% 20%;
-    --input:         217 33% 20%;
-    --ring:          224 76% 48%;
-  }
+  /* shadcn compatibility */
+  --background:    222 47% 8%;
+  --foreground:    210 40% 96%;
+  --card:          222 47% 11%;
+  --card-foreground: 210 40% 96%;
+  --border:        217 33% 20%;
+  --input:         217 33% 20%;
+  --ring:          224 76% 48%;
 }
 
 @layer base {

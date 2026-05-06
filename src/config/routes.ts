@@ -14,6 +14,9 @@ export const ROUTES = {
     login: () => '/login' as const,
     logout: () => '/logout' as const,
   },
+  stores: {
+    new: () => '/stores/new' as const,
+  },
   store: (storeId: string) => ({
     dashboard: () => `/stores/${storeId}/dashboard` as const,
     users: {
@@ -33,6 +36,7 @@ export const ROUTES = {
 } as const;
 
 export const API_ROUTES = {
+  home: () => '/' as const,
   auth: {
     csrfCookie: () => '/sanctum/csrf-cookie',
     login: () => '/api/v1/users/auth/login',

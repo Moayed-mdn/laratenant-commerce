@@ -55,7 +55,7 @@ export default function ProductFilters({
           <SelectItem value="all">{t('filters.allStatuses')}</SelectItem>
           <SelectItem value="active">{dashboardT('productStatus.active')}</SelectItem>
           <SelectItem value="draft">{dashboardT('productStatus.draft')}</SelectItem>
-          <SelectItem value="archived">{dashboardT('productStatus.archived')}</SelectItem>
+          <SelectItem value="inactive">{dashboardT('productStatus.inactive')}</SelectItem>
         </SelectContent>
       </Select>
     </div>

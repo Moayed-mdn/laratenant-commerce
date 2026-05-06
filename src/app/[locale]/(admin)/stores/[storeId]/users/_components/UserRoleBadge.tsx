@@ -16,7 +16,7 @@ interface Props {
 
 const variantMap: Record<UserRole, 'default' | 'secondary' | 'outline'> = {
   store_admin: 'default',
-  customer: 'secondary',
+  staff: 'secondary',
   super_admin: 'outline',
 };
 

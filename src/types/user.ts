@@ -3,7 +3,7 @@
  */
 
 /** User role union type */
-export type UserRole = 'super_admin' | 'store_admin' | 'customer';
+export type UserRole = 'super_admin' | 'store_admin' | 'staff';
 
 /** Admin user type */
 export interface AdminUser {
@@ -42,6 +42,7 @@ export interface UserListItemView {
   email: string;
   role: UserRole;
   roleId: string;
+  isActive: boolean;
   isVerified: boolean;
   createdAt: string;
   createdAtRelative: string;
@@ -71,6 +72,7 @@ export interface UserDetailView {
   email: string;
   role: UserRole;
   roleId: string;
+  isActive: boolean;
   isVerified: boolean;
   verifiedAt: string | null;
   createdAt: string;
@@ -81,8 +83,8 @@ export interface UserDetailView {
 /** User filters state */
 export interface UserFilters {
   search: string;
-  role: UserRole | 'all';
-  status: 'all' | 'verified' | 'unverified';
+  role: 'all' | 'store_admin' | 'staff';
+  status: 'all' | 'active' | 'inactive';
   page: number;
   perPage: number;
 }

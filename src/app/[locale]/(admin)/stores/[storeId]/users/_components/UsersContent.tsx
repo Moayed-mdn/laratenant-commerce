@@ -7,6 +7,7 @@
  */
 
 import { useQueryState, parseAsString, parseAsInteger } from 'nuqs';
+import { useEffect } from 'react';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useUsers } from '@/hooks/users/useUsers';
 import type { UserFilters as UserFiltersType } from '@/schemas/users';
@@ -19,6 +20,8 @@ interface Props {
   storeId: string;
   initialFilters: UserFiltersType;
 }
+
+const ALLOWED_ROLES = ['all', 'store_admin', 'staff'] as const;
 
 export default function UsersContent({ storeId, initialFilters }: Props) {
   const t = useTranslations('users');
@@ -33,11 +36,25 @@ export default function UsersContent({ storeId, initialFilters }: Props) {
   // Debounce search
   const debouncedSearch = useDebounce(search, 300);
 
+  // If someone manually navigates with an invalid role query param (e.g. `role=customer`),
+  // don't send it to the backend. Keep the UI + requests aligned with backend enum.
+  useEffect(() => {
+    if (!ALLOWED_ROLES.includes(role as (typeof ALLOWED_ROLES)[number])) {
+      setRole('all');
+    }
+  }, [role, setRole]);
+
+  const safeRole: UserFiltersType['role'] = ALLOWED_ROLES.includes(
+    role as (typeof ALLOWED_ROLES)[number]
+  )
+    ? (role as UserFiltersType['role'])
+    : 'all';
+
   // Build filters object with debounced search
   const filters: UserFiltersType = {
     search: debouncedSearch,
-    role: role as 'all' | 'store_admin' | 'customer' | 'super_admin',
-    status: status as 'all' | 'verified' | 'unverified',
+    role: safeRole,
+    status: status as 'all' | 'active' | 'inactive',
     page,
     perPage,
   };
