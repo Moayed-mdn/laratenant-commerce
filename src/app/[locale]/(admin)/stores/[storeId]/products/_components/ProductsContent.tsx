@@ -7,11 +7,11 @@
  */
 
 import { Link } from '@/lib/navigation';
-import { useQueryState, parseAsString, parseAsInteger } from 'nuqs';
+import { useQueryState, parseAsString, parseAsInteger, parseAsStringLiteral } from 'nuqs';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useProducts } from '@/hooks/products/useProducts';
 import type { ProductFilters as ProductFiltersType } from '@/schemas/products';
-import { useTranslations, useLocale } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { logger } from '@/lib/logger';
 import { ROUTES } from '@/config/routes';
 import { Button } from '@/components/ui/button';
@@ -24,6 +24,8 @@ interface Props {
   initialFilters: ProductFiltersType;
 }
 
+const statusOptions = ['all', 'active', 'inactive', 'draft'] as const;
+
 export default function ProductsContent({ storeId, initialFilters }: Props) {
   const t = useTranslations('products');
 
@@ -33,7 +35,9 @@ export default function ProductsContent({ storeId, initialFilters }: Props) {
   );
   const [status, setStatus] = useQueryState(
     'status',
-    parseAsString.withDefault(initialFilters.status)
+    parseAsStringLiteral(statusOptions).withDefault(
+      initialFilters.status as (typeof statusOptions)[number]
+    )
   );
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(initialFilters.page));
   const [perPage, setPerPage] = useQueryState(
@@ -45,7 +49,7 @@ export default function ProductsContent({ storeId, initialFilters }: Props) {
 
   const filters: ProductFiltersType = {
     search: debouncedSearch,
-    status: status as 'all' | 'active' | 'inactive' | 'draft',
+    status,
     page,
     perPage,
   };
@@ -63,7 +67,7 @@ export default function ProductsContent({ storeId, initialFilters }: Props) {
 
   const handleStatusChange = (value: string | null) => {
     if (value) {
-      setStatus(value);
+      setStatus(value as (typeof statusOptions)[number]);
       if (page !== 1) setPage(1);
     }
   };

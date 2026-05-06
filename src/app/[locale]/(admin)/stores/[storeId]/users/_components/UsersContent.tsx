@@ -7,7 +7,7 @@
  */
 
 import { useQueryState, parseAsString, parseAsInteger } from 'nuqs';
-import { useEffect } from 'react';
+import { parseAsStringLiteral } from 'nuqs';
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useUsers } from '@/hooks/users/useUsers';
 import type { UserFilters as UserFiltersType } from '@/schemas/users';
@@ -22,39 +22,36 @@ interface Props {
 }
 
 const ALLOWED_ROLES = ['all', 'store_admin', 'staff'] as const;
+const statusOptions = ['all', 'active', 'inactive'] as const;
 
 export default function UsersContent({ storeId, initialFilters }: Props) {
   const t = useTranslations('users');
 
   // Nuqs state management
   const [search, setSearch] = useQueryState('search', parseAsString.withDefault(initialFilters.search));
-  const [role, setRole] = useQueryState('role', parseAsString.withDefault(initialFilters.role));
-  const [status, setStatus] = useQueryState('status', parseAsString.withDefault(initialFilters.status));
+  const [role, setRole] = useQueryState(
+    'role',
+    parseAsStringLiteral(ALLOWED_ROLES).withDefault(
+      initialFilters.role as (typeof ALLOWED_ROLES)[number]
+    )
+  );
+  const [status, setStatus] = useQueryState(
+    'status',
+    parseAsStringLiteral(statusOptions).withDefault(
+      initialFilters.status as (typeof statusOptions)[number]
+    )
+  );
   const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(initialFilters.page));
   const [perPage, setPerPage] = useQueryState('perPage', parseAsInteger.withDefault(initialFilters.perPage));
 
   // Debounce search
   const debouncedSearch = useDebounce(search, 300);
 
-  // If someone manually navigates with an invalid role query param (e.g. `role=customer`),
-  // don't send it to the backend. Keep the UI + requests aligned with backend enum.
-  useEffect(() => {
-    if (!ALLOWED_ROLES.includes(role as (typeof ALLOWED_ROLES)[number])) {
-      setRole('all');
-    }
-  }, [role, setRole]);
-
-  const safeRole: UserFiltersType['role'] = ALLOWED_ROLES.includes(
-    role as (typeof ALLOWED_ROLES)[number]
-  )
-    ? (role as UserFiltersType['role'])
-    : 'all';
-
   // Build filters object with debounced search
   const filters: UserFiltersType = {
     search: debouncedSearch,
-    role: safeRole,
-    status: status as 'all' | 'active' | 'inactive',
+    role,
+    status,
     page,
     perPage,
   };
@@ -75,14 +72,14 @@ export default function UsersContent({ storeId, initialFilters }: Props) {
 
   const handleRoleChange = (value: string | null) => {
     if (value) {
-      setRole(value);
+      setRole(value as (typeof ALLOWED_ROLES)[number]);
       if (page !== 1) setPage(1);
     }
   };
 
   const handleStatusChange = (value: string | null) => {
     if (value) {
-      setStatus(value);
+      setStatus(value as (typeof statusOptions)[number]);
       if (page !== 1) setPage(1);
     }
   };
