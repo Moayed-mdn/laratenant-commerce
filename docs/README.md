@@ -1,126 +1,45 @@
-# Frontend Architecture Rules
+# Documentation System
 
-This directory contains the focused architecture and coding standards for the frontend.
+This directory is the canonical documentation for the Next.js + Laravel multi-tenant admin dashboard.
+The codebase is the source of truth. These docs describe what exists today.
 
-# 1. Quick Reference
+## How To Use This
 
+- Start with `architecture/` for system-level behavior and boundaries.
+- Use `standards/` for implementation rules used in day-to-day work.
+- Use `features/` for module-specific behavior and conventions.
+- Use `security/` for session auth, Sanctum, and permission boundaries.
+- Use `decisions/` for ADRs that explain why key patterns exist.
+- Use `troubleshooting/` for recurring operational/debug issues.
+- Use `migrations/` for historical changes that still matter.
 
-| Topic | File |
-|-------|------|
-| Core philosophy + structure | [README.md](./README.md) |
-| Hard rules (Start Here) | [HARD-RULES.md](./HARD-RULES.md) |
-| Styling + tokens | [STYLING.md](./STYLING.md) |
-| API layer | [API-LAYER.md](./API-LAYER.md) |
-| Data fetching | [DATA-FETCHING.md](./DATA-FETCHING.md) |
-| Authentication | [AUTH.md](./AUTH.md) |
-| State management | [STATE.md](./STATE.md) |
-| Components | [COMPONENTS.md](./COMPONENTS.md) |
-| Forms | [FORMS.md](./FORMS.md) |
-| Internationalization | [I18N.md](./I18N.md) |
-| Routing | [ROUTING.md](./ROUTING.md) |
-| Error handling | [ERROR-HANDLING.md](./ERROR-HANDLING.md) |
-| Permissions | [PERMISSIONS.md](./PERMISSIONS.md) |
-| Performance | [PERFORMANCE.md](./PERFORMANCE.md) |
-| TypeScript | [TYPESCRIPT.md](./TYPESCRIPT.md) |
-| Config + constants | [CONFIG.md](./CONFIG.md) |
-| Testing | [TESTING.md](./TESTING.md) |
-| Security | [SECURITY.md](./SECURITY.md) |
-| Build + CI | [BUILD.md](./BUILD.md) |
+## Structure
 
-
-
-# 2. Tech Stack (FIXED — do not change)
-
-| Concern          | Tool                          |
-|------------------|-------------------------------|
-| Framework        | Next.js 14+ (App Router)      |
-| Language         | TypeScript (strict mode)      |
-| Styling          | Tailwind CSS + shadcn/ui      |
-| State Management | Zustand                       |
-| Server Data      | React Server Components (RSC) |
-| Client Data      | TanStack Query v5             |
-| Auth             | Sanctum tokens + httpOnly cookies |
-| HTTP Client      | Axios (typed instance)        |
-| Forms            | React Hook Form + Zod         |
-| Icons            | Lucide React                  |
-
----
-
-# 3. Project Structure
-
-```plaintext
-src/
- ├── app/                        ← App Router (pages + layouts)
- │    ├── (auth)/                ← Auth group (login, etc.)
- │    │    ├── login/
- │    │    │    └── page.tsx
- │    │    └── layout.tsx
- │    ├── (admin)/               ← Admin group
- │    │    ├── stores/
- │    │    │    └── [store]/
- │    │    │         ├── dashboard/
- │    │    │         │    └── page.tsx
- │    │    │         ├── users/
- │    │    │         │    ├── page.tsx
- │    │    │         │    └── [user]/
- │    │    │         │         └── page.tsx
- │    │    │         ├── products/
- │    │    │         │    ├── page.tsx
- │    │    │         │    └── [product]/
- │    │    │         │         └── page.tsx
- │    │    │         ├── orders/
- │    │    │         │    ├── page.tsx
- │    │    │         │    └── [order]/
- │    │    │         │         └── page.tsx
- │    │    └── layout.tsx
- │    ├── layout.tsx             ← Root layout
- │    └── globals.css            ← CSS tokens live here
- │
- ├── components/
- │    ├── ui/                    ← shadcn/ui primitives (auto-generated)
- │    ├── common/                ← Shared across domains
- │    │    ├── DataTable/
- │    │    ├── PageHeader/
- │    │    ├── ConfirmDialog/
- │    │    └── StatusBadge/
- │    ├── admin/                 ← Domain-grouped admin components
- │    │    ├── users/
- │    │    ├── products/
- │    │    ├── orders/
- │    │    └── dashboard/
- │    └── layout/                ← Sidebar, Navbar, etc.
- │
- ├── lib/
- │    ├── api/                   ← Typed API layer
- │    │    ├── axios.ts          ← Axios instance
- │    │    ├── admin/
- │    │    │    ├── users.ts
- │    │    │    ├── products.ts
- │    │    │    ├── orders.ts
- │    │    │    └── dashboard.ts
- │    │    └── auth.ts
- │    ├── hooks/                 ← TanStack Query hooks
- │    │    ├── admin/
- │    │    │    ├── useUsers.ts
- │    │    │    ├── useProducts.ts
- │    │    │    ├── useOrders.ts
- │    │    │    └── useDashboard.ts
- │    │    └── useAuth.ts
- │    └── utils/                 ← Pure utility functions
- │
- ├── stores/                     ← Zustand stores
- │    ├── authStore.ts
- │    ├── storeStore.ts          ← Current active store context
- │    └── uiStore.ts             ← Sidebar state, modals, etc.
- │
- ├── types/                      ← Global TypeScript types
- │    ├── api.ts                 ← API response shapes
- │    ├── user.ts
- │    ├── product.ts
- │    ├── order.ts
- │    └── store.ts
- │
- └── middleware.ts               ← Auth protection middleware
+```text
+docs/
+├── README.md
+├── architecture/
+├── standards/
+├── features/
+├── security/
+├── decisions/
+├── troubleshooting/
+├── migrations/
+└── archive/
 ```
 
----
+## Architectural Philosophy
+
+- Locale-first App Router with tenant-scoped URLs (`/{locale}/stores/{storeId}/...`).
+- Session/cookie auth with middleware route protection.
+- Server Components for initial/detail reads; client hooks for interactive lists and mutations.
+- Laravel is consumed through a strict API layer (`serverFetch` and `/api/proxy` bridge).
+- Shared standards (types, forms, styling, routing, i18n, errors) must stay centralized.
+
+## Contributor Rules
+
+- Update canonical docs when architecture or standards change.
+- Avoid adding one-off fix logs to top-level docs.
+- Keep one source of truth per topic; link instead of duplicating.
+- Put temporary incidents in `troubleshooting/` and completed migrations in `migrations/`.
+- Move obsolete notes to `archive/` with short context, never as active guidance.
