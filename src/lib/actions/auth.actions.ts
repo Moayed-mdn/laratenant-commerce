@@ -1,19 +1,10 @@
 'use server';
 
-/**
- * Auth Server Actions
- * Handles authentication via HttpOnly cookies with Bearer token.
- * These run on the server and can access cookies securely.
- */
-
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import type { User, LoginResponse } from '@/types/auth';
-
-// Environment configuration
-const API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
-const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME ?? 'auth_token';
-const AUTH_COOKIE_MAX_AGE = parseInt(process.env.AUTH_COOKIE_MAX_AGE ?? '604800', 10); // 7 days
+import type { User } from '@/types/auth';
+import { API_ROUTES } from '@/config/routes';
+import { APP_CONFIG } from '@/config/app';
 
 interface ApiSuccessResponse<T> {
   status: true;
@@ -30,43 +21,12 @@ interface ApiErrorResponse {
 
 type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
 
-/**
- * Get the Bearer token from the auth cookie.
- * Server-side only.
- */
-export async function getAuthToken(): Promise<string | null> {
-  const cookieStore = await cookies();
-  const token = cookieStore.get(AUTH_COOKIE_NAME)?.value ?? null;
-  return token;
-}
-
-/**
- * Build Authorization headers with Bearer token.
- */
-export async function getAuthHeaders(): Promise<Record<string, string>> {
-  const token = await getAuthToken();
-  const headers: Record<string, string> = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-  };
-
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
-  return headers;
-}
-
-/**
- * Check if response is an error.
- */
 function isApiError<T>(response: ApiResponse<T>): response is ApiErrorResponse {
   return response.status === false;
 }
 
 /**
  * Login user with credentials.
- * Stores token in HttpOnly cookie on success.
  */
 export async function login(formData: FormData): Promise<{ success: true; user: User } | { success: false; error: string; errors?: Record<string, string[]> }> {
   const email = formData.get('email') as string;
@@ -77,11 +37,22 @@ export async function login(formData: FormData): Promise<{ success: true; user: 
   }
 
   try {
-    const response = await fetch(`${API_URL}/api/v1/users/auth/login`, {
-      method: 'POST',
+    await fetch(`${APP_CONFIG.apiBaseUrl}${API_ROUTES.auth.csrfCookie()}`, {
+      method: 'GET',
+      credentials: 'include',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+    });
+
+    const response = await fetch(`${APP_CONFIG.apiBaseUrl}${API_ROUTES.auth.login()}`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
       },
       body: JSON.stringify({ email, password }),
     });
@@ -96,19 +67,7 @@ export async function login(formData: FormData): Promise<{ success: true; user: 
       };
     }
 
-    // Extract token and user from response
-    const { token, user } = data.data;
-    console.log('this this this ', { token, user });
-    // Set accessible cookie with the token (httpOnly: false for client-side axios access)
-    const cookieStore = await cookies();
-    cookieStore.set(AUTH_COOKIE_NAME, token, {
-      httpOnly: false, // Changed to allow axios client to read the token
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      path: '/',
-      maxAge: AUTH_COOKIE_MAX_AGE,
-    });
-
+    const { user } = data.data;
     return { success: true, user };
   } catch (error) {
     return {
@@ -120,62 +79,42 @@ export async function login(formData: FormData): Promise<{ success: true; user: 
 
 /**
  * Logout user.
- * Revokes token on backend and clears the cookie.
  */
 export async function logout(): Promise<void> {
-  const token = await getAuthToken();
-
-  if (token) {
-    try {
-      // Revoke token on backend
-      await fetch(`${API_URL}/api/v1/users/auth/logout`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-    } catch {
-      // Ignore errors - we'll clear the cookie anyway
-    }
-  }
-
-  // Clear the auth cookie
   const cookieStore = await cookies();
-  cookieStore.delete(AUTH_COOKIE_NAME);
-
-  // Redirect to login page
+  const cookieHeader = cookieStore.toString();
+  await fetch(`${APP_CONFIG.apiBaseUrl}${API_ROUTES.auth.logout()}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
+      'X-Requested-With': 'XMLHttpRequest',
+      Cookie: cookieHeader,
+    },
+  }).catch(() => null);
   redirect('/login');
 }
 
 /**
  * Get current authenticated user.
- * Uses Bearer token from cookie.
  */
 export async function getMe(): Promise<User | null> {
-  const token = await getAuthToken();
-
-  if (!token) {
-    return null;
-  }
-
   try {
-    const response = await fetch(`${API_URL}/api/v1/users/auth/me`, {
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore.toString();
+
+    const response = await fetch(`${APP_CONFIG.apiBaseUrl}${API_ROUTES.auth.me()}`, {
       method: 'GET',
+      credentials: 'include',
       headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Accept: 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        Cookie: cookieHeader,
       },
       cache: 'no-store',
     });
 
     if (!response.ok) {
-      if (response.status === 401) {
-        // Token is invalid - clear it
-        const cookieStore = await cookies();
-        cookieStore.delete(AUTH_COOKIE_NAME);
-      }
       return null;
     }
 

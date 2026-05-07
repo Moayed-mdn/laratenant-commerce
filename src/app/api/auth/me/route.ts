@@ -5,12 +5,11 @@
  * Reads auth_token from HttpOnly cookie and forwards to Laravel backend.
  */
 
-import { NextResponse, type NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import type { User } from '@/types/auth';
-
-const API_URL = process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000';
-const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME ?? 'auth_token';
+import { API_ROUTES } from '@/config/routes';
+import { APP_CONFIG } from '@/config/app';
 
 interface ApiResponse<T> {
   status: boolean;
@@ -22,12 +21,10 @@ interface ApiResponse<T> {
  * GET handler for /api/auth/me
  * Returns current user or 401 if not authenticated.
  */
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(): Promise<NextResponse> {
   const cookieStore = await cookies();
-  const token = cookieStore.get(AUTH_COOKIE_NAME)?.value;
-
-  // No token = not authenticated
-  if (!token) {
+  const cookieHeader = cookieStore.toString();
+  if (!cookieHeader) {
     return NextResponse.json(
       { status: false, message: 'Unauthenticated' },
       { status: 401 }
@@ -35,21 +32,18 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 
   try {
-    // Forward request to Laravel backend with Bearer token
-    const response = await fetch(`${API_URL}/api/v1/users/auth/me`, {
+    const response = await fetch(`${APP_CONFIG.apiBaseUrl}${API_ROUTES.auth.me()}`, {
       method: 'GET',
+      credentials: 'include',
       headers: {
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Accept: 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+        Cookie: cookieHeader,
       },
       cache: 'no-store',
     });
 
-    // Handle 401 from backend - token is invalid
     if (response.status === 401) {
-      // Clear the invalid cookie
-      cookieStore.delete(AUTH_COOKIE_NAME);
-      
       return NextResponse.json(
         { status: false, message: 'Unauthenticated' },
         { status: 401 }

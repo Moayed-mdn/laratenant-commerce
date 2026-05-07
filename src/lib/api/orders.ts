@@ -2,7 +2,7 @@
  * Orders API functions (client-side).
  */
 
-import { apiClient } from '@/lib/api/client/axios';
+import { clientApi } from '@/lib/api/client';
 import type { ApiResponse, PaginatedResponse } from '@/types/api';
 import { API_ROUTES } from '@/config/routes';
 import type { AdminOrder, OrderUpdatePayload } from '@/types/order';
@@ -34,13 +34,7 @@ export async function getOrders(
   }
 
   
-  const response = await apiClient.get<PaginatedResponse<AdminOrder>>(
-    API_ROUTES.store(storeId).orders().list(),
-    { params }
-  );
-
-  console.log('response.data', response.data);
-  return response.data;
+  return clientApi.get<PaginatedResponse<AdminOrder>>(API_ROUTES.store(storeId).orders().list(), { params });
 }
 
 /**
@@ -50,11 +44,7 @@ export async function getOrderDetail(
   storeId: string,
   orderId: string
 ): Promise<AdminOrder> {
-  const response = await apiClient.get<AdminOrder>(
-    API_ROUTES.store(storeId).orders().detail(orderId)
-  );
-
-  return response.data;
+  return clientApi.get<AdminOrder>(API_ROUTES.store(storeId).orders().detail(orderId));
 }
 
 /**
@@ -65,10 +55,6 @@ export async function updateOrderStatus(
   orderId: string,
   payload: OrderUpdatePayload
 ): Promise<AdminOrder> {
-  const response = await apiClient.patch<ApiResponse<AdminOrder>>(
-    API_ROUTES.store(storeId).orders().updateStatus(orderId),
-    payload
-  );
-
-  return response.data.data;
+  const response = await clientApi.patch<ApiResponse<AdminOrder>>(API_ROUTES.store(storeId).orders().updateStatus(orderId), payload);
+  return response.data;
 }

@@ -43,6 +43,7 @@ export function AuthProvider({ children, initialUser = null }: AuthProviderProps
       const response = await fetch('/api/auth/me', {
         method: 'GET',
         headers: { 'Accept': 'application/json' },
+        credentials: 'include',
         cache: 'no-store',
       });
 
@@ -97,6 +98,7 @@ export function AuthProvider({ children, initialUser = null }: AuthProviderProps
       await fetch('/api/auth/logout', {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
+        credentials: 'include',
       });
     } catch {
       // Ignore errors

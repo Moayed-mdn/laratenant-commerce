@@ -4,7 +4,7 @@
  */
 
 import { getTranslations } from 'next-intl/server';
-import { serverFetch } from '@/lib/api/server/client';
+import { serverFetch } from '@/lib/api/server';
 import { API_ROUTES } from '@/config/routes';
 import type { ApiResponse } from '@/types/api';
 import type { AdminOrder } from '@/types/order';

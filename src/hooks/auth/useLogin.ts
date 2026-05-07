@@ -25,7 +25,7 @@ export function useLogin(options?: UseLoginOptions) {
     mutationFn: login,
     retry: 0, // Hard rule — mutations never retry
     onSuccess: (data) => {
-      const { token, user } = data;
+      const { user } = data;
 
       // Update auth store with user info
       setUser(user);

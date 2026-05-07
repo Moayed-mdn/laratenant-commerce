@@ -5,9 +5,13 @@ import { routing } from '@/i18n/routing';
 
 const intlMiddleware = createMiddleware(routing);
 
-const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME ?? 'auth_token';
 const SUPPORTED_LOCALES = ['en', 'ar'];
 const DEFAULT_LOCALE = 'en';
+const SESSION_COOKIE_CANDIDATES = [
+  process.env.SANCTUM_SESSION_COOKIE,
+  'laravel_session',
+  'ecommerce_session',
+].filter(Boolean) as string[];
 
 function getLocaleFromPathname(pathname: string): string {
   const segment = pathname.split('/')[1];
@@ -38,7 +42,6 @@ function isAuthPath(strippedPath: string): boolean {
  */
 function isProtectedPath(strippedPath: string): boolean {
   // Public paths that don't need auth
-  console.log('THIS',strippedPath)
   if (strippedPath === '/') return false;
   if (strippedPath === '/login') return false;
   if (strippedPath === '/logout') return false;
@@ -59,7 +62,6 @@ function isStaticOrApi(pathname: string): boolean {
 
 export default function middleware(request: NextRequest): NextResponse {
   const { pathname } = request.nextUrl;
-  console.log('MIDDLEWARE PATHNAME', pathname);
   // Skip static files and API routes
   if (isStaticOrApi(pathname)) {
     return NextResponse.next();
@@ -67,10 +69,11 @@ export default function middleware(request: NextRequest): NextResponse {
   
   const strippedPath = stripLocale(pathname);
   const locale = getLocaleFromPathname(pathname);
-  const authToken = request.cookies.get(AUTH_COOKIE_NAME);
-  console.log('this from middleware', 'AUTH_COOKIE_NAME',authToken)
+  const hasSessionCookie = SESSION_COOKIE_CANDIDATES.some((cookieName) =>
+    request.cookies.has(cookieName)
+  );
   // If authenticated user visits /login or /register, redirect to dashboard
-  if (authToken && isAuthPath(strippedPath)) {
+  if (hasSessionCookie && isAuthPath(strippedPath)) {
     // Let them stay on logout page (they're logging out)
     if (strippedPath === '/logout') {
       return intlMiddleware(request);
@@ -83,7 +86,7 @@ export default function middleware(request: NextRequest): NextResponse {
   }
   
   // If NOT authenticated and trying to access protected routes
-  if (!authToken && isProtectedPath(strippedPath)) {
+  if (!hasSessionCookie && isProtectedPath(strippedPath)) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = `/${locale}/login`;
     loginUrl.searchParams.set('redirect', pathname);

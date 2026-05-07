@@ -2,7 +2,7 @@
  * Products API functions (client-side).
  */
 
-import { apiClient } from '@/lib/api/client/axios';
+import { clientApi } from '@/lib/api/client';
 import type { ApiResponse, PaginatedResponse } from '@/types/api';
 import { API_ROUTES } from '@/config/routes';
 import type { AdminProduct, ProductCreatePayload, ProductUpdatePayload } from '@/types/product';
@@ -30,12 +30,7 @@ export async function getProducts(
     params.per_page = filters.perPage;
   }
   
-  const response = await apiClient.get<PaginatedResponse<AdminProduct>>(
-    API_ROUTES.store(storeId).products().list(),
-    { params }
-  );
-
-  return response.data;
+  return clientApi.get<PaginatedResponse<AdminProduct>>(API_ROUTES.store(storeId).products().list(), { params });
 }
 
 /**
@@ -45,11 +40,8 @@ export async function getProductDetail(
   storeId: string,
   productId: string
 ): Promise<AdminProduct> {
-  const response = await apiClient.get<ApiResponse<AdminProduct>>(
-    API_ROUTES.store(storeId).products().detail(productId)
-  );
-
-  return response.data.data;
+  const response = await clientApi.get<ApiResponse<AdminProduct>>(API_ROUTES.store(storeId).products().detail(productId));
+  return response.data;
 }
 
 /**
@@ -59,12 +51,8 @@ export async function createProduct(
   storeId: string,
   payload: ProductCreatePayload
 ): Promise<AdminProduct> {
-  const response = await apiClient.post<ApiResponse<AdminProduct>>(
-    API_ROUTES.store(storeId).products().list(),
-    payload
-  );
-
-  return response.data.data;
+  const response = await clientApi.post<ApiResponse<AdminProduct>>(API_ROUTES.store(storeId).products().list(), payload);
+  return response.data;
 }
 
 /**
@@ -75,12 +63,8 @@ export async function updateProduct(
   productId: string,
   payload: ProductUpdatePayload
 ): Promise<AdminProduct> {
-  const response = await apiClient.patch<ApiResponse<AdminProduct>>(
-    API_ROUTES.store(storeId).products().detail(productId),
-    payload
-  );
-
-  return response.data.data;
+  const response = await clientApi.patch<ApiResponse<AdminProduct>>(API_ROUTES.store(storeId).products().detail(productId), payload);
+  return response.data;
 }
 
 /**
@@ -90,5 +74,5 @@ export async function deleteProduct(
   storeId: string,
   productId: string
 ): Promise<void> {
-  await apiClient.delete(API_ROUTES.store(storeId).products().detail(productId));
+  await clientApi.delete(API_ROUTES.store(storeId).products().detail(productId));
 }

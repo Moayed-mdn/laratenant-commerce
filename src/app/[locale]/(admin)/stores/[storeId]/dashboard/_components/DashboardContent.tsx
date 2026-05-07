@@ -4,7 +4,7 @@
  * Wrapped in Suspense by the parent page for streaming.
  */
 
-import { serverFetch } from '@/lib/api/server/client';
+import { serverFetch } from '@/lib/api/server';
 import { API_ROUTES } from '@/config/routes';
 import type { ApiResponse } from '@/types/api';
 import type { DashboardStats, RecentOrderItem, TopProductItem } from '@/types/dashboard';

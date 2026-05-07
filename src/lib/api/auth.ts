@@ -3,7 +3,7 @@
  * These are plain async functions — not hooks.
  */
 
-import apiClient from '@/lib/api/client/axios';
+import { clientApi } from '@/lib/api/client';
 import type { ApiResponse } from '@/types/api';
 import type { AdminUser } from '@/types/user';
 import { API_ROUTES } from '@/config/routes';
@@ -14,7 +14,6 @@ export interface LoginCredentials {
 }
 
 export interface LoginResponse {
-  token: string;
   user: AdminUser;
 }
 
@@ -22,26 +21,22 @@ export interface LoginResponse {
  * Login user with credentials.
  */
 export async function login(credentials: LoginCredentials): Promise<LoginResponse> {
-  const response = await apiClient.post<ApiResponse<LoginResponse>>(
-    API_ROUTES.auth.login(),
-    credentials
-  );
-
-  // API returns { status, message, data: { token, user } }
-  return response.data.data;
+  await clientApi.get<void>(API_ROUTES.auth.csrfCookie());
+  const response = await clientApi.post<ApiResponse<LoginResponse>>(API_ROUTES.auth.login(), credentials);
+  return response.data;
 }
 
 /**
  * Logout current user.
  */
 export async function logout(): Promise<void> {
-  await apiClient.post(API_ROUTES.auth.logout());
+  await clientApi.post(API_ROUTES.auth.logout());
 }
 
 /**
  * Get current authenticated user.
  */
 export async function getMe(): Promise<AdminUser> {
-  const response = await apiClient.get<ApiResponse<AdminUser>>(API_ROUTES.auth.me());
-  return response.data.data;
+  const response = await clientApi.get<ApiResponse<AdminUser>>(API_ROUTES.auth.me());
+  return response.data;
 }

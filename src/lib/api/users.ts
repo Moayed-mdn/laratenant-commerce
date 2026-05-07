@@ -2,7 +2,7 @@
  * Users API functions (client-side).
  */
 
-import { apiClient } from '@/lib/api/client/axios';
+import { clientApi } from '@/lib/api/client';
 import type { ApiResponse, PaginatedResponse } from '@/types/api';
 import { API_ROUTES } from '@/config/routes';
 import type { UserListItem, UserDetail } from '@/types/user';
@@ -23,12 +23,7 @@ export async function getUsers(
   if (filters.page !== 1) params.page = filters.page;
   if (filters.perPage !== 10) params.per_page = filters.perPage;
 
-  const response = await apiClient.get<PaginatedResponse<UserListItem>>(
-    API_ROUTES.store(storeId).users().list(),
-    { params }
-  );
-
-  return response.data;
+  return clientApi.get<PaginatedResponse<UserListItem>>(API_ROUTES.store(storeId).users().list(), { params });
 }
 
 /**
@@ -38,11 +33,8 @@ export async function getUserDetail(
   storeId: string,
   userId: string
 ): Promise<UserDetail> {
-  const response = await apiClient.get<ApiResponse<UserDetail>>(
-    API_ROUTES.store(storeId).users().detail(userId)
-  );
-
-  return response.data.data;
+  const response = await clientApi.get<ApiResponse<UserDetail>>(API_ROUTES.store(storeId).users().detail(userId));
+  return response.data;
 }
 
 /**
@@ -52,5 +44,5 @@ export async function deleteUser(
   storeId: string,
   userId: string
 ): Promise<void> {
-  await apiClient.delete(API_ROUTES.store(storeId).users().detail(userId));
+  await clientApi.delete(API_ROUTES.store(storeId).users().detail(userId));
 }

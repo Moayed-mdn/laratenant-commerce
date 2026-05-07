@@ -15,18 +15,19 @@ import { useState, useMemo, useTransition } from 'react';
 import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
 
-import { login } from '@/lib/actions/auth.actions';
-import { useAuth } from '@/contexts/AuthContext';
+import { login } from '@/lib/api/auth';
+import { useAuthStore } from '@/stores/authStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import type { ApiError } from '@/types/api';
 
 export function LoginForm() {
   const t = useTranslations('login');
   const router = useRouter();
   const searchParams = useSearchParams();
   const locale = useLocale();
-  const { setUser } = useAuth();
+  const setUser = useAuthStore((state) => state.setUser);
   const [showPassword, setShowPassword] = useState(false);
   const [isPending, startTransition] = useTransition();
 
@@ -48,18 +49,11 @@ export function LoginForm() {
   });
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log({data})
     startTransition(async () => {
-      const formData = new FormData();
-      formData.append('email', data.email);
-      formData.append('password', data.password);
-
-      const result = await login(formData);
-
-      if (result.success) {
+      try {
+        const result = await login({ email: data.email, password: data.password });
         const user = result.user;
-
-        // After successful login, always go to store picker
-        // Store picker handles 0, 1, or many stores automatically
         setUser(user);
         toast.success(t('success.loggedIn'));
 
@@ -70,19 +64,15 @@ export function LoginForm() {
             : '/';
 
         router.push(destination);
-      } else {
-        // Handle field-level errors from API
-        if (result.errors && typeof result.errors === 'object') {
-          if (result.errors.email?.[0]) {
-            setError('email', { message: result.errors.email[0] });
-          }
-          if (result.errors.password?.[0]) {
-            setError('password', { message: result.errors.password[0] });
-          }
+      } catch (error) {
+        const apiError = error as ApiError;
+        if (apiError.errors?.email?.[0]) {
+          setError('email', { message: apiError.errors.email[0] });
         }
-
-        // Always show toast for general error
-        toast.error(result.error || t('errors.genericError'));
+        if (apiError.errors?.password?.[0]) {
+          setError('password', { message: apiError.errors.password[0] });
+        }
+        toast.error(apiError.message || t('errors.genericError'));
       }
     });
   });
@@ -95,7 +85,6 @@ export function LoginForm() {
         <Input
           id="email"
           type="email"
-          value='super@test.com'
           autoComplete="email"
           placeholder={t('emailPlaceholder')}
           disabled={isPending || isSubmitting}
@@ -112,7 +101,6 @@ export function LoginForm() {
         <div className="relative">
           <Input
             id="password"
-            value='password'
             type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
             placeholder={t('passwordPlaceholder')}

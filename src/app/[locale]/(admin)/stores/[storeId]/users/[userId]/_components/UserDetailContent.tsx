@@ -3,7 +3,7 @@
  * Fetches user data and renders the detail card.
  */
 
-import { serverFetch } from '@/lib/api/server/client';
+import { serverFetch } from '@/lib/api/server';
 import { API_ROUTES } from '@/config/routes';
 import type { ApiResponse } from '@/types/api';
 import type { UserDetail } from '@/types/user';

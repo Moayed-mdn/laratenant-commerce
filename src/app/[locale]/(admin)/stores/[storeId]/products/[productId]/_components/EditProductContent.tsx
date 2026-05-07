@@ -3,7 +3,7 @@
  * Fetches product data and renders the edit form.
  */
 
-import { serverFetch } from '@/lib/api/server/client';
+import { serverFetch } from '@/lib/api/server';
 import { API_ROUTES } from '@/config/routes';
 import type { ApiResponse } from '@/types/api';
 import type { AdminProduct } from '@/types/product';
