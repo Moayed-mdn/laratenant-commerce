@@ -2,6 +2,27 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { APP_CONFIG } from '@/config/app';
 
+function resolveRequestLocale(cookieStore: Awaited<ReturnType<typeof cookies>>, request: Request): string {
+  const localeFromCookie = cookieStore.get('NEXT_LOCALE')?.value;
+  if (localeFromCookie && APP_CONFIG.supportedLocales.includes(localeFromCookie as (typeof APP_CONFIG.supportedLocales)[number])) {
+    return localeFromCookie;
+  }
+
+  const acceptLanguage = request.headers.get('accept-language');
+  if (!acceptLanguage) {
+    return APP_CONFIG.defaultLocale;
+  }
+
+  const preferredLocale = acceptLanguage
+    .split(',')
+    .map((part) => part.trim().split(';')[0]?.toLowerCase().split('-')[0])
+    .find((locale): locale is string =>
+      Boolean(locale) && APP_CONFIG.supportedLocales.includes(locale as (typeof APP_CONFIG.supportedLocales)[number])
+    );
+
+  return preferredLocale ?? APP_CONFIG.defaultLocale;
+}
+
 function getEndpoint(request: Request): string | null {
   const { searchParams } = new URL(request.url);
   const endpoint = searchParams.get('endpoint');
@@ -23,9 +44,9 @@ async function handleProxy(request: Request): Promise<NextResponse> {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
   const xsrfToken = cookieStore.get('XSRF-TOKEN')?.value;
+  const requestLocale = resolveRequestLocale(cookieStore, request);
   const method = request.method.toUpperCase();
   const rawBody = method === 'GET' || method === 'DELETE' ? undefined : await request.text();
-  console.log(`${APP_CONFIG.apiBaseUrl}${endpoint}`);
   const upstream = await fetch(`${APP_CONFIG.apiBaseUrl}${endpoint}`, {
     method,
     credentials: 'include',
@@ -33,6 +54,7 @@ async function handleProxy(request: Request): Promise<NextResponse> {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
+      'Accept-Language': requestLocale,
       Cookie: cookieHeader,
       ...(xsrfToken && method !== 'GET' ? { 'X-XSRF-TOKEN': decodeURIComponent(xsrfToken) } : {}),
     },
