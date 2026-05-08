@@ -34,7 +34,11 @@ export default async function AdminLayout({ children, params }: AdminLayoutProps
 
   if (!user) {
     logger.warn('Admin layout: unauthenticated, redirecting to login');
-    //redirect(`/${locale}/login`);
+    const redirectUrl = new URL(`/login`, 'http://localhost:3000');
+    // Preserve the current pathname as redirect target
+    // The locale is already in the params from the route
+    redirectUrl.searchParams.set('redirect', `/${locale}`);
+    redirect(`/${locale}/login${redirectUrl.search}`);
   }
 
   // Map User (auth type) to AdminUser (admin store type)
