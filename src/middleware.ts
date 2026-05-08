@@ -73,13 +73,24 @@ export default function middleware(request: NextRequest): NextResponse {
     request.cookies.has(cookieName)
   );
   // If authenticated user visits /login or /register, redirect to dashboard
+  // EXCEPTION: Allow login access if there's a `redirect` param (unauthorized flow)
   if (hasSessionCookie && isAuthPath(strippedPath)) {
     // Let them stay on logout page (they're logging out)
     if (strippedPath === '/logout') {
       return intlMiddleware(request);
     }
     
-    // Redirect logged-in users away from login/register
+    // Check if this is an unauthorized redirect flow (has redirect param)
+    const searchParams = request.nextUrl.searchParams;
+    const hasRedirectParam = searchParams.has('redirect');
+    
+    // If there's a redirect param, allow access to login page
+    // This handles the case where session expired and user is being redirected back to login
+    if (hasRedirectParam && strippedPath === '/login') {
+      return intlMiddleware(request);
+    }
+    
+    // Redirect logged-in users away from login/register (normal case)
     const url = request.nextUrl.clone();
     url.pathname = `/${locale}`;
     return NextResponse.redirect(url);
