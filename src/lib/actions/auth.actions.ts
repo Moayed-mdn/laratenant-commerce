@@ -1,10 +1,10 @@
 'use server';
 
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import type { User } from '@/types/auth';
 import { API_ROUTES } from '@/config/routes';
-import { APP_CONFIG } from '@/config/app';
+import { serverFetch } from '@/lib/api/server';
+import type { ApiError } from '@/types/api';
 
 interface ApiSuccessResponse<T> {
   status: true;
@@ -12,17 +12,8 @@ interface ApiSuccessResponse<T> {
   data: T;
 }
 
-interface ApiErrorResponse {
-  status: false;
-  message: string;
-  error_code?: string;
-  errors?: Record<string, string[]>;
-}
-
-type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
-
-function isApiError<T>(response: ApiResponse<T>): response is ApiErrorResponse {
-  return response.status === false;
+interface LoginResponse {
+  user: User;
 }
 
 /**
@@ -37,42 +28,23 @@ export async function login(formData: FormData): Promise<{ success: true; user: 
   }
 
   try {
-    await fetch(`${APP_CONFIG.apiBaseUrl}${API_ROUTES.auth.csrfCookie()}`, {
+    await serverFetch<void>(API_ROUTES.auth.csrfCookie(), {
       method: 'GET',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-      },
     });
 
-    const response = await fetch(`${APP_CONFIG.apiBaseUrl}${API_ROUTES.auth.login()}`, {
+    const response = await serverFetch<ApiSuccessResponse<LoginResponse>>(API_ROUTES.auth.login(), {
       method: 'POST',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-      },
-      body: JSON.stringify({ email, password }),
+      body: { email, password },
     });
 
-    const data = await response.json() as ApiResponse<LoginResponse>;
-
-    if (!response.ok || isApiError(data)) {
-      return {
-        success: false,
-        error: data.message ?? 'Login failed',
-        errors: 'errors' in data ? data.errors : undefined,
-      };
-    }
-
-    const { user } = data.data;
+    const { user } = response.data;
     return { success: true, user };
   } catch (error) {
+    const apiError = error as ApiError;
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'An unexpected error occurred',
+      error: apiError.message ?? 'An unexpected error occurred',
+      errors: apiError.errors,
     };
   }
 }
@@ -81,16 +53,8 @@ export async function login(formData: FormData): Promise<{ success: true; user: 
  * Logout user.
  */
 export async function logout(): Promise<void> {
-  const cookieStore = await cookies();
-  const cookieHeader = cookieStore.toString();
-  await fetch(`${APP_CONFIG.apiBaseUrl}${API_ROUTES.auth.logout()}`, {
+  await serverFetch<void>(API_ROUTES.auth.logout(), {
     method: 'POST',
-    credentials: 'include',
-    headers: {
-      Accept: 'application/json',
-      'X-Requested-With': 'XMLHttpRequest',
-      Cookie: cookieHeader,
-    },
   }).catch(() => null);
   redirect('/login');
 }
@@ -100,31 +64,12 @@ export async function logout(): Promise<void> {
  */
 export async function getMe(): Promise<User | null> {
   try {
-    const cookieStore = await cookies();
-    const cookieHeader = cookieStore.toString();
-
-    const response = await fetch(`${APP_CONFIG.apiBaseUrl}${API_ROUTES.auth.me()}`, {
+    const response = await serverFetch<ApiSuccessResponse<User>>(API_ROUTES.auth.me(), {
       method: 'GET',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'X-Requested-With': 'XMLHttpRequest',
-        Cookie: cookieHeader,
-      },
       cache: 'no-store',
     });
 
-    if (!response.ok) {
-      return null;
-    }
-
-    const data = await response.json() as ApiResponse<User>;
-
-    if (isApiError(data)) {
-      return null;
-    }
-
-    return data.data;
+    return response.data;
   } catch {
     return null;
   }

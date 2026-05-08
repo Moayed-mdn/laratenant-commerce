@@ -3,11 +3,13 @@
 /**
  * Auth Context for Client Components
  * Provides user state, loading state, and authentication status.
- * Hydrates user data on mount by calling the /api/auth/me endpoint.
+ * Hydrates user data on mount through the auth API layer.
  */
 
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import type { User } from '@/types/auth';
+import { getSessionMe, logoutSession } from '@/lib/api/auth';
+import { logger } from '@/lib/logger';
 
 interface AuthContextType {
   user: User | null;
@@ -33,29 +35,14 @@ export function AuthProvider({ children, initialUser = null }: AuthProviderProps
   const [user, setUserState] = useState<User | null>(initialUser);
   const [isLoading, setIsLoading] = useState(!initialUser);
 
-  /**
-   * Fetch current user from /api/auth/me
-   * This endpoint reads the HttpOnly cookie and forwards to backend.
-   */
+  /** Fetch current user from internal auth route through API layer. */
   const refreshUser = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('/api/auth/me', {
-        method: 'GET',
-        headers: { 'Accept': 'application/json' },
-        credentials: 'include',
-        cache: 'no-store',
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUserState(data.user ?? null);
-      } else if (response.status === 401) {
-        setUserState(null);
-      } else {
-        setUserState(null);
-      }
-    } catch {
+      const currentUser = await getSessionMe();
+      setUserState(currentUser);
+    } catch (error) {
+      logger.error('Failed to refresh auth user', { error });
       setUserState(null);
     } finally {
       setIsLoading(false);
@@ -90,18 +77,12 @@ export function AuthProvider({ children, initialUser = null }: AuthProviderProps
     setUserState(newUser);
   }, []);
 
-  /**
-   * Logout user by calling the logout server action.
-   */
+  /** Logout user through auth API module. */
   const logout = useCallback(async () => {
     try {
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        credentials: 'include',
-      });
-    } catch {
-      // Ignore errors
+      await logoutSession();
+    } catch (error) {
+      logger.warn('Logout request failed, clearing local state', { error });
     }
     setUserState(null);
     window.location.href = '/login';

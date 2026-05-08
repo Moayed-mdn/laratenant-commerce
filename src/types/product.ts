@@ -19,9 +19,17 @@ export type WeightUnit = 'kg' | 'g' | 'lb' | 'oz';
 /** Product variant type */
 export interface ProductVariant {
   id: number;
+  label?: string | null;
   sku: string | null;
+  barcode?: string | null;
   price: number;
+  compare_at_price?: number | null;
+  cost_price?: number | null;
   quantity: number;
+  low_stock_threshold?: number | null;
+  track_inventory?: boolean;
+  weight?: number | null;
+  weight_unit?: WeightUnit | null;
   is_active: boolean;
   manufacture_date: string | null;
   expiry_date: string | null;
@@ -108,6 +116,49 @@ export interface ProductDetailView {
   images: ProductImage[];
   createdAt: string;
   updatedAt: string;
+  variants: ProductVariant[];
+}
+
+export interface ProductAttributeValue {
+  value: string;
+}
+
+export interface ProductAttribute {
+  name: string;
+  values: ProductAttributeValue[];
+}
+
+export interface ProductVariantInput {
+  id?: number;
+  key: string;
+  label: string;
+  sku: string | null;
+  barcode: string | null;
+  price: number;
+  compare_at_price: number | null;
+  cost_price: number | null;
+  quantity: number;
+  low_stock_threshold: number | null;
+  track_inventory: boolean;
+  is_active: boolean;
+  weight: number | null;
+  weight_unit: WeightUnit | null;
+  attributes: { name: string; value: string }[];
+}
+
+export interface ProductEditorState {
+  product: {
+    name: string;
+    description: string;
+    status: ProductStatus;
+    category_id: number | null;
+    brand_id: number | null;
+    featured: boolean;
+    active: boolean;
+    media: ProductImage[];
+  };
+  variants: ProductVariantInput[];
+  attributes: ProductAttribute[];
 }
 
 /** Product create payload */

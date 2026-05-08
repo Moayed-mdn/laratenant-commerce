@@ -84,8 +84,6 @@ export default function UsersContent({ storeId, initialFilters }: Props) {
     }
   };
 
-  console.log('users data:', data, 'meta:', data?.meta);
-
   return (
     <div className="space-y-6">
       <div>

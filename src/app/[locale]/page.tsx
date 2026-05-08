@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 import { useRouter } from '@/lib/navigation';
 import { useAuth } from '@/contexts/AuthContext';
@@ -7,6 +8,7 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { ROUTES } from '@/config/routes';
 
 function StorePickerContent() {
+  const t = useTranslations('stores');
   const { user, isLoading } = useAuth();
   const router = useRouter();
 
@@ -57,15 +59,15 @@ function StorePickerContent() {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center space-y-4">
-          <h1 className="text-2xl font-bold">Welcome!</h1>
+          <h1 className="text-2xl font-bold">{t('welcome')}</h1>
           <p className="text-muted-foreground">
-            You don&apos;t have any stores yet.
+            {t('noStores')}
           </p>
           <a
             href={ROUTES.stores.new()}
             className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-white font-medium hover:bg-primary/90"
           >
-            Create your first store
+            {t('createFirst')}
           </a>
         </div>
       </div>

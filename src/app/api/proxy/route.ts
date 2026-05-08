@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { APP_CONFIG } from '@/config/app';
+import { logger } from '@/lib/logger';
 
 function resolveRequestLocale(cookieStore: Awaited<ReturnType<typeof cookies>>, request: Request): string {
   const localeFromCookie = cookieStore.get('NEXT_LOCALE')?.value;
@@ -45,6 +46,7 @@ async function handleProxy(request: Request): Promise<NextResponse> {
   const cookieHeader = cookieStore.toString();
   const xsrfToken = cookieStore.get('XSRF-TOKEN')?.value;
   const requestLocale = resolveRequestLocale(cookieStore, request);
+  logger.debug('Proxy request locale resolved', { requestLocale });
   const method = request.method.toUpperCase();
   const rawBody = method === 'GET' || method === 'DELETE' ? undefined : await request.text();
   const upstream = await fetch(`${APP_CONFIG.apiBaseUrl}${endpoint}`, {
@@ -54,7 +56,7 @@ async function handleProxy(request: Request): Promise<NextResponse> {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
-      'Accept-Language': requestLocale,
+      'locale': requestLocale,
       Cookie: cookieHeader,
       ...(xsrfToken && method !== 'GET' ? { 'X-XSRF-TOKEN': decodeURIComponent(xsrfToken) } : {}),
     },

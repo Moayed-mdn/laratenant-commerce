@@ -1,4 +1,11 @@
 import type { ApiError, HttpMethod } from '@/types/api';
+import {
+  buildHeaders,
+  DEFAULT_JSON_HEADERS,
+  parseResponseBody,
+  serializeJsonBody,
+  toApiError,
+} from '@/lib/api/core/transport';
 
 export interface ClientFetchOptions {
   method?: HttpMethod;
@@ -6,24 +13,6 @@ export interface ClientFetchOptions {
   headers?: HeadersInit;
   params?: Record<string, string | number | boolean | undefined>;
   signal?: AbortSignal;
-}
-
-async function parseResponseBody<T>(response: Response): Promise<T> {
-  if (response.status === 204) {
-    return undefined as T;
-  }
-
-  const contentType = response.headers.get('content-type') ?? '';
-  if (!contentType.includes('application/json')) {
-    return undefined as T;
-  }
-
-  const text = await response.text();
-  if (!text) {
-    return undefined as T;
-  }
-
-  return JSON.parse(text) as T;
 }
 
 function withQueryParams(
@@ -49,34 +38,17 @@ export async function clientFetch<T>(
   const response = await fetch(`/api/proxy?endpoint=${encodeURIComponent(endpoint)}`, {
     method: options.method ?? 'GET',
     credentials: 'include',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'X-Requested-With': 'XMLHttpRequest',
-      ...options.headers,
-    },
-    body: options.body ? JSON.stringify(options.body) : undefined,
+    headers: buildHeaders(DEFAULT_JSON_HEADERS, options.headers),
+    body: serializeJsonBody(options.body),
     signal: options.signal,
   });
 
   if (!response.ok) {
-    const error = (await parseResponseBody<{
-      message?: string;
-      code?: string;
-      errors?: Record<string, string[]>;
-    }>(response).catch(() => undefined)) ?? { message: 'Request failed' };
-
     if (response.status === 401 && typeof window !== 'undefined') {
       window.dispatchEvent(new Event('auth:unauthorized'));
     }
 
-    const apiError: ApiError = {
-      message: error.message ?? `Request failed with status ${response.status}`,
-      status: response.status,
-      code: error.code ?? String(response.status),
-      errors: error.errors ?? {},
-    };
-
+    const apiError: ApiError = await toApiError(response, `Request failed with status ${response.status}`);
     throw apiError;
   }
 

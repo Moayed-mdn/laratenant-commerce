@@ -161,6 +161,11 @@
     "cancel": "إلغاء",
     "delete": "حذف"
   },
+  "stores": {
+    "noStores": "ليس لديك أي متاجر حتى الآن.",
+    "welcome": "أهلاً بك!",
+    "createFirst": "أنشئ متجرك الأول"
+  },
   "products": {
     "title": "المنتجات",
     "subtitle": "إدارة منتجات متجرك",
@@ -168,6 +173,9 @@
     "loading": "جارٍ التحميل...",
     "cancel": "إلغاء",
     "delete": "حذف",
+    "edit": "تعديل",
+    "actions": "الإجراءات",
+    "save": "حفظ",
     "filters": {
       "search": "بحث",
       "searchPlaceholder": "البحث بالاسم أو SKU...",
@@ -248,6 +256,42 @@
       "deleteError": "فشل حذف المنتج",
       "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.",
       "delete": "حذف المنتج"
+    },
+    "variantEditor": {
+      "tabs": {
+        "general": "عام",
+        "variants": "المتغيرات",
+        "attributes": "الخصائص",
+        "seo": "SEO"
+      },
+      "unsavedChanges": "لديك تغييرات غير محفوظة.",
+      "seoPlaceholder": "سيتم إضافة قسم SEO في مرحلة لاحقة.",
+      "shared": {
+        "yes": "نعم",
+        "no": "لا",
+        "duplicate": "نسخ",
+        "copy": "نسخة"
+      },
+      "general": {
+        "featured": "مميز"
+      },
+      "variants": {
+        "variant": "متغير",
+        "label": "اسم المتغير",
+        "sku": "SKU",
+        "price": "السعر",
+        "quantity": "الكمية",
+        "editVariant": "تعديل المتغير",
+        "searchVariants": "ابحث في المتغيرات...",
+        "addVariant": "إضافة متغير"
+      },
+      "attributes": {
+        "attributeName": "اسم الخاصية",
+        "value": "القيمة",
+        "addValue": "إضافة قيمة",
+        "addAttribute": "إضافة خاصية",
+        "generateCombinations": "توليد التركيبات"
+      }
     },
     "detail": {
       "back": "العودة إلى المنتجات"

@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { ApiError } from '@/types/api';
+import { logger } from '@/lib/logger';
 
 export function LoginForm() {
   const t = useTranslations('login');
@@ -49,7 +50,7 @@ export function LoginForm() {
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log({data})
+    logger.debug('Submitting login form');
     startTransition(async () => {
       try {
         const result = await login({ email: data.email, password: data.password });
@@ -100,7 +101,7 @@ export function LoginForm() {
         <Label htmlFor="password">{t('passwordLabel')}</Label>
         <div className="relative">
           <Input
-            id="password"
+            id="password"            
             type={showPassword ? 'text' : 'password'}
             autoComplete="current-password"
             placeholder={t('passwordPlaceholder')}
@@ -111,7 +112,7 @@ export function LoginForm() {
             type="button"
             variant="ghost"
             size="icon"
-            className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+            className="absolute inset-e-0 px-3 top-0 h-full  hover:bg-transparent"
             onClick={() => setShowPassword(!showPassword)}
             aria-label={t('togglePassword')}
             disabled={isPending || isSubmitting}

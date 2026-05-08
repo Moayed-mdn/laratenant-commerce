@@ -161,6 +161,11 @@
     "cancel": "Cancel",
     "delete": "Delete"
   },
+  "stores": {
+    "noStores": "You don't have any stores yet.",
+    "welcome": "Welcome!",
+    "createFirst": "Create your first store"
+  },
   "products": {
     "title": "Products",
     "subtitle": "Manage your store products",
@@ -168,6 +173,9 @@
     "loading": "Loading...",
     "cancel": "Cancel",
     "delete": "Delete",
+    "edit": "Edit",
+    "actions": "Actions",
+    "save": "Save",
     "filters": {
       "search": "Search",
       "searchPlaceholder": "Search by name or SKU...",
@@ -248,6 +256,42 @@
       "deleteError": "Failed to delete product",
       "deleteConfirm": "Are you sure you want to delete this product? This cannot be undone.",
       "delete": "Delete product"
+    },
+    "variantEditor": {
+      "tabs": {
+        "general": "General",
+        "variants": "Variants",
+        "attributes": "Attributes",
+        "seo": "SEO"
+      },
+      "unsavedChanges": "You have unsaved changes.",
+      "seoPlaceholder": "SEO section will be added in a later phase.",
+      "shared": {
+        "yes": "Yes",
+        "no": "No",
+        "duplicate": "Duplicate",
+        "copy": "Copy"
+      },
+      "general": {
+        "featured": "Featured"
+      },
+      "variants": {
+        "variant": "Variant",
+        "label": "Variant label",
+        "sku": "SKU",
+        "price": "Price",
+        "quantity": "Quantity",
+        "editVariant": "Edit variant",
+        "searchVariants": "Search variants...",
+        "addVariant": "Add variant"
+      },
+      "attributes": {
+        "attributeName": "Attribute name",
+        "value": "Value",
+        "addValue": "Add value",
+        "addAttribute": "Add attribute",
+        "generateCombinations": "Generate combinations"
+      }
     },
     "detail": {
       "back": "Back to products"

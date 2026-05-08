@@ -53,5 +53,6 @@ export function mapProductDetail(raw: AdminProduct): ProductDetailView {
     images: raw.images,
     createdAt: formatDate(raw.created_at),
     updatedAt: formatDate(raw.updated_at),
+    variants: raw.variants ?? [],
   };
 }
