@@ -13,6 +13,7 @@ export const APP_CONFIG = {
   defaultTimezone: 'UTC',
   requestTimeout: 10000, // 10 seconds — hard rule
   maxUploadSizeMb: 5,
+  sessionCookieName: process.env.SESSION_COOKIE_NAME ?? 'NEXT_LOCALE',
   supportedImageTypes: ['image/jpeg', 'image/png', 'image/webp'] as const,
 } as const;
 

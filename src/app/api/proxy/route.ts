@@ -4,7 +4,7 @@ import { APP_CONFIG } from '@/config/app';
 import { logger } from '@/lib/logger';
 
 function resolveRequestLocale(cookieStore: Awaited<ReturnType<typeof cookies>>, request: Request): string {
-  const localeFromCookie = cookieStore.get('NEXT_LOCALE')?.value;
+  const localeFromCookie = cookieStore.get(APP_CONFIG.sessionCookieName)?.value;
   if (localeFromCookie && APP_CONFIG.supportedLocales.includes(localeFromCookie as (typeof APP_CONFIG.supportedLocales)[number])) {
     return localeFromCookie;
   }

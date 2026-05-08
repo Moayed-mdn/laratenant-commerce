@@ -7,18 +7,16 @@
  */
 
 import { useTranslations } from 'next-intl';
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { useUpdateProduct } from '@/hooks/products/useUpdateProduct';
 import DeleteProductButton from './DeleteProductButton';
-import type { ProductDetailView, ProductEditorState, ProductVariantInput } from '@/types/product';
+import type { Locale, ProductDetailView, ProductTranslation, ProductVariantInput } from '@/types/product';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ProductGeneralForm } from './ProductGeneralForm';
-import { ProductVariantsTable } from './ProductVariantsTable';
-import { ProductAttributesManager } from './ProductAttributesManager';
-import { generateVariantCombinations } from './VariantCombinationGenerator';
+import { ProductContentTab } from './ProductContentTab';
+import { ProductMediaTab } from './ProductMediaTab';
+import { ProductStructureTab, type ProductStructureState } from './ProductStructureTab';
 
 interface Props {
   product: ProductDetailView;
@@ -27,18 +25,36 @@ interface Props {
 
 export default function EditProductForm({ product, storeId }: Props) {
   const t = useTranslations('products');
-  const [tab, setTab] = useState('general');
 
-  const [editor, setEditor] = useState<ProductEditorState>({
-    product: {
-      name: product.name,
-      description: product.description ?? '',
+  const [tab, setTab] = useState<'content' | 'structure' | 'media'>('content');
+
+  const availableLocales = product.availableLocales;
+  const translationsInitial = useMemo(() => {
+    const base: Record<Locale, ProductTranslation> = { ...product.translations };
+
+    for (const locale of availableLocales) {
+      if (!base[locale]) {
+        base[locale] = {
+          locale,
+          name: '',
+          slug: '',
+          description: null,
+          seo_title: null,
+          seo_description: null,
+          is_complete: false,
+        };
+      }
+    }
+
+    return base;
+  }, [availableLocales, product.translations]);
+
+  const [translations, setTranslations] = useState<Record<Locale, ProductTranslation>>(translationsInitial);
+
+  const [structure, setStructure] = useState<ProductStructureState>({
+    basics: {
       status: product.status,
-      category_id: null,
-      brand_id: null,
       featured: false,
-      active: product.status === 'active',
-      media: product.images ?? [],
     },
     variants:
       product.variants.length > 0
@@ -85,8 +101,11 @@ export default function EditProductForm({ product, storeId }: Props) {
     attributes: [],
   });
 
-  const initialFingerprint = useRef(JSON.stringify(editor));
-  const isDirty = initialFingerprint.current !== JSON.stringify(editor);
+  const [images, setImages] = useState(product.images ?? []);
+
+  const snapshot = useMemo(() => ({ translations, structure, images }), [images, structure, translations]);
+  const initialFingerprint = useRef(JSON.stringify(snapshot));
+  const isDirty = initialFingerprint.current !== JSON.stringify(snapshot);
 
   const mutation = useUpdateProduct(storeId, String(product.id), {
     onSuccess: () => {
@@ -98,12 +117,25 @@ export default function EditProductForm({ product, storeId }: Props) {
   });
 
   const handleSubmit = () => {
-    const primaryVariant = editor.variants[0];
+    const primaryVariant = structure.variants[0];
     mutation.mutate({
-      name: editor.product.name,
-      description: editor.product.description,
-      status: editor.product.status,
-      // Backward compatibility until backend is fully variant-first
+      translations: Object.fromEntries(
+        Object.entries(translations).map(([locale, tr]) => [
+          locale,
+          {
+            locale,
+            name: tr.name,
+            slug: tr.slug,
+            description: tr.description,
+            seo_title: tr.seo_title,
+            seo_description: tr.seo_description,
+          },
+        ])
+      ),
+      status: structure.basics.status,
+      variants: structure.variants,
+      attributes: structure.attributes,
+      images,
       price: primaryVariant?.price ?? 0,
       compare_at_price: primaryVariant?.compare_at_price ?? null,
       cost_per_item: primaryVariant?.cost_price ?? null,
@@ -118,66 +150,27 @@ export default function EditProductForm({ product, storeId }: Props) {
 
   return (
     <div className="space-y-6">
-      <Tabs value={tab} onValueChange={setTab} className="flex-col">
+      <Tabs value={tab} onValueChange={setTab} >
         <TabsList>
-          <TabsTrigger value="general">{t('variantEditor.tabs.general')}</TabsTrigger>
-          <TabsTrigger value="variants">{t('variantEditor.tabs.variants')}</TabsTrigger>
-          <TabsTrigger value="attributes">{t('variantEditor.tabs.attributes')}</TabsTrigger>
-          <TabsTrigger value="seo">{t('variantEditor.tabs.seo')}</TabsTrigger>
+          <TabsTrigger value="content">{t('editor.tabs.content')}</TabsTrigger>
+          <TabsTrigger value="structure">{t('editor.tabs.structure')}</TabsTrigger>
+          <TabsTrigger value="media">{t('editor.tabs.media')}</TabsTrigger>
         </TabsList>
-        <TabsContent value="general">
-          <Card>
-            <CardContent className="pt-6">
-              <ProductGeneralForm
-                value={editor.product}
-                onChange={(next) => setEditor((prev) => ({ ...prev, product: next }))}
-              />
-            </CardContent>
-          </Card>
+
+        <TabsContent value="content">
+          <ProductContentTab
+            availableLocales={availableLocales}
+            translations={translations}
+            onChange={setTranslations}
+          />
         </TabsContent>
-        <TabsContent value="variants">
-          <Card>
-            <CardContent className="pt-6">
-              <ProductVariantsTable
-                variants={editor.variants}
-                onChange={(variants) => setEditor((prev) => ({ ...prev, variants }))}
-              />
-            </CardContent>
-          </Card>
+
+        <TabsContent value="structure">
+          <ProductStructureTab value={structure} onChange={setStructure} />
         </TabsContent>
-        <TabsContent value="attributes">
-          <Card>
-            <CardContent className="pt-6 space-y-4">
-              <ProductAttributesManager
-                attributes={editor.attributes}
-                onChange={(attributes) => {
-                  setEditor((prev) => ({
-                    ...prev,
-                    attributes,
-                    variants: generateVariantCombinations(attributes, prev.variants),
-                  }));
-                }}
-              />
-              <Button
-                variant="outline"
-                onClick={() =>
-                  setEditor((prev) => ({
-                    ...prev,
-                    variants: generateVariantCombinations(prev.attributes, prev.variants),
-                  }))
-                }
-              >
-                {t('variantEditor.attributes.generateCombinations')}
-              </Button>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="seo">
-          <Card>
-            <CardContent className="pt-6 text-muted-foreground">
-              {t('variantEditor.seoPlaceholder')}
-            </CardContent>
-          </Card>
+
+        <TabsContent value="media">
+          <ProductMediaTab images={images} onChange={setImages} />
         </TabsContent>
       </Tabs>
 

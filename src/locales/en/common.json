@@ -293,6 +293,33 @@
         "generateCombinations": "Generate combinations"
       }
     },
+    "editor": {
+      "tabs": {
+        "content": "Content",
+        "structure": "Structure",
+        "media": "Media"
+      },
+      "translationStatus": {
+        "complete": "Complete",
+        "incomplete": "Incomplete"
+      },
+      "translation": {
+        "fields": {
+          "name": "Name",
+          "slug": "Slug",
+          "description": "Description",
+          "seoTitle": "SEO title",
+          "seoDescription": "SEO description"
+        }
+      },
+      "media": {
+        "imagesTitle": "Images",
+        "imagesHint": "Manage images, ordering, and alt text.",
+        "altText": "Alt text",
+        "moveUp": "Move up",
+        "moveDown": "Move down"
+      }
+    },
     "detail": {
       "back": "Back to products"
     }

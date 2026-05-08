@@ -3,7 +3,13 @@
  * Transforms raw API types to view types for UI consumption.
  */
 
-import type { AdminProduct, ProductListItemView, ProductDetailView } from '@/types/product';
+import type {
+  AdminProduct,
+  Locale,
+  ProductDetailView,
+  ProductListItemView,
+  ProductTranslation,
+} from '@/types/product';
 import { formatDate, formatCurrency } from '@/lib/utils/date';
 
 /**
@@ -34,6 +40,29 @@ export function mapProductListItem(
  * Map product detail from raw API shape to view shape.
  */
 export function mapProductDetail(raw: AdminProduct): ProductDetailView {
+  const rawTranslations: Record<Locale, ProductTranslation> = raw.translations ?? {};
+
+  const availableLocales: Locale[] =
+    raw.available_locales && raw.available_locales.length > 0
+      ? raw.available_locales
+      : (Object.keys(rawTranslations) as Locale[]);
+
+  const translations = availableLocales.reduce<Record<Locale, ProductTranslation>>((acc, locale) => {
+    const existing = rawTranslations[locale];
+    acc[locale] =
+      existing ??
+      ({
+        locale,
+        name: '',
+        slug: '',
+        description: null,
+        seo_title: null,
+        seo_description: null,
+        is_complete: false,
+      } satisfies ProductTranslation);
+    return acc;
+  }, {});
+
   return {
     id: raw.id,
     storeId: raw.store_id,
@@ -54,5 +83,7 @@ export function mapProductDetail(raw: AdminProduct): ProductDetailView {
     createdAt: formatDate(raw.created_at),
     updatedAt: formatDate(raw.updated_at),
     variants: raw.variants ?? [],
+    availableLocales,
+    translations,
   };
 }

@@ -13,6 +13,18 @@ export interface ProductImage {
 /** Product status union type */
 export type ProductStatus = 'active' | 'inactive' | 'draft';
 
+export type Locale = string;
+
+export interface ProductTranslation {
+  locale: Locale;
+  name: string;
+  slug: string;
+  description: string | null;
+  seo_title: string | null;
+  seo_description: string | null;
+  is_complete?: boolean;
+}
+
 /** Weight unit type */
 export type WeightUnit = 'kg' | 'g' | 'lb' | 'oz';
 
@@ -75,6 +87,8 @@ export interface AdminProduct {
   variants: ProductVariant[];
   category_id: number | null;
   brand_id: number | null;
+  available_locales?: Locale[];
+  translations?: Record<Locale, ProductTranslation>;
   created_at: string;
   updated_at: string;
 }
@@ -117,6 +131,8 @@ export interface ProductDetailView {
   createdAt: string;
   updatedAt: string;
   variants: ProductVariant[];
+  availableLocales: Locale[];
+  translations: Record<Locale, ProductTranslation>;
 }
 
 export interface ProductAttributeValue {
@@ -178,4 +194,19 @@ export interface ProductCreatePayload {
 }
 
 /** Product update payload */
-export type ProductUpdatePayload = Partial<ProductCreatePayload>;
+export interface ProductUpdatePayload {
+  translations?: Record<Locale, Omit<ProductTranslation, 'is_complete'>>;
+  status?: ProductStatus;
+  variants?: ProductVariantInput[];
+  attributes?: ProductAttribute[];
+  images?: ProductImage[];
+  price?: number;
+  compare_at_price?: number | null;
+  cost_per_item?: number | null;
+  sku?: string | null;
+  barcode?: string | null;
+  quantity?: number;
+  track_quantity?: boolean;
+  weight?: number | null;
+  weight_unit?: WeightUnit | null;
+}

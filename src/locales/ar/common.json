@@ -293,6 +293,33 @@
         "generateCombinations": "توليد التركيبات"
       }
     },
+    "editor": {
+      "tabs": {
+        "content": "المحتوى",
+        "structure": "البنية",
+        "media": "الوسائط"
+      },
+      "translationStatus": {
+        "complete": "مكتمل",
+        "incomplete": "غير مكتمل"
+      },
+      "translation": {
+        "fields": {
+          "name": "الاسم",
+          "slug": "المعرّف",
+          "description": "الوصف",
+          "seoTitle": "عنوان SEO",
+          "seoDescription": "وصف SEO"
+        }
+      },
+      "media": {
+        "imagesTitle": "الصور",
+        "imagesHint": "إدارة الصور والترتيب ونصوص البديل.",
+        "altText": "نص بديل",
+        "moveUp": "تحريك للأعلى",
+        "moveDown": "تحريك للأسفل"
+      }
+    },
     "detail": {
       "back": "العودة إلى المنتجات"
     }

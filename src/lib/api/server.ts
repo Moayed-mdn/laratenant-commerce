@@ -31,7 +31,7 @@ async function parseResponseBody<T>(response: Response): Promise<T> {
 export async function serverFetch<T>(path: string, options: ServerFetchOptions = {}): Promise<T> {
   const cookieStore = await cookies();
   const cookieHeader = cookieStore.toString();
-
+  const requestLocale = cookieStore.get(APP_CONFIG.sessionCookieName)?.value ?? 'en';
   const response = await fetch(`${APP_CONFIG.apiBaseUrl}${path}`, {
     method: options.method ?? 'GET',
     credentials: 'include',
@@ -39,6 +39,7 @@ export async function serverFetch<T>(path: string, options: ServerFetchOptions =
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
+      'Accept-Language': requestLocale,
       Cookie: cookieHeader,
       ...options.headers,
     },
