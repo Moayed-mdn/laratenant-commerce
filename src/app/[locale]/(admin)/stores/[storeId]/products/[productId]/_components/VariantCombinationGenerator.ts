@@ -17,8 +17,12 @@ export function generateVariantCombinations(
 ): ProductVariantInput[] {
   const validOptions = options
     .map((opt) => ({
+      id: opt.id,
       name: opt.name.trim(),
-      values: opt.values.map((v) => v.label.trim()).filter(Boolean),
+      values: opt.values.map((v) => ({
+        id: v.id,
+        label: v.label.trim(),
+      })).filter((v) => v.label),
     }))
     .filter((opt) => opt.name && opt.values.length > 0);
 
@@ -44,14 +48,20 @@ export function generateVariantCombinations(
     ];
   }
 
-  const combinations = cartesian(validOptions.map((opt) => opt.values));
+  const combinations = cartesian(validOptions.map((opt) => opt.values.map((v) => v.label)));
   const byKey = new Map(currentVariants.map((variant) => [variant.key, variant]));
 
   return combinations.map((combination) => {
-    const attrs = combination.map((value, index) => ({
-      name: validOptions[index].name,
-      value,
-    }));
+    const attrs = combination.map((valueLabel, index) => {
+      const option = validOptions[index];
+      const valueObj = option.values.find((v) => v.label === valueLabel);
+      return {
+        attribute_id: option.id ?? null,
+        attribute_value_id: valueObj?.id ?? null,
+        name: option.name,
+        value: valueLabel,
+      };
+    });
     const key = attrs.map((attr) => `${attr.name}:${attr.value}`).join('|');
     const label = combination.join(' / ');
     const existing = byKey.get(key);

@@ -1,55 +1,60 @@
-# dependencies
-/node_modules/
-.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+```gitignore
+# Dependencies
+node_modules/
 
-# testing
-/coverage/
-/.nyc_output/
+# Build outputs
+dist/
+build/
+.next/
+out/
 
-# next.js
-/.next/
-/out/
+# Environment variables
+.env
+.env.local
+*.env.*
 
-# production
-/build/
-
-# misc
-*.pem
-*.log
-*-debug.log*
-*-error.log*
-
-# env files
-.env*
-!.env.example
-
-# vercel
-.vercel/
-
-# typescript
-next-env.d.ts
-*.tsbuildinfo
-
-# OS files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-Thumbs.db
-ehthumbs.db
-
-# IDEs
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# Turbo cache
-.turbo/
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+
+# Python specific
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Node.js specific
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Coverage reports
+coverage/
+```
