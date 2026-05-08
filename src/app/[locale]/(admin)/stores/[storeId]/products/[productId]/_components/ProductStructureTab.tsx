@@ -1,8 +1,8 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
-import type { ProductAttribute, ProductVariantInput } from '@/types/product';
-import { ProductAttributesManager } from './ProductAttributesManager';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { ProductOption, ProductVariantInput } from '@/types/product';
+import { ProductOptionsSection } from './ProductOptionsSection';
 import { ProductVariantsTable } from './ProductVariantsTable';
 import { generateVariantCombinations } from './VariantCombinationGenerator';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ import { ProductStructureBasicsForm, type ProductStructureBasicsValue } from './
 export interface ProductStructureState {
   basics: ProductStructureBasicsValue;
   variants: ProductVariantInput[];
-  attributes: ProductAttribute[];
+  options: ProductOption[];
 }
 
 interface Props {
@@ -35,35 +35,40 @@ export function ProductStructureTab({ value, onChange }: Props) {
       </Card>
 
       <Card>
-        <CardContent className="pt-6">
-          <ProductAttributesManager
-            attributes={value.attributes}
-            onChange={(attributes) => {
+        <CardHeader>
+          <CardTitle>{t('editor.tabs.options')}</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4 pt-0">
+          <ProductOptionsSection
+            options={value.options}
+            onChange={(options) => {
               onChange({
                 ...value,
-                attributes,
-                variants: generateVariantCombinations(attributes, value.variants),
+                options,
+                variants: generateVariantCombinations(options, value.variants),
               });
             }}
           />
-          <div className="pt-4">
-            <Button
-              variant="outline"
-              onClick={() =>
-                onChange({
-                  ...value,
-                  variants: generateVariantCombinations(value.attributes, value.variants),
-                })
-              }
-            >
-              {t('variantEditor.attributes.generateCombinations')}
-            </Button>
-          </div>
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() =>
+              onChange({
+                ...value,
+                variants: generateVariantCombinations(value.options, value.variants),
+              })
+            }
+          >
+            {t('variantEditor.attributes.generateCombinations')}
+          </Button>
         </CardContent>
       </Card>
 
       <Card>
-        <CardContent className="pt-6">
+        <CardHeader>
+          <CardTitle>{t('variantEditor.tabs.variants')}</CardTitle>
+        </CardHeader>
+        <CardContent className="pt-0">
           <ProductVariantsTable
             variants={value.variants}
             onChange={(variants) => onChange({ ...value, variants })}

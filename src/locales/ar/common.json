@@ -176,6 +176,7 @@
     "edit": "تعديل",
     "actions": "الإجراءات",
     "save": "حفظ",
+    "saving": "جارٍ الحفظ...",
     "filters": {
       "search": "بحث",
       "searchPlaceholder": "البحث بالاسم أو SKU...",
@@ -291,12 +292,21 @@
         "addValue": "إضافة قيمة",
         "addAttribute": "إضافة خاصية",
         "generateCombinations": "توليد التركيبات"
+      },
+      "options": {
+        "optionName": "اسم الخيار",
+        "addValue": "إضافة قيمة",
+        "addOption": "إضافة خيار",
+        "noOptions": "لم يتم تحديد خيارات بعد. أضف خيارًا لإنشاء المتغيرات.",
+        "noValues": "لم يتم تحديد قيم بعد.",
+        "valuesCount": "{count, plural, =0 {لا توجد قيم} =1 {قيمة واحدة} =2 {قيمتان} few {# قيم} many {# قيمة} other {# قيمة}}"
       }
     },
     "editor": {
       "tabs": {
         "content": "المحتوى",
         "structure": "البنية",
+        "options": "الخيارات",
         "media": "الوسائط"
       },
       "translationStatus": {

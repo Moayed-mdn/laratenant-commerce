@@ -5,12 +5,57 @@
 
 import type {
   AdminProduct,
+  AdminProductOption,
+  AdminProductOptionValue,
   Locale,
   ProductDetailView,
   ProductListItemView,
+  ProductOption,
+  ProductOptionValue,
   ProductTranslation,
 } from '@/types/product';
 import { formatDate, formatCurrency } from '@/lib/utils/date';
+
+function normalizeProductOptionValue(
+  raw: AdminProductOptionValue,
+  index: number
+): ProductOptionValue | null {
+  const label = typeof raw.label === 'string' ? raw.label.trim() : '';
+
+  if (!label) {
+    return null;
+  }
+
+  return {
+    id: raw.id ?? `option-value-${index}`,
+    label,
+  };
+}
+
+export function normalizeProductOptions(
+  rawOptions: AdminProductOption[] | null | undefined
+): ProductOption[] {
+  return (rawOptions ?? []).reduce<ProductOption[]>((acc, option, index) => {
+      const name = typeof option.name === 'string' ? option.name.trim() : '';
+      const code = typeof option.code === 'string' ? option.code.trim() : '';
+      const values = (option.values ?? [])
+        .map((value, valueIndex) => normalizeProductOptionValue(value, valueIndex))
+        .filter((value): value is ProductOptionValue => value !== null);
+
+      if (!name || values.length === 0) {
+        return acc;
+      }
+
+      acc.push({
+        id: option.id ?? `option-${index}`,
+        code,
+        name,
+        values,
+      });
+
+      return acc;
+    }, []);
+}
 
 /**
  * Map product list item from raw API shape to view shape.
@@ -83,6 +128,7 @@ export function mapProductDetail(raw: AdminProduct): ProductDetailView {
     createdAt: formatDate(raw.created_at),
     updatedAt: formatDate(raw.updated_at),
     variants: raw.variants ?? [],
+    options: normalizeProductOptions(raw.options),
     availableLocales,
     translations,
   };

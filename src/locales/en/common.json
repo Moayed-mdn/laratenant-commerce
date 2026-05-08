@@ -176,6 +176,7 @@
     "edit": "Edit",
     "actions": "Actions",
     "save": "Save",
+    "saving": "Saving...",
     "filters": {
       "search": "Search",
       "searchPlaceholder": "Search by name or SKU...",
@@ -291,12 +292,21 @@
         "addValue": "Add value",
         "addAttribute": "Add attribute",
         "generateCombinations": "Generate combinations"
+      },
+      "options": {
+        "optionName": "Option name",
+        "addValue": "Add value",
+        "addOption": "Add option",
+        "noOptions": "No options defined yet. Add an option to create variants.",
+        "noValues": "No values defined yet.",
+        "valuesCount": "{count, plural, one {# value} other {# values}}"
       }
     },
     "editor": {
       "tabs": {
         "content": "Content",
         "structure": "Structure",
+        "options": "Options",
         "media": "Media"
       },
       "translationStatus": {

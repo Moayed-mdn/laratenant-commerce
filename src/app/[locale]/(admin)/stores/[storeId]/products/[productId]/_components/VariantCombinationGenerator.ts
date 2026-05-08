@@ -1,6 +1,6 @@
 'use client';
 
-import type { ProductAttribute, ProductVariantInput } from '@/types/product';
+import type { ProductOption, ProductVariantInput } from '@/types/product';
 
 function cartesian(values: string[][]): string[][] {
   if (values.length === 0) return [];
@@ -12,17 +12,17 @@ function cartesian(values: string[][]): string[][] {
 }
 
 export function generateVariantCombinations(
-  attributes: ProductAttribute[],
+  options: ProductOption[],
   currentVariants: ProductVariantInput[]
 ): ProductVariantInput[] {
-  const validAttributes = attributes
-    .map((attr) => ({
-      name: attr.name.trim(),
-      values: attr.values.map((v) => v.value.trim()).filter(Boolean),
+  const validOptions = options
+    .map((opt) => ({
+      name: opt.name.trim(),
+      values: opt.values.map((v) => v.label.trim()).filter(Boolean),
     }))
-    .filter((attr) => attr.name && attr.values.length > 0);
+    .filter((opt) => opt.name && opt.values.length > 0);
 
-  if (validAttributes.length === 0) {
+  if (validOptions.length === 0) {
     if (currentVariants.length > 0) return currentVariants;
     return [
       {
@@ -44,12 +44,12 @@ export function generateVariantCombinations(
     ];
   }
 
-  const combinations = cartesian(validAttributes.map((attr) => attr.values));
+  const combinations = cartesian(validOptions.map((opt) => opt.values));
   const byKey = new Map(currentVariants.map((variant) => [variant.key, variant]));
 
   return combinations.map((combination) => {
     const attrs = combination.map((value, index) => ({
-      name: validAttributes[index].name,
+      name: validOptions[index].name,
       value,
     }));
     const key = attrs.map((attr) => `${attr.name}:${attr.value}`).join('|');

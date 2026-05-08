@@ -14,6 +14,7 @@ export interface ProductImage {
 export type ProductStatus = 'active' | 'inactive' | 'draft';
 
 export type Locale = string;
+export type ProductEntityId = number | string;
 
 export interface ProductTranslation {
   locale: Locale;
@@ -29,6 +30,13 @@ export interface ProductTranslation {
 export type WeightUnit = 'kg' | 'g' | 'lb' | 'oz';
 
 /** Product variant type */
+export interface ProductVariantAttribute {
+  code?: string | null;
+  name: string;
+  value: string;
+  label?: string | null;
+}
+
 export interface ProductVariant {
   id: number;
   label?: string | null;
@@ -45,7 +53,19 @@ export interface ProductVariant {
   is_active: boolean;
   manufacture_date: string | null;
   expiry_date: string | null;
-  attributes: { name: string; value: string }[];
+  attributes: ProductVariantAttribute[];
+}
+
+export interface AdminProductOptionValue {
+  id?: ProductEntityId | null;
+  label?: string | null;
+}
+
+export interface AdminProductOption {
+  id?: ProductEntityId | null;
+  code?: string | null;
+  name?: string | null;
+  values?: AdminProductOptionValue[] | null;
 }
 
 /**
@@ -85,6 +105,7 @@ export interface AdminProduct {
   status: ProductStatus;
   images: ProductImage[];
   variants: ProductVariant[];
+  options?: AdminProductOption[] | null;
   category_id: number | null;
   brand_id: number | null;
   available_locales?: Locale[];
@@ -131,6 +152,7 @@ export interface ProductDetailView {
   createdAt: string;
   updatedAt: string;
   variants: ProductVariant[];
+  options: ProductOption[];
   availableLocales: Locale[];
   translations: Record<Locale, ProductTranslation>;
 }
@@ -142,6 +164,20 @@ export interface ProductAttributeValue {
 export interface ProductAttribute {
   name: string;
   values: ProductAttributeValue[];
+}
+
+/** Product option value — localized label from backend */
+export interface ProductOptionValue {
+  id?: ProductEntityId | null;
+  label: string;
+}
+
+/** Product option — canonical option group from backend */
+export interface ProductOption {
+  id?: ProductEntityId | null;
+  code: string;
+  name: string;
+  values: ProductOptionValue[];
 }
 
 export interface ProductVariantInput {
@@ -159,7 +195,7 @@ export interface ProductVariantInput {
   is_active: boolean;
   weight: number | null;
   weight_unit: WeightUnit | null;
-  attributes: { name: string; value: string }[];
+  attributes: ProductVariantAttribute[];
 }
 
 export interface ProductEditorState {
@@ -174,7 +210,7 @@ export interface ProductEditorState {
     media: ProductImage[];
   };
   variants: ProductVariantInput[];
-  attributes: ProductAttribute[];
+  options: ProductOption[];
 }
 
 /** Product create payload */
@@ -198,7 +234,7 @@ export interface ProductUpdatePayload {
   translations?: Record<Locale, Omit<ProductTranslation, 'is_complete'>>;
   status?: ProductStatus;
   variants?: ProductVariantInput[];
-  attributes?: ProductAttribute[];
+  options?: ProductOption[];
   images?: ProductImage[];
   price?: number;
   compare_at_price?: number | null;

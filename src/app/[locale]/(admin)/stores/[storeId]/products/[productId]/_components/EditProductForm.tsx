@@ -10,6 +10,7 @@ import { useTranslations } from 'next-intl';
 import { useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { useUpdateProduct } from '@/hooks/products/useUpdateProduct';
+import { normalizeProductOptions } from '@/lib/mappers/products';
 import DeleteProductButton from './DeleteProductButton';
 import type { Locale, ProductDetailView, ProductTranslation, ProductVariantInput } from '@/types/product';
 import { Button } from '@/components/ui/button';
@@ -64,7 +65,10 @@ export default function EditProductForm({ product, storeId }: Props) {
               variant.attributes.map((attr) => `${attr.name}:${attr.value}`).join('|') ||
               `variant-${variant.id}-${idx}`,
             label:
-              variant.attributes.map((attr) => attr.value).join(' / ') ||
+              variant.attributes
+                .map((attr) => attr.label?.trim() || attr.value)
+                .filter(Boolean)
+                .join(' / ') ||
               variant.label ||
               `Variant ${idx + 1}`,
             sku: variant.sku ?? null,
@@ -98,7 +102,7 @@ export default function EditProductForm({ product, storeId }: Props) {
               attributes: [],
             },
           ],
-    attributes: [],
+    options: normalizeProductOptions(product.options),
   });
 
   const [images, setImages] = useState(product.images ?? []);
@@ -134,7 +138,7 @@ export default function EditProductForm({ product, storeId }: Props) {
       ),
       status: structure.basics.status,
       variants: structure.variants,
-      attributes: structure.attributes,
+      options: structure.options,
       images,
       price: primaryVariant?.price ?? 0,
       compare_at_price: primaryVariant?.compare_at_price ?? null,
@@ -175,7 +179,7 @@ export default function EditProductForm({ product, storeId }: Props) {
       </Tabs>
 
       {isDirty && (
-        <div className="sticky bottom-4 z-10 rounded-md border bg-background p-3 shadow-sm">
+        <div className="sticky bottom-4 z-10 rounded-md border bg-bg p-3 shadow-sm ">
           <div className="flex items-center justify-between gap-3">
             <p className="text-sm text-muted-foreground">{t('variantEditor.unsavedChanges')}</p>
             <Button onClick={handleSubmit} disabled={mutation.isPending}>
