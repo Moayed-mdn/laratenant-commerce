@@ -82,7 +82,14 @@ export default function EditProductForm({ product, storeId }: Props) {
             is_active: variant.is_active,
             weight: variant.weight ?? product.weight ?? null,
             weight_unit: variant.weight_unit ?? product.weightUnit ?? null,
-            attributes: variant.attributes ?? [],
+            attributes: variant.attributes.map((attr) => ({
+              attribute_id: (attr as any).attribute_id ?? null,
+              attribute_value_id: (attr as any).attribute_value_id ?? null,
+              code: attr.code ?? null,
+              name: attr.name,
+              value: attr.value,
+              label: attr.label ?? null,
+            })),
           }))
         : [
             {

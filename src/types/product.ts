@@ -31,6 +31,8 @@ export type WeightUnit = 'kg' | 'g' | 'lb' | 'oz';
 
 /** Product variant type */
 export interface ProductVariantAttribute {
+  attribute_id?: number | string | null;
+  attribute_value_id?: number | string | null;
   code?: string | null;
   name: string;
   value: string;
