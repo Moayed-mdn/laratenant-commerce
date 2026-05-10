@@ -105,6 +105,10 @@ export interface AdminProduct {
   status: ProductStatus;
   images: ProductImage[];
   variants: ProductVariant[];
+  /** NEW: Explicit default variant for variant-first architecture */
+  display_variant?: ProductVariant | null;
+  /** NEW: Aggregate stock across all variants */
+  total_stock?: number;
   options?: AdminProductOption[] | null;
   category_id: number | null;
   brand_id: number | null;
@@ -138,23 +142,44 @@ export interface ProductDetailView {
   name: string;
   slug: string;
   description: string;
-  price: number;
-  compareAtPrice: number | null;
-  costPerItem: number | null;
-  sku: string | null;
-  barcode: string | null;
-  quantity: number;
-  trackQuantity: boolean;
-  weight: number | null;
-  weightUnit: WeightUnit | null;
   status: ProductStatus;
   images: ProductImage[];
   createdAt: string;
   updatedAt: string;
+  
+  /** Variant-first fields (PRIMARY source of truth) */
   variants: ProductVariant[];
+  /** NEW: Explicit default variant for variant-first architecture */
+  display_variant?: ProductVariant | null;
+  /** NEW: Aggregate stock across all variants */
+  total_stock?: number;
+  
   options: ProductOption[];
   availableLocales: Locale[];
   translations: Record<Locale, ProductTranslation>;
+  
+  /** 
+   * @deprecated Use display_variant instead. 
+   * These fields are kept temporarily for backward compatibility during backend migration.
+   * Will be removed in v2.0 when backend fully adopts variant-first architecture.
+   */
+  price: number;
+  /** @deprecated Use display_variant instead */
+  compareAtPrice: number | null;
+  /** @deprecated Use display_variant instead */
+  costPerItem: number | null;
+  /** @deprecated Use display_variant instead */
+  sku: string | null;
+  /** @deprecated Use display_variant instead */
+  barcode: string | null;
+  /** @deprecated Use display_variant instead */
+  quantity: number;
+  /** @deprecated Use display_variant instead */
+  trackQuantity: boolean;
+  /** @deprecated Use display_variant instead */
+  weight: number | null;
+  /** @deprecated Use display_variant instead */
+  weightUnit: WeightUnit | null;
 }
 
 export interface ProductAttributeValue {
@@ -182,7 +207,11 @@ export interface ProductOption {
 
 export interface ProductVariantInput {
   id?: number;
-  key: string;
+  /** 
+   * @deprecated Use `id` for identity. 
+   * This key field is frontend-only and may be removed in future versions.
+   */
+  key?: string;
   label: string;
   sku: string | null;
   barcode: string | null;
@@ -236,13 +265,29 @@ export interface ProductUpdatePayload {
   variants?: ProductVariantInput[];
   options?: ProductOption[];
   images?: ProductImage[];
+  /** NEW: Explicit default variant ID for variant-first architecture */
+  display_variant_id?: number | null;
+  
+  /** 
+   * @deprecated Backend now extracts these from variants array.
+   * These fields are kept temporarily for backward compatibility during backend migration.
+   * Will be removed in v2.0 when backend fully adopts variant-first architecture.
+   */
   price?: number;
+  /** @deprecated Backend now extracts these from variants array */
   compare_at_price?: number | null;
+  /** @deprecated Backend now extracts these from variants array */
   cost_per_item?: number | null;
+  /** @deprecated Backend now extracts these from variants array */
   sku?: string | null;
+  /** @deprecated Backend now extracts these from variants array */
   barcode?: string | null;
+  /** @deprecated Backend now extracts these from variants array */
   quantity?: number;
+  /** @deprecated Backend now extracts these from variants array */
   track_quantity?: boolean;
+  /** @deprecated Backend now extracts these from variants array */
   weight?: number | null;
+  /** @deprecated Backend now extracts these from variants array */
   weight_unit?: WeightUnit | null;
 }

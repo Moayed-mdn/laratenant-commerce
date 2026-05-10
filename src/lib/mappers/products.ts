@@ -83,6 +83,9 @@ export function mapProductListItem(
 
 /**
  * Map product detail from raw API shape to view shape.
+ * 
+ * @deprecated Use mapApiProductToViewModel from product.dto.ts instead.
+ * This function is kept for backward compatibility during migration.
  */
 export function mapProductDetail(raw: AdminProduct): ProductDetailView {
   const rawTranslations: Record<Locale, ProductTranslation> = raw.translations ?? {};

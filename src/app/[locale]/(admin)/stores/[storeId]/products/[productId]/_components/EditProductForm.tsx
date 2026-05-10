@@ -4,6 +4,11 @@
 /**
  * Edit product form component.
  * Uses shared ProductForm with edit mode.
+ * 
+ * Architecture: Variant-First
+ * - variants[] is the PRIMARY source of truth
+ * - display_variant is the explicit default variant
+ * - flattened product fields are deprecated compatibility fallbacks
  */
 
 import { useTranslations } from 'next-intl';
@@ -11,6 +16,7 @@ import { useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { useUpdateProduct } from '@/hooks/products/useUpdateProduct';
 import { normalizeProductOptions } from '@/lib/mappers/products';
+import { initializeVariantsFromProduct, getPrimaryVariantId } from '@/lib/mappers/product.dto';
 import DeleteProductButton from './DeleteProductButton';
 import type { Locale, ProductDetailView, ProductTranslation, ProductVariantInput } from '@/types/product';
 import { Button } from '@/components/ui/button';
@@ -52,60 +58,31 @@ export default function EditProductForm({ product, storeId }: Props) {
 
   const [translations, setTranslations] = useState<Record<Locale, ProductTranslation>>(translationsInitial);
 
+  /**
+   * Initialize variants using variant-first architecture.
+   * 
+   * Priority order:
+   * 1. product.variants - use all existing variants
+   * 2. product.display_variant - use explicit default variant
+   * 3. deprecated flattened fields - temporary compatibility fallback
+   */
   const [structure, setStructure] = useState<ProductStructureState>({
     basics: {
       status: product.status,
       featured: false,
     },
-    variants:
-      product.variants.length > 0
-        ? product.variants.map<ProductVariantInput>((variant, idx) => ({
-            id: variant.id,
-            key:
-              variant.attributes.map((attr) => `${attr.name}:${attr.value}`).join('|') ||
-              `variant-${variant.id}-${idx}`,
-            label:
-              variant.attributes
-                .map((attr) => attr.label?.trim() || attr.value)
-                .filter(Boolean)
-                .join(' / ') ||
-              variant.label ||
-              `Variant ${idx + 1}`,
-            sku: variant.sku ?? null,
-            barcode: variant.barcode ?? null,
-            price: variant.price ?? 0,
-            compare_at_price: variant.compare_at_price ?? product.compareAtPrice ?? null,
-            cost_price: variant.cost_price ?? product.costPerItem ?? null,
-            quantity: variant.quantity ?? 0,
-            low_stock_threshold: variant.low_stock_threshold ?? null,
-            track_inventory: variant.track_inventory ?? product.trackQuantity,
-            is_active: variant.is_active,
-            weight: variant.weight ?? product.weight ?? null,
-            weight_unit: variant.weight_unit ?? product.weightUnit ?? null,
-            attributes: variant.attributes ?? [],
-          }))
-        : [
-            {
-              key: 'default',
-              label: 'Default',
-              sku: product.sku ?? null,
-              barcode: product.barcode ?? null,
-              price: product.price ?? 0,
-              compare_at_price: product.compareAtPrice ?? null,
-              cost_price: product.costPerItem ?? null,
-              quantity: product.quantity ?? 0,
-              low_stock_threshold: null,
-              track_inventory: product.trackQuantity,
-              is_active: true,
-              weight: product.weight ?? null,
-              weight_unit: product.weightUnit ?? null,
-              attributes: [],
-            },
-          ],
+    // Use DTO mapper for proper variant initialization
+    variants: initializeVariantsFromProduct(product),
     options: normalizeProductOptions(product.options),
   });
 
   const [images, setImages] = useState(product.images ?? []);
+
+  // Get primary variant ID from display_variant or first variant
+  const primaryVariantId = useMemo(
+    () => getPrimaryVariantId(product),
+    [product]
+  );
 
   const snapshot = useMemo(() => ({ translations, structure, images }), [images, structure, translations]);
   const initialFingerprint = useRef(JSON.stringify(snapshot));
@@ -121,8 +98,8 @@ export default function EditProductForm({ product, storeId }: Props) {
   });
 
   const handleSubmit = () => {
-    const primaryVariant = structure.variants[0];
-    mutation.mutate({
+    // Use DTO mapper to create variant-first payload
+    const payload = {
       translations: Object.fromEntries(
         Object.entries(translations).map(([locale, tr]) => [
           locale,
@@ -140,16 +117,28 @@ export default function EditProductForm({ product, storeId }: Props) {
       variants: structure.variants,
       options: structure.options,
       images,
-      price: primaryVariant?.price ?? 0,
-      compare_at_price: primaryVariant?.compare_at_price ?? null,
-      cost_per_item: primaryVariant?.cost_price ?? null,
-      sku: primaryVariant?.sku ?? null,
-      barcode: primaryVariant?.barcode ?? null,
-      quantity: primaryVariant?.quantity ?? 0,
-      track_quantity: primaryVariant?.track_inventory ?? true,
-      weight: primaryVariant?.weight ?? null,
-      weight_unit: primaryVariant?.weight_unit ?? null,
-    });
+      // Explicit default variant ID (variant-first architecture)
+      display_variant_id: primaryVariantId ?? structure.variants[0]?.id ?? null,
+      /**
+       * DEPRECATED: Flattened fields for backward compatibility.
+       * These are extracted from the primary variant to maintain compatibility
+       * with older backend versions during migration.
+       * 
+       * TODO: Remove these fields when backend v2.0 is deployed.
+       * The backend should extract all data from the variants array.
+       */
+      price: structure.variants[0]?.price ?? 0,
+      compare_at_price: structure.variants[0]?.compare_at_price ?? null,
+      cost_per_item: structure.variants[0]?.cost_price ?? null,
+      sku: structure.variants[0]?.sku ?? null,
+      barcode: structure.variants[0]?.barcode ?? null,
+      quantity: structure.variants[0]?.quantity ?? 0,
+      track_quantity: structure.variants[0]?.track_inventory ?? true,
+      weight: structure.variants[0]?.weight ?? null,
+      weight_unit: structure.variants[0]?.weight_unit ?? null,
+    };
+    
+    mutation.mutate(payload);
   };
 
   return (
