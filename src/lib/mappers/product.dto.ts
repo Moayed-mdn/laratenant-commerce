@@ -204,12 +204,13 @@ function mapVariantToInput(variant: ProductVariant, index: number = 0): ProductV
     // Key is deprecated but kept for React list rendering compatibility
     key: variant.attributes.map((attr) => `${attr.name}:${attr.value}`).join('|') ||
          `variant-${variant.id}-${index}`,
-    label: variant.label ?? 
-           variant.attributes
-             .map((attr) => attr.label?.trim() || attr.value)
-             .filter(Boolean)
-             .join(' / ') ||
-           `Variant ${index + 1}`,
+    label: variant.label ?? (
+      variant.attributes
+        .map((attr) => attr.label?.trim() || attr.value)
+        .filter(Boolean)
+        .join(' / ') ||
+      `Variant ${index + 1}`
+    ),
     sku: variant.sku ?? null,
     barcode: variant.barcode ?? null,
     price: variant.price ?? 0,
