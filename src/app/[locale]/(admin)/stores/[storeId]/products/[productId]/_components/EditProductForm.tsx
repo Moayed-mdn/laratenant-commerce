@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 import { useUpdateProduct } from '@/hooks/products/useUpdateProduct';
 import { normalizeProductOptions } from '@/lib/mappers/products';
 import DeleteProductButton from './DeleteProductButton';
-import type { Locale, ProductDetailView, ProductTranslation, ProductVariantInput } from '@/types/product';
+import type { Locale, ProductDetailView, ProductTranslation, ProductUpdatePayload, ProductVariantInput } from '@/types/product';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProductContentTab } from './ProductContentTab';
@@ -107,6 +107,10 @@ export default function EditProductForm({ product, storeId }: Props) {
 
   const [images, setImages] = useState(product.images ?? []);
 
+  const initialTranslationsFingerprint = useRef(JSON.stringify(translationsInitial));
+  const initialBasicsFingerprint = useRef(JSON.stringify(structure.basics));
+  const initialVariantsFingerprint = useRef(JSON.stringify(structure.variants));
+
   const snapshot = useMemo(() => ({ translations, structure, images }), [images, structure, translations]);
   const initialFingerprint = useRef(JSON.stringify(snapshot));
   const isDirty = initialFingerprint.current !== JSON.stringify(snapshot);
@@ -121,35 +125,101 @@ export default function EditProductForm({ product, storeId }: Props) {
   });
 
   const handleSubmit = () => {
-    const primaryVariant = structure.variants[0];
-    mutation.mutate({
-      translations: Object.fromEntries(
-        Object.entries(translations).map(([locale, tr]) => [
-          locale,
-          {
-            locale,
-            name: tr.name,
-            slug: tr.slug,
-            description: tr.description,
-            seo_title: tr.seo_title,
-            seo_description: tr.seo_description,
-          },
-        ])
-      ),
-      status: structure.basics.status,
-      variants: structure.variants,
-      options: structure.options,
-      images,
-      price: primaryVariant?.price ?? 0,
-      compare_at_price: primaryVariant?.compare_at_price ?? null,
-      cost_per_item: primaryVariant?.cost_price ?? null,
-      sku: primaryVariant?.sku ?? null,
-      barcode: primaryVariant?.barcode ?? null,
-      quantity: primaryVariant?.quantity ?? 0,
-      track_quantity: primaryVariant?.track_inventory ?? true,
-      weight: primaryVariant?.weight ?? null,
-      weight_unit: primaryVariant?.weight_unit ?? null,
-    });
+    const translationsChanged = initialTranslationsFingerprint.current !== JSON.stringify(translations);
+    const basicsChanged = initialBasicsFingerprint.current !== JSON.stringify(structure.basics);
+    const variantsChanged = initialVariantsFingerprint.current !== JSON.stringify(structure.variants);
+
+    const payload: ProductUpdatePayload = {};
+
+    if (translationsChanged) {
+      const entries = Object.values(translations);
+      const nextTranslations = entries
+        .filter((tr) => {
+          const hasAny =
+            (tr.name ?? '').trim().length > 0 ||
+            (tr.slug ?? '').trim().length > 0 ||
+            (tr.description ?? '').trim().length > 0 ||
+            (tr.seo_title ?? '').trim().length > 0 ||
+            (tr.seo_description ?? '').trim().length > 0;
+          if (!hasAny) return false;
+          const hasRequired = (tr.name ?? '').trim().length > 0 && (tr.slug ?? '').trim().length > 0;
+          if (!hasRequired) {
+            toast.error(t('form.validation.translationMissingRequired'));
+          }
+          return hasRequired;
+        })
+        .map((tr) => ({
+          locale: tr.locale,
+          name: tr.name,
+          slug: tr.slug,
+          description: tr.description,
+          seo_title: tr.seo_title,
+          seo_description: tr.seo_description,
+        }));
+
+      const hasAnyTranslations = Object.values(translations).some(
+        (tr) =>
+          (tr.name ?? '').trim().length > 0 ||
+          (tr.slug ?? '').trim().length > 0 ||
+          (tr.description ?? '').trim().length > 0 ||
+          (tr.seo_title ?? '').trim().length > 0 ||
+          (tr.seo_description ?? '').trim().length > 0
+      );
+
+      if (hasAnyTranslations && nextTranslations.length === 0) {
+        return;
+      }
+
+      if (nextTranslations.length > 0) {
+        payload.translations = nextTranslations;
+      }
+    }
+
+    if (basicsChanged) {
+      const status = structure.basics.status;
+      payload.is_active = status === 'draft' ? null : status === 'active';
+    }
+
+    if (variantsChanged) {
+      const variants = structure.variants;
+      for (const variant of variants) {
+        if (!variant.sku || variant.sku.trim().length === 0) {
+          toast.error(t('form.validation.variantSkuRequired'));
+          return;
+        }
+        if (Number.isNaN(variant.price) || variant.price < 0) {
+          toast.error(t('form.validation.variantPriceInvalid'));
+          return;
+        }
+        if (!Number.isInteger(variant.quantity) || variant.quantity < 0) {
+          toast.error(t('form.validation.variantQuantityInvalid'));
+          return;
+        }
+      }
+
+      payload.variants = variants.map((variant: ProductVariantInput) => ({
+        id: variant.id ?? null,
+        sku: variant.sku ?? '',
+        price: variant.price,
+        quantity: variant.quantity,
+        is_active: variant.is_active,
+        attributes:
+          variant.attributes?.length > 0
+            ? variant.attributes
+                .filter((attr) => attr.attribute_id != null && attr.attribute_value_id != null)
+                .map((attr) => ({
+                  attribute_id: attr.attribute_id as number | string,
+                  attribute_value_id: attr.attribute_value_id as number | string,
+                }))
+            : undefined,
+      }));
+    }
+
+    if (Object.keys(payload).length === 0) {
+      return;
+    }
+
+    mutation.mutate(payload);
   };
 
   return (

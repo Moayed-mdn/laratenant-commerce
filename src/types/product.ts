@@ -31,6 +31,8 @@ export type WeightUnit = 'kg' | 'g' | 'lb' | 'oz';
 
 /** Product variant type */
 export interface ProductVariantAttribute {
+  attribute_id?: number | string | null;
+  attribute_value_id?: number | string | null;
   code?: string | null;
   name: string;
   value: string;
@@ -231,18 +233,23 @@ export interface ProductCreatePayload {
 
 /** Product update payload */
 export interface ProductUpdatePayload {
-  translations?: Record<Locale, Omit<ProductTranslation, 'is_complete'>>;
-  status?: ProductStatus;
-  variants?: ProductVariantInput[];
-  options?: ProductOption[];
-  images?: ProductImage[];
-  price?: number;
-  compare_at_price?: number | null;
-  cost_per_item?: number | null;
-  sku?: string | null;
-  barcode?: string | null;
-  quantity?: number;
-  track_quantity?: boolean;
-  weight?: number | null;
-  weight_unit?: WeightUnit | null;
+  category_id?: number | null;
+  brand_id?: number | null;
+  is_active?: boolean | null;
+  translations?: Array<Omit<ProductTranslation, 'is_complete'>>;
+  variants?: Array<{
+    id?: number | null;
+    sku: string;
+    price: number;
+    quantity: number;
+    is_active?: boolean | null;
+    manufacture_date?: string | null;
+    expiry_date?: string | null;
+    batch_number?: string | null;
+    attributes?: Array<{
+      attribute_id: number | string;
+      attribute_value_id: number | string;
+    }>;
+  }>;
+  tags?: string[];
 }

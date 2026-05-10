@@ -33,7 +33,7 @@ export function ProductOptionsSection({ options, onChange }: Props) {
   const updateValue = (optionIndex: number, valueIndex: number, label: string) => {
     updateOption(optionIndex, {
       values: options[optionIndex].values.map((v, vi) =>
-        vi === valueIndex ? { label } : v
+        vi === valueIndex ? { ...v, label } : v
       ),
     });
   };

@@ -245,6 +245,12 @@
         "priceMin": "يجب أن يكون السعر 0 أو أكبر",
         "quantityMin": "يجب أن تكون الكمية 0 أو أكبر"
       },
+      "validation": {
+        "translationMissingRequired": "يرجى تعبئة حقول الترجمة المطلوبة (الاسم والمعرّف).",
+        "variantSkuRequired": "رمز SKU للمتغير مطلوب.",
+        "variantPriceInvalid": "يجب أن يكون سعر المتغير 0 أو أكبر.",
+        "variantQuantityInvalid": "يجب أن تكون كمية المتغير 0 أو أكبر."
+      },
       "submit": {
         "create": "إنشاء منتج",
         "update": "حفظ التغييرات",

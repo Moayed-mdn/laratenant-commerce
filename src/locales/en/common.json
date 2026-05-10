@@ -245,6 +245,12 @@
         "priceMin": "Price must be 0 or greater",
         "quantityMin": "Quantity must be 0 or greater"
       },
+      "validation": {
+        "translationMissingRequired": "Please fill in the required translation fields (name and slug).",
+        "variantSkuRequired": "Variant SKU is required.",
+        "variantPriceInvalid": "Variant price must be 0 or greater.",
+        "variantQuantityInvalid": "Variant quantity must be 0 or greater."
+      },
       "submit": {
         "create": "Create product",
         "update": "Save changes",

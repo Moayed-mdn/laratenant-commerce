@@ -2,9 +2,9 @@
 
 import type { ProductOption, ProductVariantInput } from '@/types/product';
 
-function cartesian(values: string[][]): string[][] {
+function cartesian<T>(values: T[][]): T[][] {
   if (values.length === 0) return [];
-  return values.reduce<string[][]>(
+  return values.reduce<T[][]>(
     (acc, current) =>
       acc.flatMap((prefix) => current.map((value) => [...prefix, value])),
     [[]]
@@ -17,8 +17,9 @@ export function generateVariantCombinations(
 ): ProductVariantInput[] {
   const validOptions = options
     .map((opt) => ({
+      id: opt.id,
       name: opt.name.trim(),
-      values: opt.values.map((v) => v.label.trim()).filter(Boolean),
+      values: opt.values.map((v) => ({ id: v.id, label: v.label.trim() })).filter((v) => v.label),
     }))
     .filter((opt) => opt.name && opt.values.length > 0);
 
@@ -49,11 +50,13 @@ export function generateVariantCombinations(
 
   return combinations.map((combination) => {
     const attrs = combination.map((value, index) => ({
+      attribute_id: validOptions[index].id ?? null,
+      attribute_value_id: value.id ?? null,
       name: validOptions[index].name,
-      value,
+      value: value.label,
     }));
     const key = attrs.map((attr) => `${attr.name}:${attr.value}`).join('|');
-    const label = combination.join(' / ');
+    const label = combination.map((v) => v.label).join(' / ');
     const existing = byKey.get(key);
 
     if (existing) {
