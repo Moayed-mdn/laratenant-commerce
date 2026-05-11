@@ -1,23 +1,28 @@
 'use client';
-// Reason: form with RHF + mutations
 
-/**
- * Edit product form component.
- * Uses shared ProductForm with edit mode.
- */
-
+import { useCallback, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
-import { useUpdateProduct } from '@/hooks/products/useUpdateProduct';
-import { normalizeProductOptions } from '@/lib/mappers/products';
-import DeleteProductButton from './DeleteProductButton';
-import type { Locale, ProductDetailView, ProductTranslation, ProductUpdatePayload, ProductVariantInput } from '@/types/product';
+
+import { buildEditorState } from '@/lib/products/buildEditorState';
+import { generateVariants } from '@/lib/products/generateVariants';
+import { validateProductContent, type ValidationError } from '@/lib/products/validateProductContent';
+import { validateProductStructure } from '@/lib/products/validateProductStructure';
+
+import { useSaveProductContent } from '@/hooks/products/useSaveProductContent';
+import { useSaveProductStructure } from '@/hooks/products/useSaveProductStructure';
+import { useUnsavedChangesGuard } from '@/hooks/useUnsavedChangesGuard';
+
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ProductContentTab } from './ProductContentTab';
-import { ProductMediaTab } from './ProductMediaTab';
-import { ProductStructureTab, type ProductStructureState } from './ProductStructureTab';
+
+import { ContentTab } from './_tabs/ContentTab';
+import { StructureTab } from './_tabs/StructureTab';
+import { MediaTab } from './_tabs/MediaTab';
+import DeleteProductButton from './DeleteProductButton';
+
+import type { ProductDetailView, ProductImage } from '@/types/product';
+import type { ProductContentFormValues, ProductStructureState } from '@/types/product-editor';
 
 interface Props {
   product: ProductDetailView;
@@ -27,204 +32,98 @@ interface Props {
 export default function EditProductForm({ product, storeId }: Props) {
   const t = useTranslations('products');
 
+  const initialRef = useRef(() => buildEditorState(product));
+  const initial = initialRef.current();
+
+  const [content, setContent] = useState<ProductContentFormValues>(initial.content);
+  const [structure, setStructure] = useState<ProductStructureState>(initial.structure);
+  const [images, setImages] = useState<ProductImage[]>(initial.media.images ?? []);
   const [tab, setTab] = useState<'content' | 'structure' | 'media'>('content');
 
-  const availableLocales = product.availableLocales;
-  const translationsInitial = useMemo(() => {
-    const base: Record<Locale, ProductTranslation> = { ...product.translations };
+  const [contentDirty, setContentDirty] = useState(false);
+  const [structureDirty, setStructureDirty] = useState(false);
+  const [mediaDirty, setMediaDirty] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
 
-    for (const locale of availableLocales) {
-      if (!base[locale]) {
-        base[locale] = {
-          locale,
-          name: '',
-          slug: '',
-          description: null,
-          seo_title: null,
-          seo_description: null,
-          is_complete: false,
-        };
-      }
-    }
+  const isDirty = contentDirty || structureDirty || mediaDirty;
 
-    return base;
-  }, [availableLocales, product.translations]);
+  const { bypassNextNavigation } = useUnsavedChangesGuard({ isDirty });
 
-  const [translations, setTranslations] = useState<Record<Locale, ProductTranslation>>(translationsInitial);
-
-  const [structure, setStructure] = useState<ProductStructureState>({
-    basics: {
-      status: product.status,
-      featured: false,
-    },
-    variants:
-      product.variants.length > 0
-        ? product.variants.map<ProductVariantInput>((variant, idx) => ({
-            id: variant.id,
-            key:
-              variant.attributes.map((attr) => `${attr.name}:${attr.value}`).join('|') ||
-              `variant-${variant.id}-${idx}`,
-            label:
-              variant.attributes
-                .map((attr) => attr.label?.trim() || attr.value)
-                .filter(Boolean)
-                .join(' / ') ||
-              variant.label ||
-              `Variant ${idx + 1}`,
-            sku: variant.sku ?? null,
-            barcode: variant.barcode ?? null,
-            price: variant.price ?? 0,
-            compare_at_price: variant.compare_at_price ?? product.compareAtPrice ?? null,
-            cost_price: variant.cost_price ?? product.costPerItem ?? null,
-            quantity: variant.quantity ?? 0,
-            low_stock_threshold: variant.low_stock_threshold ?? null,
-            track_inventory: variant.track_inventory ?? product.trackQuantity,
-            is_active: variant.is_active,
-            weight: variant.weight ?? product.weight ?? null,
-            weight_unit: variant.weight_unit ?? product.weightUnit ?? null,
-            attributes: variant.attributes ?? [],
-          }))
-        : [
-            {
-              key: 'default',
-              label: 'Default',
-              sku: product.sku ?? null,
-              barcode: product.barcode ?? null,
-              price: product.price ?? 0,
-              compare_at_price: product.compareAtPrice ?? null,
-              cost_price: product.costPerItem ?? null,
-              quantity: product.quantity ?? 0,
-              low_stock_threshold: null,
-              track_inventory: product.trackQuantity,
-              is_active: true,
-              weight: product.weight ?? null,
-              weight_unit: product.weightUnit ?? null,
-              attributes: [],
-            },
-          ],
-    options: normalizeProductOptions(product.options),
-  });
-
-  const [images, setImages] = useState(product.images ?? []);
-
-  const initialTranslationsFingerprint = useRef(JSON.stringify(translationsInitial));
-  const initialBasicsFingerprint = useRef(JSON.stringify(structure.basics));
-  const initialVariantsFingerprint = useRef(JSON.stringify(structure.variants));
-
-  const snapshot = useMemo(() => ({ translations, structure, images }), [images, structure, translations]);
-  const initialFingerprint = useRef(JSON.stringify(snapshot));
-  const isDirty = initialFingerprint.current !== JSON.stringify(snapshot);
-
-  const mutation = useUpdateProduct(storeId, String(product.id), {
+  const saveContent = useSaveProductContent(storeId, String(product.id), {
     onSuccess: () => {
       toast.success(t('form.updateSuccess'));
+      setContentDirty(false);
+      setValidationErrors([]);
     },
-    onError: (error) => {
-      toast.error(error.message);
-    },
+    onError: (err) => toast.error(err.message),
   });
 
-  const handleSubmit = () => {
-    const translationsChanged = initialTranslationsFingerprint.current !== JSON.stringify(translations);
-    const basicsChanged = initialBasicsFingerprint.current !== JSON.stringify(structure.basics);
-    const variantsChanged = initialVariantsFingerprint.current !== JSON.stringify(structure.variants);
+  const saveStructure = useSaveProductStructure(storeId, String(product.id), {
+    onSuccess: () => {
+      toast.success(t('form.updateSuccess'));
+      setStructureDirty(false);
+      setValidationErrors([]);
+    },
+    onError: (err) => toast.error(err.message),
+  });
 
-    const payload: ProductUpdatePayload = {};
+  const handleDiscard = useCallback(() => {
+    bypassNextNavigation();
+    setContent(initial.content);
+    setStructure(initial.structure);
+    setImages(initial.media.images ?? []);
+    setContentDirty(false);
+    setStructureDirty(false);
+    setMediaDirty(false);
+    setValidationErrors([]);
+  }, [bypassNextNavigation, initial.content, initial.media.images, initial.structure]);
 
-    if (translationsChanged) {
-      const entries = Object.values(translations);
-      const nextTranslations = entries
-        .filter((tr) => {
-          const hasAny =
-            (tr.name ?? '').trim().length > 0 ||
-            (tr.slug ?? '').trim().length > 0 ||
-            (tr.description ?? '').trim().length > 0 ||
-            (tr.seo_title ?? '').trim().length > 0 ||
-            (tr.seo_description ?? '').trim().length > 0;
-          if (!hasAny) return false;
-          const hasRequired = (tr.name ?? '').trim().length > 0 && (tr.slug ?? '').trim().length > 0;
-          if (!hasRequired) {
-            toast.error(t('form.validation.translationMissingRequired'));
-          }
-          return hasRequired;
-        })
-        .map((tr) => ({
-          locale: tr.locale,
-          name: tr.name,
-          slug: tr.slug,
-          description: tr.description,
-          seo_title: tr.seo_title,
-          seo_description: tr.seo_description,
-        }));
+  const handleSaveCurrentTab = useCallback(() => {
+    setValidationErrors([]);
 
-      const hasAnyTranslations = Object.values(translations).some(
-        (tr) =>
-          (tr.name ?? '').trim().length > 0 ||
-          (tr.slug ?? '').trim().length > 0 ||
-          (tr.description ?? '').trim().length > 0 ||
-          (tr.seo_title ?? '').trim().length > 0 ||
-          (tr.seo_description ?? '').trim().length > 0
-      );
-
-      if (hasAnyTranslations && nextTranslations.length === 0) {
+    if (tab === 'content') {
+      const result = validateProductContent(content);
+      if (!result.isValid) {
+        setValidationErrors(result.errors);
+        toast.error(t('form.validationError'));
         return;
       }
-
-      if (nextTranslations.length > 0) {
-        payload.translations = nextTranslations;
-      }
-    }
-
-    if (basicsChanged) {
-      const status = structure.basics.status;
-      payload.is_active = status === 'draft' ? null : status === 'active';
-    }
-
-    if (variantsChanged) {
-      const variants = structure.variants;
-      for (const variant of variants) {
-        if (!variant.sku || variant.sku.trim().length === 0) {
-          toast.error(t('form.validation.variantSkuRequired'));
-          return;
-        }
-        if (Number.isNaN(variant.price) || variant.price < 0) {
-          toast.error(t('form.validation.variantPriceInvalid'));
-          return;
-        }
-        if (!Number.isInteger(variant.quantity) || variant.quantity < 0) {
-          toast.error(t('form.validation.variantQuantityInvalid'));
-          return;
-        }
-      }
-
-      payload.variants = variants.map((variant: ProductVariantInput) => ({
-        id: variant.id ?? null,
-        sku: variant.sku ?? '',
-        price: variant.price,
-        quantity: variant.quantity,
-        is_active: variant.is_active,
-        attributes:
-          variant.attributes?.length > 0
-            ? variant.attributes
-                .filter((attr) => attr.attribute_id != null && attr.attribute_value_id != null)
-                .map((attr) => ({
-                  attribute_id: attr.attribute_id as number | string,
-                  attribute_value_id: attr.attribute_value_id as number | string,
-                }))
-            : undefined,
-      }));
-    }
-
-    if (Object.keys(payload).length === 0) {
+      saveContent.mutate(content);
       return;
     }
 
-    mutation.mutate(payload);
-  };
+    if (tab === 'structure') {
+      const result = validateProductStructure(structure);
+      if (!result.isValid) {
+        setValidationErrors(result.errors);
+        toast.error(t('form.validationError'));
+        return;
+      }
+      saveStructure.mutate(structure);
+      return;
+    }
+
+    toast.message(t('saving'));
+  }, [content, saveContent, saveStructure, structure, t, tab]);
 
   return (
     <div className="space-y-6">
-      <Tabs value={tab} onValueChange={setTab} >
+      {validationErrors.length > 0 && (
+        <div className="rounded-md border border-destructive bg-destructive/10 p-4">
+          <p className="mb-2 font-medium text-destructive">{t('form.validationErrorsTitle') || 'Validation Errors:'}</p>
+          <ul className="list-inside list-disc space-y-1 text-sm text-destructive">
+            {validationErrors.map((error, idx) => (
+              <li key={idx}>
+                <span className="font-semibold">{error.field}:</span> {error.message}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      <Tabs value={tab} onValueChange={(v) => {
+        setTab(v as typeof tab);
+        setValidationErrors([]);
+      }}>
         <TabsList>
           <TabsTrigger value="content">{t('editor.tabs.content')}</TabsTrigger>
           <TabsTrigger value="structure">{t('editor.tabs.structure')}</TabsTrigger>
@@ -232,32 +131,73 @@ export default function EditProductForm({ product, storeId }: Props) {
         </TabsList>
 
         <TabsContent value="content">
-          <ProductContentTab
-            availableLocales={availableLocales}
-            translations={translations}
-            onChange={setTranslations}
+          <ContentTab
+            availableLocales={product.availableLocales}
+            status={content.status}
+            translations={content.translations}
+            onStatusChange={(status) => {
+              setContent((prev) => ({ ...prev, status }));
+              setContentDirty(true);
+            }}
+            onTranslationsChange={(translations) => {
+              setContent((prev) => ({ ...prev, translations }));
+              setContentDirty(true);
+            }}
           />
         </TabsContent>
 
         <TabsContent value="structure">
-          <ProductStructureTab value={structure} onChange={setStructure} />
+          <StructureTab
+            options={structure.options}
+            variants={structure.variants}
+            onOptionsChange={(options) => {
+              setStructure((prev) => ({ ...prev, options }));
+              setStructureDirty(true);
+            }}
+            onVariantsChange={(variants) => {
+              setStructure((prev) => ({ ...prev, variants }));
+              setStructureDirty(true);
+            }}
+            onGenerateCombinations={() => {
+              setStructure((prev) => ({
+                ...prev,
+                variants: generateVariants(prev.options, prev.variants),
+              }));
+              setStructureDirty(true);
+            }}
+          />
         </TabsContent>
 
         <TabsContent value="media">
-          <ProductMediaTab images={images} onChange={setImages} />
+          <MediaTab
+            images={images}
+            onChange={(next) => {
+              setImages(next);
+              setMediaDirty(true);
+            }}
+          />
         </TabsContent>
       </Tabs>
 
       {isDirty && (
-        <div className="sticky bottom-4 z-10 rounded-md border bg-bg p-3 shadow-sm ">
+        <div className="sticky bottom-4 z-10 rounded-md border bg-background p-3 shadow-sm">
           <div className="flex items-center justify-between gap-3">
             <p className="text-sm text-muted-foreground">{t('variantEditor.unsavedChanges')}</p>
-            <Button onClick={handleSubmit} disabled={mutation.isPending}>
-              {mutation.isPending ? t('saving') : t('save')}
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={handleDiscard}>
+                {t('discard')}
+              </Button>
+              <Button
+                onClick={handleSaveCurrentTab}
+                disabled={saveContent.isPending || saveStructure.isPending}
+              >
+                {saveContent.isPending || saveStructure.isPending ? t('saving') : t('save')}
+              </Button>
+            </div>
           </div>
         </div>
       )}
+
       <div className="flex justify-end">
         <DeleteProductButton
           storeId={storeId}

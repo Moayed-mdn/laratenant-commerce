@@ -52,4 +52,7 @@ ehthumbs.db
 *.swo
 
 # Turbo cache
-.turbo/
+.turbo/~
+
+# my tool
+search_and_print.sh
