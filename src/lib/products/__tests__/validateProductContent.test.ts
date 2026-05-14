@@ -43,6 +43,19 @@ describe('validateProductContent', () => {
     expect(result.errors.find(e => e.field === 'translations.en.slug')).toBeDefined();
   });
 
+  it('should allow unicode slugs (e.g. Arabic) with hyphens', () => {
+    const values: ProductContentFormValues = {
+      status: 'active',
+      categoryId: null,
+      brandId: null,
+      translations: {
+        ar: { locale: 'ar', name: 'ساعة', slug: 'ساعة-حائط-عصرية', description: null, seo_title: null, seo_description: null },
+      },
+    };
+    const result = validateProductContent(values);
+    expect(result.isValid).toBe(true);
+  });
+
   it('should pass for valid content', () => {
     const values: ProductContentFormValues = {
       status: 'active',

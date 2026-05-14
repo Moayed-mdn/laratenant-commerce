@@ -37,7 +37,6 @@ export default function ProductFilters({
     { value: 'all', label: t('filters.allStatuses') },
     { value: 'active', label: dashboardT('productStatus.active') },
     { value: 'draft', label: dashboardT('productStatus.draft') },
-    { value: 'inactive', label: dashboardT('productStatus.inactive') },
   ] as const satisfies readonly SelectOption<string>[];
 
   const statusLabelByValue = makeLabelByValue(statusOptions);

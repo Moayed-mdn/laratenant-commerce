@@ -24,7 +24,7 @@ interface Props {
   initialFilters: ProductFiltersType;
 }
 
-const statusOptions = ['all', 'active', 'inactive', 'draft'] as const;
+const statusOptions = ['all', 'active', 'draft'] as const;
 
 export default function ProductsContent({ storeId, initialFilters }: Props) {
   const t = useTranslations('products');

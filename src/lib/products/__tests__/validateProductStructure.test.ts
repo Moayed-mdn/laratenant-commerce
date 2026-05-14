@@ -2,70 +2,265 @@ import { validateProductStructure } from '../validateProductStructure';
 import type { ProductStructureState } from '@/types/product-editor';
 
 describe('validateProductStructure', () => {
-  it('should detect duplicate SKUs', () => {
+  // ── Valid states ─────────────────────────────────────────────────────────
+
+  it('passes for a valid structure with no options', () => {
     const state: ProductStructureState = {
       options: [],
       variants: [
-        { id: 1, sku: 'DUP', price: 10, quantity: 1, attributes: [] } as any,
-        { id: 2, sku: 'dup', price: 20, quantity: 2, attributes: [] } as any,
+        {
+          id: 1,
+          sku: 'SKU-A',
+          price: 10,
+          quantity: 5,
+          is_active: true,
+          options: [],
+        },
       ],
     };
+
     const result = validateProductStructure(state);
-    expect(result.isValid).toBe(false);
-    expect(result.errors.find(e => e.field === 'variants.1.sku')).toBeDefined();
+    expect(result.isValid).toBe(true);
+    expect(result.errors).toHaveLength(0);
   });
 
-  it('should detect negative prices and quantities', () => {
+  it('passes when all variants have correct option assignments', () => {
+    const state: ProductStructureState = {
+      options: [
+        {
+          id: 1,
+          name: 'Color',
+          position: 1,
+          values: [{ id: 10, value: 'Red' }],
+        },
+      ],
+      variants: [
+        {
+          id: 1,
+          sku: 'SKU-A',
+          price: 10,
+          quantity: 5,
+          is_active: true,
+          options: [{ option_name: 'Color', option_value: 'Red' }],
+        },
+      ],
+    };
+
+    const result = validateProductStructure(state);
+    expect(result.isValid).toBe(true);
+    expect(result.errors).toHaveLength(0);
+  });
+
+  // ── SKU uniqueness ────────────────────────────────────────────────────────
+
+  it('fails for duplicate SKUs', () => {
     const state: ProductStructureState = {
       options: [],
       variants: [
-        { id: 1, sku: 'S1', price: -10, quantity: -5, attributes: [] } as any,
+        {
+          id: 1,
+          sku: 'DUPE',
+          price: 10,
+          quantity: 5,
+          is_active: true,
+          options: [],
+        },
+        {
+          id: 2,
+          sku: 'DUPE',
+          price: 10,
+          quantity: 5,
+          is_active: true,
+          options: [],
+        },
       ],
     };
+
     const result = validateProductStructure(state);
     expect(result.isValid).toBe(false);
-    expect(result.errors).toHaveLength(2);
+    expect(result.errors.some((e) => e.field.includes('sku'))).toBe(true);
   });
 
-  it('should detect invalid date consistency', () => {
+  it('treats SKU comparison as case-insensitive', () => {
     const state: ProductStructureState = {
       options: [],
       variants: [
-        { 
-          id: 1, 
-          sku: 'S1', 
-          price: 10, 
-          quantity: 1, 
-          manufacture_date: '2026-05-11',
-          expiry_date: '2025-05-11',
-          attributes: [] 
-        } as any,
+        {
+          id: 1,
+          sku: 'sku-abc',
+          price: 10,
+          quantity: 5,
+          is_active: true,
+          options: [],
+        },
+        {
+          id: 2,
+          sku: 'SKU-ABC',
+          price: 10,
+          quantity: 5,
+          is_active: true,
+          options: [],
+        },
       ],
     };
+
     const result = validateProductStructure(state);
     expect(result.isValid).toBe(false);
-    expect(result.errors.find(e => e.field === 'variants.0.expiry_date')).toBeDefined();
   });
 
-  it('should validate attribute integrity when options exist', () => {
-    const state: ProductStructureState = {
-      options: [{ id: 1, name: 'Color', values: [] }],
-      variants: [
-        { id: 1, sku: 'S1', price: 10, quantity: 1, attributes: [] } as any,
-      ],
-    };
-    const result = validateProductStructure(state);
-    expect(result.isValid).toBe(false);
-    expect(result.errors.find(e => e.field === 'variants.0.attributes')).toBeDefined();
-  });
+  // ── Price ─────────────────────────────────────────────────────────────────
 
-  it('should pass for valid structure', () => {
+  it('fails for negative price', () => {
     const state: ProductStructureState = {
       options: [],
       variants: [
-        { id: 1, sku: 'S1', price: 10, quantity: 1, attributes: [] } as any,
+        {
+          id: 1,
+          sku: null,
+          price: -1,
+          quantity: 0,
+          is_active: true,
+          options: [],
+        },
       ],
     };
+
+    const result = validateProductStructure(state);
+    expect(result.isValid).toBe(false);
+    expect(result.errors.some((e) => e.field.includes('price'))).toBe(true);
+  });
+
+  // ── Quantity ──────────────────────────────────────────────────────────────
+
+  it('fails for negative quantity', () => {
+    const state: ProductStructureState = {
+      options: [],
+      variants: [
+        {
+          id: 1,
+          sku: null,
+          price: 10,
+          quantity: -5,
+          is_active: true,
+          options: [],
+        },
+      ],
+    };
+
+    const result = validateProductStructure(state);
+    expect(result.isValid).toBe(false);
+    expect(result.errors.some((e) => e.field.includes('quantity'))).toBe(true);
+  });
+
+  // ── Date consistency ──────────────────────────────────────────────────────
+
+  it('fails when expiry_date is before manufacture_date', () => {
+    const state: ProductStructureState = {
+      options: [],
+      variants: [
+        {
+          id: 1,
+          sku: null,
+          price: 10,
+          quantity: 0,
+          is_active: true,
+          manufacture_date: '2026-06-01',
+          expiry_date: '2026-01-01',
+          options: [],
+        },
+      ],
+    };
+
+    const result = validateProductStructure(state);
+    expect(result.isValid).toBe(false);
+    expect(
+      result.errors.some((e) => e.field.includes('expiry_date'))
+    ).toBe(true);
+  });
+
+  it('passes when expiry_date is after manufacture_date', () => {
+    const state: ProductStructureState = {
+      options: [],
+      variants: [
+        {
+          id: 1,
+          sku: null,
+          price: 10,
+          quantity: 0,
+          is_active: true,
+          manufacture_date: '2026-01-01',
+          expiry_date: '2026-12-31',
+          options: [],
+        },
+      ],
+    };
+
+    const result = validateProductStructure(state);
+    expect(result.isValid).toBe(true);
+  });
+
+  // ── Option coverage ───────────────────────────────────────────────────────
+
+  it('fails when a variant is missing an option assignment', () => {
+    const state: ProductStructureState = {
+      options: [
+        {
+          id: 1,
+          name: 'Color',
+          position: 1,
+          values: [{ id: 10, value: 'Red' }],
+        },
+        {
+          id: 2,
+          name: 'Size',
+          position: 2,
+          values: [{ id: 20, value: 'S' }],
+        },
+      ],
+      variants: [
+        {
+          id: 1,
+          sku: null,
+          price: 10,
+          quantity: 0,
+          is_active: true,
+          // Only Color assigned, Size missing
+          options: [{ option_name: 'Color', option_value: 'Red' }],
+        },
+      ],
+    };
+
+    const result = validateProductStructure(state);
+    expect(result.isValid).toBe(false);
+    expect(
+      result.errors.some((e) => e.field.includes('options'))
+    ).toBe(true);
+    expect(result.errors[0].message).toContain('Size');
+  });
+
+  it('ignores option coverage check when no options defined', () => {
+    const state: ProductStructureState = {
+      options: [],
+      variants: [
+        {
+          id: 1,
+          sku: null,
+          price: 10,
+          quantity: 0,
+          is_active: true,
+          options: [],
+        },
+      ],
+    };
+
+    const result = validateProductStructure(state);
+    expect(result.isValid).toBe(true);
+  });
+
+  // ── Empty state ───────────────────────────────────────────────────────────
+
+  it('passes for empty variants array', () => {
+    const state: ProductStructureState = { options: [], variants: [] };
     const result = validateProductStructure(state);
     expect(result.isValid).toBe(true);
   });

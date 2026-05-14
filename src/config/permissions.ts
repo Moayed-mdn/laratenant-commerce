@@ -11,32 +11,40 @@ interface RolePermissions {
   canViewDashboard: boolean;
   canManageStoreSettings: boolean;
   canManageAllStores: boolean;
+  canManageCategories: boolean;
+  canManageBrands: boolean;
 }
 
 export const PERMISSIONS: Record<UserRole, RolePermissions> = {
   store_admin: {
-    canManageUsers: true,
-    canManageProducts: true,
-    canManageOrders: true,
-    canViewDashboard: true,
+    canManageUsers:        true,
+    canManageProducts:     true,
+    canManageOrders:       true,
+    canViewDashboard:      true,
     canManageStoreSettings: true,
-    canManageAllStores: false,
+    canManageAllStores:    false,
+    canManageCategories:   true,
+    canManageBrands:       true,
   },
   staff: {
-    canManageUsers: false,
-    canManageProducts: false,
-    canManageOrders: false,
-    canViewDashboard: true,
+    canManageUsers:        false,
+    canManageProducts:     false,
+    canManageOrders:       false,
+    canViewDashboard:      true,
     canManageStoreSettings: false,
-    canManageAllStores: false,
+    canManageAllStores:    false,
+    canManageCategories:   false,
+    canManageBrands:       false,
   },
   super_admin: {
-    canManageUsers: true,
-    canManageProducts: true,
-    canManageOrders: true,
-    canViewDashboard: true,
+    canManageUsers:        true,
+    canManageProducts:     true,
+    canManageOrders:       true,
+    canViewDashboard:      true,
     canManageStoreSettings: true,
-    canManageAllStores: true,
+    canManageAllStores:    true,
+    canManageCategories:   true,
+    canManageBrands:       true,
   },
 } as const;
 

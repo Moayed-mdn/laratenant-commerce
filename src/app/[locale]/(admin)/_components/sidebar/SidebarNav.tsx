@@ -15,7 +15,17 @@ import { SidebarNavItem } from './SidebarNavItem';
 import { ROUTES } from '@/config/routes';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, Users, Package, ShoppingCart, Store, type LucideIcon } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Users,
+  Package,
+  ShoppingCart,
+  Store,
+  LayoutGrid,
+  Bookmark,
+  Tag,
+  type LucideIcon,
+} from 'lucide-react';
 
 interface NavItem {
   label: string;
@@ -66,6 +76,24 @@ export function SidebarNav({ storeId }: SidebarNavProps) {
       label: t('products'),
       href: ROUTES.store(storeId).products.list(),
       icon: Package,
+      show: canManageProducts,
+    },
+    {
+      label: t('categories'),
+      href: ROUTES.store(storeId).categories.list(),
+      icon: LayoutGrid,
+      show: canManageProducts,
+    },
+    {
+      label: t('brands'),
+      href: ROUTES.store(storeId).brands.list(),
+      icon: Bookmark,
+      show: canManageProducts,
+    },
+    {
+      label: t('tags'),
+      href: ROUTES.store(storeId).tags.list(),
+      icon: Tag,
       show: canManageProducts,
     },
     {

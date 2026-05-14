@@ -100,6 +100,7 @@ export function useUnsavedChangesGuard({ isDirty, message }: UseUnsavedChangesGu
 
       const ok = window.confirm(confirmMessage);
       if (ok) {
+        bypassNextNavigation();
         // User confirmed leaving; allow navigation
         return;
       }
@@ -110,7 +111,7 @@ export function useUnsavedChangesGuard({ isDirty, message }: UseUnsavedChangesGu
 
     document.addEventListener('click', onDocumentClickCapture, true);
     return () => document.removeEventListener('click', onDocumentClickCapture, true);
-  }, [confirmMessage]);
+  }, [bypassNextNavigation, confirmMessage]);
 
   useEffect(() => {
     const onPopState = () => {
@@ -126,6 +127,7 @@ export function useUnsavedChangesGuard({ isDirty, message }: UseUnsavedChangesGu
 
       const ok = window.confirm(confirmMessage);
       if (ok) {
+        bypassNextNavigation();
         currentUrlRef.current = getCurrentUrl();
         return;
       }
@@ -136,7 +138,7 @@ export function useUnsavedChangesGuard({ isDirty, message }: UseUnsavedChangesGu
 
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
-  }, [confirmMessage]);
+  }, [bypassNextNavigation, confirmMessage]);
 
   return {
     bypassNextNavigation,

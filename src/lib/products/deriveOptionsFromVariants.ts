@@ -1,48 +1,54 @@
-import type { ProductOption, ProductVariant, ProductOptionValue } from '@/types/product';
+import type { ProductOption, ProductVariant } from '@/types/product';
 
 /**
- * Rebuilds the list of options and their values from the existing variants.
- * This is used as a deterministic fallback when the API does not provide
- * the options list, or to ensure integrity between variants and options.
- * 
+ * Rebuilds the canonical options list from the semantic option assignments
+ * on existing variants.
+ *
+ * Used as a fallback when the API does not return top-level options,
+ * or to ensure editor integrity when the options list is empty.
+ *
  * Logic:
- * 1. Collect all unique attribute names across all variants.
- * 2. For each attribute name, collect all unique values.
- * 3. Return a list of ProductOption objects.
+ * 1. Collect all unique option_name values across all variants.
+ * 2. For each option name, collect all unique option_value strings.
+ * 3. Return a ProductOption[] sorted by first appearance.
+ *
+ * Note: Derived options have no DB IDs (id: null) because the mapping
+ * from name → DB record is not available client-side.
  */
-export function deriveOptionsFromVariants(variants: ProductVariant[]): ProductOption[] {
+export function deriveOptionsFromVariants(
+  variants: ProductVariant[]
+): ProductOption[] {
   if (!variants || variants.length === 0) {
     return [];
   }
 
-  const optionMap = new Map<number, { name: string; code?: string; values: Map<number, string> }>();
+  // Preserve insertion order for option names
+  const optionOrder: string[] = [];
+  const optionMap = new Map<string, Set<string>>();
 
   variants.forEach((variant) => {
-    (variant.attributes ?? []).forEach((attr) => {
-      if (attr.attribute_id === null || attr.attribute_value_id === null) return;
+    (variant.options ?? []).forEach((opt) => {
+      const name = opt.option_name?.trim();
+      const value = opt.option_value?.trim();
 
-      if (!optionMap.has(attr.attribute_id)) {
-        optionMap.set(attr.attribute_id, {
-          name: attr.name,
-          code: attr.code ?? undefined,
-          values: new Map<number, string>(),
-        });
+      if (!name || !value) return;
+
+      if (!optionMap.has(name)) {
+        optionOrder.push(name);
+        optionMap.set(name, new Set());
       }
 
-      const option = optionMap.get(attr.attribute_id)!;
-      if (!option.values.has(attr.attribute_value_id)) {
-        option.values.set(attr.attribute_value_id, attr.value);
-      }
+      optionMap.get(name)!.add(value);
     });
   });
 
-  return Array.from(optionMap.entries()).map(([id, data]) => ({
-    id,
-    name: data.name,
-    code: data.code ?? '',
-    values: Array.from(data.values.entries()).map(([valId, label]) => ({
-      id: valId,
-      label,
-    } as ProductOptionValue)),
+  return optionOrder.map((name, index) => ({
+    id: null,
+    name,
+    position: index + 1,
+    values: Array.from(optionMap.get(name)!).map((val) => ({
+      id: null,
+      value: val,
+    })),
   }));
 }

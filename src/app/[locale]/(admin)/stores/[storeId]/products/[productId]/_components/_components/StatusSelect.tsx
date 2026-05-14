@@ -26,7 +26,6 @@ export function StatusSelect({ value, onChange }: Props) {
         <SelectContent>
           <SelectItem value="active">{dashboardT('productStatus.active')}</SelectItem>
           <SelectItem value="draft">{dashboardT('productStatus.draft')}</SelectItem>
-          <SelectItem value="inactive">{dashboardT('productStatus.inactive')}</SelectItem>
         </SelectContent>
       </Select>
     </div>

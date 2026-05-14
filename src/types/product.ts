@@ -1,8 +1,17 @@
 /**
  * Product types for the admin dashboard.
+ * Aligned with new canonical options + semantic variant map architecture.
  */
 
-/** Product image type */
+// ── Primitives ─────────────────────────────────────────────────────────────
+
+export type ProductStatus = 'active' | 'draft';
+export type Locale = string;
+export type ProductEntityId = number;
+export type WeightUnit = 'kg' | 'g' | 'lb' | 'oz';
+
+// ── Images ─────────────────────────────────────────────────────────────────
+
 export interface ProductImage {
   id: number;
   url: string;
@@ -10,11 +19,7 @@ export interface ProductImage {
   position: number;
 }
 
-/** Product status union type */
-export type ProductStatus = 'active' | 'inactive' | 'draft';
-
-export type Locale = string;
-export type ProductEntityId = number;
+// ── Translations ───────────────────────────────────────────────────────────
 
 export interface ProductTranslation {
   locale: Locale;
@@ -26,23 +31,62 @@ export interface ProductTranslation {
   is_complete?: boolean;
 }
 
-/** Weight unit type */
-export type WeightUnit = 'kg' | 'g' | 'lb' | 'oz';
+// ── Options (new canonical system) ─────────────────────────────────────────
 
-/** Product variant attribute type */
-export interface ProductVariantAttribute {
-  attribute_id: number | null;
-  attribute_value_id: number | null;
-  name: string;
+/**
+ * A single option value belonging to a ProductOption.
+ * 'value' is the display string (e.g. "Red", "XL").
+ * 'id' is present for server-persisted values, null for unsaved ones.
+ */
+export interface ProductOptionValue {
+  id?: ProductEntityId | null;
   value: string;
-  label?: string | null;
-  code?: string | null;
 }
 
-/** Product variant type */
-export interface ProductVariant {
+/**
+ * A canonical product option (e.g. "Color", "Size").
+ * Owned by a product, not global.
+ * 'position' controls display order.
+ */
+export interface ProductOption {
+  id?: ProductEntityId | null;
+  name: string;
+  position: number;
+  values: ProductOptionValue[];
+}
+
+/**
+ * Raw admin product option shape as returned by the backend.
+ * Used only in AdminProduct before normalization.
+ */
+export interface AdminProductOption {
+  id?: ProductEntityId | null;
+  name?: string | null;
+  position?: number | null;
+  values?: Array<{
+    id?: ProductEntityId | null;
+    value?: string | null;
+  }> | null;
+}
+
+// ── Variants (new semantic map system) ─────────────────────────────────────
+
+/**
+ * A single option assignment on a variant.
+ * Replaces the old ProductVariantAttribute.
+ * e.g. { option_name: "Color", option_value: "Red" }
+ */
+export interface ProductVariantOption {
+  option_name: string;
+  option_value: string;
+}
+
+/**
+ * Raw admin variant shape as returned by the backend resource.
+ * Used only in AdminProduct before normalization.
+ */
+export interface AdminProductVariant {
   id: number;
-  label?: string | null;
   sku: string | null;
   barcode?: string | null;
   price: number;
@@ -57,32 +101,39 @@ export interface ProductVariant {
   manufacture_date?: string | null;
   expiry_date?: string | null;
   batch_number?: string | null;
-  attributes: ProductVariantAttribute[];
+  options: ProductVariantOption[];
 }
 
-/** Product option value type */
-export interface ProductOptionValue {
-  id?: ProductEntityId | null;
-  label: string;
+/**
+ * Product variant — the core purchasable entity.
+ * 'options' is the semantic map of option assignments.
+ * Negative 'id' values indicate unsaved (client-only) variants.
+ */
+export interface ProductVariant {
+  id: number;
+  sku: string | null;
+  barcode?: string | null;
+  price: number;
+  compare_at_price?: number | null;
+  cost_price?: number | null;
+  quantity: number;
+  low_stock_threshold?: number | null;
+  track_inventory?: boolean;
+  weight?: number | null;
+  weight_unit?: WeightUnit | null;
+  is_active: boolean;
+  manufacture_date?: string | null;
+  expiry_date?: string | null;
+  batch_number?: string | null;
+  options: ProductVariantOption[];
 }
 
-/** Product option type */
-export interface ProductOption {
-  id?: ProductEntityId | null;
-  code: string;
-  name: string;
-  values: ProductOptionValue[];
-}
+// ── Admin API Response Types ────────────────────────────────────────────────
 
-/** Admin product option type */
-export interface AdminProductOption {
-  id?: ProductEntityId | null;
-  code?: string | null;
-  name?: string | null;
-  values?: Array<{ id?: ProductEntityId | null; label?: string | null }> | null;
-}
-
-/** Admin product type */
+/**
+ * Full admin product shape as returned by the backend.
+ * This is the raw API response type — map it before use in UI.
+ */
 export interface AdminProduct {
   id: number;
   store_id: number;
@@ -99,8 +150,9 @@ export interface AdminProduct {
   weight: number | null;
   weight_unit: WeightUnit | null;
   status: ProductStatus;
+  is_featured?: boolean;
   images: ProductImage[];
-  variants: ProductVariant[];
+  variants: AdminProductVariant[];
   options?: AdminProductOption[] | null;
   category_id: number | null;
   brand_id: number | null;
@@ -110,22 +162,29 @@ export interface AdminProduct {
   updated_at: string;
 }
 
-/** Product list item view type */
+// ── View Types (post-mapper) ────────────────────────────────────────────────
+
+/**
+ * Shaped product list item for UI table rendering.
+ */
 export interface ProductListItemView {
   id: number;
   name: string;
   slug: string;
   status: ProductStatus;
-  price: string;           // formatted currency
+  price: string;
   compareAtPrice: string | null;
   quantity: number;
   sku: string | null;
   firstImage: string | null;
   category: string | null;
-  createdAt: string;       // formatted date
+  createdAt: string;
 }
 
-/** Product detail view type */
+/**
+ * Shaped product detail for the admin editor.
+ * All fields are camelCase and ready for UI consumption.
+ */
 export interface ProductDetailView {
   id: number;
   storeId: number;
@@ -144,6 +203,7 @@ export interface ProductDetailView {
   weight: number | null;
   weightUnit: WeightUnit | null;
   status: ProductStatus;
+  isFeatured: boolean;
   images: ProductImage[];
   createdAt: string;
   updatedAt: string;
@@ -153,95 +213,17 @@ export interface ProductDetailView {
   translations: Record<Locale, ProductTranslation>;
 }
 
-/** Product attribute value type */
-export interface ProductAttributeValue {
-  value: string;
-}
-
-/** Product attribute type */
-export interface ProductAttribute {
-  name: string;
-  values: ProductAttributeValue[];
-}
+// ── API Payload Types ───────────────────────────────────────────────────────
 
 /**
- * Internal variant representation used by the form.
- * Mirrors ProductVariant but adds a stable `key` for React rendering.
+ * Payload for updating an existing product.
+ * All fields are optional — send only what changed.
  */
-export interface VariantFormItem {
-  /** Stable React key — never sent to backend */
-  key: string;
-  /** Server id — present for existing variants, undefined for new ones */
-  id?: number;
-  label?: string | null;
-  sku: string | null;
-  price: number;
-  quantity: number;
-  is_active: boolean;
-  manufacture_date?: string | null;
-  expiry_date?: string | null;
-  batch_number?: string | null;
-  attributes: ProductVariantAttribute[];
-  barcode?: string | null;
-  compare_at_price?: number | null;
-  cost_price?: number | null;
-  low_stock_threshold?: number | null;
-  track_inventory?: boolean;
-  weight?: number | null;
-  weight_unit?: WeightUnit | null;
-}
-
-/** Product variant input type */
-export type ProductVariantInput = {
-  key: string;
-  id?: number;
-  label?: string | null;
-  sku: string | null;
-  price: number;
-  quantity: number;
-  is_active: boolean;
-  manufacture_date?: string | null;
-  expiry_date?: string | null;
-  batch_number?: string | null;
-  attributes: ProductVariantAttribute[];
-  barcode?: string | null;
-  compare_at_price?: number | null;
-  cost_price?: number | null;
-  low_stock_threshold?: number | null;
-  track_inventory?: boolean;
-  weight?: number | null;
-  weight_unit?: WeightUnit | null;
-};
-
-/** Product editor state type */
-export interface ProductEditorState {
-  product: {
-    name: string;
-    description: string;
-    status: ProductStatus;
-    category_id: number | null;
-    brand_id: number | null;
-    featured: boolean;
-    active: boolean;
-    media: ProductImage[];
-  };
-  variants: ProductVariantInput[];
-  options: ProductOption[];
-}
-
-/** Product form state type */
-export interface ProductFormState {
-  translations: Record<Locale, ProductTranslation>;
-  status: ProductStatus;
-  variants: VariantFormItem[];
-  options: ProductOption[];
-}
-
-/** Product update payload type */
 export interface ProductUpdatePayload {
   category_id?: number | null;
   brand_id?: number | null;
   is_active?: boolean | null;
+  is_featured?: boolean | null;
   translations?: Array<{
     locale: string;
     name: string;
@@ -250,47 +232,77 @@ export interface ProductUpdatePayload {
     seo_title?: string | null;
     seo_description?: string | null;
   }>;
+  sync_variants?: boolean;
+  options?: Array<{
+    name: string;
+    position: number;
+    values: string[];
+  }>;
   variants?: Array<{
     id?: number | null;
-    sku: string;
+    sku: string | null;
+    barcode?: string | null;
     price: number;
+    compare_at_price?: number | null;
+    cost_price?: number | null;
     quantity: number;
+    low_stock_threshold?: number | null;
+    track_inventory?: boolean | null;
     is_active?: boolean | null;
+    weight?: number | null;
+    weight_unit?: string | null;
     manufacture_date?: string | null;
     expiry_date?: string | null;
     batch_number?: string | null;
-    attributes?: Array<{
-      attribute_id: number;
-      attribute_value_id: number;
-    }>;
+    options?: Record<string, string>;
   }>;
   tags?: string[];
 }
 
-/** Admin product list item type */
-export interface AdminProductListItem {
-  id: number;
-  name: string;
-  status: ProductStatus;
-  price: number;
-  stock: number;
-  thumbnail: string | null;
-  category: string | null;
-  created_at: string;
-}
-
-/** Product create payload type */
+/**
+ * Payload for creating a new product.
+ * Follows the new backend contract with translations + options + variants.
+ */
 export interface ProductCreatePayload {
-  name: string;
-  description?: string;
-  price: number;
-  compare_at_price?: number | null;
-  cost_per_item?: number | null;
-  sku?: string | null;
-  barcode?: string | null;
-  quantity: number;
-  track_quantity: boolean;
-  weight?: number | null;
-  weight_unit?: WeightUnit | null;
-  status: ProductStatus;
+  status:       ProductStatus;
+  category_id?: number | null;
+  brand_id?:    number | null;
+  is_featured?: boolean;
+  translations: Array<{
+    locale:          string;
+    name:            string;
+    slug:            string;
+    description?:    string | null;
+    seo_title?:      string | null;
+    seo_description?: string | null;
+  }>;
+  options?: Array<{
+    name:     string;
+    position: number;
+    values:   string[];
+  }>;
+  variants: Array<{
+    id?:              number;
+    sku:              string | null;
+    barcode?:         string | null;
+    price:            number;
+    compare_at_price?: number | null;
+    cost_price?:      number | null;
+    quantity:         number;
+    low_stock_threshold?: number | null;
+    track_inventory?: boolean | null;
+    is_active:        boolean;
+    weight?:          number | null;
+    weight_unit?:     string | null;
+    manufacture_date?: string | null;
+    expiry_date?:     string | null;
+    batch_number?:    string | null;
+    options?:         Record<string, string>;
+  }>;
+  images?: Array<{
+    url:      string;
+    alt?:     string | null;
+    position?: number;
+  }>;
+  tags?: string[];
 }

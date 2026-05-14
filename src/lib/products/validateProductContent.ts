@@ -34,8 +34,8 @@ export function validateProductContent(
 
     if (!t.slug?.trim()) {
       errors.push({ field: `${prefix}.slug`, message: 'Slug is required.' });
-    } else if (!/^[a-z0-9-]+$/.test(t.slug)) {
-      errors.push({ field: `${prefix}.slug`, message: 'Slug can only contain lowercase letters, numbers, and hyphens.' });
+    } else if (!/^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u.test(t.slug)) {
+      errors.push({ field: `${prefix}.slug`, message: 'Slug can only contain letters, numbers, and hyphens.' });
     }
 
     if (t.seo_title && t.seo_title.length > 70) {

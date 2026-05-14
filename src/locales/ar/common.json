@@ -1,14 +1,14 @@
 {
-  "save":    "حفظ",
-  "cancel":  "إلغاء",
-  "saving":  "جارٍ الحفظ...",
+  "save": "حفظ",
+  "cancel": "إلغاء",
+  "saving": "جارٍ الحفظ...",
   "loading": "جارٍ التحميل...",
   "confirm": "تأكيد",
-  "delete":  "حذف",
-  "edit":    "تعديل",
-  "create":  "إنشاء",
-  "search":  "بحث",
-  "filter":  "تصفية",
+  "delete": "حذف",
+  "edit": "تعديل",
+  "create": "إنشاء",
+  "search": "بحث",
+  "filter": "تصفية",
   "actions": "الإجراءات",
   "login": {
     "pageTitle": "تسجيل الدخول — لوحة التحكم",
@@ -40,6 +40,9 @@
     "products": "المنتجات",
     "orders": "الطلبات",
     "stores": "المتاجر",
+    "categories": "التصنيفات",
+    "brands": "العلامات التجارية",
+    "tags": "الوسوم",
     "mainNav": "التنقل الرئيسي",
     "toggleSidebar": "تبديل الشريط الجانبي",
     "toggleMenu": "تبديل القائمة"
@@ -177,6 +180,7 @@
     "actions": "الإجراءات",
     "save": "حفظ",
     "saving": "جارٍ الحفظ...",
+    "discard": "تجاهل",
     "filters": {
       "search": "بحث",
       "searchPlaceholder": "البحث بالاسم أو SKU...",
@@ -227,7 +231,16 @@
         "trackQuantity": "تتبع الكمية",
         "weight": "الوزن",
         "weightUnit": "الوحدة",
-        "status": "الحالة"
+        "status": "الحالة",
+        "category": "الفئة",
+        "categoryPlaceholder": "اختر فئة",
+        "noCategoryOption": "بدون فئة",
+        "brand": "العلامة التجارية",
+        "brandPlaceholder": "اختر علامة تجارية",
+        "noBrandOption": "بدون علامة تجارية",
+        "isFeatured": "منتج مميز",
+        "isFeaturedHint": "تُعرض المنتجات المميزة بشكل بارز في الواجهة.",
+        "loading": "جارٍ التحميل..."
       },
       "status": {
         "active": "نشط",
@@ -251,6 +264,8 @@
         "variantPriceInvalid": "يجب أن يكون سعر المتغير 0 أو أكبر.",
         "variantQuantityInvalid": "يجب أن تكون كمية المتغير 0 أو أكبر."
       },
+      "validationError": "يرجى إصلاح أخطاء التحقق من الصحة قبل الحفظ.",
+      "validationErrorsTitle": "أخطاء التحقق:",
       "submit": {
         "create": "إنشاء منتج",
         "update": "حفظ التغييرات",
@@ -338,6 +353,26 @@
     },
     "detail": {
       "back": "العودة إلى المنتجات"
+    },
+    "create": {
+      "back": "السابق",
+      "next": "التالي",
+      "steps": {
+        "content": "المحتوى",
+        "structure": "البنية",
+        "review": "المراجعة"
+      },
+      "review": {
+        "title": "جاهز للإنشاء",
+        "subtitle": "راجع المنتج قبل إنشائه.",
+        "status": "الحالة",
+        "translationsCount": "{count, plural, =0 {لا توجد ترجمات} =1 {ترجمة واحدة} =2 {ترجمتان} few {# ترجمات} many {# ترجمة} other {# ترجمة}}",
+        "optionsCount": "{count, plural, =0 {لا توجد خيارات} =1 {خيار واحد} =2 {خياران} few {# خيارات} many {# خيار} other {# خيار}}",
+        "variantsCount": "{count, plural, =0 {لا توجد متغيرات} =1 {متغير واحد} =2 {متغيران} few {# متغيرات} many {# متغير} other {# متغير}}",
+        "noVariants": "لم يتم تحديد متغيرات — سيتم إنشاء متغير افتراضي.",
+        "noOptions": "لم يتم تحديد خيارات — المنتج له متغير افتراضي واحد.",
+        "noTranslations": "لم يتم تحديد ترجمات."
+      }
     }
   },
   "orders": {
@@ -410,6 +445,226 @@
       "quantity": "الكمية",
       "price": "السعر",
       "total": "الإجمالي"
+    }
+  },
+  "categories": {
+    "title": "التصنيفات",
+    "subtitle": "إدارة تصنيفات متجرك",
+    "new": "تصنيف جديد",
+    "loading": "جارٍ التحميل...",
+    "filters": {
+      "allStatuses": "جميع الحالات"
+    },
+    "status": {
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "deleted": "محذوف"
+    },
+    "table": {
+      "name": "الاسم",
+      "slug": "المعرّف",
+      "parent": "التصنيف الأب",
+      "products": "المنتجات",
+      "status": "الحالة",
+      "sortOrder": "الترتيب",
+      "created": "تاريخ الإنشاء",
+      "actions": "الإجراءات",
+      "edit": "تعديل",
+      "empty": "لم يتم العثور على تصنيفات",
+      "of": "من",
+      "perPage": "لكل صفحة",
+      "previous": "السابق",
+      "next": "التالي",
+      "page": "صفحة {current} من {total}"
+    },
+    "form": {
+      "createTitle": "تصنيف جديد",
+      "createSubtitle": "إنشاء تصنيف منتج جديد",
+      "editTitle": "تعديل التصنيف",
+      "translations": "الترجمات",
+      "settings": "الإعدادات",
+      "parentCategory": "التصنيف الأب",
+      "dangerZone": "منطقة الخطر",
+      "deleteDescription": "إزالة هذا التصنيف نهائياً من متجرك. لن تتأثر المنتجات الموجودة في هذا التصنيف.",
+      "restoreDescription": "استعادة هذا التصنيف لجعله متاحاً مرة أخرى.",
+      "fields": {
+        "name": "الاسم",
+        "namePlaceholder": "مثال: الملابس",
+        "slug": "المعرّف العام",
+        "translationSlug": "معرّف الرابط",
+        "slugPlaceholder": "مثال: clothing",
+        "sortOrder": "ترتيب العرض",
+        "isActive": "نشط"
+      },
+      "create": "إنشاء تصنيف",
+      "creating": "جارٍ الإنشاء...",
+      "save": "حفظ التغييرات",
+      "saving": "جارٍ الحفظ...",
+      "delete": "حذف التصنيف",
+      "deleting": "جارٍ الحذف...",
+      "restore": "استعادة التصنيف",
+      "restoring": "جارٍ الاستعادة...",
+      "cancel": "إلغاء",
+      "deleteTitle": "حذف التصنيف",
+      "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا التصنيف؟ لا يمكن حذف التصنيفات التي تحتوي على تصنيفات فرعية أو منتجات.",
+      "createSuccess": "تم إنشاء التصنيف",
+      "createError": "فشل إنشاء التصنيف",
+      "updateSuccess": "تم حفظ التصنيف",
+      "updateError": "فشل حفظ التصنيف",
+      "deleteSuccess": "تم حذف التصنيف",
+      "deleteError": "فشل حذف التصنيف",
+      "restoreSuccess": "تمت استعادة التصنيف",
+      "restoreError": "فشل استعادة التصنيف"
+    },
+    "detail": {
+      "error": "فشل تحميل التصنيف"
+    }
+  },
+  "brands": {
+    "title": "العلامات التجارية",
+    "subtitle": "إدارة علامات متجرك التجارية",
+    "new": "علامة تجارية جديدة",
+    "loading": "جارٍ التحميل...",
+    "filters": {
+      "allStatuses": "جميع الحالات"
+    },
+    "status": {
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "deleted": "محذوف"
+    },
+    "table": {
+      "logo": "الشعار",
+      "name": "الاسم",
+      "slug": "المعرّف",
+      "products": "المنتجات",
+      "status": "الحالة",
+      "sortOrder": "الترتيب",
+      "created": "تاريخ الإنشاء",
+      "actions": "الإجراءات",
+      "edit": "تعديل",
+      "empty": "لم يتم العثور على علامات تجارية",
+      "of": "من",
+      "perPage": "لكل صفحة",
+      "previous": "السابق",
+      "next": "التالي",
+      "page": "صفحة {current} من {total}"
+    },
+    "form": {
+      "createTitle": "علامة تجارية جديدة",
+      "createSubtitle": "إنشاء علامة تجارية جديدة للمنتجات",
+      "editTitle": "تعديل العلامة التجارية",
+      "details": "التفاصيل",
+      "settings": "الإعدادات",
+      "stats": "الإحصائيات",
+      "dangerZone": "منطقة الخطر",
+      "deleteDescription": "إزالة هذه العلامة التجارية نهائياً من متجرك. لن تتأثر المنتجات المرتبطة بها.",
+      "restoreDescription": "استعادة هذه العلامة التجارية لجعلها متاحة مرة أخرى.",
+      "fields": {
+        "name": "الاسم",
+        "namePlaceholder": "مثال: نايكي",
+        "slug": "المعرّف",
+        "slugPlaceholder": "مثال: nike",
+        "description": "الوصف",
+        "descriptionPlaceholder": "صف العلامة التجارية...",
+        "logoUrl": "رابط الشعار",
+        "logoUrlPlaceholder": "https://example.com/logo.png",
+        "sortOrder": "ترتيب العرض",
+        "isActive": "نشط",
+        "productsCount": "المنتجات",
+        "updatedAt": "آخر تحديث"
+      },
+      "create": "إنشاء علامة تجارية",
+      "creating": "جارٍ الإنشاء...",
+      "save": "حفظ التغييرات",
+      "saving": "جارٍ الحفظ...",
+      "delete": "حذف العلامة التجارية",
+      "deleting": "جارٍ الحذف...",
+      "restore": "استعادة العلامة التجارية",
+      "restoring": "جارٍ الاستعادة...",
+      "cancel": "إلغاء",
+      "deleteTitle": "حذف العلامة التجارية",
+      "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذه العلامة التجارية؟ لا يمكن حذف العلامات التجارية التي تحتوي على منتجات.",
+      "createSuccess": "تم إنشاء العلامة التجارية",
+      "createError": "فشل إنشاء العلامة التجارية",
+      "updateSuccess": "تم حفظ العلامة التجارية",
+      "updateError": "فشل حفظ العلامة التجارية",
+      "deleteSuccess": "تم حذف العلامة التجارية",
+      "deleteError": "فشل حذف العلامة التجارية",
+      "restoreSuccess": "تمت استعادة العلامة التجارية",
+      "restoreError": "فشل استعادة العلامة التجارية"
+    },
+    "detail": {
+      "error": "فشل تحميل العلامة التجارية"
+    }
+  },
+  "tags": {
+    "title": "الوسوم",
+    "subtitle": "إدارة وسوم متجرك",
+    "new": "وسم جديد",
+    "loading": "جارٍ التحميل...",
+    "filters": {
+      "allStatuses": "جميع الحالات",
+      "allTypes": "جميع الأنواع",
+      "typePlaceholder": "تصفية حسب النوع..."
+    },
+    "status": {
+      "active": "نشط",
+      "inactive": "غير نشط"
+    },
+    "table": {
+      "name": "الاسم",
+      "type": "النوع",
+      "color": "اللون",
+      "translations": "اللغات",
+      "status": "الحالة",
+      "created": "تاريخ الإنشاء",
+      "actions": "الإجراءات",
+      "edit": "تعديل",
+      "empty": "لم يتم العثور على وسوم",
+      "of": "من",
+      "perPage": "لكل صفحة",
+      "previous": "السابق",
+      "next": "التالي",
+      "page": "صفحة {current} من {total}"
+    },
+    "form": {
+      "createTitle": "وسم جديد",
+      "createSubtitle": "إنشاء وسم جديد للمنتجات",
+      "editTitle": "تعديل الوسم",
+      "translations": "الترجمات",
+      "settings": "الإعدادات",
+      "dangerZone": "منطقة الخطر",
+      "deleteDescription": "إزالة هذا الوسم نهائياً من متجرك.",
+      "fields": {
+        "name": "الاسم",
+        "namePlaceholder": "مثال: تخفيض",
+        "slug": "رابط URL",
+        "slugPlaceholder": "مثال: sale",
+        "type": "النوع",
+        "typePlaceholder": "مثال: general",
+        "color": "اللون",
+        "colorPlaceholder": "#FF0000",
+        "isActive": "نشط"
+      },
+      "create": "إنشاء وسم",
+      "creating": "جارٍ الإنشاء...",
+      "save": "حفظ التغييرات",
+      "saving": "جارٍ الحفظ...",
+      "delete": "حذف الوسم",
+      "deleting": "جارٍ الحذف...",
+      "cancel": "إلغاء",
+      "deleteTitle": "حذف الوسم",
+      "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا الوسم؟",
+      "createSuccess": "تم إنشاء الوسم",
+      "createError": "فشل إنشاء الوسم",
+      "updateSuccess": "تم حفظ الوسم",
+      "updateError": "فشل حفظ الوسم",
+      "deleteSuccess": "تم حذف الوسم",
+      "deleteError": "فشل حذف الوسم"
+    },
+    "detail": {
+      "error": "فشل تحميل الوسم"
     }
   }
 }

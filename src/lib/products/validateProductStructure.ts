@@ -2,8 +2,15 @@ import type { ProductStructureState } from '@/types/product-editor';
 import type { ValidationError, ValidationResult } from './validateProductContent';
 
 /**
- * Validates product structure (SKUs, prices, quantities, attributes).
- * Returns a structured ValidationResult.
+ * Validates product structure state before sending to the backend.
+ *
+ * Checks:
+ * - SKU uniqueness across variants
+ * - Price non-negative
+ * - Quantity non-negative
+ * - Expiry date not before manufacture date
+ * - Every variant has an option assignment for each defined option
+ *   (only when options exist)
  */
 export function validateProductStructure(
   state: ProductStructureState
@@ -14,41 +21,69 @@ export function validateProductStructure(
   (state.variants ?? []).forEach((v, index) => {
     const prefix = `variants.${index}`;
 
-    // SKU uniqueness
+    // ── SKU uniqueness ───────────────────────────────────────────
     if (v.sku) {
       const normalizedSku = v.sku.trim().toLowerCase();
       if (skus.has(normalizedSku)) {
-        errors.push({ field: `${prefix}.sku`, message: `Duplicate SKU: ${v.sku}` });
+        errors.push({
+          field: `${prefix}.sku`,
+          message: `Duplicate SKU: ${v.sku}`,
+        });
       }
       skus.add(normalizedSku);
     }
 
-    // Price validation
+    // ── Price ────────────────────────────────────────────────────
     if (v.price < 0) {
-      errors.push({ field: `${prefix}.price`, message: 'Price cannot be negative.' });
+      errors.push({
+        field: `${prefix}.price`,
+        message: 'Price cannot be negative.',
+      });
     }
 
-    // Quantity validation
+    // ── Quantity ─────────────────────────────────────────────────
     if (v.quantity < 0) {
-      errors.push({ field: `${prefix}.quantity`, message: 'Quantity cannot be negative.' });
+      errors.push({
+        field: `${prefix}.quantity`,
+        message: 'Quantity cannot be negative.',
+      });
     }
 
-    // Date consistency
+    // ── Date consistency ─────────────────────────────────────────
     if (v.manufacture_date && v.expiry_date) {
       const mDate = new Date(v.manufacture_date);
       const eDate = new Date(v.expiry_date);
       if (eDate < mDate) {
-        errors.push({ field: `${prefix}.expiry_date`, message: 'Expiry date cannot be before manufacture date.' });
+        errors.push({
+          field: `${prefix}.expiry_date`,
+          message: 'Expiry date cannot be before manufacture date.',
+        });
       }
     }
 
-    // Attribute integrity (every variant must have consistent attributes if options exist)
+    // ── Option coverage ──────────────────────────────────────────
+    // Every variant must have an option assignment for each
+    // option defined at the product level.
     if (state.options.length > 0) {
-      const validAttributes = (v.attributes ?? []).filter(
-        (a) => a.attribute_id !== null && a.attribute_value_id !== null
+      const assignedOptionNames = new Set(
+        (v.options ?? [])
+          .filter(
+            (o) =>
+              o.option_name?.trim() !== '' &&
+              o.option_value?.trim() !== ''
+          )
+          .map((o) => o.option_name.trim())
       );
-      if (validAttributes.length !== state.options.length) {
-        errors.push({ field: `${prefix}.attributes`, message: 'Variant is missing attribute values.' });
+
+      const missingOptions = state.options
+        .map((o) => o.name.trim())
+        .filter((name) => !assignedOptionNames.has(name));
+
+      if (missingOptions.length > 0) {
+        errors.push({
+          field: `${prefix}.options`,
+          message: `Variant is missing values for: ${missingOptions.join(', ')}.`,
+        });
       }
     }
   });

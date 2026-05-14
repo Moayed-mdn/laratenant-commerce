@@ -1,14 +1,14 @@
 {
-  "save":    "Save",
-  "cancel":  "Cancel",
-  "saving":  "Saving...",
+  "save": "Save",
+  "cancel": "Cancel",
+  "saving": "Saving...",
   "loading": "Loading...",
   "confirm": "Confirm",
-  "delete":  "Delete",
-  "edit":    "Edit",
-  "create":  "Create",
-  "search":  "Search",
-  "filter":  "Filter",
+  "delete": "Delete",
+  "edit": "Edit",
+  "create": "Create",
+  "search": "Search",
+  "filter": "Filter",
   "actions": "Actions",
   "login": {
     "pageTitle": "Login — Admin Dashboard",
@@ -40,6 +40,9 @@
     "products": "Products",
     "orders": "Orders",
     "stores": "Stores",
+    "categories": "Categories",
+    "brands": "Brands",
+    "tags": "Tags",
     "mainNav": "Main navigation",
     "toggleSidebar": "Toggle sidebar",
     "toggleMenu": "Toggle menu"
@@ -177,6 +180,7 @@
     "actions": "Actions",
     "save": "Save",
     "saving": "Saving...",
+    "discard": "Discard",
     "filters": {
       "search": "Search",
       "searchPlaceholder": "Search by name or SKU...",
@@ -227,7 +231,16 @@
         "trackQuantity": "Track quantity",
         "weight": "Weight",
         "weightUnit": "Unit",
-        "status": "Status"
+        "status": "Status",
+        "category": "Category",
+        "categoryPlaceholder": "Select a category",
+        "noCategoryOption": "No category",
+        "brand": "Brand",
+        "brandPlaceholder": "Select a brand",
+        "noBrandOption": "No brand",
+        "isFeatured": "Featured product",
+        "isFeaturedHint": "Featured products are highlighted in the storefront.",
+        "loading": "Loading..."
       },
       "status": {
         "active": "Active",
@@ -251,6 +264,8 @@
         "variantPriceInvalid": "Variant price must be 0 or greater.",
         "variantQuantityInvalid": "Variant quantity must be 0 or greater."
       },
+      "validationError": "Please fix the validation errors before saving.",
+      "validationErrorsTitle": "Validation Errors:",
       "submit": {
         "create": "Create product",
         "update": "Save changes",
@@ -338,6 +353,26 @@
     },
     "detail": {
       "back": "Back to products"
+    },
+    "create": {
+      "back": "Back",
+      "next": "Next",
+      "steps": {
+        "content": "Content",
+        "structure": "Structure",
+        "review": "Review"
+      },
+      "review": {
+        "title": "Ready to create",
+        "subtitle": "Review your product before creating it.",
+        "status": "Status",
+        "translationsCount": "{count, plural, one {# translation} other {# translations}}",
+        "optionsCount": "{count, plural, one {# option} other {# options}}",
+        "variantsCount": "{count, plural, one {# variant} other {# variants}}",
+        "noVariants": "No variants defined — a default variant will be created.",
+        "noOptions": "No options defined — product has a single default variant.",
+        "noTranslations": "No translations defined."
+      }
     }
   },
   "orders": {
@@ -410,6 +445,226 @@
       "quantity": "Qty",
       "price": "Price",
       "total": "Total"
+    }
+  },
+  "categories": {
+    "title": "Categories",
+    "subtitle": "Manage your store categories",
+    "new": "New category",
+    "loading": "Loading...",
+    "filters": {
+      "allStatuses": "All statuses"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "deleted": "Deleted"
+    },
+    "table": {
+      "name": "Name",
+      "slug": "Slug",
+      "parent": "Parent",
+      "products": "Products",
+      "status": "Status",
+      "sortOrder": "Order",
+      "created": "Created",
+      "actions": "Actions",
+      "edit": "Edit",
+      "empty": "No categories found",
+      "of": "of",
+      "perPage": "Per page",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {current} of {total}"
+    },
+    "form": {
+      "createTitle": "New Category",
+      "createSubtitle": "Create a new product category",
+      "editTitle": "Edit Category",
+      "translations": "Translations",
+      "settings": "Settings",
+      "parentCategory": "Parent Category",
+      "dangerZone": "Danger Zone",
+      "deleteDescription": "Permanently remove this category from your store. Products in this category will be unaffected.",
+      "restoreDescription": "Restore this category to make it available again.",
+      "fields": {
+        "name": "Name",
+        "namePlaceholder": "e.g. Clothing",
+        "slug": "Global slug",
+        "translationSlug": "URL slug",
+        "slugPlaceholder": "e.g. clothing",
+        "sortOrder": "Sort order",
+        "isActive": "Active"
+      },
+      "create": "Create category",
+      "creating": "Creating...",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "delete": "Delete category",
+      "deleting": "Deleting...",
+      "restore": "Restore category",
+      "restoring": "Restoring...",
+      "cancel": "Cancel",
+      "deleteTitle": "Delete Category",
+      "deleteConfirm": "Are you sure you want to delete this category? Categories with subcategories or products cannot be deleted.",
+      "createSuccess": "Category created",
+      "createError": "Failed to create category",
+      "updateSuccess": "Category saved",
+      "updateError": "Failed to update category",
+      "deleteSuccess": "Category deleted",
+      "deleteError": "Failed to delete category",
+      "restoreSuccess": "Category restored",
+      "restoreError": "Failed to restore category"
+    },
+    "detail": {
+      "error": "Failed to load category"
+    }
+  },
+  "brands": {
+    "title": "Brands",
+    "subtitle": "Manage your store brands",
+    "new": "New brand",
+    "loading": "Loading...",
+    "filters": {
+      "allStatuses": "All statuses"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "deleted": "Deleted"
+    },
+    "table": {
+      "logo": "Logo",
+      "name": "Name",
+      "slug": "Slug",
+      "products": "Products",
+      "status": "Status",
+      "sortOrder": "Order",
+      "created": "Created",
+      "actions": "Actions",
+      "edit": "Edit",
+      "empty": "No brands found",
+      "of": "of",
+      "perPage": "Per page",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {current} of {total}"
+    },
+    "form": {
+      "createTitle": "New Brand",
+      "createSubtitle": "Create a new product brand",
+      "editTitle": "Edit Brand",
+      "details": "Details",
+      "settings": "Settings",
+      "stats": "Statistics",
+      "dangerZone": "Danger Zone",
+      "deleteDescription": "Permanently remove this brand from your store. Products linked to this brand will be unaffected.",
+      "restoreDescription": "Restore this brand to make it available again.",
+      "fields": {
+        "name": "Name",
+        "namePlaceholder": "e.g. Nike",
+        "slug": "Slug",
+        "slugPlaceholder": "e.g. nike",
+        "description": "Description",
+        "descriptionPlaceholder": "Describe the brand...",
+        "logoUrl": "Logo URL",
+        "logoUrlPlaceholder": "https://example.com/logo.png",
+        "sortOrder": "Sort order",
+        "isActive": "Active",
+        "productsCount": "Products",
+        "updatedAt": "Last updated"
+      },
+      "create": "Create brand",
+      "creating": "Creating...",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "delete": "Delete brand",
+      "deleting": "Deleting...",
+      "restore": "Restore brand",
+      "restoring": "Restoring...",
+      "cancel": "Cancel",
+      "deleteTitle": "Delete Brand",
+      "deleteConfirm": "Are you sure you want to delete this brand? Brands with products cannot be deleted.",
+      "createSuccess": "Brand created",
+      "createError": "Failed to create brand",
+      "updateSuccess": "Brand saved",
+      "updateError": "Failed to update brand",
+      "deleteSuccess": "Brand deleted",
+      "deleteError": "Failed to delete brand",
+      "restoreSuccess": "Brand restored",
+      "restoreError": "Failed to restore brand"
+    },
+    "detail": {
+      "error": "Failed to load brand"
+    }
+  },
+  "tags": {
+    "title": "Tags",
+    "subtitle": "Manage your store tags",
+    "new": "New tag",
+    "loading": "Loading...",
+    "filters": {
+      "allStatuses": "All statuses",
+      "allTypes": "All types",
+      "typePlaceholder": "Filter by type..."
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "color": "Color",
+      "translations": "Locales",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions",
+      "edit": "Edit",
+      "empty": "No tags found",
+      "of": "of",
+      "perPage": "Per page",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {current} of {total}"
+    },
+    "form": {
+      "createTitle": "New Tag",
+      "createSubtitle": "Create a new product tag",
+      "editTitle": "Edit Tag",
+      "translations": "Translations",
+      "settings": "Settings",
+      "dangerZone": "Danger Zone",
+      "deleteDescription": "Permanently remove this tag from your store.",
+      "fields": {
+        "name": "Name",
+        "namePlaceholder": "e.g. Sale",
+        "slug": "URL slug",
+        "slugPlaceholder": "e.g. sale",
+        "type": "Type",
+        "typePlaceholder": "e.g. general",
+        "color": "Color",
+        "colorPlaceholder": "#FF0000",
+        "isActive": "Active"
+      },
+      "create": "Create tag",
+      "creating": "Creating...",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "delete": "Delete tag",
+      "deleting": "Deleting...",
+      "cancel": "Cancel",
+      "deleteTitle": "Delete Tag",
+      "deleteConfirm": "Are you sure you want to delete this tag?",
+      "createSuccess": "Tag created",
+      "createError": "Failed to create tag",
+      "updateSuccess": "Tag saved",
+      "updateError": "Failed to update tag",
+      "deleteSuccess": "Tag deleted",
+      "deleteError": "Failed to delete tag"
+    },
+    "detail": {
+      "error": "Failed to load tag"
     }
   }
 }

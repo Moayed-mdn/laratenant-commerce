@@ -1,17 +1,23 @@
-import type {
-  ProductOption,
-  ProductVariant,
-} from '@/types/product';
-
+import type { ProductOption, ProductVariant, ProductVariantOption } from '@/types/product';
 import { buildVariantSignature } from './variant-signatures';
+
+// ── Internal combination builder ───────────────────────────────────────────
 
 type OptionValueRef = {
   option: ProductOption;
   value: ProductOption['values'][number];
 };
 
+/**
+ * Builds the cartesian product of all option values.
+ * Options with zero values are excluded.
+ * Returns an array of combination arrays, each representing
+ * one full variant axis assignment.
+ */
 function buildCombinations(options: ProductOption[]): OptionValueRef[][] {
-  const validOptions = (options ?? []).filter((opt) => (opt.values ?? []).length > 0);
+  const validOptions = (options ?? []).filter(
+    (opt) => (opt.values ?? []).length > 0
+  );
 
   if (validOptions.length === 0) return [];
 
@@ -32,82 +38,94 @@ function buildCombinations(options: ProductOption[]): OptionValueRef[][] {
   }, []);
 }
 
+// ── Public helpers ─────────────────────────────────────────────────────────
+
 /**
- * Calculates the next safe negative ID for a new variant.
- * Negative IDs are used for variants that haven't been saved to the backend yet.
+ * Calculates the next safe negative ID for a new unsaved variant.
+ * Negative IDs are client-only and never sent to the backend as-is
+ * (buildStructurePayload filters them to undefined).
  */
 export function getNextNegativeId(existing: { id: number }[]): number {
-  const minId = (existing ?? []).reduce<number>((min, v) => Math.min(min, v.id), 0);
+  const minId = (existing ?? []).reduce<number>(
+    (min, v) => Math.min(min, v.id),
+    0
+  );
   return minId <= 0 ? minId - 1 : -1;
 }
 
 /**
- * Generates the full set of variants based on provided options.
- * 
+ * Generates the full set of variants from the current options.
+ *
  * Logic:
- * 1. Build all possible attribute combinations.
- * 2. If no combinations exist, return empty (sync behavior).
- * 3. Preserve existing variants if their attribute signature matches a required combination.
- * 4. Create new variants with negative IDs for missing combinations.
- * 5. Stale variants (no longer matching any combination) are naturally omitted.
+ * 1. Build all possible option value combinations (cartesian product).
+ * 2. If no combinations exist, return empty array.
+ * 3. Deduplicate combinations by signature to guard against
+ *    malformed option states (duplicate values).
+ * 4. Preserve existing variants whose option signature matches
+ *    a required combination (retains id, sku, price, etc.).
+ * 5. Create new variants with negative IDs for missing combinations.
+ * 6. Stale variants (signature no longer in required set) are omitted.
+ *
+ * This function is pure and safe to call multiple times.
  */
 export function generateVariants(
   options: ProductOption[],
   existingVariants: ProductVariant[]
 ): ProductVariant[] {
   const existing = existingVariants ?? [];
-
   const combos = buildCombinations(options);
 
   if (combos.length === 0) {
     return [];
   }
 
-  let nextNewId = getNextNegativeId(existing);
   const defaultPrice = existing[0]?.price ?? 0;
+  let nextNewId = getNextNegativeId(existing);
 
+  // ── Build the required signature set ──────────────────────────
   const validSignatures: string[] = [];
-  const signatureToAttributes = new Map<string, ProductVariant['attributes']>();
+  const signatureToOptions = new Map<string, ProductVariantOption[]>();
+  const seenSignatures = new Set<string>();
 
   for (const combo of combos) {
-    const attributes: ProductVariant['attributes'] = combo.map(({ option, value }) => ({
-      attribute_id: option.id ?? null,
-      attribute_value_id: value.id ?? null,
-      name: option.name,
-      value: value.label,
-      label: value.label,
-      code: option.code,
-    }));
+    const variantOptions: ProductVariantOption[] = combo.map(
+      ({ option, value }) => ({
+        option_name: option.name,
+        option_value: value.value,
+      })
+    );
 
-    const signature = buildVariantSignature(attributes);
+    const signature = buildVariantSignature(variantOptions);
 
+    // Guard: skip duplicate combinations from malformed option states
+    if (seenSignatures.has(signature)) {
+      continue;
+    }
+
+    seenSignatures.add(signature);
     validSignatures.push(signature);
-    signatureToAttributes.set(signature, attributes);
+    signatureToOptions.set(signature, variantOptions);
   }
 
+  // ── Preserve matching existing variants ────────────────────────
   const kept: ProductVariant[] = [];
   const validSet = new Set(validSignatures);
+  const keptSignatures = new Set<string>();
 
-  /**
-   * Preservation Logic:
-   * We identify variants by their attribute combination signature.
-   * If an existing variant's signature matches a required combination, we keep it
-   * (preserving its ID, SKU, price, etc.) even if the options were rearranged.
-   */
   for (const v of existing) {
-    const signature = buildVariantSignature(v.attributes);
-    if (validSet.has(signature)) {
+    const signature = buildVariantSignature(v.options);
+    if (validSet.has(signature) && !keptSignatures.has(signature)) {
       kept.push(v);
+      keptSignatures.add(signature);
     }
   }
 
-  // Append any missing combinations as new variants.
-  const keptBySignature = new Set(kept.map((v) => buildVariantSignature(v.attributes)));
+  // ── Create new variants for missing combinations ───────────────
   for (const signature of validSignatures) {
-    if (keptBySignature.has(signature)) continue;
+    if (keptSignatures.has(signature)) continue;
 
-    const attributes = signatureToAttributes.get(signature);
-    if (!attributes) continue;
+    const variantOptions = signatureToOptions.get(signature);
+    if (!variantOptions) continue;
 
     kept.push({
       id: nextNewId,
@@ -115,8 +133,10 @@ export function generateVariants(
       price: defaultPrice,
       quantity: 0,
       is_active: true,
-      attributes,
+      options: variantOptions,
     });
+
+    keptSignatures.add(signature);
     nextNewId -= 1;
   }
 

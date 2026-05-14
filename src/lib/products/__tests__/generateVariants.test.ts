@@ -1,35 +1,50 @@
 import { generateVariants, getNextNegativeId } from '../generateVariants';
 import type { ProductOption, ProductVariant } from '@/types/product';
 
-describe('generateVariants', () => {
-  const options: ProductOption[] = [
-    {
-      id: 1,
-      name: 'Color',
-      code: 'color',
-      values: [
-        { id: 10, label: 'Red' },
-        { id: 11, label: 'Blue' },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Size',
-      code: 'size',
-      values: [
-        { id: 20, label: 'S' },
-        { id: 21, label: 'M' },
-      ],
-    },
-  ];
+const options: ProductOption[] = [
+  {
+    id: 1,
+    name: 'Color',
+    position: 1,
+    values: [
+      { id: 10, value: 'Red' },
+      { id: 11, value: 'Blue' },
+    ],
+  },
+  {
+    id: 2,
+    name: 'Size',
+    position: 2,
+    values: [
+      { id: 20, value: 'S' },
+      { id: 21, value: 'M' },
+    ],
+  },
+];
 
-  it('should generate all combinations when no existing variants', () => {
+describe('generateVariants', () => {
+  it('generates all combinations when no existing variants', () => {
     const variants = generateVariants(options, []);
     expect(variants).toHaveLength(4);
-    expect(variants.every(v => v.id < 0)).toBe(true);
+    expect(variants.every((v) => v.id < 0)).toBe(true);
   });
 
-  it('should preserve existing variants by signature', () => {
+  it('each generated variant has correct options assignments', () => {
+    const variants = generateVariants(options, []);
+    const signatures = variants.map((v) =>
+      v.options
+        .slice()
+        .sort((a, b) => a.option_name.localeCompare(b.option_name))
+        .map((o) => `${o.option_name}:${o.option_value}`)
+        .join('|')
+    );
+    expect(signatures).toContain('Color:Red|Size:S');
+    expect(signatures).toContain('Color:Red|Size:M');
+    expect(signatures).toContain('Color:Blue|Size:S');
+    expect(signatures).toContain('Color:Blue|Size:M');
+  });
+
+  it('preserves existing variants by signature', () => {
     const existing: ProductVariant[] = [
       {
         id: 100,
@@ -37,22 +52,23 @@ describe('generateVariants', () => {
         price: 50,
         quantity: 5,
         is_active: true,
-        attributes: [
-          { attribute_id: 1, attribute_value_id: 10, name: 'Color', value: 'Red' },
-          { attribute_id: 2, attribute_value_id: 20, name: 'Size', value: 'S' },
+        options: [
+          { option_name: 'Color', option_value: 'Red' },
+          { option_name: 'Size', option_value: 'S' },
         ],
       },
     ];
 
     const variants = generateVariants(options, existing);
     expect(variants).toHaveLength(4);
-    const preserved = variants.find(v => v.id === 100);
+
+    const preserved = variants.find((v) => v.id === 100);
     expect(preserved).toBeDefined();
     expect(preserved?.sku).toBe('RED-S');
     expect(preserved?.price).toBe(50);
   });
 
-  it('should remove stale variants', () => {
+  it('removes stale variants not matching any current combination', () => {
     const existing: ProductVariant[] = [
       {
         id: 101,
@@ -60,35 +76,86 @@ describe('generateVariants', () => {
         price: 50,
         quantity: 5,
         is_active: true,
-        attributes: [
-          { attribute_id: 1, attribute_value_id: 99, name: 'Color', value: 'Ghost' },
+        options: [
+          { option_name: 'Color', option_value: 'Ghost' },
         ],
       },
     ];
 
     const variants = generateVariants(options, existing);
     expect(variants).toHaveLength(4);
-    expect(variants.find(v => v.id === 101)).toBeUndefined();
+    expect(variants.find((v) => v.id === 101)).toBeUndefined();
   });
 
-  it('should assign stable negative IDs that do not collide', () => {
-    const existing: ProductVariant[] = [{ id: -1 } as any, { id: 100 } as any];
+  it('assigns stable negative IDs that do not collide', () => {
+    const existing = [{ id: -1 } as ProductVariant, { id: 100 } as ProductVariant];
     const nextId = getNextNegativeId(existing);
     expect(nextId).toBe(-2);
   });
 
-  it('should handle empty options by returning empty array', () => {
+  it('handles empty options by returning empty array', () => {
     expect(generateVariants([], [])).toEqual([]);
   });
 
-  it('should handle repeated generation cycles without duplication', () => {
+  it('handles repeated generation cycles without duplication', () => {
     let variants = generateVariants(options, []);
     const firstCycleLength = variants.length;
-    
+
     variants = generateVariants(options, variants);
     expect(variants).toHaveLength(firstCycleLength);
-    
-    // All should be preserved (none are new, none are stale)
-    expect(variants.every(v => v.id < 0)).toBe(true);
+    // All should be preserved — no new IDs allocated
+    expect(variants.every((v) => v.id < 0)).toBe(true);
+  });
+
+  it('guards against duplicate signatures from malformed option states', () => {
+    const malformedOptions: ProductOption[] = [
+      {
+        id: 1,
+        name: 'Color',
+        position: 1,
+        values: [
+          { id: 10, value: 'Red' },
+          { id: 10, value: 'Red' }, // duplicate
+        ],
+      },
+      {
+        id: 2,
+        name: 'Size',
+        position: 2,
+        values: [
+          { id: 20, value: 'S' },
+          { id: 20, value: 'S' }, // duplicate
+        ],
+      },
+    ];
+
+    const variants = generateVariants(malformedOptions, []);
+    expect(variants).toHaveLength(1);
+    expect(variants[0]?.options).toEqual(
+      expect.arrayContaining([
+        { option_name: 'Color', option_value: 'Red' },
+        { option_name: 'Size', option_value: 'S' },
+      ])
+    );
+  });
+
+  it('new variants inherit price from first existing variant', () => {
+    const existing: ProductVariant[] = [
+      {
+        id: 100,
+        sku: 'RED-S',
+        price: 75,
+        quantity: 3,
+        is_active: true,
+        options: [
+          { option_name: 'Color', option_value: 'Red' },
+          { option_name: 'Size', option_value: 'S' },
+        ],
+      },
+    ];
+
+    const variants = generateVariants(options, existing);
+    const newVariants = variants.filter((v) => v.id < 0);
+    expect(newVariants.every((v) => v.price === 75)).toBe(true);
   });
 });

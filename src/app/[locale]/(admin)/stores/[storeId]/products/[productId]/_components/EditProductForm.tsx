@@ -4,6 +4,7 @@ import { useCallback, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
+import { mapProductDetail } from '@/lib/mappers/products';
 import { buildEditorState } from '@/lib/products/buildEditorState';
 import { generateVariants } from '@/lib/products/generateVariants';
 import { validateProductContent, type ValidationError } from '@/lib/products/validateProductContent';
@@ -21,64 +22,123 @@ import { StructureTab } from './_tabs/StructureTab';
 import { MediaTab } from './_tabs/MediaTab';
 import DeleteProductButton from './DeleteProductButton';
 
-import type { ProductDetailView, ProductImage } from '@/types/product';
-import type { ProductContentFormValues, ProductStructureState } from '@/types/product-editor';
+import type { AdminProduct, ProductDetailView, ProductImage } from '@/types/product';
+import type { ProductContentFormValues, ProductEditorState, ProductStructureState } from '@/types/product-editor';
 
 interface Props {
   product: ProductDetailView;
   storeId: string;
 }
 
+export function buildNextStructureForSave(structure: ProductStructureState): ProductStructureState {
+  const regeneratedVariants = generateVariants(structure.options, structure.variants);
+
+  return {
+    ...structure,
+    variants: regeneratedVariants,
+  };
+}
+
+export function buildRebasedEditorState(savedProduct: AdminProduct): ProductEditorState {
+  return buildEditorState(mapProductDetail(savedProduct));
+}
+
+export function buildDiscardState(baseline: ProductEditorState) {
+  return {
+    content: baseline.content,
+    structure: baseline.structure,
+    images: baseline.media.images ?? [],
+    contentDirty: false,
+    structureDirty: false,
+    mediaDirty: false,
+    validationErrors: [] as ValidationError[],
+  };
+}
+
+export function isEditorSaveBlocked(params: {
+  isDirty: boolean;
+  isDiscarding: boolean;
+  isPending: boolean;
+}): boolean {
+  return params.isDiscarding || params.isPending || !params.isDirty;
+}
+
 export default function EditProductForm({ product, storeId }: Props) {
   const t = useTranslations('products');
+  const initialState = buildEditorState(product);
 
-  const initialRef = useRef(() => buildEditorState(product));
-  const initial = initialRef.current();
+  const baselineRef = useRef<ProductEditorState>(initialState);
 
-  const [content, setContent] = useState<ProductContentFormValues>(initial.content);
-  const [structure, setStructure] = useState<ProductStructureState>(initial.structure);
-  const [images, setImages] = useState<ProductImage[]>(initial.media.images ?? []);
+  const [content, setContent] = useState<ProductContentFormValues>(initialState.content);
+  const [structure, setStructure] = useState<ProductStructureState>(initialState.structure);
+  const [images, setImages] = useState<ProductImage[]>(initialState.media.images ?? []);
   const [tab, setTab] = useState<'content' | 'structure' | 'media'>('content');
 
   const [contentDirty, setContentDirty] = useState(false);
   const [structureDirty, setStructureDirty] = useState(false);
   const [mediaDirty, setMediaDirty] = useState(false);
+  const [isDiscarding, setIsDiscarding] = useState(false);
   const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
+  const discardInProgressRef = useRef(false);
+
+  const contentSaveTokenRef = useRef(0);
+  const structureSaveTokenRef = useRef(0);
 
   const isDirty = contentDirty || structureDirty || mediaDirty;
 
   const { bypassNextNavigation } = useUnsavedChangesGuard({ isDirty });
 
-  const saveContent = useSaveProductContent(storeId, String(product.id), {
-    onSuccess: () => {
-      toast.success(t('form.updateSuccess'));
-      setContentDirty(false);
-      setValidationErrors([]);
-    },
-    onError: (err) => toast.error(err.message),
-  });
+  const rebaseFromProduct = useCallback((savedProduct: AdminProduct) => {
+    const nextState = buildRebasedEditorState(savedProduct);
 
-  const saveStructure = useSaveProductStructure(storeId, String(product.id), {
-    onSuccess: () => {
-      toast.success(t('form.updateSuccess'));
-      setStructureDirty(false);
-      setValidationErrors([]);
-    },
-    onError: (err) => toast.error(err.message),
-  });
-
-  const handleDiscard = useCallback(() => {
-    bypassNextNavigation();
-    setContent(initial.content);
-    setStructure(initial.structure);
-    setImages(initial.media.images ?? []);
+    baselineRef.current = nextState;
+    setContent(nextState.content);
+    setStructure(nextState.structure);
+    setImages(nextState.media.images ?? []);
     setContentDirty(false);
     setStructureDirty(false);
     setMediaDirty(false);
     setValidationErrors([]);
-  }, [bypassNextNavigation, initial.content, initial.media.images, initial.structure]);
+  }, []);
+
+  const saveContent = useSaveProductContent(storeId, String(product.id), {
+    onError: (err) => toast.error(err.message),
+  });
+
+  const saveStructure = useSaveProductStructure(storeId, String(product.id), {
+    onError: (err) => toast.error(err.message),
+  });
+  const isSavePending = saveContent.isPending || saveStructure.isPending;
+
+  const handleDiscard = useCallback(() => {
+    bypassNextNavigation();
+    discardInProgressRef.current = true;
+    setIsDiscarding(true);
+
+    const discardState = buildDiscardState(baselineRef.current);
+    setContent(discardState.content);
+    setStructure(discardState.structure);
+    setImages(discardState.images);
+    setContentDirty(discardState.contentDirty);
+    setStructureDirty(discardState.structureDirty);
+    setMediaDirty(discardState.mediaDirty);
+    setValidationErrors(discardState.validationErrors);
+
+    queueMicrotask(() => {
+      discardInProgressRef.current = false;
+      setIsDiscarding(false);
+    });
+  }, [bypassNextNavigation]);
 
   const handleSaveCurrentTab = useCallback(() => {
+    if (isEditorSaveBlocked({
+      isDirty,
+      isDiscarding: discardInProgressRef.current,
+      isPending: saveContent.isPending || saveStructure.isPending,
+    })) {
+      return;
+    }
+
     setValidationErrors([]);
 
     if (tab === 'content') {
@@ -88,23 +148,40 @@ export default function EditProductForm({ product, storeId }: Props) {
         toast.error(t('form.validationError'));
         return;
       }
-      saveContent.mutate(content);
+      const token = (contentSaveTokenRef.current += 1);
+      saveContent.mutate(content, {
+        onSuccess: (savedProduct) => {
+          if (token !== contentSaveTokenRef.current) return;
+          rebaseFromProduct(savedProduct);
+          toast.success(t('form.updateSuccess'));
+        },
+      });
       return;
     }
 
     if (tab === 'structure') {
-      const result = validateProductStructure(structure);
+      const nextStructure = buildNextStructureForSave(structure);
+      setStructure(nextStructure);
+
+      const result = validateProductStructure(nextStructure);
       if (!result.isValid) {
         setValidationErrors(result.errors);
         toast.error(t('form.validationError'));
         return;
       }
-      saveStructure.mutate(structure);
+      const token = (structureSaveTokenRef.current += 1);
+      saveStructure.mutate(nextStructure, {
+        onSuccess: (savedProduct) => {
+          if (token !== structureSaveTokenRef.current) return;
+          rebaseFromProduct(savedProduct);
+          toast.success(t('form.updateSuccess'));
+        },
+      });
       return;
     }
 
     toast.message(t('saving'));
-  }, [content, saveContent, saveStructure, structure, t, tab]);
+  }, [content, isDirty, saveContent, saveStructure, structure, t, tab]);
 
   return (
     <div className="space-y-6">
@@ -189,9 +266,13 @@ export default function EditProductForm({ product, storeId }: Props) {
               </Button>
               <Button
                 onClick={handleSaveCurrentTab}
-                disabled={saveContent.isPending || saveStructure.isPending}
+                disabled={isEditorSaveBlocked({
+                  isDirty,
+                  isDiscarding,
+                  isPending: saveContent.isPending || saveStructure.isPending,
+                })}
               >
-                {saveContent.isPending || saveStructure.isPending ? t('saving') : t('save')}
+                {isSavePending ? t('saving') : t('save')}
               </Button>
             </div>
           </div>

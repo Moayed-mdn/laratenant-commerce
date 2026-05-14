@@ -1,0 +1,428 @@
+.
+├── add_category_brand_featured.sh
+├── AGENTS.md
+├── CLAUDE.md
+├── components.json
+├── docs
+│   ├── architecture
+│   │   ├── auth.md
+│   │   ├── backend-integration.md
+│   │   ├── data-flow.md
+│   │   ├── frontend.md
+│   │   ├── multi-tenancy.md
+│   │   └── rendering-strategy.md
+│   ├── archive
+│   │   ├── legacy-map.md
+│   │   └── README.md
+│   ├── decisions
+│   │   ├── ADR-001-httpOnly-auth.md
+│   │   ├── ADR-002-server-fetch-pattern.md
+│   │   └── ADR-003-multi-tenant-routing.md
+│   ├── features
+│   │   ├── auth.md
+│   │   ├── dashboard.md
+│   │   ├── orders.md
+│   │   ├── products.md
+│   │   └── users.md
+│   ├── migrations
+│   │   ├── app-router-migration.md
+│   │   └── bearer-to-session-auth.md
+│   ├── README.md
+│   ├── security
+│   │   ├── permissions.md
+│   │   ├── sanctum.md
+│   │   └── session-auth.md
+│   ├── standards
+│   │   ├── api-layer.md
+│   │   ├── components.md
+│   │   ├── error-handling.md
+│   │   ├── fetching.md
+│   │   ├── forms.md
+│   │   ├── permissions.md
+│   │   ├── routing.md
+│   │   ├── state-management.md
+│   │   ├── styling.md
+│   │   ├── testing.md
+│   │   ├── translations.md
+│   │   └── typescript.md
+│   └── troubleshooting
+│       ├── auth-debugging.md
+│       ├── build-errors.md
+│       ├── cors.md
+│       └── hydration.md
+├── empty_file
+├── eslint.config.mjs
+├── fix_schema_type_conflict.sh
+├── fix_select_querykeys_payload.sh
+├── fix_structure_step_types.sh
+├── fix_ts_errors.sh
+├── jest.config.js
+├── migrate_create_product_wizard.sh
+├── migrate_frontend_product_architecture.sh
+├── next.config.ts
+├── next-env.d.ts
+├── package.json
+├── package-lock.json
+├── part1.sh
+├── part2.sh
+├── part3.sh
+├── part4.sh
+├── part5.sh
+├── postcss.config.mjs
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── README.md
+├── scripts
+│   └── check-translations.ts
+├── search_and_print.sh
+├── src
+│   ├── app
+│   │   ├── api
+│   │   │   ├── auth
+│   │   │   │   ├── login
+│   │   │   │   ├── logout
+│   │   │   │   │   └── route.ts
+│   │   │   │   └── me
+│   │   │   │       └── route.ts
+│   │   │   └── proxy
+│   │   │       └── route.ts
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── [locale]
+│   │       ├── (admin)
+│   │       │   ├── _components
+│   │       │   │   ├── AdminShell.tsx
+│   │       │   │   ├── AuthInitializer.tsx
+│   │       │   │   ├── MobileNav.tsx
+│   │       │   │   ├── sidebar
+│   │       │   │   │   ├── project-tree.txt
+│   │       │   │   │   ├── SidebarNavItem.tsx
+│   │       │   │   │   ├── SidebarNav.tsx
+│   │       │   │   │   └── Sidebar.tsx
+│   │       │   │   └── topbar
+│   │       │   │       ├── LocaleToggle.tsx
+│   │       │   │       ├── ThemeToggle.tsx
+│   │       │   │       ├── Topbar.tsx
+│   │       │   │       └── UserMenu.tsx
+│   │       │   ├── layout.tsx
+│   │       │   └── stores
+│   │       │       └── [storeId]
+│   │       │           ├── brands
+│   │       │           │   ├── [brandId]
+│   │       │           │   │   └── edit
+│   │       │           │   │       ├── _components
+│   │       │           │   │       │   ├── DeleteBrandButton.tsx
+│   │       │           │   │       │   ├── EditBrandContent.tsx
+│   │       │           │   │       │   ├── EditBrandForm.tsx
+│   │       │           │   │       │   └── EditBrandSkeleton.tsx
+│   │       │           │   │       └── page.tsx
+│   │       │           │   ├── _components
+│   │       │           │   │   ├── BrandFilters.tsx
+│   │       │           │   │   ├── BrandsContent.tsx
+│   │       │           │   │   ├── BrandsSkeleton.tsx
+│   │       │           │   │   ├── BrandsTable.tsx
+│   │       │           │   │   └── BrandStatusBadge.tsx
+│   │       │           │   ├── new
+│   │       │           │   │   ├── _components
+│   │       │           │   │   │   └── CreateBrandForm.tsx
+│   │       │           │   │   └── page.tsx
+│   │       │           │   └── page.tsx
+│   │       │           ├── categories
+│   │       │           │   ├── [categoryId]
+│   │       │           │   │   └── edit
+│   │       │           │   │       ├── _components
+│   │       │           │   │       │   ├── DeleteCategoryButton.tsx
+│   │       │           │   │       │   ├── EditCategoryContent.tsx
+│   │       │           │   │       │   ├── EditCategoryForm.tsx
+│   │       │           │   │       │   └── EditCategorySkeleton.tsx
+│   │       │           │   │       └── page.tsx
+│   │       │           │   ├── _components
+│   │       │           │   │   ├── CategoriesContent.tsx
+│   │       │           │   │   ├── CategoriesSkeleton.tsx
+│   │       │           │   │   ├── CategoriesTable.tsx
+│   │       │           │   │   ├── CategoryFilters.tsx
+│   │       │           │   │   └── CategoryStatusBadge.tsx
+│   │       │           │   ├── new
+│   │       │           │   │   ├── _components
+│   │       │           │   │   │   └── CreateCategoryForm.tsx
+│   │       │           │   │   └── page.tsx
+│   │       │           │   └── page.tsx
+│   │       │           ├── dashboard
+│   │       │           │   ├── _components
+│   │       │           │   │   ├── DashboardContent.tsx
+│   │       │           │   │   ├── DashboardSkeleton.tsx
+│   │       │           │   │   ├── OrderStatusBadge.tsx
+│   │       │           │   │   ├── RecentOrdersTable.tsx
+│   │       │           │   │   ├── StatCard.tsx
+│   │       │           │   │   ├── StatsGrid.tsx
+│   │       │           │   │   └── TopProductsList.tsx
+│   │       │           │   └── page.tsx
+│   │       │           ├── orders
+│   │       │           │   ├── _components
+│   │       │           │   │   ├── OrderFilters.tsx
+│   │       │           │   │   ├── OrdersContent.tsx
+│   │       │           │   │   ├── OrdersSkeleton.tsx
+│   │       │           │   │   ├── OrdersTable.tsx
+│   │       │           │   │   ├── OrderStatusBadge.tsx
+│   │       │           │   │   └── PaymentStatusBadge.tsx
+│   │       │           │   ├── [orderId]
+│   │       │           │   │   ├── _components
+│   │       │           │   │   │   ├── OrderDetailCard.tsx
+│   │       │           │   │   │   ├── OrderDetailContent.tsx
+│   │       │           │   │   │   ├── OrderDetailSkeleton.tsx
+│   │       │           │   │   │   ├── OrderLineItemsTable.tsx
+│   │       │           │   │   │   └── OrderStatusSelect.tsx
+│   │       │           │   │   └── page.tsx
+│   │       │           │   └── page.tsx
+│   │       │           ├── products
+│   │       │           │   ├── _components
+│   │       │           │   │   ├── ProductFilters.tsx
+│   │       │           │   │   ├── ProductsContent.tsx
+│   │       │           │   │   ├── ProductsSkeleton.tsx
+│   │       │           │   │   ├── ProductsTable.tsx
+│   │       │           │   │   └── ProductStatusBadge.tsx
+│   │       │           │   ├── new
+│   │       │           │   │   ├── _components
+│   │       │           │   │   │   └── CreateProductForm.tsx
+│   │       │           │   │   └── page.tsx
+│   │       │           │   ├── page.tsx
+│   │       │           │   └── [productId]
+│   │       │           │       ├── _components
+│   │       │           │       │   ├── _components
+│   │       │           │       │   │   ├── OptionsEditor.tsx
+│   │       │           │       │   │   ├── StatusSelect.tsx
+│   │       │           │       │   │   └── VariantsTable.tsx
+│   │       │           │       │   ├── DeleteProductButton.tsx
+│   │       │           │       │   ├── EditProductContent.tsx
+│   │       │           │       │   ├── EditProductForm.tsx
+│   │       │           │       │   ├── EditProductSkeleton.tsx
+│   │       │           │       │   ├── LocaleTabs.tsx
+│   │       │           │       │   ├── ProductContentTab.tsx
+│   │       │           │       │   ├── ProductImagesManager.tsx
+│   │       │           │       │   ├── ProductMediaTab.tsx
+│   │       │           │       │   ├── ProductOptionsSection.tsx
+│   │       │           │       │   ├── _tabs
+│   │       │           │       │   │   ├── ContentTab.tsx
+│   │       │           │       │   │   ├── MediaTab.tsx
+│   │       │           │       │   │   └── StructureTab.tsx
+│   │       │           │       │   ├── __tests__
+│   │       │           │       │   │   ├── EditProductForm.test.ts
+│   │       │           │       │   │   ├── status-select-contract.test.ts
+│   │       │           │       │   │   └── structure-save-regeneration.test.ts
+│   │       │           │       │   ├── TranslationForm.tsx
+│   │       │           │       │   └── TranslationStatusBadge.tsx
+│   │       │           │       └── page.tsx
+│   │       │           └── users
+│   │       │               ├── _components
+│   │       │               │   ├── UserFilters.tsx
+│   │       │               │   ├── UserRoleBadge.tsx
+│   │       │               │   ├── UsersContent.tsx
+│   │       │               │   ├── UsersSkeleton.tsx
+│   │       │               │   └── UsersTable.tsx
+│   │       │               ├── page.tsx
+│   │       │               └── [userId]
+│   │       │                   ├── _components
+│   │       │                   │   ├── DeleteUserButton.tsx
+│   │       │                   │   ├── UserDetailCard.tsx
+│   │       │                   │   ├── UserDetailContent.tsx
+│   │       │                   │   └── UserDetailSkeleton.tsx
+│   │       │                   └── page.tsx
+│   │       ├── layout.tsx
+│   │       ├── login
+│   │       │   ├── _components
+│   │       │   │   ├── LoginCard.tsx
+│   │       │   │   └── LoginForm.tsx
+│   │       │   └── page.tsx
+│   │       └── page.tsx
+│   ├── components
+│   │   ├── admin
+│   │   │   ├── dashboard
+│   │   │   ├── orders
+│   │   │   ├── products
+│   │   │   └── users
+│   │   ├── common
+│   │   │   ├── DataTable
+│   │   │   └── Skeletons
+│   │   ├── layout
+│   │   ├── providers
+│   │   │   └── QueryProvider.tsx
+│   │   ├── shared
+│   │   │   └── create-product
+│   │   │       ├── BrandSelect.tsx
+│   │   │       ├── CategorySelect.tsx
+│   │   │       ├── CreateProductContentStep.tsx
+│   │   │       ├── CreateProductReviewStep.tsx
+│   │   │       ├── CreateProductStructureStep.tsx
+│   │   │       ├── CreateProductWizard.tsx
+│   │   │       └── part5.sh
+│   │   └── ui
+│   │       ├── avatar.tsx
+│   │       ├── badge.tsx
+│   │       ├── breadcrumb.tsx
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── dialog.tsx
+│   │       ├── dropdown-menu.tsx
+│   │       ├── input.tsx
+│   │       ├── label.tsx
+│   │       ├── select.tsx
+│   │       ├── separator.tsx
+│   │       ├── sheet.tsx
+│   │       ├── skeleton.tsx
+│   │       ├── sonner.tsx
+│   │       ├── switch.tsx
+│   │       ├── table.tsx
+│   │       ├── tabs.tsx
+│   │       ├── textarea.tsx
+│   │       └── tooltip.tsx
+│   ├── config
+│   │   ├── app.ts
+│   │   ├── features.ts
+│   │   ├── permissions.ts
+│   │   ├── query.ts
+│   │   └── routes.ts
+│   ├── contexts
+│   │   └── AuthContext.tsx
+│   ├── hooks
+│   │   ├── auth
+│   │   │   ├── useLogin.ts
+│   │   │   ├── useLogout.ts
+│   │   │   └── useMe.ts
+│   │   ├── brands
+│   │   │   ├── useBrandDetail.ts
+│   │   │   ├── useBrands.ts
+│   │   │   ├── useCreateBrand.ts
+│   │   │   ├── useDeleteBrand.ts
+│   │   │   ├── useRestoreBrand.ts
+│   │   │   └── useUpdateBrand.ts
+│   │   ├── categories
+│   │   │   ├── useCategories.ts
+│   │   │   ├── useCategoryDetail.ts
+│   │   │   ├── useCreateCategory.ts
+│   │   │   ├── useDeleteCategory.ts
+│   │   │   ├── useRestoreCategory.ts
+│   │   │   └── useUpdateCategory.ts
+│   │   ├── dashboard
+│   │   │   ├── useDashboardStats.ts
+│   │   │   ├── useRecentOrders.ts
+│   │   │   └── useTopProducts.ts
+│   │   ├── orders
+│   │   │   ├── useOrderDetail.ts
+│   │   │   ├── useOrders.ts
+│   │   │   └── useUpdateOrderStatus.ts
+│   │   ├── products
+│   │   │   ├── useCreateProduct.ts
+│   │   │   ├── useDeleteProduct.ts
+│   │   │   ├── useProductDetail.ts
+│   │   │   ├── useProducts.ts
+│   │   │   ├── useSaveProductContent.ts
+│   │   │   ├── useSaveProductStructure.ts
+│   │   │   └── useUpdateProduct.ts
+│   │   ├── __tests__
+│   │   │   └── useUnsavedChangesGuard.test.ts
+│   │   ├── users
+│   │   │   ├── useDeleteUser.ts
+│   │   │   ├── useUserDetail.ts
+│   │   │   └── useUsers.ts
+│   │   └── useUnsavedChangesGuard.ts
+│   ├── i18n
+│   │   └── routing.ts
+│   ├── i18n.ts
+│   ├── lib
+│   │   ├── actions
+│   │   │   └── auth.actions.ts
+│   │   ├── api
+│   │   │   ├── auth.ts
+│   │   │   ├── brands.ts
+│   │   │   ├── categories.ts
+│   │   │   ├── client
+│   │   │   │   └── admin
+│   │   │   ├── client.ts
+│   │   │   ├── core
+│   │   │   │   └── transport.ts
+│   │   │   ├── dashboard.ts
+│   │   │   ├── orders.ts
+│   │   │   ├── products.ts
+│   │   │   ├── server
+│   │   │   │   └── admin
+│   │   │   ├── server.ts
+│   │   │   ├── stores.ts
+│   │   │   └── users.ts
+│   │   ├── auth
+│   │   ├── filters
+│   │   ├── hooks
+│   │   │   ├── admin
+│   │   │   └── useDebounce.ts
+│   │   ├── logger.ts
+│   │   ├── mappers
+│   │   │   ├── brands.ts
+│   │   │   ├── categories.ts
+│   │   │   ├── dashboard.ts
+│   │   │   ├── orders.ts
+│   │   │   ├── pagination.ts
+│   │   │   ├── products.ts
+│   │   │   └── users.ts
+│   │   ├── navigation.ts
+│   │   ├── products
+│   │   │   ├── buildContentPayload.ts
+│   │   │   ├── buildCreatePayload.ts
+│   │   │   ├── buildEditorState.ts
+│   │   │   ├── buildStructurePayload.ts
+│   │   │   ├── deriveOptionsFromVariants.ts
+│   │   │   ├── generateVariants.ts
+│   │   │   ├── getVariantLabel.ts
+│   │   │   ├── __tests__
+│   │   │   │   ├── buildCreatePayload.test.ts
+│   │   │   │   ├── buildStructurePayload.test.ts
+│   │   │   │   ├── deriveOptionsFromVariants.test.ts
+│   │   │   │   ├── generateVariants.test.ts
+│   │   │   │   ├── validateProductContent.test.ts
+│   │   │   │   ├── validateProductStructure.test.ts
+│   │   │   │   └── variant-signatures.test.ts
+│   │   │   ├── validateProductContent.ts
+│   │   │   ├── validateProductStructure.ts
+│   │   │   └── variant-signatures.ts
+│   │   ├── queryClient.ts
+│   │   ├── queryKeys.ts
+│   │   ├── selectOptions.ts
+│   │   ├── utils
+│   │   │   └── date.ts
+│   │   └── utils.ts
+│   ├── locales
+│   │   ├── ar
+│   │   │   └── common.json
+│   │   └── en
+│   │       └── common.json
+│   ├── middleware.ts
+│   ├── schemas
+│   │   ├── brands.ts
+│   │   ├── categories.ts
+│   │   ├── orders.ts
+│   │   ├── products.ts
+│   │   └── users.ts
+│   ├── stores
+│   │   ├── authStore.ts
+│   │   ├── storeStore.ts
+│   │   └── uiStore.ts
+│   └── types
+│       ├── api
+│       ├── api.ts
+│       ├── auth.ts
+│       ├── brand.ts
+│       ├── category.ts
+│       ├── dashboard.ts
+│       ├── order.ts
+│       ├── product-editor.ts
+│       ├── product.ts
+│       ├── store.ts
+│       └── user.ts
+├── tailwind.config.ts
+├── tsconfig.json
+└── tsconfig.tsbuildinfo
+
+111 directories, 315 files

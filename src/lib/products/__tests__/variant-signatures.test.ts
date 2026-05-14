@@ -1,36 +1,65 @@
 import { buildVariantSignature } from '../variant-signatures';
-import type { ProductVariantAttribute } from '@/types/product';
+import type { ProductVariantOption } from '@/types/product';
 
 describe('buildVariantSignature', () => {
-  it('should create a deterministic signature from attributes', () => {
-    const attrs: ProductVariantAttribute[] = [
-      { attribute_id: 1, attribute_value_id: 10, name: 'Color', value: 'Red' },
-      { attribute_id: 2, attribute_value_id: 20, name: 'Size', value: 'Large' },
+  it('creates a deterministic signature from option assignments', () => {
+    const options: ProductVariantOption[] = [
+      { option_name: 'Color', option_value: 'Red' },
+      { option_name: 'Size', option_value: 'Large' },
     ];
-    expect(buildVariantSignature(attrs)).toBe('1:10|2:20');
+    expect(buildVariantSignature(options)).toBe('Color:Red|Size:Large');
   });
 
-  it('should be attribute order independent', () => {
-    const attrs1: ProductVariantAttribute[] = [
-      { attribute_id: 1, attribute_value_id: 10, name: 'Color', value: 'Red' },
-      { attribute_id: 2, attribute_value_id: 20, name: 'Size', value: 'Large' },
+  it('is option-order independent (sorts by name)', () => {
+    const opts1: ProductVariantOption[] = [
+      { option_name: 'Color', option_value: 'Red' },
+      { option_name: 'Size', option_value: 'Large' },
     ];
-    const attrs2: ProductVariantAttribute[] = [
-      { attribute_id: 2, attribute_value_id: 20, name: 'Size', value: 'Large' },
-      { attribute_id: 1, attribute_value_id: 10, name: 'Color', value: 'Red' },
+    const opts2: ProductVariantOption[] = [
+      { option_name: 'Size', option_value: 'Large' },
+      { option_name: 'Color', option_value: 'Red' },
     ];
-    expect(buildVariantSignature(attrs1)).toBe(buildVariantSignature(attrs2));
+    expect(buildVariantSignature(opts1)).toBe(
+      buildVariantSignature(opts2)
+    );
   });
 
-  it('should handle null IDs by filtering them out', () => {
-    const attrs: ProductVariantAttribute[] = [
-      { attribute_id: 1, attribute_value_id: 10, name: 'Color', value: 'Red' },
-      { attribute_id: null, attribute_value_id: 20, name: 'Size', value: 'Large' } as any,
+  it('filters out entries with empty option_name', () => {
+    const options: ProductVariantOption[] = [
+      { option_name: 'Color', option_value: 'Red' },
+      { option_name: '', option_value: 'Large' },
     ];
-    expect(buildVariantSignature(attrs)).toBe('1:10');
+    expect(buildVariantSignature(options)).toBe('Color:Red');
   });
 
-  it('should handle empty attributes', () => {
+  it('filters out entries with empty option_value', () => {
+    const options: ProductVariantOption[] = [
+      { option_name: 'Color', option_value: 'Red' },
+      { option_name: 'Size', option_value: '' },
+    ];
+    expect(buildVariantSignature(options)).toBe('Color:Red');
+  });
+
+  it('trims whitespace from names and values', () => {
+    const options: ProductVariantOption[] = [
+      { option_name: '  Color  ', option_value: '  Red  ' },
+    ];
+    expect(buildVariantSignature(options)).toBe('Color:Red');
+  });
+
+  it('returns empty string for empty array', () => {
     expect(buildVariantSignature([])).toBe('');
+  });
+
+  it('different values produce different signatures', () => {
+    const opts1: ProductVariantOption[] = [
+      { option_name: 'Color', option_value: 'Red' },
+    ];
+    const opts2: ProductVariantOption[] = [
+      { option_name: 'Color', option_value: 'Blue' },
+    ];
+    expect(buildVariantSignature(opts1)).not.toBe(
+      buildVariantSignature(opts2)
+    );
   });
 });

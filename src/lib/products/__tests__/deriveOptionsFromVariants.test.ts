@@ -2,53 +2,114 @@ import { deriveOptionsFromVariants } from '../deriveOptionsFromVariants';
 import type { ProductVariant } from '@/types/product';
 
 describe('deriveOptionsFromVariants', () => {
-  it('should derive options and values from variants correctly', () => {
+  it('derives options and values from variant option assignments', () => {
     const variants: ProductVariant[] = [
       {
         id: 1,
-        attributes: [
-          { attribute_id: 1, attribute_value_id: 10, name: 'Color', value: 'Red', label: 'Red', code: 'color' },
-          { attribute_id: 2, attribute_value_id: 20, name: 'Size', value: 'S', label: 'S', code: 'size' },
+        sku: null,
+        price: 10,
+        quantity: 5,
+        is_active: true,
+        options: [
+          { option_name: 'Color', option_value: 'Red' },
+          { option_name: 'Size', option_value: 'S' },
         ],
-      } as any,
+      },
       {
         id: 2,
-        attributes: [
-          { attribute_id: 1, attribute_value_id: 11, name: 'Color', value: 'Blue', label: 'Blue', code: 'color' },
-          { attribute_id: 2, attribute_value_id: 20, name: 'Size', value: 'S', label: 'S', code: 'size' },
+        sku: null,
+        price: 10,
+        quantity: 5,
+        is_active: true,
+        options: [
+          { option_name: 'Color', option_value: 'Blue' },
+          { option_name: 'Size', option_value: 'S' },
         ],
-      } as any,
+      },
     ];
 
     const options = deriveOptionsFromVariants(variants);
-    
-    expect(options).toHaveLength(2);
-    
-    const colorOption = options.find(o => o.id === 1);
-    expect(colorOption?.name).toBe('Color');
-    expect(colorOption?.values).toHaveLength(2);
-    expect(colorOption?.values.map(v => v.id)).toContain(10);
-    expect(colorOption?.values.map(v => v.id)).toContain(11);
 
-    const sizeOption = options.find(o => o.id === 2);
-    expect(sizeOption?.name).toBe('Size');
+    expect(options).toHaveLength(2);
+
+    const colorOption = options.find((o) => o.name === 'Color');
+    expect(colorOption).toBeDefined();
+    expect(colorOption?.values.map((v) => v.value)).toContain('Red');
+    expect(colorOption?.values.map((v) => v.value)).toContain('Blue');
+    expect(colorOption?.id).toBeNull();
+
+    const sizeOption = options.find((o) => o.name === 'Size');
+    expect(sizeOption).toBeDefined();
     expect(sizeOption?.values).toHaveLength(1);
-    expect(sizeOption?.values[0].id).toBe(20);
+    expect(sizeOption?.values[0].value).toBe('S');
   });
 
-  it('should return empty array if no variants', () => {
+  it('returns empty array for empty variants', () => {
     expect(deriveOptionsFromVariants([])).toEqual([]);
   });
 
-  it('should skip attributes with null IDs', () => {
+  it('skips entries with empty option_name or option_value', () => {
     const variants: ProductVariant[] = [
       {
         id: 1,
-        attributes: [
-          { attribute_id: null, attribute_value_id: 10, name: 'Color', value: 'Red' },
+        sku: null,
+        price: 10,
+        quantity: 0,
+        is_active: true,
+        options: [
+          { option_name: '', option_value: 'Red' },
+          { option_name: 'Size', option_value: '' },
+          { option_name: 'Color', option_value: 'Blue' },
         ],
-      } as any,
+      },
     ];
-    expect(deriveOptionsFromVariants(variants)).toEqual([]);
+
+    const options = deriveOptionsFromVariants(variants);
+    expect(options).toHaveLength(1);
+    expect(options[0].name).toBe('Color');
+  });
+
+  it('deduplicates values for the same option across variants', () => {
+    const variants: ProductVariant[] = [
+      {
+        id: 1,
+        sku: null,
+        price: 10,
+        quantity: 0,
+        is_active: true,
+        options: [{ option_name: 'Size', option_value: 'S' }],
+      },
+      {
+        id: 2,
+        sku: null,
+        price: 10,
+        quantity: 0,
+        is_active: true,
+        options: [{ option_name: 'Size', option_value: 'S' }],
+      },
+    ];
+
+    const options = deriveOptionsFromVariants(variants);
+    expect(options[0].values).toHaveLength(1);
+  });
+
+  it('assigns positions by insertion order', () => {
+    const variants: ProductVariant[] = [
+      {
+        id: 1,
+        sku: null,
+        price: 10,
+        quantity: 0,
+        is_active: true,
+        options: [
+          { option_name: 'Color', option_value: 'Red' },
+          { option_name: 'Size', option_value: 'S' },
+        ],
+      },
+    ];
+
+    const options = deriveOptionsFromVariants(variants);
+    expect(options[0].position).toBe(1);
+    expect(options[1].position).toBe(2);
   });
 });

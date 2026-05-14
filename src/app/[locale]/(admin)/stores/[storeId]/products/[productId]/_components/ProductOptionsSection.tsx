@@ -5,49 +5,109 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { X } from 'lucide-react';
 import type { ProductOption } from '@/types/product';
+import { getNextNegativeId } from '@/lib/products/generateVariants';
 
 interface Props {
   options: ProductOption[];
   onChange: (options: ProductOption[]) => void;
 }
 
+/**
+ * ProductOptionsSection
+ *
+ * Renders the canonical product options editor.
+ * Each option has a name (e.g. "Color") and a list of values (e.g. "Red", "Blue").
+ * Options drive variant combination generation in the Structure tab.
+ *
+ * Internal state uses ProductOption / ProductOptionValue types:
+ * - option.name    → display name
+ * - option.position → order
+ * - value.value   → the string value (e.g. "Red")
+ * - value.id      → null for new, number for persisted
+ */
 export function ProductOptionsSection({ options, onChange }: Props) {
   const t = useTranslations('products');
 
+  // ── ID generators ────────────────────────────────────────────────────────
+
+  const nextOptionId = () => {
+    const existing = (options ?? []).flatMap((o) =>
+      typeof o.id === 'number' ? [{ id: o.id }] : []
+    );
+    return getNextNegativeId(existing);
+  };
+
+  const nextValueId = (optionIndex: number) => {
+    const existing = (options?.[optionIndex]?.values ?? []).flatMap((v) =>
+      typeof v.id === 'number' ? [{ id: v.id }] : []
+    );
+    return getNextNegativeId(existing);
+  };
+
+  const nextGlobalValueId = () => {
+    const existing = (options ?? []).flatMap((o) =>
+      (o.values ?? []).flatMap((v) =>
+        typeof v.id === 'number' ? [{ id: v.id }] : []
+      )
+    );
+    return getNextNegativeId(existing);
+  };
+
+  // ── Option mutations ─────────────────────────────────────────────────────
+
   const updateOption = (index: number, patch: Partial<ProductOption>) => {
-    onChange(options.map((opt, i) => (i === index ? { ...opt, ...patch } : opt)));
-  };
-
-  const addValue = (optionIndex: number) => {
-    updateOption(optionIndex, {
-      values: [...options[optionIndex].values, { label: '' }],
-    });
-  };
-
-  const removeValue = (optionIndex: number, valueIndex: number) => {
-    updateOption(optionIndex, {
-      values: options[optionIndex].values.filter((_, vi) => vi !== valueIndex),
-    });
-  };
-
-  const updateValue = (optionIndex: number, valueIndex: number, label: string) => {
-    updateOption(optionIndex, {
-      values: options[optionIndex].values.map((v, vi) =>
-        vi === valueIndex ? { ...v, label } : v
-      ),
-    });
+    onChange(
+      options.map((opt, i) => (i === index ? { ...opt, ...patch } : opt))
+    );
   };
 
   const addOption = () => {
-    onChange([
-      ...options,
-      { id: Date.now(), code: '', name: '', values: [{ label: '' }] },
-    ]);
+    const nextPos = options.length + 1;
+    const newOption: ProductOption = {
+      id: nextOptionId(),
+      name: '',
+      position: nextPos,
+      values: [{ id: nextGlobalValueId(), value: '' }],
+    };
+    onChange([...options, newOption]);
   };
 
   const removeOption = (index: number) => {
     onChange(options.filter((_, i) => i !== index));
   };
+
+  // ── Value mutations ──────────────────────────────────────────────────────
+
+  const addValue = (optionIndex: number) => {
+    updateOption(optionIndex, {
+      values: [
+        ...options[optionIndex].values,
+        { id: nextValueId(optionIndex), value: '' },
+      ],
+    });
+  };
+
+  const removeValue = (optionIndex: number, valueIndex: number) => {
+    updateOption(optionIndex, {
+      values: options[optionIndex].values.filter(
+        (_, vi) => vi !== valueIndex
+      ),
+    });
+  };
+
+  const updateValue = (
+    optionIndex: number,
+    valueIndex: number,
+    value: string
+  ) => {
+    updateOption(optionIndex, {
+      values: options[optionIndex].values.map((v, vi) =>
+        vi === valueIndex ? { ...v, value } : v
+      ),
+    });
+  };
+
+  // ── Empty state ──────────────────────────────────────────────────────────
 
   if (options.length === 0) {
     return (
@@ -62,6 +122,8 @@ export function ProductOptionsSection({ options, onChange }: Props) {
     );
   }
 
+  // ── Render ───────────────────────────────────────────────────────────────
+
   return (
     <div className="space-y-4">
       {options.map((option, optIdx) => (
@@ -69,14 +131,18 @@ export function ProductOptionsSection({ options, onChange }: Props) {
           key={option.id ?? `option-${optIdx}`}
           className="space-y-4 rounded-lg border p-4"
         >
+          {/* Option header */}
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div className="min-w-0 space-y-1">
               <h3 className="text-sm font-medium leading-6 wrap-break-word">
-                {option.name.trim() || t('variantEditor.options.optionName')}
+                {option.name.trim() ||
+                  t('variantEditor.options.optionName')}
               </h3>
               <p className="text-xs text-muted-foreground">
                 {option.values.length > 0
-                  ? t('variantEditor.options.valuesCount', { count: option.values.length })
+                  ? t('variantEditor.options.valuesCount', {
+                      count: option.values.length,
+                    })
                   : t('variantEditor.options.noValues')}
               </p>
             </div>
@@ -90,25 +156,30 @@ export function ProductOptionsSection({ options, onChange }: Props) {
             </Button>
           </div>
 
+          {/* Option name input */}
           <Input
             placeholder={t('variantEditor.options.optionName')}
             value={option.name}
-            onChange={(e) => updateOption(optIdx, { name: e.target.value })}
+            onChange={(e) =>
+              updateOption(optIdx, { name: e.target.value })
+            }
           />
 
+          {/* Value preview badges */}
           <div className="flex flex-wrap gap-2">
             {option.values
-              .filter((value) => value.label.trim().length > 0)
-              .map((value, valueIdx) => (
+              .filter((v) => v.value.trim().length > 0)
+              .map((v, valueIdx) => (
                 <span
-                  key={value.id ?? `preview-${optIdx}-${valueIdx}`}
+                  key={v.id ?? `preview-${optIdx}-${valueIdx}`}
                   className="inline-flex max-w-full items-center rounded-full border bg-muted px-3 py-1 text-sm leading-6 wrap-break-word"
                 >
-                  {value.label}
+                  {v.value}
                 </span>
               ))}
           </div>
 
+          {/* Value inputs */}
           <div className="grid gap-2 md:grid-cols-2">
             {option.values.map((val, valIdx) => (
               <div
@@ -117,8 +188,10 @@ export function ProductOptionsSection({ options, onChange }: Props) {
               >
                 <Input
                   className="h-auto min-w-0 border-0 bg-transparent p-0 text-sm shadow-none focus-visible:border-transparent focus-visible:ring-0"
-                  value={val.label}
-                  onChange={(e) => updateValue(optIdx, valIdx, e.target.value)}
+                  value={val.value}
+                  onChange={(e) =>
+                    updateValue(optIdx, valIdx, e.target.value)
+                  }
                   placeholder={t('variantEditor.options.addValue')}
                 />
                 <button
