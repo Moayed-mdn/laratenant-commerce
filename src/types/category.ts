@@ -101,7 +101,7 @@ export interface CreateCategoryPayload {
 }
 
 /** Payload sent to PATCH /categories/:id */
-export interface UpdateCategoryPayload extends CreateCategoryPayload {}
+export type UpdateCategoryPayload = CreateCategoryPayload;
 
 // ── Filter types ──────────────────────────────────────────────────────────
 

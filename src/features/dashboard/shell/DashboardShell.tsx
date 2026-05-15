@@ -1,0 +1,58 @@
+'use client';
+
+/**
+ * DashboardShell component.
+ * Composes sidebar, topbar, and main content area.
+ * 
+ * Reason for 'use client': needs Zustand sidebar state.
+ */
+
+import { useUiStore, selectSidebarCollapsed, selectIsRTL } from '@/stores/uiStore';
+import { useLocale } from 'next-intl';
+import { useEffect } from 'react';
+import { Sidebar } from './sidebar/Sidebar';
+import { Topbar } from './topbar/Topbar';
+import { MobileNav } from './MobileNav';
+import { cn } from '@/lib/utils';
+
+interface DashboardShellProps {
+  children: React.ReactNode;
+}
+
+/**
+ * Main layout shell for dashboard pages.
+ * Includes sidebar, topbar, and content area.
+ */
+export function DashboardShell({ children }: DashboardShellProps) {
+  const isCollapsed = useUiStore(selectSidebarCollapsed);
+  const isRTL = useUiStore(selectIsRTL);
+  const locale = useLocale();
+  const setDirection = useUiStore((state) => state.setDirection);
+
+  useEffect(() => {
+    setDirection(locale as 'en' | 'ar');
+  }, [locale, setDirection]);
+
+  return (
+    <div className="flex h-screen overflow-hidden ">
+      {/* Sidebar — hidden on mobile */}
+      <Sidebar />
+
+      {/* Main area */}
+      <div
+        className={cn(
+          'flex flex-col flex-1 overflow-hidden transition-all duration-200',
+          isRTL ? 'mr-0' : 'ml-0'
+        )}
+      >
+        <Topbar />
+
+        {/* Page content */}
+        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+      </div>
+
+      {/* Mobile nav overlay */}
+      <MobileNav />
+    </div>
+  );
+}

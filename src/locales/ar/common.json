@@ -240,7 +240,12 @@
         "noBrandOption": "بدون علامة تجارية",
         "isFeatured": "منتج مميز",
         "isFeaturedHint": "تُعرض المنتجات المميزة بشكل بارز في الواجهة.",
-        "loading": "جارٍ التحميل..."
+        "loading": "جارٍ التحميل...",
+        "tags": "الوسوم",
+        "tagsPlaceholder": "اختر الوسوم",
+        "tagsSelected": "تم اختيار {count}",
+        "tagsSearch": "ابحث في الوسوم...",
+        "tagsEmpty": "لم يتم العثور على وسوم."
       },
       "status": {
         "active": "نشط",
@@ -287,6 +292,12 @@
         "seo": "SEO"
       },
       "unsavedChanges": "لديك تغييرات غير محفوظة.",
+      "media": {
+        "column": "الصور",
+        "add": "إضافة",
+        "dialogTitle": "{variant} — الصور",
+        "noImages": "لا توجد صور بعد. أضف رابطاً أعلاه."
+      },
       "seoPlaceholder": "سيتم إضافة قسم SEO في مرحلة لاحقة.",
       "shared": {
         "yes": "نعم",
@@ -294,6 +305,7 @@
         "duplicate": "نسخ",
         "copy": "نسخة"
       },
+      "isFeatured": "منتج مميز",
       "general": {
         "featured": "مميز"
       },
@@ -305,7 +317,8 @@
         "quantity": "الكمية",
         "editVariant": "تعديل المتغير",
         "searchVariants": "ابحث في المتغيرات...",
-        "addVariant": "إضافة متغير"
+        "addVariant": "إضافة متغير",
+        "active": "نشط"
       },
       "attributes": {
         "attributeName": "اسم الخاصية",
@@ -348,7 +361,11 @@
         "imagesHint": "إدارة الصور والترتيب ونصوص البديل.",
         "altText": "نص بديل",
         "moveUp": "تحريك للأعلى",
-        "moveDown": "تحريك للأسفل"
+        "moveDown": "تحريك للأسفل",
+        "imageUrl": "رابط الصورة",
+        "imageUrlPlaceholder": "https://...",
+        "addImage": "إضافة صورة",
+        "removeImage": "إزالة الصورة"
       }
     },
     "detail": {
@@ -360,6 +377,7 @@
       "steps": {
         "content": "المحتوى",
         "structure": "البنية",
+        "media": "الوسائط",
         "review": "المراجعة"
       },
       "review": {
@@ -371,7 +389,17 @@
         "variantsCount": "{count, plural, =0 {لا توجد متغيرات} =1 {متغير واحد} =2 {متغيران} few {# متغيرات} many {# متغير} other {# متغير}}",
         "noVariants": "لم يتم تحديد متغيرات — سيتم إنشاء متغير افتراضي.",
         "noOptions": "لم يتم تحديد خيارات — المنتج له متغير افتراضي واحد.",
-        "noTranslations": "لم يتم تحديد ترجمات."
+        "noTranslations": "لم يتم تحديد ترجمات.",
+        "tagsCount": "{count, plural, =0 {لا توجد وسوم} =1 {وسم واحد} =2 {وسمان} few {# وسوم} many {# وسم} other {# وسم}}",
+        "noTags": "لم يتم تحديد وسوم.",
+        "imagesCount": "{count, plural, =0 {لا توجد صور} =1 {صورة واحدة} =2 {صورتان} few {# صور} many {# صورة} other {# صورة}}",
+        "noImages": "لم يتم تحديد صور.",
+        "defaultVariant": "متغير افتراضي",
+        "variantsMore": "+ {count} إضافي",
+        "variantMedia": "صور المتغيرات",
+        "variantsWithMedia": "{count, plural, =0 {لا متغيرات} =1 {متغير واحد} other {# متغيرات}} · {images, plural, =0 {لا صور} =1 {صورة واحدة} other {# صور}}",
+        "variantsFallback": "{count, plural, =0 {لا متغيرات} =1 {متغير واحد} other {# متغيرات}} يستخدم صور المنتج",
+        "noVariantMedia": "لا توجد صور خاصة بالمتغيرات"
       }
     }
   },
@@ -483,7 +511,7 @@
       "editTitle": "تعديل التصنيف",
       "translations": "الترجمات",
       "settings": "الإعدادات",
-      "parentCategory": "التصنيف الأب",
+      "parentCategory": "الفئة الأصلية",
       "dangerZone": "منطقة الخطر",
       "deleteDescription": "إزالة هذا التصنيف نهائياً من متجرك. لن تتأثر المنتجات الموجودة في هذا التصنيف.",
       "restoreDescription": "استعادة هذا التصنيف لجعله متاحاً مرة أخرى.",
@@ -494,7 +522,12 @@
         "translationSlug": "معرّف الرابط",
         "slugPlaceholder": "مثال: clothing",
         "sortOrder": "ترتيب العرض",
-        "isActive": "نشط"
+        "isActive": "نشط",
+        "parentCategory": "التصنيف الرئيسي",
+        "noParent": "بدون أب",
+        "searchParent": "ابحث في التصنيف الأب...",
+        "noCategoriesFound": "لم يتم العثور على تصنيفات.",
+        "loading": "جارٍ التحميل..."
       },
       "create": "إنشاء تصنيف",
       "creating": "جارٍ الإنشاء...",
@@ -510,7 +543,7 @@
       "createSuccess": "تم إنشاء التصنيف",
       "createError": "فشل إنشاء التصنيف",
       "updateSuccess": "تم حفظ التصنيف",
-      "updateError": "فشل حفظ التصنيف",
+      "updateError": "فشل تحديث التصنيف",
       "deleteSuccess": "تم حذف التصنيف",
       "deleteError": "فشل حذف التصنيف",
       "restoreSuccess": "تمت استعادة التصنيف",

@@ -7,11 +7,11 @@ import queryClient from '@/lib/queryClient';
 import { queryKeys } from '@/lib/queryKeys';
 import { logger } from '@/lib/logger';
 
-import { buildStructurePayload } from '@/lib/products/buildStructurePayload';
+import { buildStructurePayload } from '@/features/products/editor/payloads/buildStructurePayload';
 
 import type { AdminProduct } from '@/types/product';
 import type { ApiError } from '@/types/api';
-import type { ProductStructureState } from '@/types/product-editor';
+import type { ProductStructureState } from '@/features/products/editor/types/product-editor';
 
 export interface UseSaveProductStructureOptions {
   onSuccess?: (product: AdminProduct) => void;

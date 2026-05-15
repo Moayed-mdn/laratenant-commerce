@@ -24,7 +24,7 @@ export interface BrandListItem {
 }
 
 /** Brand detail — raw API shape (same shape, kept separate for extensibility) */
-export interface BrandDetail extends BrandListItem {}
+export type BrandDetail = BrandListItem;
 
 // ── View types ────────────────────────────────────────────────────────────
 
@@ -61,7 +61,7 @@ export interface CreateBrandPayload {
 }
 
 /** Payload sent to PATCH /brands/:id */
-export interface UpdateBrandPayload extends CreateBrandPayload {}
+export type UpdateBrandPayload = CreateBrandPayload;
 
 // ── Filter types ──────────────────────────────────────────────────────────
 

@@ -4,11 +4,11 @@
  * Design note — two-type-system rule:
  * Zod schemas are used for RUNTIME VALIDATION only.
  * Wizard STATE types use the canonical domain types from types/product.ts
- * (ProductVariant, ProductOption) directly.
+ * (ProductVariant, ProductOption, ProductImage) directly.
  */
 
 import { z } from 'zod';
-import type { ProductOption, ProductVariant } from '@/types/product';
+import type { ProductImage, ProductOption, ProductVariant } from '@/types/product';
 
 // ── List filters ────────────────────────────────────────────────────────────
 
@@ -30,14 +30,26 @@ export const ProductTranslationSchema = z.object({
   description:     z.string().nullable().default(null),
   seo_title:       z.string().max(255).nullable().default(null),
   seo_description: z.string().max(1000).nullable().default(null),
+  // Matches ProductTranslation from types/product.ts — eliminates the type
+  // mismatch that previously required unsafe casts in CreateProductContentStep.
+  is_complete:     z.boolean().optional(),
 });
 
 export type ProductTranslationFormData = z.infer<typeof ProductTranslationSchema>;
 
 export const CreateProductContentSchema = z.object({
   status:       z.enum(['active', 'draft']).default('draft'),
+
+  // IDs sent to the backend
   categoryId:   z.number().int().nullable().default(null),
   brandId:      z.number().int().nullable().default(null),
+
+  // Resolved display names for the review step.
+  // These are UI-only — never sent to the backend.
+  // Populated by CategorySelect / BrandSelect via their onNameChange callbacks.
+  categoryName: z.string().nullable().default(null),
+  brandName:    z.string().nullable().default(null),
+
   isFeatured:   z.boolean().default(false),
   translations: z.record(z.string(), ProductTranslationSchema),
 });
@@ -67,9 +79,36 @@ export interface CreateProductStructureData {
   variants: ProductVariant[];
 }
 
+// ── Create wizard — Step 3: Media ───────────────────────────────────────────
+
+/**
+ * Wizard Step 3 (media) state type.
+ * Uses ProductImage[] from types/product.ts directly — the same type used
+ * by ProductMediaState in product-editor.ts.
+ *
+ * Variant-level media (variants.*.media[]) is intentionally deferred.
+ * The backend supports it (variants.*.media[]) but the per-variant upload
+ * UX adds significant complexity for low initial value. Revisit when the
+ * variant detail editor matures.
+ */
+export interface CreateProductMediaData {
+  media: ProductImage[];
+}
+
 // ── Full wizard state ───────────────────────────────────────────────────────
 
+/**
+ * Complete wizard state across all steps.
+ *
+ * tags: number[] — array of tag IDs (integer, backend-validated).
+ *   Tags live outside the step structure because they span the full product
+ *   and are assigned in the content step UI, not in a dedicated step.
+ *
+ * media: CreateProductMediaData — product-level images.
+ */
 export interface CreateProductWizardState {
   content:   CreateProductContentData;
   structure: CreateProductStructureData;
+  media:     CreateProductMediaData;
+  tags:      number[];
 }

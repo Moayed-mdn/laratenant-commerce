@@ -41,10 +41,12 @@ export async function getCategories(
   if (filters.page !== 1)     params.page      = filters.page;
   if (filters.perPage !== 15) params.per_page  = filters.perPage;
 
-  return clientApi.get<PaginatedResponse<CategoryListItem>>(
+  const response = await clientApi.get<PaginatedResponse<CategoryListItem>>(
     API_ROUTES.store(storeId).categories().list(),
     { params },
   );
+  console.log('this is the response',response);
+  return response;
 }
 
 /**

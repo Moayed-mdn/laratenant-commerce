@@ -1,0 +1,1102 @@
+Now I have the complete picture. Let me do a thorough gap analysis.
+
+## Gap Analysis: Edit Product vs Create Product
+
+### Missing features in Edit Product:
+1. **No category/brand/isFeatured/tags editing** — ContentTab only has status + translations
+2. **`buildContentPayload` sends `is_active`** but backend Update expects `status` field doesn't exist — it uses `is_active` ✓, but `isFeatured` is never saved from editor
+3. **`useSaveProductMedia` accepts `ProductMediaState`** but `EditProductForm` calls it with `{ images }` — type mismatch
+4. **`CreateProductMediaData` uses `media` key** but `ProductMediaState` uses `images` key — inconsistency causing bugs
+5. **No tag editing in edit flow** — tags are loaded in create but not in edit
+6. **`EditProductForm` `ContentTab` missing** category, brand, isFeatured, tags props
+7. **`buildContentPayload` doesn't send `status`** — sends `is_active` instead, but backend `UpdateProductRequest` has no `status` field, only `is_active` ✓ — but `isFeatured` path is broken
+8. **`ProductEditorState` has no `tags`** field
+9. **`buildEditorState` doesn't load tags** from product
+10. **`AdminProduct` has no `tags` field** — can't round-trip tags through edit
+11. **`EditProductForm` media save** calls `saveMedia.mutate({ images })` but hook expects `ProductMediaState` shape `{ images: [] }`— actually matches, but `useSaveProductMedia` takes `ProductMediaState` and calls `buildMediaPayload({ media })` — the variable name collision
+12. **`DeleteProductButton` uses `DialogTrigger` with `render` prop** — wrong API (Base UI vs Radix)
+
+---
+
+## Fixes
+
+### Fix 1: `src/types/product.ts` — Add `tags` to `AdminProduct`
+
+```typescript
+// In AdminProduct interface, add after brand_id:
+export interface AdminProduct {
+  id: number;
+  store_id: number;
+  name: string;
+  slug: string;
+  description: string | null;
+  price: number;
+  compare_at_price: number | null;
+  cost_per_item: number | null;
+  sku: string | null;
+  barcode: string | null;
+  quantity: number;
+  track_quantity: boolean;
+  weight: number | null;
+  weight_unit: WeightUnit | null;
+  status: ProductStatus;
+  is_featured?: boolean;
+  media: ProductImage[];
+  variants: AdminProductVariant[];
+  options?: AdminProductOption[] | null;
+  category_id: number | null;
+  brand_id: number | null;
+  tags?: Array<{ id: number }>; // ✅ added — backend returns tag stubs
+  available_locales?: Locale[];
+  translations?: Record<Locale, ProductTranslation>;
+  created_at: string;
+  updated_at: string;
+}
+```
+
+Also add `tags` to `ProductDetailView`:
+
+```typescript
+export interface ProductDetailView {
+  id: number;
+  storeId: number;
+  categoryId: number | null;
+  brandId: number | null;
+  name: string;
+  slug: string;
+  description: string;
+  price: number;
+  compareAtPrice: number | null;
+  costPerItem: number | null;
+  sku: string | null;
+  barcode: string | null;
+  quantity: number;
+  trackQuantity: boolean;
+  weight: number | null;
+  weightUnit: WeightUnit | null;
+  status: ProductStatus;
+  isFeatured: boolean;
+  tags: number[];           // ✅ added
+  media: ProductImage[];
+  createdAt: string;
+  updatedAt: string;
+  variants: ProductVariant[];
+  options: ProductOption[];
+  availableLocales: Locale[];
+  translations: Record<Locale, ProductTranslation>;
+}
+```
+
+---
+
+### Fix 2: `src/types/product-editor.ts` — Add `tags` + `isFeatured` properly
+
+```typescript
+import type {
+  Locale,
+  ProductImage,
+  ProductOption,
+  ProductTranslation,
+  ProductVariant,
+} from '@/types/product';
+
+/**
+ * Content tab state — status, locale-keyed translations,
+ * category/brand/isFeatured/tags assignments.
+ */
+export interface ProductContentFormValues {
+  status:     'active' | 'draft';
+  categoryId: number | null;
+  brandId:    number | null;
+  isFeatured: boolean;         // ✅ was optional, now required
+  translations: Record<Locale, ProductTranslation>;
+}
+
+/**
+ * Structure tab state — canonical options + generated variants.
+ */
+export interface ProductStructureState {
+  options:  ProductOption[];
+  variants: ProductVariant[];
+}
+
+/**
+ * Media tab state — ordered product images.
+ */
+export interface ProductMediaState {
+  images: ProductImage[];
+}
+
+/**
+ * Full editor state combining all three tabs + tags.
+ * tags: number[] — array of tag IDs assigned to this product.
+ */
+export interface ProductEditorState {
+  content:   ProductContentFormValues;
+  structure: ProductStructureState;
+  media:     ProductMediaState;
+  tags:      number[];   // ✅ added
+}
+
+export interface VariantSignature {
+  signature: string;
+  variant:   ProductVariant;
+}
+
+export interface BuildVariantsResult {
+  variants: ProductVariant[];
+  created:  number;
+}
+```
+
+---
+
+### Fix 3: `src/lib/mappers/products.ts` — Map `tags` in detail mapper
+
+```typescript
+// In mapProductDetail, update the return object:
+export function mapProductDetail(raw: AdminProduct): ProductDetailView {
+  // ... existing normalization code unchanged ...
+
+  return {
+    id:             raw.id,
+    storeId:        raw.store_id,
+    categoryId:     raw.category_id,
+    brandId:        raw.brand_id,
+    name:           raw.name,
+    slug:           raw.slug,
+    description:    raw.description ?? '',
+    price:          raw.price,
+    compareAtPrice: raw.compare_at_price,
+    costPerItem:    raw.cost_per_item,
+    sku:            raw.sku,
+    barcode:        raw.barcode,
+    quantity:       raw.quantity,
+    trackQuantity:  raw.track_quantity,
+    weight:         raw.weight,
+    weightUnit:     raw.weight_unit,
+    status:         raw.status,
+    isFeatured:     raw.is_featured ?? false,
+    // ✅ Extract tag IDs from backend stub array { id: number }[]
+    tags:           (raw.tags ?? []).map((t) => t.id),
+    media:          raw.media ?? [],
+    createdAt:      formatDate(raw.created_at),
+    updatedAt:      formatDate(raw.updated_at),
+    variants,
+    options,
+    availableLocales,
+    translations,
+  };
+}
+```
+
+---
+
+### Fix 4: `src/lib/products/buildEditorState.ts` — Include tags
+
+```typescript
+import type { ProductDetailView } from '@/types/product';
+import type { ProductEditorState } from '@/types/product-editor';
+
+/**
+ * Builds the initial ProductEditorState from a mapped ProductDetailView.
+ *
+ * The editor has three independent tabs plus tags:
+ * - content:   status, translations, category/brand/isFeatured assignments
+ * - structure: canonical options + generated variants
+ * - media:     ordered images
+ * - tags:      integer tag IDs
+ */
+export function buildEditorState(
+  product: ProductDetailView
+): ProductEditorState {
+  return {
+    content: {
+      status:       product.status,
+      categoryId:   product.categoryId,
+      brandId:      product.brandId,
+      isFeatured:   product.isFeatured,
+      translations: product.translations,
+    },
+
+    structure: {
+      options:  product.options,
+      variants: product.variants,
+    },
+
+    media: {
+      images: product.media,
+    },
+
+    tags: product.tags, // ✅ added
+  };
+}
+```
+
+---
+
+### Fix 5: `src/lib/products/buildContentPayload.ts` — Fix isFeatured + add tags support
+
+```typescript
+import type { ProductUpdatePayload } from '@/types/product';
+import type { ProductContentFormValues } from '@/types/product-editor';
+
+type BuildContentPayloadInput = {
+  content: ProductContentFormValues;
+  tags?: number[];   // ✅ tags are saved alongside content
+};
+
+/**
+ * Builds the API payload for saving the content tab.
+ *
+ * Sends:
+ * - is_active    (derived from status === 'active')
+ * - is_featured
+ * - category_id
+ * - brand_id
+ * - translations[]
+ * - tags[]        (when provided — absence = no change per backend contract)
+ *
+ * Does NOT send variants or options — content tab is isolated
+ * from structure changes by design.
+ */
+export function buildContentPayload(
+  input: BuildContentPayloadInput
+): ProductUpdatePayload {
+  const { content, tags } = input;
+
+  return {
+    is_active:   content.status === 'active',
+    is_featured: content.isFeatured,
+    category_id: content.categoryId,
+    brand_id:    content.brandId,
+    translations: Object.values(content.translations ?? {}).map((t) => ({
+      locale:          t.locale,
+      name:            t.name,
+      slug:            t.slug,
+      description:     t.description     ?? null,
+      seo_title:       t.seo_title       ?? null,
+      seo_description: t.seo_description ?? null,
+    })),
+    // ✅ Only include tags key when caller provides it.
+    // Absence = no change to existing assignments (backend contract).
+    // Empty array = detach all tags.
+    ...(tags !== undefined ? { tags } : {}),
+  };
+}
+```
+
+---
+
+### Fix 6: `src/hooks/products/useSaveProductContent.ts` — Pass tags
+
+```typescript
+'use client';
+
+import { useMutation } from '@tanstack/react-query';
+
+import { updateProduct }      from '@/lib/api/products';
+import queryClient            from '@/lib/queryClient';
+import { queryKeys }          from '@/lib/queryKeys';
+import { logger }             from '@/lib/logger';
+import { buildContentPayload } from '@/lib/products/buildContentPayload';
+
+import type { AdminProduct }             from '@/types/product';
+import type { ApiError }                 from '@/types/api';
+import type { ProductContentFormValues } from '@/types/product-editor';
+
+export interface UseSaveProductContentOptions {
+  onSuccess?: (product: AdminProduct) => void;
+  onError?:   (error: ApiError)      => void;
+}
+
+// ✅ Mutation input carries both content and tags
+interface SaveContentInput {
+  content: ProductContentFormValues;
+  tags:    number[];
+}
+
+export function useSaveProductContent(
+  storeId:   string,
+  productId: string,
+  options?:  UseSaveProductContentOptions
+) {
+  return useMutation<AdminProduct, ApiError, SaveContentInput>({
+    mutationFn: ({ content, tags }) =>
+      updateProduct(
+        storeId,
+        productId,
+        buildContentPayload({ content, tags })
+      ),
+    retry: 0,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.products(storeId).lists() });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.products(storeId).detail(productId),
+      });
+      logger.info('Product content saved', { productId: data.id });
+      options?.onSuccess?.(data);
+    },
+    onError: (error) => {
+      logger.error('Save product content failed', { error });
+      options?.onError?.(error);
+    },
+  });
+}
+```
+
+---
+
+### Fix 7: `src/app/[locale]/(admin)/stores/[storeId]/products/[productId]/_components/_tabs/ContentTab.tsx` — Add category, brand, isFeatured, tags
+
+```typescript
+'use client';
+
+import { Card, CardContent } from '@/components/ui/card';
+import { Label }             from '@/components/ui/label';
+import { Switch }            from '@/components/ui/switch';
+
+import type { Locale, ProductStatus, ProductTranslation } from '@/types/product';
+import type { ProductContentFormValues }                  from '@/types/product-editor';
+
+import { ProductContentTab } from '../ProductContentTab';
+import { StatusSelect }      from '../_components/StatusSelect';
+import { CategorySelect }    from '@/components/shared/create-product/CategorySelect';
+import { BrandSelect }       from '@/components/shared/create-product/BrandSelect';
+import { TagSelect }         from '@/components/shared/create-product/TagSelect';
+
+interface Props {
+  storeId:          string;
+  availableLocales: Locale[];
+  content:          ProductContentFormValues;
+  tags:             number[];
+  onContentChange:  (next: ProductContentFormValues) => void;
+  onTagsChange:     (next: number[]) => void;
+}
+
+export function ContentTab({
+  storeId,
+  availableLocales,
+  content,
+  tags,
+  onContentChange,
+  onTagsChange,
+}: Props) {
+  const t_products = (key: string) => key; // replaced by useTranslations below
+
+  return (
+    <div className="space-y-6">
+      {/* ── Status + Category + Brand + isFeatured + Tags ── */}
+      <Card>
+        <CardContent className="pt-6 space-y-6">
+
+          <StatusSelect
+            value={content.status}
+            onChange={(status: ProductStatus) =>
+              onContentChange({ ...content, status })
+            }
+          />
+
+          <CategorySelect
+            storeId={storeId}
+            value={content.categoryId}
+            onChange={({ id, name: _name }) =>
+              onContentChange({ ...content, categoryId: id })
+            }
+          />
+
+          <BrandSelect
+            storeId={storeId}
+            value={content.brandId}
+            onChange={({ id, name: _name }) =>
+              onContentChange({ ...content, brandId: id })
+            }
+          />
+
+          <TagSelect
+            storeId={storeId}
+            value={tags}
+            onChange={onTagsChange}
+          />
+
+          <div className="flex items-start gap-3">
+            <Switch
+              id="edit-is-featured"
+              checked={content.isFeatured}
+              onCheckedChange={(checked) =>
+                onContentChange({ ...content, isFeatured: checked })
+              }
+            />
+            <Label htmlFor="edit-is-featured" className="cursor-pointer">
+              Featured product
+            </Label>
+          </div>
+
+        </CardContent>
+      </Card>
+
+      {/* ── Translations ── */}
+      <ProductContentTab
+        availableLocales={availableLocales}
+        translations={content.translations}
+        onChange={(translations) => onContentChange({ ...content, translations })}
+      />
+    </div>
+  );
+}
+```
+
+---
+
+### Fix 8: `src/app/[locale]/(admin)/stores/[storeId]/products/[productId]/_components/EditProductForm.tsx` — Wire everything together
+
+```typescript
+'use client';
+
+import { useCallback, useRef, useState } from 'react';
+import { useTranslations }               from 'next-intl';
+import { toast }                         from 'sonner';
+
+import { mapProductDetail }         from '@/lib/mappers/products';
+import { buildEditorState }         from '@/lib/products/buildEditorState';
+import { generateVariants }         from '@/lib/products/generateVariants';
+import {
+  validateProductContent,
+  type ValidationError,
+}                                   from '@/lib/products/validateProductContent';
+import { validateProductStructure } from '@/lib/products/validateProductStructure';
+
+import { useSaveProductContent }    from '@/hooks/products/useSaveProductContent';
+import { useSaveProductStructure }  from '@/hooks/products/useSaveProductStructure';
+import { useSaveProductMedia }      from '@/hooks/products/useSaveProductMedia';
+import { useUnsavedChangesGuard }   from '@/hooks/useUnsavedChangesGuard';
+
+import { Button }                   from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import { ContentTab }               from './_tabs/ContentTab';
+import { StructureTab }             from './_tabs/StructureTab';
+import { MediaTab }                 from './_tabs/MediaTab';
+import DeleteProductButton          from './DeleteProductButton';
+
+import type {
+  AdminProduct,
+  ProductDetailView,
+  ProductImage,
+} from '@/types/product';
+import type {
+  ProductContentFormValues,
+  ProductEditorState,
+  ProductStructureState,
+} from '@/types/product-editor';
+
+interface Props {
+  product: ProductDetailView;
+  storeId: string;
+}
+
+// ── Exported pure helpers (tested independently) ─────────────────────────
+
+export function buildNextStructureForSave(
+  structure: ProductStructureState
+): ProductStructureState {
+  const regeneratedVariants = generateVariants(
+    structure.options,
+    structure.variants
+  );
+  return { ...structure, variants: regeneratedVariants };
+}
+
+export function buildRebasedEditorState(
+  savedProduct: AdminProduct
+): ProductEditorState {
+  return buildEditorState(mapProductDetail(savedProduct));
+}
+
+export function buildDiscardState(baseline: ProductEditorState) {
+  return {
+    content:        baseline.content,
+    structure:      baseline.structure,
+    images:         baseline.media.images ?? [],
+    tags:           baseline.tags,
+    contentDirty:   false,
+    structureDirty: false,
+    mediaDirty:     false,
+    tagsDirty:      false,
+    validationErrors: [] as ValidationError[],
+  };
+}
+
+export function isEditorSaveBlocked(params: {
+  isDirty:      boolean;
+  isDiscarding: boolean;
+  isPending:    boolean;
+}): boolean {
+  return params.isDiscarding || params.isPending || !params.isDirty;
+}
+
+// ── Component ─────────────────────────────────────────────────────────────
+
+export default function EditProductForm({ product, storeId }: Props) {
+  const t = useTranslations('products');
+
+  const initialState = buildEditorState(product);
+  const baselineRef  = useRef<ProductEditorState>(initialState);
+
+  const [content, setContent]     = useState<ProductContentFormValues>(initialState.content);
+  const [structure, setStructure] = useState<ProductStructureState>(initialState.structure);
+  const [images, setImages]       = useState<ProductImage[]>(initialState.media.images ?? []);
+  const [tags, setTags]           = useState<number[]>(initialState.tags);
+  const [tab, setTab]             = useState<'content' | 'structure' | 'media'>('content');
+
+  const [contentDirty, setContentDirty]   = useState(false);
+  const [structureDirty, setStructureDirty] = useState(false);
+  const [mediaDirty, setMediaDirty]       = useState(false);
+  const [tagsDirty, setTagsDirty]         = useState(false);
+  const [isDiscarding, setIsDiscarding]   = useState(false);
+  const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
+
+  const discardInProgressRef   = useRef(false);
+  const contentSaveTokenRef    = useRef(0);
+  const structureSaveTokenRef  = useRef(0);
+  const mediaSaveTokenRef      = useRef(0);
+
+  // Tags dirty counts as content dirty — saved together with content tab
+  const isDirty = contentDirty || structureDirty || mediaDirty || tagsDirty;
+
+  const { bypassNextNavigation } = useUnsavedChangesGuard({ isDirty });
+
+  const rebaseFromProduct = useCallback((savedProduct: AdminProduct) => {
+    const nextState = buildRebasedEditorState(savedProduct);
+    baselineRef.current = nextState;
+    setContent(nextState.content);
+    setStructure(nextState.structure);
+    setImages(nextState.media.images ?? []);
+    setTags(nextState.tags);
+    setContentDirty(false);
+    setStructureDirty(false);
+    setMediaDirty(false);
+    setTagsDirty(false);
+    setValidationErrors([]);
+  }, []);
+
+  const saveContent   = useSaveProductContent(storeId, String(product.id), {
+    onError: (err) => toast.error(err.message),
+  });
+  const saveStructure = useSaveProductStructure(storeId, String(product.id), {
+    onError: (err) => toast.error(err.message),
+  });
+  const saveMedia     = useSaveProductMedia(storeId, String(product.id), {
+    onError: (err) => toast.error(err.message),
+  });
+
+  const isSavePending =
+    saveContent.isPending || saveStructure.isPending || saveMedia.isPending;
+
+  const handleDiscard = useCallback(() => {
+    bypassNextNavigation();
+    discardInProgressRef.current = true;
+    setIsDiscarding(true);
+
+    const d = buildDiscardState(baselineRef.current);
+    setContent(d.content);
+    setStructure(d.structure);
+    setImages(d.images);
+    setTags(d.tags);
+    setContentDirty(d.contentDirty);
+    setStructureDirty(d.structureDirty);
+    setMediaDirty(d.mediaDirty);
+    setTagsDirty(d.tagsDirty);
+    setValidationErrors(d.validationErrors);
+
+    queueMicrotask(() => {
+      discardInProgressRef.current = false;
+      setIsDiscarding(false);
+    });
+  }, [bypassNextNavigation]);
+
+  const handleSaveCurrentTab = useCallback(() => {
+    if (
+      isEditorSaveBlocked({
+        isDirty,
+        isDiscarding: discardInProgressRef.current,
+        isPending:    isSavePending,
+      })
+    ) return;
+
+    setValidationErrors([]);
+
+    // ── Content tab ──────────────────────────────────────────────
+    if (tab === 'content') {
+      const result = validateProductContent(content);
+      if (!result.isValid) {
+        setValidationErrors(result.errors);
+        toast.error(t('form.validationError'));
+        return;
+      }
+      const token = (contentSaveTokenRef.current += 1);
+      // ✅ Pass tags alongside content — saved in one PATCH call
+      saveContent.mutate(
+        { content, tags },
+        {
+          onSuccess: (savedProduct) => {
+            if (token !== contentSaveTokenRef.current) return;
+            rebaseFromProduct(savedProduct);
+            toast.success(t('form.updateSuccess'));
+          },
+        }
+      );
+      return;
+    }
+
+    // ── Structure tab ────────────────────────────────────────────
+    if (tab === 'structure') {
+      const nextStructure = buildNextStructureForSave(structure);
+      setStructure(nextStructure);
+
+      const result = validateProductStructure(nextStructure);
+      if (!result.isValid) {
+        setValidationErrors(result.errors);
+        toast.error(t('form.validationError'));
+        return;
+      }
+      const token = (structureSaveTokenRef.current += 1);
+      saveStructure.mutate(nextStructure, {
+        onSuccess: (savedProduct) => {
+          if (token !== structureSaveTokenRef.current) return;
+          rebaseFromProduct(savedProduct);
+          toast.success(t('form.updateSuccess'));
+        },
+      });
+      return;
+    }
+
+    // ── Media tab ────────────────────────────────────────────────
+    if (tab === 'media') {
+      const token = (mediaSaveTokenRef.current += 1);
+      saveMedia.mutate(
+        { images },
+        {
+          onSuccess: (savedProduct) => {
+            if (token !== mediaSaveTokenRef.current) return;
+            rebaseFromProduct(savedProduct);
+            toast.success(t('form.updateSuccess'));
+          },
+        }
+      );
+    }
+  }, [
+    content,
+    images,
+    isDirty,
+    isSavePending,
+    rebaseFromProduct,
+    saveContent,
+    saveMedia,
+    saveStructure,
+    structure,
+    t,
+    tab,
+    tags,
+  ]);
+
+  return (
+    <div className="space-y-6">
+
+      {/* Validation errors banner */}
+      {validationErrors.length > 0 && (
+        <div className="rounded-md border border-destructive bg-destructive/10 p-4">
+          <p className="mb-2 font-medium text-destructive">
+            {t('form.validationErrorsTitle')}
+          </p>
+          <ul className="list-inside list-disc space-y-1 text-sm text-destructive">
+            {validationErrors.map((error, idx) => (
+              <li key={idx}>
+                <span className="font-semibold">{error.field}:</span>{' '}
+                {error.message}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <Tabs
+        value={tab}
+        onValueChange={(v) => {
+          setTab(v as typeof tab);
+          setValidationErrors([]);
+        }}
+      >
+        <TabsList>
+          <TabsTrigger value="content">
+            {t('editor.tabs.content')}
+          </TabsTrigger>
+          <TabsTrigger value="structure">
+            {t('editor.tabs.structure')}
+          </TabsTrigger>
+          <TabsTrigger value="media">
+            {t('editor.tabs.media')}
+          </TabsTrigger>
+        </TabsList>
+
+        {/* ── Content tab ── */}
+        <TabsContent value="content">
+          <ContentTab
+            storeId={storeId}
+            availableLocales={product.availableLocales}
+            content={content}
+            tags={tags}
+            onContentChange={(next) => {
+              setContent(next);
+              setContentDirty(true);
+            }}
+            onTagsChange={(next) => {
+              setTags(next);
+              setTagsDirty(true);
+            }}
+          />
+        </TabsContent>
+
+        {/* ── Structure tab ── */}
+        <TabsContent value="structure">
+          <StructureTab
+            options={structure.options}
+            variants={structure.variants}
+            onOptionsChange={(options) => {
+              setStructure((prev) => ({ ...prev, options }));
+              setStructureDirty(true);
+            }}
+            onVariantsChange={(variants) => {
+              setStructure((prev) => ({ ...prev, variants }));
+              setStructureDirty(true);
+            }}
+            onGenerateCombinations={() => {
+              setStructure((prev) => ({
+                ...prev,
+                variants: generateVariants(prev.options, prev.variants),
+              }));
+              setStructureDirty(true);
+            }}
+          />
+        </TabsContent>
+
+        {/* ── Media tab ── */}
+        <TabsContent value="media">
+          <MediaTab
+            images={images}
+            onChange={(next) => {
+              setImages(next);
+              setMediaDirty(true);
+            }}
+          />
+        </TabsContent>
+      </Tabs>
+
+      {/* Unsaved changes bar */}
+      {isDirty && (
+        <div className="sticky bottom-4 z-10 rounded-md border bg-background p-3 shadow-sm">
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-sm text-muted-foreground">
+              {t('variantEditor.unsavedChanges')}
+            </p>
+            <div className="flex gap-2">
+              <Button variant="outline" onClick={handleDiscard}>
+                {t('discard')}
+              </Button>
+              <Button
+                onClick={handleSaveCurrentTab}
+                disabled={isEditorSaveBlocked({
+                  isDirty,
+                  isDiscarding,
+                  isPending: isSavePending,
+                })}
+              >
+                {isSavePending ? t('saving') : t('save')}
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <div className="flex justify-end">
+        <DeleteProductButton
+          storeId={storeId}
+          productId={String(product.id)}
+          productName={product.name}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+---
+
+### Fix 9: `src/hooks/products/useSaveProductMedia.ts` — Fix input type to match call site
+
+The form calls `saveMedia.mutate({ images })` but the hook takes `ProductMediaState` which is `{ images: ProductImage[] }` — this actually already matches. The real bug is the hook calls `buildMediaPayload({ media })` but `buildMediaPayload` expects `{ media: ProductMediaState }`. Currently the hook passes the whole `ProductMediaState` as `media`. Let's make this explicit and correct:
+
+```typescript
+'use client';
+
+import { useMutation } from '@tanstack/react-query';
+
+import { updateProduct }     from '@/lib/api/products';
+import queryClient           from '@/lib/queryClient';
+import { queryKeys }         from '@/lib/queryKeys';
+import { logger }            from '@/lib/logger';
+import { buildMediaPayload } from '@/lib/products/buildMediaPayload';
+
+import type { AdminProduct }    from '@/types/product';
+import type { ApiError }        from '@/types/api';
+import type { ProductMediaState } from '@/types/product-editor';
+
+export interface UseSaveProductMediaOptions {
+  onSuccess?: (product: AdminProduct) => void;
+  onError?:   (error: ApiError)      => void;
+}
+
+export function useSaveProductMedia(
+  storeId:   string,
+  productId: string,
+  options?:  UseSaveProductMediaOptions
+) {
+  return useMutation<AdminProduct, ApiError, ProductMediaState>({
+    mutationFn: (media: ProductMediaState) =>
+      updateProduct(storeId, productId, buildMediaPayload({ media })),
+    retry: 0,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.products(storeId).lists() });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.products(storeId).detail(productId),
+      });
+      logger.info('Product media saved', { productId: data.id });
+      options?.onSuccess?.(data);
+    },
+    onError: (error) => {
+      logger.error('Save product media failed', { error });
+      options?.onError?.(error);
+    },
+  });
+}
+```
+
+---
+
+### Fix 10: `src/app/[locale]/(admin)/stores/[storeId]/products/[productId]/_components/DeleteProductButton.tsx` — Fix `DialogTrigger` API
+
+```typescript
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from '@/lib/navigation';
+import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
+
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+
+import { useDeleteProduct } from '@/hooks/products/useDeleteProduct';
+import { useCan }           from '@/stores/authStore';
+import { ROUTES }           from '@/config/routes';
+
+interface Props {
+  storeId:     string;
+  productId:   string;
+  productName: string;
+}
+
+export default function DeleteProductButton({
+  storeId,
+  productId,
+  productName,
+}: Props) {
+  const t      = useTranslations('products');
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  const canManageProducts = useCan('canManageProducts');
+
+  const mutation = useDeleteProduct(storeId, productId, {
+    onSuccess: () => {
+      toast.success(t('form.deleteSuccess'));
+      setOpen(false);
+      router.push(ROUTES.store(storeId).products.list());
+    },
+    onError: () => {
+      toast.error(t('form.deleteError'));
+    },
+  });
+
+  if (!canManageProducts) return null;
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      {/* ✅ Standard Radix DialogTrigger — no render prop */}
+      <DialogTrigger asChild>
+        <Button variant="destructive" size="sm">
+          {t('form.delete')}
+        </Button>
+      </DialogTrigger>
+
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t('form.delete')}</DialogTitle>
+          <DialogDescription>
+            {t('form.deleteConfirm')}
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            {t('cancel')}
+          </Button>
+          <Button
+            variant="destructive"
+            onClick={() => mutation.mutate()}
+            disabled={mutation.isPending}
+          >
+            {mutation.isPending ? t('loading') : t('delete')}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+---
+
+### Fix 11: `src/lib/products/__tests__/buildCreatePayload.test.ts` — Fix `media` key (`images` → `media`)
+
+The schema uses `CreateProductMediaData { media: ProductImage[] }` but the old test used `images`. Update the fixture:
+
+```typescript
+function makeState(
+  overrides: Partial<CreateProductWizardState> = {},
+): CreateProductWizardState {
+  return {
+    content: {
+      status:       'draft',
+      categoryId:   null,
+      categoryName: null,
+      brandId:      null,
+      brandName:    null,
+      isFeatured:   false,
+      translations: {
+        en: {
+          locale:          'en',
+          name:            'Test Product',
+          slug:            'test-product',
+          description:     'A description',
+          seo_title:       null,
+          seo_description: null,
+        },
+      },
+    },
+    structure: {
+      options: [
+        {
+          id:       1,
+          name:     'Color',
+          position: 1,
+          values: [
+            { id: 10, value: 'Red' },
+            { id: 11, value: 'Blue' },
+          ],
+        },
+      ],
+      variants: [
+        makeVariant({
+          id:       -1,
+          sku:      'RED-DEFAULT',
+          price:    29.99,
+          quantity: 5,
+          options:  [{ option_name: 'Color', option_value: 'Red' }],
+        }),
+        makeVariant({
+          id:       -2,
+          sku:      null,
+          price:    29.99,
+          quantity: 0,
+          options:  [{ option_name: 'Color', option_value: 'Blue' }],
+        }),
+      ],
+    },
+    media: { media: [] },  // ✅ key is 'media' not 'images'
+    tags:  [],
+    ...overrides,
+  };
+}
+```
+
+---
+
+### Fix 12: `src/components/shared/create-product/CreateProductMediaStep.tsx` — Fix wrong key
+
+```typescript
+'use client';
+
+import { useTranslations } from 'next-intl';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { MediaTab }        from '@/app/[locale]/(admin)/stores/[storeId]/products/[productId]/_components/_tabs/MediaTab';
+import type { ProductImage }           from '@/types/product';
+import type { CreateProductMediaData } from '@/schemas/products';
+
+interface Props {
+  media:    CreateProductMediaData;
+  onChange: (next: CreateProductMediaData) => void;
+}
+
+export function CreateProductMediaStep({ media, onChange }: Props) {
+  const t = useTranslations('products');
+
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('editor.tabs.media')}</CardTitle>
+        </CardHeader>
+        <CardContent className="pt-0">
+          {/*
+           * MediaTab works with ProductImage[].
+           * CreateProductMediaData stores images under the 'media' key.
+           * We bridge the two here.
+           */}
+          <MediaTab
+            images={media.media}
+            onChange={(next: ProductImage[]) => onChange({ media: next })}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+```
+
+---
+
+## Complete Gap Summary
+
+| # | Gap | Files changed |
+|---|-----|---------------|
+| 1 | `AdminProduct` missing `tags` field | `types/product.ts` |
+| 2 | `ProductDetailView` missing `tags` field | `types/product.ts` |
+| 3 | `ProductEditorState` missing `tags`, `isFeatured` optional→required | `types/product-editor.ts` |
+| 4 | `mapProductDetail` doesn't extract tags | `lib/mappers/products.ts` |
+| 5 | `buildEditorState` doesn't carry tags | `lib/products/buildEditorState.ts` |
+| 6 | `buildContentPayload` doesn't send tags or isFeatured correctly | `lib/products/buildContentPayload.ts` |
+| 7 | `useSaveProductContent` doesn't accept/pass tags | `hooks/products/useSaveProductContent.ts` |
+| 8 | `ContentTab` missing category, brand, isFeatured, tags | `_tabs/ContentTab.tsx` |
+| 9 | `EditProductForm` missing tags state, wrong `ContentTab` props, wrong media save call | `EditProductForm.tsx` |
+| 10 | `DeleteProductButton` uses Base UI `render` prop instead of Radix `asChild` | `DeleteProductButton.tsx` |
+| 11 | `buildDiscardState` missing tags | `EditProductForm.tsx` |
+| 12 | Test fixture wrong `media` key (`images` vs `media`) | `buildCreatePayload.test.ts` |
+| 13 | `CreateProductMediaStep` wrong key (`media.media` bridge) | `CreateProductMediaStep.tsx` |

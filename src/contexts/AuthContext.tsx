@@ -84,9 +84,12 @@ export function AuthProvider({ children, initialUser = null }: AuthProviderProps
    * Hydrate user on mount if not provided initially.
    */
   useEffect(() => {
-    if (!initialUser) {
-      refreshUser();
-    }
+    const bootstrapAuth = async () => {
+      if (!initialUser) {
+        await refreshUser();
+      }
+    };
+    bootstrapAuth();
   }, [initialUser, refreshUser]);
 
   /**

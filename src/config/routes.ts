@@ -10,12 +10,22 @@
  */
 
 export const ROUTES = {
+  marketing: {
+    home: () => '/' as const,
+    pricing: () => '/pricing' as const,
+    features: () => '/features' as const,
+  },
   auth: {
     login:  () => '/login' as const,
     logout: () => '/logout' as const,
+    signup: () => '/signup' as const,
+  },
+  onboarding: {
+    home: () => '/onboarding' as const,
+    createStore: () => '/create-store' as const,
   },
   stores: {
-    new: () => '/stores/new' as const,
+    new: () => '/create-store' as const, // Aliased to the onboarding route
   },
   store: (storeId: string) => ({
     dashboard: () => `/stores/${storeId}/dashboard` as const,
@@ -149,6 +159,15 @@ export const API_ROUTES = {
       refund:       (orderId: string) =>
         `/api/v1/admin/stores/${storeId}/orders/${orderId}/refund`,
     }),
-
   }),
 } as const;
+
+/**
+ * Context-aware route helper (PREPARATION for storeId removal from URL).
+ * In the future, this will use the active store from context/session
+ * instead of requiring an explicit storeId.
+ * 
+ * Usage in hooks/components:
+ * const routes = useActiveStoreRoutes(currentStoreId);
+ */
+export const useActiveStoreRoutes = (storeId: string) => ROUTES.store(storeId);

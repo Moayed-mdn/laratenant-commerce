@@ -240,7 +240,12 @@
         "noBrandOption": "No brand",
         "isFeatured": "Featured product",
         "isFeaturedHint": "Featured products are highlighted in the storefront.",
-        "loading": "Loading..."
+        "loading": "Loading...",
+        "tags": "Tags",
+        "tagsPlaceholder": "Select tags",
+        "tagsSelected": "{count} selected",
+        "tagsSearch": "Search tags...",
+        "tagsEmpty": "No tags found."
       },
       "status": {
         "active": "Active",
@@ -287,6 +292,12 @@
         "seo": "SEO"
       },
       "unsavedChanges": "You have unsaved changes.",
+      "media": {
+        "column": "Media",
+        "add": "Add",
+        "dialogTitle": "{variant} — Images",
+        "noImages": "No images yet. Add a URL above."
+      },
       "seoPlaceholder": "SEO section will be added in a later phase.",
       "shared": {
         "yes": "Yes",
@@ -294,6 +305,7 @@
         "duplicate": "Duplicate",
         "copy": "Copy"
       },
+      "isFeatured": "Featured product",
       "general": {
         "featured": "Featured"
       },
@@ -305,7 +317,8 @@
         "quantity": "Quantity",
         "editVariant": "Edit variant",
         "searchVariants": "Search variants...",
-        "addVariant": "Add variant"
+        "addVariant": "Add variant",
+        "active": "Active"
       },
       "attributes": {
         "attributeName": "Attribute name",
@@ -348,7 +361,11 @@
         "imagesHint": "Manage images, ordering, and alt text.",
         "altText": "Alt text",
         "moveUp": "Move up",
-        "moveDown": "Move down"
+        "moveDown": "Move down",
+        "imageUrl": "Image URL",
+        "imageUrlPlaceholder": "https://...",
+        "addImage": "Add image",
+        "removeImage": "Remove image"
       }
     },
     "detail": {
@@ -360,6 +377,7 @@
       "steps": {
         "content": "Content",
         "structure": "Structure",
+        "media": "Media",
         "review": "Review"
       },
       "review": {
@@ -371,7 +389,17 @@
         "variantsCount": "{count, plural, one {# variant} other {# variants}}",
         "noVariants": "No variants defined — a default variant will be created.",
         "noOptions": "No options defined — product has a single default variant.",
-        "noTranslations": "No translations defined."
+        "noTranslations": "No translations defined.",
+        "tagsCount": "{count, plural, one {# tag} other {# tags}}",
+        "noTags": "No tags defined.",
+        "imagesCount": "{count, plural, one {# image} other {# images}}",
+        "noImages": "No images defined.",
+        "defaultVariant": "Default variant",
+        "variantsMore": "+ {count} more",
+        "variantMedia": "Variant Media",
+        "variantsWithMedia": "{count, plural, one {# variant} other {# variants}} · {images, plural, one {# image} other {# images}}",
+        "variantsFallback": "{count, plural, one {# variant uses} other {# variants use}} product media",
+        "noVariantMedia": "No variant-specific media"
       }
     }
   },
@@ -494,7 +522,11 @@
         "translationSlug": "URL slug",
         "slugPlaceholder": "e.g. clothing",
         "sortOrder": "Sort order",
-        "isActive": "Active"
+        "isActive": "Active",
+        "noParent": "No parent",
+        "searchParent": "Search parent category...",
+        "noCategoriesFound": "No categories found.",
+        "loading": "Loading..."
       },
       "create": "Create category",
       "creating": "Creating...",

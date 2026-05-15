@@ -1,8 +1,11 @@
 .
 ├── add_category_brand_featured.sh
 ├── AGENTS.md
+├── Apply-create-parity.sh
+├── apply-fixes.sh
 ├── CLAUDE.md
 ├── components.json
+├── dix-diallog-trig.sh
 ├── docs
 │   ├── architecture
 │   │   ├── auth.md
@@ -52,11 +55,15 @@
 │       └── hydration.md
 ├── empty_file
 ├── eslint.config.mjs
+├── fix-edit-product-parity.sh
+├── fixes.text
 ├── fix_schema_type_conflict.sh
 ├── fix_select_querykeys_payload.sh
 ├── fix_structure_step_types.sh
 ├── fix_ts_errors.sh
+├── fix-variant-media.sh
 ├── jest.config.js
+├── job.text
 ├── migrate_create_product_wizard.sh
 ├── migrate_frontend_product_architecture.sh
 ├── next.config.ts
@@ -69,6 +76,7 @@
 ├── part4.sh
 ├── part5.sh
 ├── postcss.config.mjs
+├── project-tree.txt
 ├── public
 │   ├── file.svg
 │   ├── globe.svg
@@ -100,7 +108,6 @@
 │   │       │   │   ├── AuthInitializer.tsx
 │   │       │   │   ├── MobileNav.tsx
 │   │       │   │   ├── sidebar
-│   │       │   │   │   ├── project-tree.txt
 │   │       │   │   │   ├── SidebarNavItem.tsx
 │   │       │   │   │   ├── SidebarNav.tsx
 │   │       │   │   │   └── Sidebar.tsx
@@ -186,6 +193,9 @@
 │   │       │           │   │   ├── ProductsSkeleton.tsx
 │   │       │           │   │   ├── ProductsTable.tsx
 │   │       │           │   │   └── ProductStatusBadge.tsx
+│   │       │           │   ├── create
+│   │       │           │   │   └── _components
+│   │       │           │   │       └── CreateProductForm.tsx
 │   │       │           │   ├── new
 │   │       │           │   │   ├── _components
 │   │       │           │   │   │   └── CreateProductForm.tsx
@@ -215,8 +225,44 @@
 │   │       │           │       │   │   ├── status-select-contract.test.ts
 │   │       │           │       │   │   └── structure-save-regeneration.test.ts
 │   │       │           │       │   ├── TranslationForm.tsx
-│   │       │           │       │   └── TranslationStatusBadge.tsx
+│   │       │           │       │   ├── TranslationStatusBadge.tsx
+│   │       │           │       │   └── VariantMediaDialog.tsx
 │   │       │           │       └── page.tsx
+│   │       │           ├── src
+│   │       │           │   ├── app
+│   │       │           │   │   └── [locale]
+│   │       │           │   │       └── (admin)
+│   │       │           │   │           └── stores
+│   │       │           │   │               └── [storeId]
+│   │       │           │   │                   └── tags
+│   │       │           │   │                       ├── _components
+│   │       │           │   │                       ├── new
+│   │       │           │   │                       │   └── _components
+│   │       │           │   │                       └── [tagId]
+│   │       │           │   │                           └── edit
+│   │       │           │   │                               └── _components
+│   │       │           │   └── hooks
+│   │       │           │       └── tags
+│   │       │           ├── tags
+│   │       │           │   ├── _components
+│   │       │           │   │   ├── TagFilters.tsx
+│   │       │           │   │   ├── TagsContent.tsx
+│   │       │           │   │   ├── TagsSkeleton.tsx
+│   │       │           │   │   ├── TagsTable.tsx
+│   │       │           │   │   └── TagStatusBadge.tsx
+│   │       │           │   ├── new
+│   │       │           │   │   ├── _components
+│   │       │           │   │   │   └── CreateTagForm.tsx
+│   │       │           │   │   └── page.tsx
+│   │       │           │   ├── page.tsx
+│   │       │           │   └── [tagId]
+│   │       │           │       └── edit
+│   │       │           │           ├── _components
+│   │       │           │           │   ├── DeleteTagButton.tsx
+│   │       │           │           │   ├── EditTagContent.tsx
+│   │       │           │           │   ├── EditTagForm.tsx
+│   │       │           │           │   └── EditTagSkeleton.tsx
+│   │       │           │           └── page.tsx
 │   │       │           └── users
 │   │       │               ├── _components
 │   │       │               │   ├── UserFilters.tsx
@@ -256,20 +302,25 @@
 │   │   │       ├── BrandSelect.tsx
 │   │   │       ├── CategorySelect.tsx
 │   │   │       ├── CreateProductContentStep.tsx
+│   │   │       ├── CreateProductMediaStep.tsx
 │   │   │       ├── CreateProductReviewStep.tsx
 │   │   │       ├── CreateProductStructureStep.tsx
 │   │   │       ├── CreateProductWizard.tsx
-│   │   │       └── part5.sh
+│   │   │       ├── part5.sh
+│   │   │       └── TagSelect.tsx
 │   │   └── ui
 │   │       ├── avatar.tsx
 │   │       ├── badge.tsx
 │   │       ├── breadcrumb.tsx
 │   │       ├── button.tsx
 │   │       ├── card.tsx
+│   │       ├── command.tsx
 │   │       ├── dialog.tsx
 │   │       ├── dropdown-menu.tsx
+│   │       ├── input-group.tsx
 │   │       ├── input.tsx
 │   │       ├── label.tsx
+│   │       ├── popover.tsx
 │   │       ├── select.tsx
 │   │       ├── separator.tsx
 │   │       ├── sheet.tsx
@@ -321,8 +372,15 @@
 │   │   │   ├── useProductDetail.ts
 │   │   │   ├── useProducts.ts
 │   │   │   ├── useSaveProductContent.ts
+│   │   │   ├── useSaveProductMedia.ts
 │   │   │   ├── useSaveProductStructure.ts
 │   │   │   └── useUpdateProduct.ts
+│   │   ├── tags
+│   │   │   ├── useCreateTag.ts
+│   │   │   ├── useDeleteTag.ts
+│   │   │   ├── useTagDetail.ts
+│   │   │   ├── useTags.ts
+│   │   │   └── useUpdateTag.ts
 │   │   ├── __tests__
 │   │   │   └── useUnsavedChangesGuard.test.ts
 │   │   ├── users
@@ -352,6 +410,7 @@
 │   │   │   │   └── admin
 │   │   │   ├── server.ts
 │   │   │   ├── stores.ts
+│   │   │   ├── tags.ts
 │   │   │   └── users.ts
 │   │   ├── auth
 │   │   ├── filters
@@ -366,12 +425,14 @@
 │   │   │   ├── orders.ts
 │   │   │   ├── pagination.ts
 │   │   │   ├── products.ts
+│   │   │   ├── tags.ts
 │   │   │   └── users.ts
 │   │   ├── navigation.ts
 │   │   ├── products
 │   │   │   ├── buildContentPayload.ts
 │   │   │   ├── buildCreatePayload.ts
 │   │   │   ├── buildEditorState.ts
+│   │   │   ├── buildMediaPayload.ts
 │   │   │   ├── buildStructurePayload.ts
 │   │   │   ├── deriveOptionsFromVariants.ts
 │   │   │   ├── generateVariants.ts
@@ -404,6 +465,7 @@
 │   │   ├── categories.ts
 │   │   ├── orders.ts
 │   │   ├── products.ts
+│   │   ├── tags.ts
 │   │   └── users.ts
 │   ├── stores
 │   │   ├── authStore.ts
@@ -420,9 +482,389 @@
 │       ├── product-editor.ts
 │       ├── product.ts
 │       ├── store.ts
+│       ├── tag.ts
 │       └── user.ts
 ├── tailwind.config.ts
 ├── tsconfig.json
 └── tsconfig.tsbuildinfo
 
-111 directories, 315 files
+136 directories, 353 files
+
+
+
+THE JOB :
+
+We’re now holding all the pieces. The existing architecture is cleanly layered—types, schemas, API client, hooks, query keys, route helpers, and shadcn/ui components all follow consistent patterns. The `Command` and `Popover` primitives are already in place and match the recommended “Popover + Command” pattern from shadcn.
+
+Here’s the implementation plan, followed by the full code.
+
+---
+
+## Plan
+
+1. **Create a new shared component**  
+   `ParentCategorySelect` – a Popover-triggered Command list that:
+   - fetches categories via the existing `useCategories` hook (reusing the same API endpoint, query key, and hook)
+   - builds an ordered, indented tree view from the flat `parent_id` list
+   - provides a clear “No parent” option (`null` value)
+   - accepts an `excludeIds` prop to prevent self/descendant selection in edit mode
+   - handles loading, empty, and search states
+
+2. **Add helper functions**  
+   `buildCategoryTree` and `getDescendantIds` – pure functions that work on the already‑mapped `CategoryListItemView` array. No new API calls.
+
+3. **Update the forms**
+   - **Create**: add the new selector in the right sidebar, wired via `setValue` (same pattern as the `Switch`).
+   - **Edit**: replace the read‑only parent card with the selector, compute `excludeIds` from all categories (active + inactive) to avoid cycles.
+
+4. **Add translation keys** under the `categories` namespace.
+
+---
+
+## 1. New component: `ParentCategorySelect`
+
+**Location:** `src/components/shared/categories/ParentCategorySelect.tsx`  
+(or inside `_components` of the categories section – choose whatever matches your project’s convention)
+
+```tsx
+'use client';
+
+import * as React from 'react';
+import { useTranslations } from 'next-intl';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { useCategories } from '@/hooks/categories/useCategories';
+import { Button } from '@/components/ui/button';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import type { CategoryListItemView } from '@/types/category';
+
+// ── Helpers ──────────────────────────────────────────────────────────────
+
+/**
+ * Build a sorted, indented list from a flat category array.
+ * Returns { id, name, depth } ordered so that parents appear before children.
+ */
+function buildCategoryTree(
+  categories: CategoryListItemView[],
+): { id: number; name: string; depth: number }[] {
+  // Create a map of id -> category and a children map
+  const byId = new Map<number, CategoryListItemView>();
+  const childrenMap = new Map<number | null, number[]>();
+
+  for (const cat of categories) {
+    byId.set(cat.id, cat);
+    const parentKey = cat.parentId;
+    if (!childrenMap.has(parentKey)) {
+      childrenMap.set(parentKey, []);
+    }
+    childrenMap.get(parentKey)!.push(cat.id);
+  }
+
+  const result: { id: number; name: string; depth: number }[] = [];
+
+  function traverse(parentId: number | null, depth: number) {
+    const children = childrenMap.get(parentId) ?? [];
+    // Sort by sort_order then id for deterministic order
+    const sorted = children
+      .map((id) => byId.get(id)!)
+      .filter(Boolean)
+      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0) || a.id - b.id);
+
+    for (const cat of sorted) {
+      result.push({ id: cat.id, name: cat.name, depth });
+      traverse(cat.id, depth + 1);
+    }
+  }
+
+  traverse(null, 0);
+  return result;
+}
+
+/**
+ * Recursively collect all descendant IDs for a given category.
+ */
+export function getDescendantIds(
+  categories: CategoryListItemView[],
+  rootId: number,
+): number[] {
+  const childrenMap = new Map<number, number[]>();
+  for (const cat of categories) {
+    const pid = cat.parentId;
+    if (pid !== null) {
+      if (!childrenMap.has(pid)) childrenMap.set(pid, []);
+      childrenMap.get(pid)!.push(cat.id);
+    }
+  }
+
+  const result: number[] = [];
+  const stack = [rootId];
+  while (stack.length > 0) {
+    const current = stack.pop()!;
+    const children = childrenMap.get(current) ?? [];
+    for (const child of children) {
+      result.push(child);
+      stack.push(child);
+    }
+  }
+  return result;
+}
+
+// ── Props ────────────────────────────────────────────────────────────────
+
+interface ParentCategorySelectProps {
+  storeId: string;
+  value: number | null;
+  onChange: (value: number | null) => void;
+  excludeIds?: number[];
+  disabled?: boolean;
+}
+
+// ── Component ────────────────────────────────────────────────────────────
+
+export function ParentCategorySelect({
+  storeId,
+  value,
+  onChange,
+  excludeIds = [],
+  disabled = false,
+}: ParentCategorySelectProps) {
+  const t = useTranslations('categories');
+  const [open, setOpen] = React.useState(false);
+
+  // Fetch active categories with a high perPage to get all (matches CategorySelect pattern)
+  const { data, isLoading } = useCategories(storeId, {
+    is_active: 'true',
+    page: 1,
+    perPage: 1000,
+  });
+
+  const allCategories = data?.data ?? [];
+
+  // Build tree, exclude forbidden IDs
+  const tree = React.useMemo(() => {
+    const filtered = allCategories.filter((c) => !excludeIds.includes(c.id));
+    return buildCategoryTree(filtered);
+  }, [allCategories, excludeIds]);
+
+  const selectedName = React.useMemo(() => {
+    if (value === null) return t('form.fields.noParent');
+    return allCategories.find((c) => c.id === value)?.name ?? String(value);
+  }, [value, allCategories, t]);
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          disabled={disabled || isLoading}
+          className="w-full justify-between"
+        >
+          <span className="truncate">
+            {isLoading ? t('form.fields.loading') : selectedName}
+          </span>
+          <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+        <Command>
+          <CommandInput placeholder={t('form.fields.searchParent')} />
+          <CommandList>
+            <CommandEmpty>{t('form.fields.noCategoriesFound')}</CommandEmpty>
+            <CommandGroup>
+              {/* No parent option */}
+              <CommandItem
+                value="__no_parent__"
+                onSelect={() => {
+                  onChange(null);
+                  setOpen(false);
+                }}
+                className="cursor-pointer"
+              >
+                <Check
+                  className={cn(
+                    'mr-2 size-4',
+                    value === null ? 'opacity-100' : 'opacity-0',
+                  )}
+                />
+                {t('form.fields.noParent')}
+              </CommandItem>
+
+              {tree.map((item) => (
+                <CommandItem
+                  key={item.id}
+                  value={item.name} // searchable by name
+                  onSelect={() => {
+                    onChange(item.id);
+                    setOpen(false);
+                  }}
+                  className="cursor-pointer"
+                >
+                  <div
+                    className="flex items-center"
+                    style={{ paddingLeft: item.depth * 16 }}
+                  >
+                    <Check
+                      className={cn(
+                        'mr-2 size-4 shrink-0',
+                        value === item.id ? 'opacity-100' : 'opacity-0',
+                      )}
+                    />
+                    <span className="truncate">{item.name}</span>
+                  </div>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
+  );
+}
+```
+
+---
+
+## 2. Update Create Form
+
+**File:** `src/app/[locale]/(admin)/stores/[storeId]/categories/new/_components/CreateCategoryForm.tsx`
+
+Add the import and replace the right sidebar Card with one that includes the parent selector:
+
+```tsx
+// Add imports
+import { ParentCategorySelect } from '@/components/shared/categories/ParentCategorySelect';
+
+// Inside the component, right after the existing <Card> (or as a new Card)
+<Card>
+  <CardHeader>
+    <CardTitle>{t('form.parentCategory')}</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <ParentCategorySelect
+      storeId={storeId}
+      value={watch('parent_id')}
+      onChange={(val) => setValue('parent_id', val, { shouldDirty: true })}
+    />
+    {errors.parent_id && (
+      <p className="text-sm text-destructive mt-2">{errors.parent_id.message}</p>
+    )}
+  </CardContent>
+</Card>
+```
+
+The schema already accepts `parent_id: z.number().nullable()`, so no schema change needed.
+
+---
+
+## 3. Update Edit Form
+
+**File:** `src/app/[locale]/(admin)/stores/[storeId]/categories/[categoryId]/edit/_components/EditCategoryForm.tsx`
+
+We need to:
+- import `ParentCategorySelect` and `getDescendantIds`
+- fetch all categories (including inactive) to compute descendants
+- compute `excludeIds`
+- replace the read-only parent card with the selector
+
+```tsx
+// New imports
+import { useCategories } from '@/hooks/categories/useCategories';
+import { ParentCategorySelect, getDescendantIds } from '@/components/shared/categories/ParentCategorySelect';
+import { Skeleton } from '@/components/ui/skeleton';
+
+// Inside component, after hooks
+const t = useTranslations('categories');
+const update = useUpdateCategory(storeId, categoryId);
+
+// Fetch all categories to compute descendant exclusion
+const { data: allCategoriesData, isLoading: isAllLoading } = useCategories(storeId, {
+  is_active: 'all',
+  page: 1,
+  perPage: 1000,
+});
+const allCategories = allCategoriesData?.data ?? [];
+
+const excludeIds = React.useMemo(() => {
+  const descendants = getDescendantIds(allCategories, category.id);
+  return [category.id, ...descendants];
+}, [allCategories, category.id]);
+
+// Then in the right sidebar, replace the read-only parent card:
+{/* Parent selector */}
+<Card>
+  <CardHeader>
+    <CardTitle>{t('form.parentCategory')}</CardTitle>
+  </CardHeader>
+  <CardContent>
+    {isAllLoading ? (
+      <Skeleton className="h-10 w-full" />
+    ) : (
+      <ParentCategorySelect
+        storeId={storeId}
+        value={watch('parent_id')}
+        onChange={(val) => setValue('parent_id', val, { shouldDirty: true })}
+        excludeIds={excludeIds}
+      />
+    )}
+    {errors.parent_id && (
+      <p className="text-sm text-destructive mt-2">{errors.parent_id.message}</p>
+    )}
+  </CardContent>
+</Card>
+```
+
+Also remove the previous read-only parent card (the one starting with `{category.parent && (`).
+
+---
+
+## 4. Translation keys
+
+Add these to `src/locales/en/common.json` and `ar/common.json` under the `categories` section:
+
+**en/common.json**
+```json
+"categories": {
+  ...
+  "form": {
+    ...
+    "fields": {
+      "noParent": "No parent (top-level category)",
+      "searchParent": "Search categories...",
+      "noCategoriesFound": "No categories found.",
+      "loading": "Loading…",
+      "parentCategory": "Parent Category"
+    }
+  }
+}
+```
+
+**ar/common.json** – corresponding Arabic translations.
+
+---
+
+## 5. Rationale & adherence to constraints
+
+- **No new endpoints** – reused the single `GET /categories` endpoint, exactly as the existing `CategorySelect` does.
+- **No new hooks** – `useCategories` is reused directly.
+- **No re‑architecture** – the forms still use `react-hook-form` with `setValue`/`watch`; the new component is self‑contained.
+- **shadcn/ui** – uses `Popover` + `Command` (already in the project) with the exact same styling patterns.
+- **Cycle prevention** – in edit mode, we exclude the category itself and all descendants by computing from the full flat list.
+- **Hierarchical display** – categories are indented by depth (16px per level) and sorted so parents always appear before children.
+- **Searchable** – `CommandInput` provides fuzzy filtering on category names.
+- **Loading & empty states** – handled with disabled button + skeleton (edit) or loading placeholder, and `CommandEmpty`.
+
+This integrates cleanly into your existing codebase without touching backend, global state, or form architecture.

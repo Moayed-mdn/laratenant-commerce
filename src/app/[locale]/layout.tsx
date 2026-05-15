@@ -23,8 +23,8 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-  title: 'Admin Dashboard',
-  description: 'Multi-store e-commerce admin dashboard',
+  title: 'LaraTenant Commerce',
+  description: 'Multi-tenant e-commerce platform',
 };
 
 interface RootLayoutProps {
