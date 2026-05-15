@@ -19,13 +19,8 @@ const searchParamsCache = createSearchParamsCache({
   perPage: parseAsInteger.withDefault(10),
 });
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ storeId: string; locale: string }>;
-}) {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'products' });
+export async function generateMetadata() {
+  const t = await getTranslations('products');
 
   return {
     title: t('title'),

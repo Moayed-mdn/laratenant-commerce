@@ -12,10 +12,10 @@ import { EditProductSkeleton } from '@/features/products/editor/components/EditP
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ storeId: string; productId: string; locale: string }>;
+  params: Promise<{ productId: string }>;
 }) {
-  const { locale, productId } = await params;
-  const t = await getTranslations({ locale, namespace: 'products' });
+  const { productId } = await params;
+  const t = await getTranslations('products');
 
   return {
     title: `${t('form.editTitle')} #${productId}`,

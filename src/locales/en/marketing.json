@@ -1,0 +1,296 @@
+{
+  "meta": {
+    "home": {
+      "title": "Multi-Tenant Ecommerce Platform",
+      "description": "Launch and manage your ecommerce business with a scalable multi-tenant commerce platform built for modern brands and merchants."
+    },
+    "pricing": {
+      "title": "Simple, Transparent Pricing",
+      "description": "Choose a plan that fits your business. Scale your stores, products, and orders as you grow."
+    },
+    "features": {
+      "title": "Platform Features",
+      "description": "Explore the tools that help merchants manage stores, products, orders, and growth from a unified dashboard."
+    },
+    "enterprise": {
+      "title": "Enterprise Commerce Solutions",
+      "description": "Scalable commerce infrastructure for large brands, agencies, and multi-brand operators."
+    },
+    "templates": {
+      "title": "Store Templates",
+      "description": "Launch faster with professionally designed store templates built for modern ecommerce."
+    }
+  },
+
+  "home": {
+    "hero": {
+      "badge": "Multi-Tenant Commerce Platform",
+      "headline": "Run Multiple Stores From One Platform",
+      "subtext": "Manage products, orders, and stores from a unified commerce dashboard. Built for merchants who operate at scale.",
+      "primaryCta": "Start Selling",
+      "secondaryCta": "View Demo",
+      "previewAlt": "LaraTenant Commerce admin dashboard showing store overview, recent orders, and analytics"
+    },
+
+    "logos": {
+      "label": "Trusted by merchants worldwide"
+    },
+
+    "features": {
+      "eyebrow": "Platform Capabilities",
+      "heading": "Everything You Need to Operate at Scale",
+      "subtitle": "A complete commerce platform for merchants managing multiple stores, brands, and markets.",
+      "items": {
+        "multi-store": {
+          "title": "Multi-Store Management",
+          "description": "Operate multiple storefronts from a single dashboard. Each store is independently configurable with its own products, orders, and settings."
+        },
+        "orders": {
+          "title": "Order Management",
+          "description": "Track, process, and fulfill orders across all your stores. Centralized order workflows reduce operational overhead."
+        },
+        "products": {
+          "title": "Product Catalog",
+          "description": "Manage products, variants, inventory, and pricing across your entire catalog with structured, scalable tooling."
+        },
+        "analytics": {
+          "title": "Analytics Dashboard",
+          "description": "Understand store performance, sales trends, and merchant activity through clear, actionable data."
+        },
+        "localization": {
+          "title": "Localization Support",
+          "description": "Operate across markets with built-in multi-language and multi-currency support. RTL layouts included."
+        },
+        "permissions": {
+          "title": "Role-Based Permissions",
+          "description": "Control access at a granular level. Assign roles to team members and define exactly what they can see and do."
+        },
+        "performance": {
+          "title": "Performance First",
+          "description": "Built on modern infrastructure with fast load times, optimized rendering, and reliable uptime at every scale."
+        },
+        "api": {
+          "title": "API Access",
+          "description": "Integrate your existing tools and workflows through a structured API. Extend the platform without friction."
+        }
+      }
+    },
+
+    "showcase": {
+      "heading": "A Dashboard Built for Merchant Productivity",
+      "subtext": "Every workflow in LaraTenant Commerce is designed to reduce friction. From store setup to order fulfillment, your team works faster from day one.",
+      "cta": "Start Selling",
+      "previewAlt": "LaraTenant Commerce dashboard showing product management and order processing workflow"
+    },
+
+    "testimonials": {
+      "eyebrow": "Merchant Stories",
+      "heading": "Merchants Who Operate Smarter",
+      "items": {
+        "merchant-a": {
+          "quote": "Managing three stores used to mean three separate systems. LaraTenant Commerce brought everything into one place and cut our operational time significantly.",
+          "authorName": "Sara Al-Mansouri",
+          "authorRole": "Head of Ecommerce",
+          "authorCompany": "Retail Operations"
+        },
+        "merchant-b": {
+          "quote": "The multi-currency and localization support was the deciding factor for us. We operate across four markets and needed a platform that could handle that from day one.",
+          "authorName": "James Okafor",
+          "authorRole": "Founder",
+          "authorCompany": "Cross-Border Commerce"
+        },
+        "merchant-c": {
+          "quote": "The permissions system is exactly what we needed. Different team members have access to exactly what they need — nothing more, nothing less.",
+          "authorName": "Layla Hassan",
+          "authorRole": "Operations Manager",
+          "authorCompany": "Multi-Brand Group"
+        },
+        "merchant-d": {
+          "quote": "Setup was straightforward and the dashboard is clean. Our team was fully operational within a day.",
+          "authorName": "Carlos Mendez",
+          "authorRole": "Store Owner",
+          "authorCompany": "Independent Brand"
+        },
+        "merchant-e": {
+          "quote": "Order management across multiple stores is where this platform really shines. Everything is centralized and the workflows make sense.",
+          "authorName": "Priya Nair",
+          "authorRole": "Ecommerce Director",
+          "authorCompany": "D2C Brands"
+        },
+        "merchant-f": {
+          "quote": "We evaluated several platforms. LaraTenant Commerce was the only one that handled multi-store operations without requiring custom development.",
+          "authorName": "Ahmed Al-Rashid",
+          "authorRole": "CTO",
+          "authorCompany": "Commerce Group"
+        }
+      }
+    },
+
+    "pricing": {
+      "eyebrow": "Pricing",
+      "heading": "Simple Pricing. Serious Scale.",
+      "subtitle": "Start with what you need. Upgrade as your business grows."
+    },
+
+    "faq": {
+      "eyebrow": "FAQ",
+      "heading": "Common Questions",
+      "items": {
+        "what-is-laratenant": {
+          "question": "What is LaraTenant Commerce?",
+          "answer": "LaraTenant Commerce is a multi-tenant ecommerce platform that lets merchants manage multiple stores, products, orders, and teams from a single unified dashboard. It is built for growing brands that need operational control without operational complexity."
+        },
+        "multi-store-support": {
+          "question": "Can I manage multiple stores from one account?",
+          "answer": "Yes. Multi-store management is a core feature of the platform. Each store is independently configurable with its own product catalog, order management, settings, and team permissions — all accessible from one dashboard."
+        },
+        "localization-support": {
+          "question": "Does the platform support multiple languages and currencies?",
+          "answer": "Yes. LaraTenant Commerce includes built-in localization support with multi-language interfaces, multi-currency pricing, and RTL layout support for Arabic and other right-to-left languages."
+        },
+        "how-to-get-started": {
+          "question": "How do I get started?",
+          "answer": "Create your account, set up your first store, and start adding products. The onboarding flow is designed to get merchants operational quickly without requiring technical knowledge."
+        },
+        "enterprise-options": {
+          "question": "Do you offer enterprise or custom plans?",
+          "answer": "Yes. Contact our team to discuss custom plans for large brands, agencies, and enterprise operators that need dedicated infrastructure, SLAs, or bespoke integrations."
+        },
+        "data-security": {
+          "question": "How is merchant data protected?",
+          "answer": "All data is stored securely with strict tenant isolation. Each store operates within its own boundary — data from one store is never accessible to another tenant on the platform."
+        }
+      }
+    },
+
+    "cta": {
+      "title": "Ready to Manage Your Stores Smarter?",
+      "description": "Join merchants who manage products, orders, and storefronts from a single, unified commerce platform.",
+      "primaryCta": "Start Selling",
+      "secondaryCta": "View Demo"
+    }
+  },
+
+  "pricing": {
+    "eyebrow": "Pricing",
+    "heading": "Simple, Transparent Pricing",
+    "subtitle": "No hidden fees. No lock-in. Scale your plan as your business grows.",
+
+    "toggle": {
+      "monthly": "Monthly",
+      "annual": "Annual",
+      "badge": "Save 17%"
+    },
+
+    "plans": {
+      "starter": {
+        "name": "Starter",
+        "description": "For merchants launching their first store and getting started with online selling.",
+        "cta": "Start Selling"
+      },
+      "growth": {
+        "name": "Growth",
+        "description": "For growing brands managing multiple stores and scaling their operations.",
+        "cta": "Start Selling"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "For large brands and agencies that need custom infrastructure and dedicated support.",
+        "cta": "Contact Sales"
+      }
+    },
+
+    "features": {
+      "stores1": "1 store",
+      "stores5": "Up to 5 stores",
+      "storesUnlimited": "Unlimited stores",
+      "products500": "Up to 500 products",
+      "productsUnlimited": "Unlimited products",
+      "orders1k": "Up to 1,000 orders/month",
+      "orders10k": "Up to 10,000 orders/month",
+      "ordersUnlimited": "Unlimited orders",
+      "analytics": "Analytics dashboard",
+      "localization": "Localization and RTL support",
+      "multiCurrency": "Multi-currency pricing",
+      "apiAccess": "API access",
+      "prioritySupport": "Priority support"
+    },
+
+    "faq": {
+      "eyebrow": "Pricing FAQ",
+      "heading": "Questions About Pricing",
+      "items": {
+        "free-trial": {
+          "question": "Is there a free trial?",
+          "answer": "Yes. You can explore the platform before committing to a paid plan. No credit card is required to start."
+        },
+        "change-plan": {
+          "question": "Can I change my plan later?",
+          "answer": "Yes. You can upgrade or downgrade your plan at any time. Changes take effect at the start of the next billing cycle."
+        },
+        "annual-discount": {
+          "question": "What is included in the annual discount?",
+          "answer": "Annual plans are billed once per year at a reduced rate equivalent to approximately two months free compared to monthly billing."
+        },
+        "cancel-anytime": {
+          "question": "Can I cancel at any time?",
+          "answer": "Yes. There are no long-term contracts. Cancel your subscription at any time from your account settings."
+        },
+        "payment-methods": {
+          "question": "What payment methods are accepted?",
+          "answer": "We accept major credit and debit cards. Enterprise customers can arrange invoiced billing with their account manager."
+        },
+        "enterprise-custom": {
+          "question": "Can enterprise plans be customized?",
+          "answer": "Yes. Enterprise plans are tailored to your requirements. Contact our team to discuss store limits, order volumes, SLAs, and custom integrations."
+        }
+      }
+    },
+
+    "cta": {
+      "title": "Start Selling Today",
+      "description": "Create your store and start managing products, orders, and growth from a unified platform.",
+      "primaryCta": "Create Your Store",
+      "secondaryCta": "Talk to Sales"
+    }
+  },
+
+  "nav": {
+    "features": "Features",
+    "pricing": "Pricing",
+    "enterprise": "Enterprise",
+    "templates": "Templates",
+    "blog": "Blog",
+    "docs": "Docs"
+  },
+
+  "footer": {
+    "description": "Modern multi-tenant ecommerce infrastructure for growing brands and merchants.",
+    "copyright": "All rights reserved.",
+    "groups": {
+      "product": "Product",
+      "resources": "Resources",
+      "company": "Company"
+    },
+    "links": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "templates": "Templates",
+      "enterprise": "Enterprise",
+      "docs": "Documentation",
+      "blog": "Blog",
+      "about": "About",
+      "contact": "Contact"
+    }
+  },
+
+  "cta": {
+    "startSelling": "Start Selling",
+    "viewDemo": "View Demo",
+    "exploreFeatures": "Explore Features",
+    "viewPricing": "View Pricing",
+    "contactSales": "Contact Sales",
+    "login": "Sign In",
+    "getStarted": "Get Started"
+  }
+}

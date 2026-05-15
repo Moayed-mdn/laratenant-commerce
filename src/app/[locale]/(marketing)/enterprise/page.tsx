@@ -1,6 +1,6 @@
 // =============================================================================
-// Features Page — Reserved
-// Populate when /features marketing page is built.
+// Enterprise Page — Reserved
+// Populate when /enterprise marketing page is built.
 // =============================================================================
 
 import { getTranslations, getLocale } from 'next-intl/server'
@@ -12,18 +12,18 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale()
   return buildPageMetadata({
     locale,
-    title: t('meta.features.title'),
-    description: t('meta.features.description'),
-    path: '/features',
+    title: t('meta.enterprise.title'),
+    description: t('meta.enterprise.description'),
+    path: '/enterprise',
   })
 }
 
-export default async function FeaturesPage() {
+export default async function EnterprisePage() {
   const locale = await getLocale()
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
       <p className="text-muted-foreground">
-        Coming soon — /{locale}/features
+        Coming soon — /{locale}/enterprise
       </p>
     </div>
   )

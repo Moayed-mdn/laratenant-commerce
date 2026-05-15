@@ -12,8 +12,8 @@ export default async function RootPage() {
   switch (appType) {
     case 'dashboard':
       return <DashboardHome />;
-    case 'storefront':
-      return <StorefrontHome />;
+    // case 'storefront':
+    //   return <StorefrontHome />;
     case 'marketing':
     default:
       return <MarketingHome />;

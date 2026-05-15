@@ -16,11 +16,8 @@ interface DashboardPageProps {
 /**
  * Generate metadata for the dashboard page.
  */
-export async function generateMetadata({
-  params,
-}: DashboardPageProps): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'dashboard' });
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('dashboard');
 
   return {
     title: t('title'),
