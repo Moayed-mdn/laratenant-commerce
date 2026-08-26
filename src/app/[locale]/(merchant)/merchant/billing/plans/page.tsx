@@ -6,8 +6,9 @@
 import { getTranslations } from 'next-intl/server';
 import { PlansPageClient } from './PlansPageClient';
 
-export async function generateMetadata({ params }: { params: { locale: string } }) {
-  const t = await getTranslations({ locale: params.locale, namespace: 'billing.plans' });
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'billing.plans' });
   
   return {
     title: t('title'),
