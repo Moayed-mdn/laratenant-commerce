@@ -96,7 +96,7 @@ export default function CreateUserDialog({ storeSlug }: Props) {
               <Input
                 id="name"
                 {...register('name')}
-                placeholder="John Doe"
+                placeholder={t('form.namePlaceholder')}
                 autoComplete="name"
               />
               {errors.name && (

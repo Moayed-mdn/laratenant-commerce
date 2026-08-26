@@ -13,6 +13,7 @@
 // =============================================================================
 
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import SectionContainer from '@/features/marketing/layouts/SectionContainer'
 import type { LogoItem } from '@/features/marketing/types'
@@ -26,9 +27,10 @@ export default function LogoCloudSection({
   items,
   label,
 }: LogoCloudSectionProps) {
+  const t = useTranslations('marketing.sections.logoCloud')
   return (
     <section
-      aria-label="Trusted by merchants"
+      aria-label={t('sectionLabel')}
       className="w-full border-y border-border/50 bg-muted/30 py-12"
     >
       <SectionContainer>
@@ -44,7 +46,7 @@ export default function LogoCloudSection({
             'sm:gap-x-16',
           )}
           role="list"
-          aria-label="Partner and customer logos"
+          aria-label={t('listLabel')}
         >
           {items.length > 0 ? (
             items.map((logo) => (

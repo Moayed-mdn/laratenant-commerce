@@ -17,6 +17,7 @@
 // =============================================================================
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import PricingCard from '@/features/marketing/components/PricingCard'
 import type { PricingInterval, PricingPlan } from '@/features/marketing/types'
@@ -30,25 +31,25 @@ interface PricingToggleProps {
   }
 }
 
-const DEFAULT_LABELS = {
-  monthly: 'Monthly',
-  annual: 'Annual',
-  badge: 'Save 17%',
-}
-
 export default function PricingToggle({
   plans,
   toggleLabel,
 }: PricingToggleProps) {
+  const t = useTranslations('marketing.sections.pricing')
   const [interval, setInterval] = useState<PricingInterval>('monthly')
-  const labels = { ...DEFAULT_LABELS, ...toggleLabel }
+  const defaultLabels = {
+    monthly: t('toggle.monthly'),
+    annual: t('toggle.annual'),
+    badge: t('toggle.badge'),
+  }
+  const labels = { ...defaultLabels, ...toggleLabel }
 
   return (
     <div className="flex flex-col items-center gap-10">
       {/* Toggle group */}
       <div
         role="group"
-        aria-label="Billing interval"
+        aria-label={t('toggle.a11yLabel')}
         className={cn(
           'inline-flex items-center rounded-lg border border-border bg-muted p-1',
         )}

@@ -25,6 +25,7 @@ export function BootstrapProvider({ children }: BootstrapProviderProps) {
   const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations('nav');
+  const tBootstrap = useTranslations('bootstrap');
   const [isOnline, setIsOnline] = useState(
     () => typeof navigator === 'undefined' || navigator.onLine
   );
@@ -399,16 +400,16 @@ export function BootstrapProvider({ children }: BootstrapProviderProps) {
     if (isDomainMismatch && bootstrapError.logoutUrl) {
       return (
         <div className="flex h-screen w-screen flex-col items-center justify-center p-4 text-center">
-          <h1 className="mb-2 text-2xl font-bold text-destructive">Wrong Account Type</h1>
+          <h1 className="mb-2 text-2xl font-bold text-destructive">{tBootstrap('wrongAccountType.title')}</h1>
           <p className="mb-6 max-w-md text-muted-foreground">
-            {bootstrapError.message || 'You are logged in with the wrong account type for this page.'}
+            {bootstrapError.message || tBootstrap('wrongAccountType.description')}
           </p>
           <div className="flex gap-3">
             <Button
               variant="outline"
               onClick={() => void bootstrapQuery.refetch()}
             >
-              Retry
+              {tBootstrap('retry')}
             </Button>
             <Button
               onClick={async () => {
@@ -432,7 +433,7 @@ export function BootstrapProvider({ children }: BootstrapProviderProps) {
                 }
               }}
             >
-              Log Out and Switch Account
+              {tBootstrap('logOutAndSwitch')}
             </Button>
           </div>
         </div>
@@ -442,18 +443,18 @@ export function BootstrapProvider({ children }: BootstrapProviderProps) {
     if (isProtectedRoute || isOnboardingRoute) {
       return (
         <div className="flex h-screen w-screen flex-col items-center justify-center p-4 text-center">
-          <h1 className="mb-2 text-2xl font-bold text-destructive">Bootstrap Failed</h1>
+          <h1 className="mb-2 text-2xl font-bold text-destructive">{tBootstrap('failed.title')}</h1>
           <p className="mb-4 text-muted-foreground">
             {!isOnline
-              ? 'The app is offline. Reconnect to restore your dashboard session.'
-              : bootstrapError.message || 'The app could not restore the dashboard session.'}
+              ? tBootstrap('offline.protected')
+              : bootstrapError.message || tBootstrap('failed.description')}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Button onClick={() => void bootstrapQuery.refetch()}>
-              Retry
+              {tBootstrap('retry')}
             </Button>
             <Button variant="outline" onClick={() => router.push(ROUTES.auth.login())}>
-              Go to login
+              {tBootstrap('goToLogin')}
             </Button>
           </div>
         </div>
@@ -468,11 +469,11 @@ export function BootstrapProvider({ children }: BootstrapProviderProps) {
               <div className="flex items-center justify-between gap-3">
                 <p className="text-foreground">
                   {!isOnline
-                    ? 'You are offline. Sign-in and onboarding actions will resume once the connection returns.'
-                    : bootstrapError.message || 'Session restoration failed. You can still continue with guest actions.'}
+                    ? tBootstrap('offline.guest')
+                    : bootstrapError.message || tBootstrap('guestFallback')}
                 </p>
                 <Button variant="outline" size="sm" onClick={() => void bootstrapQuery.refetch()}>
-                  Retry
+                  {tBootstrap('retry')}
                 </Button>
               </div>
             </div>
@@ -485,12 +486,12 @@ export function BootstrapProvider({ children }: BootstrapProviderProps) {
     // Fallback error handling
     return (
       <div className="flex h-screen w-screen flex-col items-center justify-center p-4 text-center">
-        <h1 className="mb-2 text-2xl font-bold text-destructive">Bootstrap Failed</h1>
+        <h1 className="mb-2 text-2xl font-bold text-destructive">{tBootstrap('failed.title')}</h1>
         <p className="mb-4 text-muted-foreground">
-          {bootstrapError.message || 'The app could not restore the dashboard session.'}
+          {bootstrapError.message || tBootstrap('failed.description')}
         </p>
         <Button onClick={() => void bootstrapQuery.refetch()}>
-          Retry
+          {tBootstrap('retry')}
         </Button>
       </div>
     );

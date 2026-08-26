@@ -38,7 +38,7 @@ export function SystemTemplatesContent() {
   if (!activeStore) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <p className="text-muted-foreground">No active store selected</p>
+        <p className="text-muted-foreground">{t('systemTemplates.list.noActiveStore')}</p>
       </div>
     );
   }
@@ -51,10 +51,10 @@ export function SystemTemplatesContent() {
         </Button>
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            System Templates
+            {t('systemTemplates.list.title')}
           </h1>
           <p className="text-muted-foreground">
-            Manage system page templates that define the layout of storefront pages
+            {t('systemTemplates.list.subtitle')}
           </p>
         </div>
       </div>
@@ -63,15 +63,15 @@ export function SystemTemplatesContent() {
         <CardHeader>
           <div className="flex items-center justify-between gap-4">
             <div>
-              <CardTitle>All System Templates</CardTitle>
+              <CardTitle>{t('systemTemplates.list.cardTitle')}</CardTitle>
               <CardDescription>
-                Each system page type has one template per theme. Click a template to edit its sections and settings.
+                {t('systemTemplates.list.cardDescription')}
               </CardDescription>
             </div>
             <div className="relative w-64 shrink-0">
               <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
-                placeholder="Search templates..."
+                placeholder={t('systemTemplates.list.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-8"
@@ -88,9 +88,9 @@ export function SystemTemplatesContent() {
             {filteredTemplates?.length === 0 ? (
               <div className="flex flex-col items-center justify-center min-h-[200px] gap-2">
                 <Search className="h-8 w-8 text-muted-foreground" />
-                <p className="text-muted-foreground font-medium">No templates match your search</p>
+                <p className="text-muted-foreground font-medium">{t('systemTemplates.list.noMatch')}</p>
                 <p className="text-sm text-muted-foreground">
-                  Try a different search term
+                  {t('systemTemplates.list.tryDifferentSearch')}
                 </p>
               </div>
             ) : (
@@ -116,10 +116,10 @@ export function SystemTemplatesContent() {
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <Badge variant={template.type === 'home' ? 'default' : 'outline'}>
-                      {template.sections?.length ?? 0} sections
+                      {t('systemTemplates.list.sectionsCount', { count: template.sections?.length ?? 0 })}
                     </Badge>
                     {template.isDefault && (
-                      <Badge variant="secondary">Default</Badge>
+                      <Badge variant="secondary">{t('systemTemplates.list.default')}</Badge>
                     )}
                   </div>
                 </div>
@@ -144,6 +144,8 @@ function LoadingErrorState({
   isEmpty: boolean;
   children: React.ReactNode;
 }) {
+  const t = useTranslations();
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[200px]">
@@ -156,7 +158,7 @@ function LoadingErrorState({
     return (
       <div className="flex flex-col items-center justify-center min-h-[200px] gap-2">
         <AlertCircle className="h-8 w-8 text-destructive" />
-        <p className="text-destructive font-medium">Failed to load templates</p>
+        <p className="text-destructive font-medium">{t('systemTemplates.list.loadError')}</p>
         <p className="text-sm text-muted-foreground">{error}</p>
       </div>
     );
@@ -166,9 +168,9 @@ function LoadingErrorState({
     return (
       <div className="flex flex-col items-center justify-center min-h-[200px] gap-2">
         <FileText className="h-8 w-8 text-muted-foreground" />
-        <p className="text-muted-foreground font-medium">No system templates found</p>
+        <p className="text-muted-foreground font-medium">{t('systemTemplates.list.empty')}</p>
         <p className="text-sm text-muted-foreground">
-          Templates are created automatically when a theme is installed.
+          {t('systemTemplates.list.emptyDescription')}
         </p>
       </div>
     );

@@ -383,17 +383,17 @@ export function PlansPageClient() {
 
       {/* Legacy Plan Card - Show if user is on a plan not in public list */}
       {currentPlanIsLegacy && subscription.plan && (
-        <div className="border-2 border-amber-500 rounded-lg p-6 bg-amber-50 dark:bg-amber-950/20">
+        <div className="border-2 border-warning rounded-lg p-6 bg-warning-bg">
           <div className="flex items-start justify-between mb-4">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
                 <h3 className="text-2xl font-bold">
                   {getLocalizedText(subscription.plan.name, locale, subscription.plan.code)}
                 </h3>
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-amber-200 text-amber-900 dark:bg-amber-900 dark:text-amber-100">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-warning/20 text-warning">
                   {t('yourCurrentPlan')}
                 </span>
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-muted-bg text-muted-foreground">
                   {t('legacy')}
                 </span>
               </div>
@@ -405,7 +405,7 @@ export function PlansPageClient() {
 
           {/* Show current plan features if available */}
           {subscription.plan.features && subscription.plan.features.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-amber-200 dark:border-amber-800">
+            <div className="mt-4 pt-4 border-t border-warning/30">
               <h4 className="font-semibold mb-3 text-sm uppercase tracking-wide text-muted-foreground">
                 {t('yourCurrentFeatures')}
               </h4>
@@ -415,7 +415,7 @@ export function PlansPageClient() {
                   return (
                     <div key={feature.id} className="flex items-start gap-2">
                       <svg
-                        className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5"
+                        className="h-5 w-5 text-success flex-shrink-0 mt-0.5"
                         fill="none"
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -442,7 +442,7 @@ export function PlansPageClient() {
 
           {/* Show pricing info if available */}
           {subscription.plan.prices && subscription.plan.prices.length > 0 && (
-            <div className="mt-4 pt-4 border-t border-amber-200 dark:border-amber-800">
+            <div className="mt-4 pt-4 border-t border-warning/30">
               <h4 className="font-semibold mb-3 text-sm uppercase tracking-wide text-muted-foreground">
                 {t('yourCurrentPricing')}
               </h4>

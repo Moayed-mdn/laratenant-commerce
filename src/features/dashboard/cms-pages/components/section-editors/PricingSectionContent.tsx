@@ -154,7 +154,7 @@ export function PricingSectionContent({ index }: PricingSectionContentProps) {
                     <div key={featureIndex} className="flex items-center gap-2">
                       <Input
                         {...register(`${basePath}.plans.${planIndex}.features.${featureIndex}` as any)}
-                        placeholder="Feature description"
+                        placeholder={t('sections.editors.pricing.featurePlaceholder')}
                         className="flex-1"
                       />
                       <button

@@ -139,7 +139,7 @@ export function InvoiceDetailPageClient({ invoiceId }: InvoiceDetailPageClientPr
               </span>
             </div>
             {invoice.discount_cents !== 0 && (
-              <div className="flex justify-between text-green-600">
+              <div className="flex justify-between text-success">
                 <span className="text-sm">{t('discount')}</span>
                 <span className="text-sm font-medium">
                   -{formatCurrency(Math.abs(invoice.discount_cents), invoice.currency)}
@@ -153,7 +153,7 @@ export function InvoiceDetailPageClient({ invoiceId }: InvoiceDetailPageClientPr
               </span>
             </div>
             {invoice.amount_paid_cents > 0 && (
-              <div className="flex justify-between text-green-600">
+              <div className="flex justify-between text-success">
                 <span className="text-sm">{t('paid')}</span>
                 <span className="text-sm font-medium">
                   {formatCurrency(invoice.amount_paid_cents, invoice.currency)}
@@ -161,7 +161,7 @@ export function InvoiceDetailPageClient({ invoiceId }: InvoiceDetailPageClientPr
               </div>
             )}
             {invoice.amount_due_cents > 0 && (
-              <div className="flex justify-between text-red-600">
+              <div className="flex justify-between text-danger">
                 <span className="text-sm">{t('due')}</span>
                 <span className="text-sm font-medium">
                   {formatCurrency(invoice.amount_due_cents, invoice.currency)}

@@ -53,12 +53,12 @@ export function AssetsContent() {
             {t('common.assets')}
           </h1>
           <p className="text-muted-foreground">
-            {t('assets.description')}
+            {t('theme.assets.description')}
           </p>
         </div>
         <Button onClick={() => setShowUploader(true)}>
           <Upload className="mr-2 h-4 w-4" />
-          {t('assets.uploadAsset')}
+          {t('theme.assets.uploadAsset')}
         </Button>
       </div>
 
@@ -75,8 +75,8 @@ export function AssetsContent() {
       {/* Filters & Content */}
       <Card>
         <CardHeader>
-          <CardTitle>{t('assets.library')}</CardTitle>
-          <CardDescription>{t('assets.libraryDescription')}</CardDescription>
+          <CardTitle>{t('theme.assets.library')}</CardTitle>
+          <CardDescription>{t('theme.assets.libraryDescription')}</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs
@@ -84,11 +84,11 @@ export function AssetsContent() {
             onValueChange={handleTypeChange}
           >
             <TabsList className="mb-6">
-              <TabsTrigger value="all">{t('assets.all')}</TabsTrigger>
-              <TabsTrigger value="logo">{t('assets.logo')}</TabsTrigger>
-              <TabsTrigger value="favicon">{t('assets.favicon')}</TabsTrigger>
-              <TabsTrigger value="banner">{t('assets.banner')}</TabsTrigger>
-              <TabsTrigger value="other">{t('assets.other')}</TabsTrigger>
+              <TabsTrigger value="all">{t('theme.assets.all')}</TabsTrigger>
+              <TabsTrigger value="logo">{t('theme.assets.logo')}</TabsTrigger>
+              <TabsTrigger value="favicon">{t('theme.assets.favicon')}</TabsTrigger>
+              <TabsTrigger value="banner">{t('theme.assets.banner')}</TabsTrigger>
+              <TabsTrigger value="other">{t('theme.assets.other')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value={filters.asset_type || 'all'} className="mt-0">
@@ -112,7 +112,7 @@ export function AssetsContent() {
                 <div className="flex flex-col items-center justify-center py-12">
                   <ImageIcon className="h-12 w-12 text-muted-foreground/50 mb-4" />
                   <p className="text-muted-foreground">
-                    {t('assets.noAssets')}
+                    {t('theme.assets.noAssets')}
                   </p>
                   <Button
                     variant="outline"
@@ -120,7 +120,7 @@ export function AssetsContent() {
                     onClick={() => setShowUploader(true)}
                   >
                     <Upload className="mr-2 h-4 w-4" />
-                    {t('assets.uploadFirstAsset')}
+                    {t('theme.assets.uploadFirstAsset')}
                   </Button>
                 </div>
               )}

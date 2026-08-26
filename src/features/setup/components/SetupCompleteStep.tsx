@@ -15,7 +15,7 @@ function SetupProgress() {
   ] as const;
   
   return (
-    <nav aria-label="Setup progress" className="mb-8 flex items-center justify-center gap-3">
+    <nav aria-label={t('a11yProgress')} className="mb-8 flex items-center justify-center gap-3">
       {setupSteps.map((step, idx) => (
         <span key={step.num} className="flex items-center gap-3">
           {idx > 0 && <span className="h-px w-6 bg-primary" />}
@@ -76,8 +76,8 @@ export function SetupCompleteStep() {
         {/* Celebration */}
         <div className="space-y-4 text-center">
           <div className="flex justify-center">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-green-50 dark:bg-green-950">
-              <CheckCircle2 className="h-14 w-14 text-green-500" />
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-success-bg">
+              <CheckCircle2 className="h-14 w-14 text-success" />
             </div>
           </div>
           <h1 className="text-2xl font-bold">{t('title', { storeName })}</h1>

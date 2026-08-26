@@ -3,6 +3,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
 import type { ApiError } from '@/types/api';
@@ -35,16 +36,17 @@ export function useShippingMethods(storeSlug: string) {
  */
 export function useCreateShippingMethod(storeSlug: string) {
   const queryClient = useQueryClient();
+  const t = useTranslations('shipping.messages');
 
   return useMutation<ShippingMethod, ApiError, CreateShippingMethodPayload>({
     mutationFn: (payload) => createShippingMethod(storeSlug, payload),
     onSuccess: (newMethod) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.shipping.methods(storeSlug).lists() });
-      toast.success(`Shipping method "${newMethod.name}" created successfully.`);
+      toast.success(t('methodCreated'));
     },
     onError: (error) => {
       logger.error('Failed to create shipping method', error);
-      toast.error(error.message || 'Failed to create shipping method.');
+      toast.error(error.message || t('methodCreateError'));
     },
   });
 }
@@ -54,16 +56,17 @@ export function useCreateShippingMethod(storeSlug: string) {
  */
 export function useUpdateShippingMethod(storeSlug: string, methodId: string) {
   const queryClient = useQueryClient();
+  const t = useTranslations('shipping.messages');
 
   return useMutation<ShippingMethod, ApiError, UpdateShippingMethodPayload>({
     mutationFn: (payload) => updateShippingMethod(storeSlug, methodId, payload),
     onSuccess: (updatedMethod) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.shipping.methods(storeSlug).lists() });
-      toast.success(`Shipping method "${updatedMethod.name}" updated successfully.`);
+      toast.success(t('methodUpdated'));
     },
     onError: (error) => {
       logger.error('Failed to update shipping method', error);
-      toast.error(error.message || 'Failed to update shipping method.');
+      toast.error(error.message || t('methodUpdateError'));
     },
   });
 }
@@ -73,16 +76,17 @@ export function useUpdateShippingMethod(storeSlug: string, methodId: string) {
  */
 export function useDeleteShippingMethod(storeSlug: string) {
   const queryClient = useQueryClient();
+  const t = useTranslations('shipping.messages');
 
   return useMutation<void, ApiError, string>({
     mutationFn: (methodId) => deleteShippingMethod(storeSlug, methodId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.shipping.methods(storeSlug).lists() });
-      toast.success('Shipping method deleted successfully.');
+      toast.success(t('methodDeleted'));
     },
     onError: (error) => {
       logger.error('Failed to delete shipping method', error);
-      toast.error(error.message || 'Failed to delete shipping method.');
+      toast.error(error.message || t('methodDeleteError'));
     },
   });
 }

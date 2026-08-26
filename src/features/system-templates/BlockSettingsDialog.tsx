@@ -72,10 +72,10 @@ export function BlockSettingsDialog({
         payload,
       });
 
-      toast.success('Block settings updated');
+      toast.success(t('systemTemplates.blockSettings.updateSuccess'));
       onOpenChange(false);
     } catch (error: any) {
-      toast.error(error?.message ?? 'Failed to update block settings');
+      toast.error(error?.message ?? t('systemTemplates.blockSettings.updateError'));
     }
   };
 
@@ -90,14 +90,14 @@ export function BlockSettingsDialog({
         <DialogHeader>
           <DialogTitle>{block.name}</DialogTitle>
           <DialogDescription>
-            Type: {block.type} · Position: {block.position}
+            {t('systemTemplates.blockSettings.typeAndPosition', { type: block.type, position: block.position })}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           {settingKeys.length === 0 && contentKeys.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-4">
-              No configurable settings for this block.
+              {t('systemTemplates.blockSettings.noSettings')}
             </p>
           )}
 
@@ -129,7 +129,7 @@ export function BlockSettingsDialog({
                       checked={value}
                       onCheckedChange={(checked) => updateSetting(key, checked)}
                     />
-                    <span className="text-sm text-muted-foreground">{value ? 'Enabled' : 'Disabled'}</span>
+                    <span className="text-sm text-muted-foreground">{value ? t('systemTemplates.blockSettings.enabled') : t('systemTemplates.blockSettings.disabled')}</span>
                   </div>
                 ) : typeof value === 'number' ? (
                   <Input
@@ -170,7 +170,7 @@ export function BlockSettingsDialog({
                     />
                     <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
                       <Info className="h-3 w-3" />
-                      JSON array
+                      {t('systemTemplates.blockSettings.jsonArray')}
                     </p>
                   </div>
                 ) : (
@@ -201,11 +201,11 @@ export function BlockSettingsDialog({
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            {t('cancel')}
           </Button>
           <Button onClick={handleSave} disabled={updateMutation.isPending}>
             {updateMutation.isPending && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-            Save
+            {t('save')}
           </Button>
         </DialogFooter>
       </DialogContent>

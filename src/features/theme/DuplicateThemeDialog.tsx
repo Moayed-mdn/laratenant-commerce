@@ -43,7 +43,7 @@ export function DuplicateThemeDialog({
 
   const handleDuplicate = async () => {
     if (!name.trim()) {
-      toast.error(t('common.theme.nameRequired'));
+      toast.error(t('theme.nameRequired'));
       return;
     }
 
@@ -53,10 +53,10 @@ export function DuplicateThemeDialog({
         payload: { name: name.trim() },
       });
 
-      toast.success(t('common.theme.duplicateSuccess'));
+      toast.success(t('theme.duplicateSuccess'));
       onClose();
     } catch (error: any) {
-      toast.error(error?.message ?? t('common.theme.duplicateError'));
+      toast.error(error?.message ?? t('theme.duplicateError'));
     }
   };
 
@@ -64,27 +64,27 @@ export function DuplicateThemeDialog({
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{t('common.theme.duplicateTheme')}</DialogTitle>
+          <DialogTitle>{t('theme.duplicateTheme')}</DialogTitle>
           <DialogDescription>
-            {t('common.theme.duplicateDescription')}
+            {t('theme.duplicateDescription')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           {/* Original Theme */}
           <div className="rounded-lg border p-3 bg-muted/50">
-            <p className="text-sm font-medium">{t('common.theme.original')}</p>
+            <p className="text-sm font-medium">{t('theme.original')}</p>
             <p className="text-sm text-muted-foreground">{theme.name}</p>
           </div>
 
           {/* New Theme Name */}
           <div className="space-y-2">
-            <Label htmlFor="duplicate-name">{t('common.theme.newName')}</Label>
+            <Label htmlFor="duplicate-name">{t('theme.newName')}</Label>
             <Input
               id="duplicate-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder={t('common.theme.namePlaceholder')}
+              placeholder={t('theme.namePlaceholder')}
               autoFocus
             />
           </div>
@@ -100,7 +100,7 @@ export function DuplicateThemeDialog({
           >
             {duplicateMutation.isPending
               ? t('common.duplicating')
-              : t('common.theme.duplicate')}
+              : t('theme.duplicate')}
           </Button>
         </DialogFooter>
       </DialogContent>

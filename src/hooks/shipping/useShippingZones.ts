@@ -3,6 +3,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
 import type { ApiError } from '@/types/api';
@@ -40,16 +41,17 @@ export function useShippingZones(storeSlug: string) {
  */
 export function useCreateShippingZone(storeSlug: string) {
   const queryClient = useQueryClient();
+  const t = useTranslations('shipping.messages');
 
   return useMutation<ShippingZone, ApiError, CreateShippingZonePayload>({
     mutationFn: (payload) => createShippingZone(storeSlug, payload),
     onSuccess: (newZone) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.shipping.zones(storeSlug).lists() });
-      toast.success(`Shipping zone "${newZone.name}" created successfully.`);
+      toast.success(t('zoneCreated'));
     },
     onError: (error) => {
       logger.error('Failed to create shipping zone', error);
-      toast.error(error.message || 'Failed to create shipping zone.');
+      toast.error(error.message || t('zoneCreateError'));
     },
   });
 }
@@ -59,16 +61,17 @@ export function useCreateShippingZone(storeSlug: string) {
  */
 export function useUpdateShippingZone(storeSlug: string, zoneId: string) {
   const queryClient = useQueryClient();
+  const t = useTranslations('shipping.messages');
 
   return useMutation<ShippingZone, ApiError, UpdateShippingZonePayload>({
     mutationFn: (payload) => updateShippingZone(storeSlug, zoneId, payload),
     onSuccess: (updatedZone) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.shipping.zones(storeSlug).lists() });
-      toast.success(`Shipping zone "${updatedZone.name}" updated successfully.`);
+      toast.success(t('zoneUpdated'));
     },
     onError: (error) => {
       logger.error('Failed to update shipping zone', error);
-      toast.error(error.message || 'Failed to update shipping zone.');
+      toast.error(error.message || t('zoneUpdateError'));
     },
   });
 }
@@ -78,16 +81,17 @@ export function useUpdateShippingZone(storeSlug: string, zoneId: string) {
  */
 export function useDeleteShippingZone(storeSlug: string) {
   const queryClient = useQueryClient();
+  const t = useTranslations('shipping.messages');
 
   return useMutation<void, ApiError, string>({
     mutationFn: (zoneId) => deleteShippingZone(storeSlug, zoneId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.shipping.zones(storeSlug).lists() });
-      toast.success('Shipping zone deleted successfully.');
+      toast.success(t('zoneDeleted'));
     },
     onError: (error) => {
       logger.error('Failed to delete shipping zone', error);
-      toast.error(error.message || 'Failed to delete shipping zone.');
+      toast.error(error.message || t('zoneDeleteError'));
     },
   });
 }
@@ -97,16 +101,17 @@ export function useDeleteShippingZone(storeSlug: string) {
  */
 export function useAssignMethodToZone(storeSlug: string) {
   const queryClient = useQueryClient();
+  const t = useTranslations('shipping.messages');
 
   return useMutation<ShippingZone, ApiError, { zoneId: string; payload: AssignMethodToZonePayload }>({
     mutationFn: ({ zoneId, payload }) => assignMethodToZone(storeSlug, zoneId, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.shipping.zones(storeSlug).lists() });
-      toast.success('Shipping method assigned to zone successfully.');
+      toast.success(t('methodAssigned'));
     },
     onError: (error) => {
       logger.error('Failed to assign method to zone', error);
-      toast.error(error.message || 'Failed to assign method to zone.');
+      toast.error(error.message || t('methodAssignError'));
     },
   });
 }
@@ -116,16 +121,17 @@ export function useAssignMethodToZone(storeSlug: string) {
  */
 export function useRemoveMethodFromZone(storeSlug: string) {
   const queryClient = useQueryClient();
+  const t = useTranslations('shipping.messages');
 
   return useMutation<void, ApiError, { zoneId: string; methodId: string }>({
     mutationFn: ({ zoneId, methodId }) => removeMethodFromZone(storeSlug, zoneId, methodId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.shipping.zones(storeSlug).lists() });
-      toast.success('Shipping method removed from zone successfully.');
+      toast.success(t('methodRemoved'));
     },
     onError: (error) => {
       logger.error('Failed to remove method from zone', error);
-      toast.error(error.message || 'Failed to remove method from zone.');
+      toast.error(error.message || t('methodRemoveError'));
     },
   });
 }
@@ -135,16 +141,17 @@ export function useRemoveMethodFromZone(storeSlug: string) {
  */
 export function useUpdateZoneMethodPrice(storeSlug: string) {
   const queryClient = useQueryClient();
+  const t = useTranslations('shipping.messages');
 
   return useMutation<ShippingZone, ApiError, { zoneId: string; methodId: string; payload: UpdateZoneMethodPricePayload }>({
     mutationFn: ({ zoneId, methodId, payload }) => updateZoneMethodPrice(storeSlug, zoneId, methodId, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.shipping.zones(storeSlug).lists() });
-      toast.success('Zone pricing updated successfully.');
+      toast.success(t('priceUpdated'));
     },
     onError: (error) => {
       logger.error('Failed to update zone pricing', error);
-      toast.error(error.message || 'Failed to update zone pricing.');
+      toast.error(error.message || t('priceUpdateError'));
     },
   });
 }

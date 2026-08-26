@@ -44,7 +44,7 @@ export function SubscriptionStatusCard({ subscription, onOpenPortal }: Subscript
   const hasPendingDowngrade = !!subscription.pending_plan;
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString(currentLocale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -80,21 +80,21 @@ export function SubscriptionStatusCard({ subscription, onOpenPortal }: Subscript
 
         {/* Status Messages */}
         {hasPendingDowngrade && subscription.pending_plan && subscription.pending_plan_effective_at && (
-          <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/50 dark:bg-amber-950/20">
+          <div className="rounded-lg border border-warning/30 bg-warning-bg p-4">
             <div className="flex items-start gap-3">
-              <TrendingUp className="h-5 w-5 rotate-180 text-amber-600 dark:text-amber-400" />
+              <TrendingUp className="h-5 w-5 rotate-180 text-warning" />
               <div className="flex-1">
-                <div className="font-medium text-amber-900 dark:text-amber-100">
+                <div className="font-medium text-warning">
                   {t('alerts.downgradeScheduled')}
                 </div>
-                <div className="mt-1 text-sm text-amber-700 dark:text-amber-300">
+                <div className="mt-1 text-sm text-warning">
                   {t('alerts.downgradeMessage', {
                     currentPlan: subscription.plan?.name?.[currentLocale] || subscription.plan?.name?.en || 'current plan',
                     newPlan: subscription.pending_plan.name?.[currentLocale] || subscription.pending_plan.name?.en || 'new plan',
                     date: formatDate(subscription.pending_plan_effective_at)
                   })}
                 </div>
-                <div className="mt-2 text-xs text-amber-600 dark:text-amber-400">
+                <div className="mt-2 text-xs text-warning">
                   {t('alerts.keepAccessMessage', {
                     planName: subscription.plan?.name?.[currentLocale] || subscription.plan?.name?.en || 'your current plan'
                   })}
@@ -105,14 +105,14 @@ export function SubscriptionStatusCard({ subscription, onOpenPortal }: Subscript
         )}
 
         {isTrialing && subscription.trial_ends_at && (
-          <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-950/20">
+          <div className="rounded-lg bg-info-bg p-4">
             <div className="flex items-start gap-3">
-              <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <Calendar className="h-5 w-5 text-info" />
               <div>
-                <div className="font-medium text-blue-900 dark:text-blue-100">
+                <div className="font-medium text-info">
                   {t('alerts.trialEnds', { date: formatDate(subscription.trial_ends_at) })}
                 </div>
-                <div className="text-sm text-blue-700 dark:text-blue-300">
+                <div className="text-sm text-info">
                   {t('alerts.trialMessage')}
                 </div>
               </div>
@@ -121,14 +121,14 @@ export function SubscriptionStatusCard({ subscription, onOpenPortal }: Subscript
         )}
 
         {isCanceled && subscription.current_period_ends_at && (
-          <div className="rounded-lg bg-amber-50 p-4 dark:bg-amber-950/20">
+          <div className="rounded-lg bg-warning-bg p-4">
             <div className="flex items-start gap-3">
-              <Calendar className="h-5 w-5 text-amber-600 dark:text-amber-400" />
+              <Calendar className="h-5 w-5 text-warning" />
               <div>
-                <div className="font-medium text-amber-900 dark:text-amber-100">
+                <div className="font-medium text-warning">
                   {t('alerts.subscriptionCanceled')}
                 </div>
-                <div className="text-sm text-amber-700 dark:text-amber-300">
+                <div className="text-sm text-warning">
                   {t('alerts.accessUntil', { date: formatDate(subscription.current_period_ends_at) })}
                 </div>
               </div>
@@ -137,12 +137,12 @@ export function SubscriptionStatusCard({ subscription, onOpenPortal }: Subscript
         )}
 
         {isPastDue && subscription.grace_period_ends_at && (
-          <div className="rounded-lg bg-red-50 p-4 dark:bg-red-950/20">
+          <div className="rounded-lg bg-danger-bg p-4">
             <div className="flex items-start gap-3">
-              <ExternalLink className="h-5 w-5 text-red-600 dark:text-red-400" />
+              <ExternalLink className="h-5 w-5 text-danger" />
               <div>
-                <div className="font-medium text-red-900 dark:text-red-100">{t('alerts.paymentFailed')}</div>
-                <div className="text-sm text-red-700 dark:text-red-300">
+                <div className="font-medium text-danger">{t('alerts.paymentFailed')}</div>
+                <div className="text-sm text-danger">
                   {t('alerts.updatePaymentBy', { date: formatDate(subscription.grace_period_ends_at) })}
                 </div>
               </div>

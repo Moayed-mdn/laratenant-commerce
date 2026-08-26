@@ -2,10 +2,12 @@
 
 import { useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 export default function LogoutPage() {
   const params = useParams();
   const calledRef = useRef(false);
+  const t = useTranslations('auth');
 
   useEffect(() => {
     if (calledRef.current) return;
@@ -30,7 +32,7 @@ export default function LogoutPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <p className="text-muted-foreground">Logging out...</p>
+      <p className="text-muted-foreground">{t('loggingOut')}</p>
     </div>
   );
 }

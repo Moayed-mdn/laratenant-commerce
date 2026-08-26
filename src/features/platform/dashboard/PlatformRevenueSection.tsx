@@ -19,8 +19,8 @@ export function PlatformRevenueSection({ stats }: Props) {
   const t = useTranslations('platformDashboard.platformRevenue');
 
   const getTrendIcon = (direction: 'up' | 'down' | 'neutral') => {
-    if (direction === 'up') return <TrendingUp className="h-4 w-4 text-green-600" />;
-    if (direction === 'down') return <TrendingDown className="h-4 w-4 text-red-600" />;
+    if (direction === 'up') return <TrendingUp className="h-4 w-4 text-success" />;
+    if (direction === 'down') return <TrendingDown className="h-4 w-4 text-danger" />;
     return <Minus className="h-4 w-4 text-muted-foreground" />;
   };
 
@@ -68,19 +68,19 @@ export function PlatformRevenueSection({ stats }: Props) {
                 <p className="text-xs text-muted-foreground">{t('total')}</p>
               </div>
               <div>
-                <div className="text-2xl font-bold text-green-600">{stats.activeSubscriptions}</div>
+                <div className="text-2xl font-bold text-success">{stats.activeSubscriptions}</div>
                 <p className="text-xs text-muted-foreground">{t('active')}</p>
               </div>
               <div>
-                <div className="text-2xl font-bold text-blue-600">{stats.trialingSubscriptions}</div>
+                <div className="text-2xl font-bold text-info">{stats.trialingSubscriptions}</div>
                 <p className="text-xs text-muted-foreground">{t('trialing')}</p>
               </div>
               <div>
-                <div className="text-2xl font-bold text-orange-600">{stats.pastDueSubscriptions}</div>
+                <div className="text-2xl font-bold text-danger">{stats.pastDueSubscriptions}</div>
                 <p className="text-xs text-muted-foreground">{t('pastDue')}</p>
               </div>
               <div>
-                <div className="text-2xl font-bold text-gray-600">{stats.canceledSubscriptions}</div>
+                <div className="text-2xl font-bold text-muted">{stats.canceledSubscriptions}</div>
                 <p className="text-xs text-muted-foreground">{t('canceled')}</p>
               </div>
             </div>

@@ -353,24 +353,24 @@ export default function MenuItemDialog({
                           setFormData({ ...formData, url: e.target.value, resource_id: null, resource_type: null });
                         }}
                         placeholder={t('form.customUrlPlaceholder')}
-                        className={urlValidation && !urlValidation.exists ? 'border-amber-500' : ''}
+                        className={urlValidation && !urlValidation.exists ? 'border-warning' : ''}
                       />
                       <p className="text-xs text-muted-foreground">{t('form.customUrlHelp')}</p>
 
                       {/* URL Validation Feedback */}
                       {urlValidation && !urlValidation.exists && formData.url.length > 1 && (
-                        <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+                        <div className="rounded-lg border border-warning/30 bg-warning-bg p-3">
                           <div className="flex items-start gap-2">
                             <span className="text-lg">⚠️</span>
                             <div className="flex-1">
-                              <p className="text-sm font-medium text-amber-900">
+                              <p className="text-sm font-medium text-warning">
                                 {t('form.urlWarningTitle')}
                               </p>
-                              <p className="text-xs text-amber-700 mt-1">
+                              <p className="text-xs text-warning mt-1">
                                 {t('form.urlWarningMessage')}
                               </p>
                               {urlValidation.suggestion && (
-                                <p className="text-xs text-amber-600 mt-2">
+                                <p className="text-xs text-warning mt-2">
                                   💡 {t('form.createPageSuggestion', { slug: urlValidation.suggestion })}
                                 </p>
                               )}
@@ -404,7 +404,7 @@ export default function MenuItemDialog({
                       )}
 
                       {urlValidation && urlValidation.exists && (
-                        <div className="flex items-center gap-2 text-xs text-green-600">
+                        <div className="flex items-center gap-2 text-xs text-success">
                           <span>✅</span>
                           <span>{t('form.urlExists')}</span>
                         </div>
@@ -422,13 +422,13 @@ export default function MenuItemDialog({
                         setFormData({ ...formData, url: e.target.value });
                       }}
                       placeholder={t('form.urlPlaceholder')}
-                      className={urlValidation && !urlValidation.exists ? 'border-amber-500' : ''}
+                      className={urlValidation && !urlValidation.exists ? 'border-warning' : ''}
                     />
                     <p className="text-xs text-muted-foreground">{t('form.urlHelp')}</p>
 
                     {/* No pages info box */}
-                    <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
-                      <p className="text-sm text-blue-900">
+                    <div className="rounded-lg border border-info/30 bg-info-bg p-3">
+                      <p className="text-sm text-info">
                         💡 {t('form.noPagesInfo')}
                       </p>
                       <Button
@@ -465,8 +465,8 @@ export default function MenuItemDialog({
 
             {/* Info for group type */}
             {formData.type === 'group' && (
-              <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
-                <p className="text-sm text-blue-900">
+              <div className="rounded-lg border border-info/30 bg-info-bg p-3">
+                <p className="text-sm text-info">
                   ℹ️ {t('form.groupInfo')}
                 </p>
               </div>

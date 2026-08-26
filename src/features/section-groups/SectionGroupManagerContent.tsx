@@ -1,6 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useBootstrapStore } from '@/stores/bootstrapStore';
 import { useSectionGroups } from '@/hooks/section-groups/useSectionGroups';
 import { Button } from '@/components/ui/button';
@@ -13,6 +14,7 @@ import { getStoreRouteParam } from '@/lib/stores/route-param';
 export function SectionGroupManagerContent() {
   const router = useRouter();
   const params = useParams();
+  const t = useTranslations('sectionGroups.manager');
   const themeIdentifier = params?.theme as string;
   const activeStore = useBootstrapStore((state) => state.activeStore);
   const activeStoreSlug = activeStore ? getStoreRouteParam(activeStore) : null;
@@ -27,19 +29,19 @@ export function SectionGroupManagerContent() {
         </Button>
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Section Groups
+            {t('title')}
           </h1>
           <p className="text-muted-foreground">
-            Manage header and footer section groups
+            {t('subtitle')}
           </p>
         </div>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>All Section Groups</CardTitle>
+          <CardTitle>{t('cardTitle')}</CardTitle>
           <CardDescription>
-            Section groups define which sections appear in the header and footer areas.
+            {t('cardDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -72,7 +74,7 @@ export function SectionGroupManagerContent() {
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <Badge variant="outline">
-                        {sectionKeys.length} sections
+                        {t('sectionsCount', { count: sectionKeys.length })}
                       </Badge>
                       <Button variant="ghost" size="icon">
                         <Settings className="h-4 w-4" />
@@ -100,6 +102,8 @@ function LoadingErrorState({
   isEmpty: boolean;
   children: React.ReactNode;
 }) {
+  const t = useTranslations('sectionGroups.manager');
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[200px]">
@@ -112,7 +116,7 @@ function LoadingErrorState({
     return (
       <div className="flex flex-col items-center justify-center min-h-[200px] gap-2">
         <AlertCircle className="h-8 w-8 text-destructive" />
-        <p className="text-destructive font-medium">Failed to load section groups</p>
+        <p className="text-destructive font-medium">{t('loadError')}</p>
         <p className="text-sm text-muted-foreground">{error}</p>
       </div>
     );
@@ -122,9 +126,9 @@ function LoadingErrorState({
     return (
       <div className="flex flex-col items-center justify-center min-h-[200px] gap-2">
         <Layers className="h-8 w-8 text-muted-foreground" />
-        <p className="text-muted-foreground font-medium">No section groups found</p>
+        <p className="text-muted-foreground font-medium">{t('empty.title')}</p>
         <p className="text-sm text-muted-foreground">
-          Section groups are created automatically when a theme is installed.
+          {t('empty.description')}
         </p>
       </div>
     );

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import type { FooterSectionProps, NavigationItem } from '@/types/runtime';
 
 function renderFooterLinks(items: NavigationItem[]): React.ReactNode {
@@ -26,8 +27,9 @@ function renderFooterLinks(items: NavigationItem[]): React.ReactNode {
 }
 
 export default function FooterSection({ menu, storeName, copyrightYear, showSocial }: FooterSectionProps) {
+  const t = useTranslations('storefront.footer');
   const year = copyrightYear ?? new Date().getFullYear();
-  const name = storeName ?? 'Your Store';
+  const name = storeName ?? t('defaultStoreName');
   const items = menu ?? [];
 
   return (
@@ -37,12 +39,12 @@ export default function FooterSection({ menu, storeName, copyrightYear, showSoci
           <div>
             <h3 className="font-semibold mb-3">{name}</h3>
             <p className="text-sm text-muted-foreground">
-              &copy; {year} {name}. All rights reserved.
+              {t('copyright', { year, name })}
             </p>
           </div>
           {items.length > 0 && (
             <div>
-              <h4 className="font-medium text-sm mb-3">Navigation</h4>
+              <h4 className="font-medium text-sm mb-3">{t('navigation')}</h4>
               <ul className="space-y-2">
                 {renderFooterLinks(items)}
               </ul>
@@ -50,9 +52,9 @@ export default function FooterSection({ menu, storeName, copyrightYear, showSoci
           )}
           {showSocial && (
             <div>
-              <h4 className="font-medium text-sm mb-3">Follow Us</h4>
+              <h4 className="font-medium text-sm mb-3">{t('followUs')}</h4>
               <p className="text-sm text-muted-foreground">
-                Social links coming soon.
+                {t('socialComingSoon')}
               </p>
             </div>
           )}

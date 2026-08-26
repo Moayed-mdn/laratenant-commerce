@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useSubscription } from '@/hooks/billing/useSubscription';
 import { useRouter } from '@/lib/navigation';
 import { TrialSignupClient } from './TrialSignupClient';
@@ -8,6 +9,7 @@ import type { Plan } from '@/types/billing/plan';
 
 export function TrialStartWrapper({ plans }: { plans: Plan[] }) {
   const router = useRouter();
+  const t = useTranslations('billing.trial');
   const { data: subscriptionData, isLoading } = useSubscription();
 
   // Extract subscription from response
@@ -27,27 +29,24 @@ export function TrialStartWrapper({ plans }: { plans: Plan[] }) {
     return null;
   }
 
+  const benefits = t.raw('startPage.benefits') as string[];
+
   return (
     <div className="space-y-12">
       {/* Hero Section */}
       <div className="text-center">
-        <h1 className="text-4xl font-bold">Start Your Free Trial</h1>
+        <h1 className="text-4xl font-bold">{t('startPage.heading')}</h1>
         <p className="mt-4 text-xl text-muted-foreground">
-          14 days free. No credit card required.
+          {t('startPage.subheading')}
         </p>
       </div>
 
       {/* Trial Benefits */}
       <div className="mx-auto max-w-3xl">
         <div className="grid gap-6 sm:grid-cols-2">
-          {[
-            'Full access to all features',
-            'No credit card required',
-            'Cancel anytime',
-            'Upgrade to paid plan anytime',
-          ].map((benefit, index) => (
+          {benefits.map((benefit, index) => (
             <div key={index} className="flex items-start gap-3">
-              <CheckCircle2 className="h-5 w-5 shrink-0 text-green-500" />
+              <CheckCircle2 className="h-5 w-5 shrink-0 text-success" />
               <p className="text-sm">{benefit}</p>
             </div>
           ))}
@@ -59,7 +58,7 @@ export function TrialStartWrapper({ plans }: { plans: Plan[] }) {
         <TrialSignupClient plans={plans} />
       ) : (
         <div className="text-center text-muted-foreground">
-          <p>No plans are available right now. Please try again later.</p>
+          <p>{t('startPage.noPlans')}</p>
         </div>
       )}
     </div>

@@ -45,7 +45,7 @@ export function PlatformSidebarNav() {
   ];
 
   return (
-    <nav aria-label="Platform navigation" className="flex-1 overflow-y-auto px-2 py-4">
+    <nav aria-label={t('a11yNavigation')} className="flex-1 overflow-y-auto px-2 py-4">
       <ul role="list" className="space-y-1">
         {navItems.map((item) => {
           const isActive = item.exact

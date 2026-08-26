@@ -58,14 +58,14 @@ export function AssetUploader({
     // Validate file type
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
     if (!validTypes.includes(selectedFile.type)) {
-      toast.error(t('assets.invalidFileType'));
+      toast.error(t('theme.assets.invalidFileType'));
       return;
     }
 
     // Validate file size (max 5MB)
     const maxSize = 5 * 1024 * 1024; // 5MB
     if (selectedFile.size > maxSize) {
-      toast.error(t('assets.fileTooLarge'));
+      toast.error(t('theme.assets.fileTooLarge'));
       return;
     }
 
@@ -118,7 +118,7 @@ export function AssetUploader({
 
   const handleUpload = async () => {
     if (!file) {
-      toast.error(t('assets.noFileSelected'));
+      toast.error(t('theme.assets.noFileSelected'));
       return;
     }
 
@@ -129,10 +129,10 @@ export function AssetUploader({
         alt_text: altText || undefined,
       });
 
-      toast.success(t('assets.uploadSuccess'));
+      toast.success(t('theme.assets.uploadSuccess'));
       onSuccess();
     } catch (error) {
-      toast.error(t('assets.uploadError'));
+      toast.error(t('theme.assets.uploadError'));
     }
   };
 
@@ -140,8 +140,8 @@ export function AssetUploader({
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{t('assets.uploadAsset')}</DialogTitle>
-          <DialogDescription>{t('assets.uploadDescription')}</DialogDescription>
+          <DialogTitle>{t('theme.assets.uploadAsset')}</DialogTitle>
+          <DialogDescription>{t('theme.assets.uploadDescription')}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
@@ -173,10 +173,10 @@ export function AssetUploader({
                   <Upload className="h-10 w-10 text-muted-foreground" />
                   <div className="space-y-1">
                     <p className="text-sm font-medium">
-                      {t('assets.dropOrClick')}
+                      {t('theme.assets.dropOrClick')}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {t('assets.supportedFormats')}
+                      {t('theme.assets.supportedFormats')}
                     </p>
                   </div>
                 </div>
@@ -199,7 +199,7 @@ export function AssetUploader({
                   <div className="relative w-24 h-24 bg-muted rounded overflow-hidden flex-shrink-0">
                     <img
                       src={preview}
-                      alt="Preview"
+                      alt={t('theme.assets.previewAlt')}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -226,31 +226,31 @@ export function AssetUploader({
 
           {/* Asset Type */}
           <div className="space-y-2">
-            <Label htmlFor="asset-type">{t('assets.assetType')}</Label>
+            <Label htmlFor="asset-type">{t('theme.assets.assetType')}</Label>
             <Select value={assetType} onValueChange={(v) => setAssetType(v as AssetType)}>
               <SelectTrigger id="asset-type">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="logo">{t('assets.logo')}</SelectItem>
-                <SelectItem value="favicon">{t('assets.favicon')}</SelectItem>
-                <SelectItem value="banner">{t('assets.banner')}</SelectItem>
-                <SelectItem value="other">{t('assets.other')}</SelectItem>
+                <SelectItem value="logo">{t('theme.assets.logo')}</SelectItem>
+                <SelectItem value="favicon">{t('theme.assets.favicon')}</SelectItem>
+                <SelectItem value="banner">{t('theme.assets.banner')}</SelectItem>
+                <SelectItem value="other">{t('theme.assets.other')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* Alt Text */}
           <div className="space-y-2">
-            <Label htmlFor="alt-text">{t('assets.altText')}</Label>
+            <Label htmlFor="alt-text">{t('theme.assets.altText')}</Label>
             <Input
               id="alt-text"
               value={altText}
               onChange={(e) => setAltText(e.target.value)}
-              placeholder={t('assets.altTextPlaceholder')}
+              placeholder={t('theme.assets.altTextPlaceholder')}
             />
             <p className="text-xs text-muted-foreground">
-              {t('assets.altTextHelper')}
+              {t('theme.assets.altTextHelper')}
             </p>
           </div>
         </div>

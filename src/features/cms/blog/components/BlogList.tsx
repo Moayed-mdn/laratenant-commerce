@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { BlogPost } from '@/types/cms';
 import { BlogCard } from './BlogCard';
 
@@ -7,11 +8,13 @@ interface BlogListProps {
 }
 
 export function BlogList({ posts, locale }: BlogListProps) {
+  const t = useTranslations('marketing.sections.blog');
+
   if (!Array.isArray(posts) || posts.length === 0) {
     return (
       <div className="text-center py-20">
-        <h3 className="text-xl font-medium">No blog posts found.</h3>
-        <p className="text-muted-foreground">Check back later for new updates.</p>
+        <h3 className="text-xl font-medium">{t('list.empty.title')}</h3>
+        <p className="text-muted-foreground">{t('list.empty.description')}</p>
       </div>
     );
   }

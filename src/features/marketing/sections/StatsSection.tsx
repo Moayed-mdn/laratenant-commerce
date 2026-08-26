@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import SectionContainer from '@/features/marketing/layouts/SectionContainer'
 import type { StatItem } from '@/features/marketing/types'
@@ -11,9 +12,10 @@ export default function StatsSection({
   items,
   className,
 }: StatsSectionProps) {
+  const t = useTranslations('marketing.sections.stats')
   return (
     <section
-      aria-label="Platform highlights"
+      aria-label={t('a11yLabel')}
       className={cn('w-full py-10 sm:py-14', className)}
     >
       <SectionContainer>

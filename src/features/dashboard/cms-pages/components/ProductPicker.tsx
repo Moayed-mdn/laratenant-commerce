@@ -7,6 +7,7 @@
 
 import { useState } from 'react';
 import { Check, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -21,6 +22,7 @@ interface ProductPickerProps {
 }
 
 export function ProductPicker({ storeSlug, selectedIds, onChange }: ProductPickerProps) {
+  const t = useTranslations('cmsPages.productPicker');
   const [search, setSearch] = useState('');
   // Every other search box in this app (Products, Orders, Users...) debounces
   // at 300ms before it hits the query key — this one didn't, so it fired a
@@ -72,11 +74,11 @@ export function ProductPicker({ storeSlug, selectedIds, onChange }: ProductPicke
 
       {/* Search */}
       <div className="space-y-2">
-        <Label>Search products</Label>
+        <Label>{t('searchLabel')}</Label>
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Type to search..."
+          placeholder={t('searchPlaceholder')}
         />
       </div>
 
@@ -84,13 +86,13 @@ export function ProductPicker({ storeSlug, selectedIds, onChange }: ProductPicke
       <div className="max-h-60 overflow-y-auto rounded border bg-background">
         {isLoading && (
           <div className="p-4 text-center text-sm text-muted-foreground">
-            Loading...
+            {t('loading')}
           </div>
         )}
 
         {!isLoading && products.length === 0 && (
           <div className="p-4 text-center text-sm text-muted-foreground">
-            No products found
+            {t('noProducts')}
           </div>
         )}
 
@@ -109,7 +111,7 @@ export function ProductPicker({ storeSlug, selectedIds, onChange }: ProductPicke
                     {product.name}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    ID: {product.id}
+                    {t('idLabel')} {product.id}
                   </div>
                 </div>
                 {isSelected && (

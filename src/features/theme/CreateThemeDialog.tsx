@@ -39,7 +39,7 @@ export function CreateThemeDialog({ onClose }: CreateThemeDialogProps) {
 
   const handleCreate = async () => {
     if (!name.trim()) {
-      toast.error(t('common.theme.nameRequired'));
+      toast.error(t('theme.nameRequired'));
       return;
     }
 
@@ -49,10 +49,10 @@ export function CreateThemeDialog({ onClose }: CreateThemeDialogProps) {
         description: description.trim() || null,
       });
 
-      toast.success(t('common.theme.createSuccess'));
+      toast.success(t('theme.createSuccess'));
       onClose();
     } catch (error: any) {
-      toast.error(error?.message ?? t('common.theme.createError'));
+      toast.error(error?.message ?? t('theme.createError'));
     }
   };
 
@@ -60,21 +60,21 @@ export function CreateThemeDialog({ onClose }: CreateThemeDialogProps) {
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{t('common.theme.createTheme')}</DialogTitle>
+          <DialogTitle>{t('theme.createTheme')}</DialogTitle>
           <DialogDescription>
-            {t('common.theme.createDescription')}
+            {t('theme.createDescription')}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           {/* Theme Name */}
           <div className="space-y-2">
-            <Label htmlFor="theme-name">{t('common.theme.name')}</Label>
+            <Label htmlFor="theme-name">{t('theme.name')}</Label>
             <Input
               id="theme-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder={t('common.theme.namePlaceholder')}
+              placeholder={t('theme.namePlaceholder')}
               autoFocus
             />
           </div>
@@ -82,13 +82,13 @@ export function CreateThemeDialog({ onClose }: CreateThemeDialogProps) {
           {/* Description */}
           <div className="space-y-2">
             <Label htmlFor="theme-description">
-              {t('common.theme.description')}
+              {t('theme.description')}
             </Label>
             <Textarea
               id="theme-description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder={t('common.theme.descriptionPlaceholder')}
+              placeholder={t('theme.descriptionPlaceholder')}
               rows={3}
             />
           </div>

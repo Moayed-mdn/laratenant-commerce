@@ -3,6 +3,7 @@
  */
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 import { logger } from '@/lib/logger';
 import type { ApiError } from '@/types/api';
@@ -32,16 +33,17 @@ export function useAddressSettings(storeSlug: string) {
  */
 export function useUpdateAddressSettings(storeSlug: string) {
   const queryClient = useQueryClient();
+  const t = useTranslations('shipping.addressSettings');
 
   return useMutation<StoreAddressSetting, ApiError, UpdateStoreAddressSettingsPayload>({
     mutationFn: (payload) => updateAddressSettings(storeSlug, payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.shipping.addressSettings(storeSlug).all() });
-      toast.success('Address settings updated successfully.');
+      toast.success(t('updateSuccess'));
     },
     onError: (error) => {
       logger.error('Failed to update address settings', error);
-      toast.error(error.message || 'Failed to update address settings.');
+      toast.error(error.message || t('updateError'));
     },
   });
 }

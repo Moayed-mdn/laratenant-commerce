@@ -3,6 +3,7 @@
  */
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { updateAvatar } from '@/lib/api/profile';
 import type { ApiError } from '@/types/api';
 import { toast } from 'sonner';
@@ -11,6 +12,7 @@ import { useBootstrapStore } from '@/stores/bootstrapStore';
 export function useUpdateAvatar() {
   const queryClient = useQueryClient();
   const fetchBootstrap = useBootstrapStore((state) => state.fetchBootstrap);
+  const t = useTranslations('profile');
 
   return useMutation<unknown, ApiError, File>({
     mutationFn: (file: File) => updateAvatar(file),
@@ -22,10 +24,10 @@ export function useUpdateAvatar() {
       // Force refetch bootstrap to update avatar immediately
       await fetchBootstrap();
       
-      toast.success('Avatar updated successfully');
+      toast.success(t('avatarUpdateSuccess'));
     },
     onError: (error) => {
-      toast.error(error.message || 'Failed to update avatar');
+      toast.error(error.message || t('avatarUpdateError'));
     },
   });
 }

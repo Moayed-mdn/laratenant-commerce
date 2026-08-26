@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { TocHeading } from '../utils/toc';
 import { cn } from '@/lib/utils';
 import { ChevronRight } from 'lucide-react';
@@ -10,7 +11,9 @@ interface DocsTableOfContentsProps {
   title?: string;
 }
 
-export function DocsTableOfContents({ headings, title = 'On this page' }: DocsTableOfContentsProps) {
+export function DocsTableOfContents({ headings, title }: DocsTableOfContentsProps) {
+  const t = useTranslations('marketing.sections.docs');
+  const resolvedTitle = title ?? t('onThisPage');
   const [activeId, setActiveId] = useState<string>('');
   const observer = useRef<IntersectionObserver | null>(null);
 
@@ -64,7 +67,7 @@ export function DocsTableOfContents({ headings, title = 'On this page' }: DocsTa
   return (
     <nav className="space-y-4">
       <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground px-2">
-        {title}
+        {resolvedTitle}
       </h4>
       <ul className="space-y-1 text-sm">
         {headings.map((heading) => (

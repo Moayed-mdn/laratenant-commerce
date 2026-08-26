@@ -1,6 +1,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { queryKeys } from '@/lib/queryKeys';
 import { useBootstrapStore } from '@/stores/bootstrapStore';
 import { updateStore } from '@/lib/api/stores';
@@ -15,6 +16,7 @@ import type { Store, UpdateStorePayload } from '@/types/store';
 export function useUpdateStore(storeSlug: string) {
   const queryClient = useQueryClient();
   const fetchBootstrap = useBootstrapStore((state) => state.fetchBootstrap);
+  const t = useTranslations('stores');
 
   return useMutation<ApiResponse<Store>, ApiError, UpdateStorePayload>({
     mutationFn: (payload: UpdateStorePayload) => updateStore(storeSlug, payload),
@@ -31,10 +33,10 @@ export function useUpdateStore(storeSlug: string) {
         console.error('[useUpdateStore] Failed to refresh bootstrap after store update', error);
       }
 
-      toast.success('Store updated successfully');
+      toast.success(t('updateSuccess'));
     },
     onError: (error) => {
-      toast.error(error.message || 'Failed to update store');
+      toast.error(error.message || t('updateError'));
     },
   });
 }

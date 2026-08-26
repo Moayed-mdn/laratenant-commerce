@@ -198,7 +198,7 @@ export function ProfilePasswordCard() {
           <div className="flex w-full items-center justify-between">
             <div>
               {showSaved ? (
-                <span className="flex items-center gap-1.5 text-sm text-green-600">
+                <span className="flex items-center gap-1.5 text-sm text-success">
                   <CheckCircle2 className="h-4 w-4" />
                   {t('profile.password.passwordUpdated')}
                 </span>
@@ -207,7 +207,7 @@ export function ProfilePasswordCard() {
             <Button
               type="submit"
               disabled={!isValid || !isDirty || isPending}
-              className={cn(showSaved && 'bg-green-600 hover:bg-green-700')}
+              className={cn(showSaved && 'bg-success hover:bg-success/90')}
             >
               {isPending ? (
                 <>

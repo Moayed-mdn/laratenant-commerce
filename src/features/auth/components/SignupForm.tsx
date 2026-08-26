@@ -21,7 +21,7 @@ import { postAuthChannelMessage } from '@/lib/auth/channel';
 import { resolvePostBootstrapPath } from '@/lib/auth/bootstrap-routing';
 
 function getPasswordStrength(password: string): {
-  label: 'Weak' | 'Fair' | 'Good' | 'Strong';
+  level: 'weak' | 'fair' | 'good' | 'strong';
   score: number;
 } {
   let score = 0;
@@ -32,16 +32,16 @@ function getPasswordStrength(password: string): {
   if (/\d/.test(password) && /[^A-Za-z0-9]/.test(password)) score += 1;
 
   if (score >= 4) {
-    return { label: 'Strong', score };
+    return { level: 'strong', score };
   }
   if (score === 3) {
-    return { label: 'Good', score };
+    return { level: 'good', score };
   }
   if (score === 2) {
-    return { label: 'Fair', score };
+    return { level: 'fair', score };
   }
 
-  return { label: 'Weak', score };
+  return { level: 'weak', score };
 }
 
 export function SignupForm() {
@@ -185,8 +185,8 @@ export function SignupForm() {
         {passwordValue ? (
           <div className="space-y-2 rounded-lg border border-border/70 bg-muted/40 px-3 py-2 text-sm">
             <div className="flex items-center justify-between gap-3">
-              <span className="text-muted-foreground">Password strength</span>
-              <span className="font-medium">{passwordStrength.label}</span>
+              <span className="text-muted-foreground">{t('passwordStrength.label')}</span>
+              <span className="font-medium">{t(`passwordStrength.levels.${passwordStrength.level}`)}</span>
             </div>
             <div className="grid grid-cols-4 gap-1">
               {Array.from({ length: 4 }).map((_, index) => (

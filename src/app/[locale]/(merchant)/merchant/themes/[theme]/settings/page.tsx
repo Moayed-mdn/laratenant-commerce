@@ -295,7 +295,7 @@ export default function ThemeSettingsPage() {
           <TabsTrigger value="buttons">{t('tabs.buttons')}</TabsTrigger>
           <TabsTrigger value="colors">{t('tabs.colors')}</TabsTrigger>
           <TabsTrigger value="typography">{t('tabs.typography')}</TabsTrigger>
-          <TabsTrigger value="colorSchemes">Color Schemes</TabsTrigger>
+          <TabsTrigger value="colorSchemes">{t('tabs.colorSchemes')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="buttons" className="space-y-6 mt-6">

@@ -37,7 +37,7 @@ function StorePickerContent() {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto" />
-          <p className="mt-4 text-muted-foreground">Loading...</p>
+          <p className="mt-4 text-muted-foreground">{t('loading')}</p>
         </div>
       </div>
     );
@@ -53,7 +53,7 @@ function StorePickerContent() {
           </p>
           <Link
             href={ROUTES.setup()}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-white font-medium hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-primary-foreground font-medium hover:bg-primary/90"
           >
             {t('createFirst')}
           </Link>
@@ -74,9 +74,9 @@ function StorePickerContent() {
     <div className="flex min-h-screen items-center justify-center bg-background">
       <div className="w-full max-w-md space-y-6 p-6">
         <div className="text-center">
-          <h1 className="text-2xl font-bold">Select a Store</h1>
+          <h1 className="text-2xl font-bold">{t('selectStore.title')}</h1>
           <p className="text-muted-foreground mt-1">
-            Choose which store you want to manage
+            {t('selectStore.description')}
           </p>
         </div>
 

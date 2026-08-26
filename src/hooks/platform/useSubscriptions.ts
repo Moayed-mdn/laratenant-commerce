@@ -19,7 +19,7 @@ import type { PaginatedResponse, ApiError } from '@/types/api';
 import { mapSubscriptionListItem, mapSubscriptionDetail } from '@/lib/mappers/subscriptions';
 import { selectPaginatedList } from '@/lib/mappers/pagination';
 
-export function useSubscriptions(filters: SubscriptionFilters) {
+export function useSubscriptions(filters: SubscriptionFilters, locale: string = 'en') {
   return useQuery<
     PaginatedResponse<SubscriptionListItem>,
     ApiError,
@@ -28,15 +28,15 @@ export function useSubscriptions(filters: SubscriptionFilters) {
     queryKey: queryKeys.platform.subscriptions.list(filters as unknown as Record<string, unknown>),
     queryFn: () => getSubscriptions(filters),
     staleTime: QUERY_CONFIG.staleTime,
-    select: selectPaginatedList(mapSubscriptionListItem),
+    select: selectPaginatedList((item) => mapSubscriptionListItem(item, locale)),
   });
 }
 
-export function useSubscriptionDetail(id: number) {
+export function useSubscriptionDetail(id: number, locale: string = 'en') {
   return useQuery<SubscriptionDetail, ApiError, SubscriptionDetailView>({
     queryKey: queryKeys.platform.subscriptions.detail(id),
     queryFn: () => getSubscriptionDetail(id),
     staleTime: QUERY_CONFIG.staleTime,
-    select: mapSubscriptionDetail,
+    select: (detail) => mapSubscriptionDetail(detail, locale),
   });
 }

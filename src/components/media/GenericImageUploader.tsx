@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from 'react';
 import { Upload, X, Loader2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { IconOrImage } from '@/components/media/IconOrImage';
@@ -39,15 +40,17 @@ export function GenericImageUploader({
   onChange,
   context,
   storeSlug,
-  label = 'Image',
+  label,
   disabled = false,
   maxSizeMB = DEFAULT_MAX_SIZE_MB,
 }: GenericImageUploaderProps) {
+  const t = useTranslations('media.uploader');
   const [isDragging, setIsDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const resolvedLabel = label ?? t('defaultLabel');
 
   // Compute preview URL - handle icon names gracefully
   const previewUrl = value
@@ -62,17 +65,17 @@ export function GenericImageUploader({
   const validateFile = useCallback(
     (file: File): string | null => {
       if (!ALLOWED_TYPES.includes(file.type)) {
-        return 'Please upload a valid image file (JPEG, PNG, GIF, or WEBP)';
+        return t('errors.invalidType');
       }
 
       const maxSizeBytes = maxSizeMB * 1024 * 1024;
       if (file.size > maxSizeBytes) {
-        return `Image size must not exceed ${maxSizeMB}MB`;
+        return t('errors.tooLarge', { maxSizeMB });
       }
 
       return null;
     },
-    [maxSizeMB]
+    [maxSizeMB, t]
   );
 
   // Upload file
@@ -110,12 +113,12 @@ export function GenericImageUploader({
           setUploadProgress(0);
         }, 500);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Upload failed. Please try again.');
+        setError(err instanceof Error ? err.message : t('errors.uploadFailed'));
         setUploading(false);
         setUploadProgress(0);
       }
     },
-    [storeSlug, context, onChange, validateFile]
+    [storeSlug, context, onChange, validateFile, t]
   );
 
   // Handle file selection
@@ -174,7 +177,7 @@ export function GenericImageUploader({
   const handleRemove = useCallback(async () => {
     if (!value || disabled) return;
 
-    if (!confirm('Are you sure you want to delete this image?')) {
+    if (!confirm(t('confirmDelete'))) {
       return;
     }
 
@@ -183,14 +186,14 @@ export function GenericImageUploader({
       onChange('');
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Delete failed. Please try again.');
+      setError(err instanceof Error ? err.message : t('errors.deleteFailed'));
     }
-  }, [value, disabled, storeSlug, context, onChange]);
+  }, [value, disabled, storeSlug, context, onChange, t]);
 
   return (
     <div className="space-y-3">
-      {label && (
-        <Label className="text-sm font-medium text-gray-700">{label}</Label>
+      {resolvedLabel && (
+        <Label className="text-sm font-medium text-foreground">{resolvedLabel}</Label>
       )}
 
       {/* Upload Area */}
@@ -199,7 +202,7 @@ export function GenericImageUploader({
           className={`
             relative border-2 border-dashed rounded-lg p-6 text-center
             transition-colors cursor-pointer
-            ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}
+            ${isDragging ? 'border-primary bg-primary-light' : 'border-border-strong hover:border-subtle'}
             ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
           `}
           onDragOver={handleDragOver}
@@ -218,19 +221,19 @@ export function GenericImageUploader({
 
           <div className="flex flex-col items-center">
             {uploading ? (
-              <Loader2 className="w-12 h-12 text-blue-600 animate-spin mb-3" />
+              <Loader2 className="w-12 h-12 text-primary animate-spin mb-3" />
             ) : (
-              <Upload className="w-12 h-12 text-gray-400 mb-3" />
+              <Upload className="w-12 h-12 text-subtle mb-3" />
             )}
 
             {!uploading && (
               <>
-                <p className="text-sm text-gray-600 mb-1">
-                  <span className="font-semibold text-blue-600">Click to upload</span>
-                  {' '}or drag and drop
+                <p className="text-sm text-muted mb-1">
+                  <span className="font-semibold text-primary">{t('clickToUpload')}</span>
+                  {' '}{t('orDragAndDrop')}
                 </p>
-                <p className="text-xs text-gray-500">
-                  PNG, JPG, GIF, WEBP up to {maxSizeMB}MB
+                <p className="text-xs text-subtle">
+                  {t('acceptedFormats', { maxSizeMB })}
                 </p>
               </>
             )}
@@ -239,21 +242,21 @@ export function GenericImageUploader({
           {/* Upload Progress */}
           {uploading && (
             <div className="mt-4">
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-border rounded-full h-2">
                 <div
-                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                  className="bg-primary h-2 rounded-full transition-all duration-300"
                   style={{ width: `${uploadProgress}%` }}
                 />
               </div>
-              <p className="text-xs text-gray-600 mt-1">
-                Uploading... {uploadProgress}%
+              <p className="text-xs text-muted mt-1">
+                {t('uploading', { progress: uploadProgress })}
               </p>
             </div>
           )}
 
           {/* Error Message */}
           {error && (
-            <div className="mt-4 text-sm text-red-600">{error}</div>
+            <div className="mt-4 text-sm text-danger">{error}</div>
           )}
         </div>
       )}
@@ -261,11 +264,11 @@ export function GenericImageUploader({
       {/* Preview Area */}
       {(previewUrl || (value && isLikelyIconName(value))) && (
         <div className="relative">
-          <div className="relative border-2 border-gray-200 rounded-lg overflow-hidden bg-muted/30">
+          <div className="relative border-2 border-border rounded-lg overflow-hidden bg-muted/30">
             {previewUrl ? (
               <img
                 src={previewUrl}
-                alt="Preview"
+                alt={t('previewAlt')}
                 className="w-full h-48 object-cover"
                 onError={(e) => {
                   // Hide broken image
@@ -283,7 +286,7 @@ export function GenericImageUploader({
                       alt=""
                     />
                   </div>
-                  <p className="text-sm text-muted-foreground">Icon: <span className="font-mono">{value}</span></p>
+                  <p className="text-sm text-muted-foreground">{t('iconLabel')} <span className="font-mono">{value}</span></p>
                 </div>
               </div>
             )}
@@ -296,11 +299,11 @@ export function GenericImageUploader({
                 onClick={handleRemove}
               >
                 <X className="h-4 w-4" />
-                <span className="sr-only">Delete image</span>
+                <span className="sr-only">{t('deleteImage')}</span>
               </Button>
             )}
           </div>
-          <p className="text-xs text-gray-500 mt-2">Path: {value}</p>
+          <p className="text-xs text-subtle mt-2">{t('pathLabel')} {value}</p>
         </div>
       )}
     </div>

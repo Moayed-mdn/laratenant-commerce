@@ -44,15 +44,15 @@ export function ThemesContent() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            {t('common.theme.overview.title')}
+            {t('theme.overview.title')}
           </h1>
           <p className="text-muted-foreground">
-            {t('common.theme.overview.subtitle')}
+            {t('theme.overview.subtitle')}
           </p>
         </div>
         <Button onClick={() => setShowCreateDialog(true)}>
           <Plus className="mr-2 h-4 w-4" />
-          {t('common.theme.createTheme')}
+          {t('theme.createTheme')}
         </Button>
       </div>
 
@@ -64,9 +64,9 @@ export function ThemesContent() {
       {/* Themes Grid */}
       <Card>
         <CardHeader>
-          <CardTitle>{t('common.theme.yourThemes')}</CardTitle>
+          <CardTitle>{t('theme.yourThemes')}</CardTitle>
           <CardDescription>
-            {t('common.theme.themesDescription')}
+            {t('theme.themesDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -89,11 +89,11 @@ export function ThemesContent() {
           {data && data.data.length === 0 && (
             <div className="flex flex-col items-center justify-center py-12">
               <p className="text-muted-foreground mb-4">
-                {t('common.theme.noThemes')}
+                {t('theme.noThemes')}
               </p>
               <Button onClick={() => setShowCreateDialog(true)}>
                 <Plus className="mr-2 h-4 w-4" />
-                {t('common.theme.createFirstTheme')}
+                {t('theme.createFirstTheme')}
               </Button>
             </div>
           )}

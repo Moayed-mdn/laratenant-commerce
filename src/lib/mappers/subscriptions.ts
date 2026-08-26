@@ -14,9 +14,9 @@ import { formatDistanceToNow } from 'date-fns';
 /**
  * Format currency amount from cents to display string.
  */
-function formatCurrency(amountCents: number, currency: string): string {
+function formatCurrency(amountCents: number, currency: string, locale: string = 'en'): string {
   const amount = amountCents / 100;
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency,
     minimumFractionDigits: 0,
@@ -39,10 +39,10 @@ function formatRelativeTime(dateString: string | null): string | null {
 /**
  * Format date to readable string.
  */
-function formatDate(dateString: string | null): string | null {
+function formatDate(dateString: string | null, locale: string = 'en'): string | null {
   if (!dateString) return null;
   try {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -55,9 +55,9 @@ function formatDate(dateString: string | null): string | null {
 /**
  * Map subscription list item from API to view shape.
  */
-export function mapSubscriptionListItem(item: SubscriptionListItem): SubscriptionListItemView {
+export function mapSubscriptionListItem(item: SubscriptionListItem, locale: string = 'en'): SubscriptionListItemView {
   const priceFormatted = item.plan_price
-    ? `${formatCurrency(item.plan_price.amount_cents, item.plan_price.currency)} / ${item.billing_cycle || 'month'}`
+    ? `${formatCurrency(item.plan_price.amount_cents, item.plan_price.currency, locale)} / ${item.billing_cycle || 'month'}`
     : '—';
 
   return {
@@ -80,10 +80,10 @@ export function mapSubscriptionListItem(item: SubscriptionListItem): Subscriptio
 /**
  * Map subscription detail from API to view shape.
  */
-export function mapSubscriptionDetail(detail: SubscriptionDetail): SubscriptionDetailView {
+export function mapSubscriptionDetail(detail: SubscriptionDetail, locale: string = 'en'): SubscriptionDetailView {
   const currency = detail.plan_price?.currency || 'USD';
   const priceFormatted = detail.plan_price
-    ? formatCurrency(detail.plan_price.amount_cents, currency)
+    ? formatCurrency(detail.plan_price.amount_cents, currency, locale)
     : '—';
 
   return {
@@ -99,7 +99,7 @@ export function mapSubscriptionDetail(detail: SubscriptionDetail): SubscriptionD
     
     pendingPlan: detail.pending_plan,
     pendingPlanEffectiveAt: detail.pending_plan_effective_at,
-    pendingPlanEffectiveAtFormatted: formatDate(detail.pending_plan_effective_at),
+    pendingPlanEffectiveAtFormatted: formatDate(detail.pending_plan_effective_at, locale),
     
     priceFormatted,
     currency,
@@ -129,13 +129,13 @@ export function mapSubscriptionDetail(detail: SubscriptionDetail): SubscriptionD
       invoiceNumber: invoice.invoice_number,
       status: invoice.status,
       currency: invoice.currency,
-      totalFormatted: formatCurrency(invoice.total_cents, invoice.currency),
-      amountPaidFormatted: formatCurrency(invoice.amount_paid_cents, invoice.currency),
-      amountDueFormatted: formatCurrency(invoice.amount_due_cents, invoice.currency),
+      totalFormatted: formatCurrency(invoice.total_cents, invoice.currency, locale),
+      amountPaidFormatted: formatCurrency(invoice.amount_paid_cents, invoice.currency, locale),
+      amountDueFormatted: formatCurrency(invoice.amount_due_cents, invoice.currency, locale),
       issuedAt: invoice.issued_at,
-      issuedAtFormatted: formatDate(invoice.issued_at),
+      issuedAtFormatted: formatDate(invoice.issued_at, locale),
       paidAt: invoice.paid_at,
-      paidAtFormatted: formatDate(invoice.paid_at),
+      paidAtFormatted: formatDate(invoice.paid_at, locale),
       hostedInvoiceUrl: invoice.hosted_invoice_url,
     })),
     

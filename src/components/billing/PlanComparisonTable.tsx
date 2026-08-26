@@ -9,6 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Check, X, Infinity } from 'lucide-react';
 import { useParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import type { Plan, PlanFeature } from '@/types/billing/plan';
 
 /**
@@ -27,6 +28,7 @@ interface PlanComparisonTableProps {
 export function PlanComparisonTable({ plans }: PlanComparisonTableProps) {
   const params = useParams();
   const locale = (params?.locale as string) || 'en';
+  const t = useTranslations('billing.plans.comparisonTable');
   
   // Collect all unique feature keys across all plans
   const allFeatureKeys = new Set<string>();
@@ -45,11 +47,11 @@ export function PlanComparisonTable({ plans }: PlanComparisonTableProps) {
 
   const formatFeatureValue = (feature: PlanFeature) => {
     if (feature.value_type === 'unlimited') {
-      return <Infinity className="inline h-5 w-5 text-green-600 dark:text-green-400" />;
+      return <Infinity className="inline h-5 w-5 text-success" />;
     }
     if (feature.value_type === 'boolean') {
       return feature.boolean_value ? (
-        <Check className="inline h-5 w-5 text-green-600 dark:text-green-400" />
+        <Check className="inline h-5 w-5 text-success" />
       ) : (
         <X className="inline h-5 w-5 text-muted-foreground" />
       );
@@ -67,14 +69,14 @@ export function PlanComparisonTable({ plans }: PlanComparisonTableProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Feature Comparison</CardTitle>
+        <CardTitle>{t('title')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[200px]">Feature</TableHead>
+                <TableHead className="w-[200px]">{t('feature')}</TableHead>
                 {plans.map((plan) => (
                   <TableHead key={plan.id} className="text-center">
                     <div className="font-semibold">{getLocalizedText(plan.name, locale, plan.code)}</div>

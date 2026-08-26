@@ -55,10 +55,10 @@ export function EditAssetDialog({ asset, onClose }: EditAssetDialogProps) {
         },
       });
 
-      toast.success(t('assets.updateSuccess'));
+      toast.success(t('theme.assets.updateSuccess'));
       onClose();
     } catch (error) {
-      toast.error(t('assets.updateError'));
+      toast.error(t('theme.assets.updateError'));
     }
   };
 
@@ -66,38 +66,38 @@ export function EditAssetDialog({ asset, onClose }: EditAssetDialogProps) {
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{t('assets.editAsset')}</DialogTitle>
+          <DialogTitle>{t('theme.assets.editAsset')}</DialogTitle>
           <DialogDescription>{asset.fileName}</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
           {/* Asset Type */}
           <div className="space-y-2">
-            <Label htmlFor="edit-asset-type">{t('assets.assetType')}</Label>
+            <Label htmlFor="edit-asset-type">{t('theme.assets.assetType')}</Label>
             <Select value={assetType} onValueChange={(v) => setAssetType(v as AssetType)}>
               <SelectTrigger id="edit-asset-type">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="logo">{t('assets.logo')}</SelectItem>
-                <SelectItem value="favicon">{t('assets.favicon')}</SelectItem>
-                <SelectItem value="banner">{t('assets.banner')}</SelectItem>
-                <SelectItem value="other">{t('assets.other')}</SelectItem>
+                <SelectItem value="logo">{t('theme.assets.logo')}</SelectItem>
+                <SelectItem value="favicon">{t('theme.assets.favicon')}</SelectItem>
+                <SelectItem value="banner">{t('theme.assets.banner')}</SelectItem>
+                <SelectItem value="other">{t('theme.assets.other')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           {/* Alt Text */}
           <div className="space-y-2">
-            <Label htmlFor="edit-alt-text">{t('assets.altText')}</Label>
+            <Label htmlFor="edit-alt-text">{t('theme.assets.altText')}</Label>
             <Input
               id="edit-alt-text"
               value={altText}
               onChange={(e) => setAltText(e.target.value)}
-              placeholder={t('assets.altTextPlaceholder')}
+              placeholder={t('theme.assets.altTextPlaceholder')}
             />
             <p className="text-xs text-muted-foreground">
-              {t('assets.altTextHelper')}
+              {t('theme.assets.altTextHelper')}
             </p>
           </div>
         </div>

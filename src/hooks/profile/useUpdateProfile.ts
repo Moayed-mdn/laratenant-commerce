@@ -3,6 +3,7 @@
  */
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { updateProfileInfo } from '@/lib/api/profile';
 import type { UpdateProfileInfoPayload } from '@/lib/api/profile';
 import type { ApiError } from '@/types/api';
@@ -12,6 +13,7 @@ import { useBootstrapStore } from '@/stores/bootstrapStore';
 export function useUpdateProfile() {
   const queryClient = useQueryClient();
   const fetchBootstrap = useBootstrapStore((state) => state.fetchBootstrap);
+  const t = useTranslations('profile');
 
   return useMutation<unknown, ApiError, UpdateProfileInfoPayload>({
     mutationFn: (payload: UpdateProfileInfoPayload) => updateProfileInfo(payload),
@@ -23,10 +25,10 @@ export function useUpdateProfile() {
       // Force refetch bootstrap to update user info immediately
       await fetchBootstrap();
       
-      toast.success('Profile updated successfully');
+      toast.success(t('profileUpdateSuccess'));
     },
     onError: (error) => {
-      toast.error(error.message || 'Failed to update profile');
+      toast.error(error.message || t('profileUpdateError'));
     },
   });
 }

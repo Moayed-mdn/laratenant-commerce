@@ -29,13 +29,8 @@ import { getStoreRouteParam } from '@/lib/stores/route-param';
 import type { ApiError } from '@/types/api';
 import type { SectionSchema, PageTemplateSection } from '@/types/theme';
 
-const TEMPLATE_TYPE_OPTIONS = [
-  { value: 'page', label: 'Page' },
-  { value: 'product', label: 'Product' },
-  { value: 'collection', label: 'Collection' },
-  { value: 'article', label: 'Article' },
-  { value: 'blog', label: 'Blog' },
-  { value: 'cart', label: 'Cart' },
+const TEMPLATE_TYPE_OPTION_KEYS = [
+  'page', 'product', 'collection', 'article', 'blog', 'cart',
 ] as const;
 
 function slugify(value: string) {
@@ -93,13 +88,13 @@ export function CreatePageTemplateDialog({ onClose }: CreatePageTemplateDialogPr
 
     const normalizedHandle = slugify(handle || name);
     if (!normalizedHandle) {
-      toast.error('Handle is required.');
+      toast.error(t('theme.templates.handleRequired'));
       return;
     }
 
     const selectedSchema = schemas.find((schema) => schema.type === resolvedSectionType);
     if (!selectedSchema) {
-      toast.error('Initial section type is required.');
+      toast.error(t('theme.templates.initialSectionTypeRequired'));
       return;
     }
 
@@ -151,25 +146,25 @@ export function CreatePageTemplateDialog({ onClose }: CreatePageTemplateDialogPr
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="template-handle">Handle</Label>
+            <Label htmlFor="template-handle">{t('theme.templates.handle')}</Label>
             <Input
               id="template-handle"
               value={handle}
               onChange={(e) => setHandle(slugify(e.target.value))}
-              placeholder="my-template"
+              placeholder={t('theme.templates.handlePlaceholder')}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="template-type">Type</Label>
+            <Label htmlFor="template-type">{t('theme.templates.type')}</Label>
             <Select value={type} onValueChange={(value) => value !== null && setType(value)}>
               <SelectTrigger id="template-type">
-                <SelectValue placeholder="Select a template type" />
+                <SelectValue placeholder={t('theme.templates.typePlaceholder')} />
               </SelectTrigger>
               <SelectContent>
-                {TEMPLATE_TYPE_OPTIONS.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
+                {TEMPLATE_TYPE_OPTION_KEYS.map((optionKey) => (
+                  <SelectItem key={optionKey} value={optionKey}>
+                    {t(`theme.templates.typeOptions.${optionKey}`)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -182,20 +177,20 @@ export function CreatePageTemplateDialog({ onClose }: CreatePageTemplateDialogPr
               id="template-description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Optional description"
+              placeholder={t('theme.templates.descriptionPlaceholder')}
               rows={3}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="initial-section-type">Initial section type</Label>
+            <Label htmlFor="initial-section-type">{t('theme.templates.initialSectionType')}</Label>
             <Select
               value={resolvedSectionType}
               onValueChange={(value) => value !== null && setSectionType(value)}
               disabled={schemasLoading || schemas.length === 0}
             >
               <SelectTrigger id="initial-section-type">
-                <SelectValue placeholder="Select the first section" />
+                <SelectValue placeholder={t('theme.templates.initialSectionTypePlaceholder')} />
               </SelectTrigger>
               <SelectContent>
                 {schemas.map((schema) => (
@@ -208,12 +203,12 @@ export function CreatePageTemplateDialog({ onClose }: CreatePageTemplateDialogPr
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="initial-section-identifier">Initial section identifier</Label>
+            <Label htmlFor="initial-section-identifier">{t('theme.templates.initialSectionIdentifier')}</Label>
             <Input
               id="initial-section-identifier"
               value={sectionIdentifier}
               onChange={(e) => setSectionIdentifier(e.target.value)}
-              placeholder="hero"
+              placeholder={t('theme.templates.initialSectionIdentifierPlaceholder')}
             />
           </div>
         </div>

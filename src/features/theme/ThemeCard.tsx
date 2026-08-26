@@ -61,18 +61,18 @@ export function ThemeCard({ theme }: ThemeCardProps) {
   const handlePublish = async () => {
     try {
       await publishMutation.mutateAsync(themeIdentifier);
-      toast.success(t('common.theme.publishSuccess'));
+      toast.success(t('theme.publishSuccess'));
     } catch (error: any) {
-      toast.error(error?.message ?? t('common.theme.publishError'));
+      toast.error(error?.message ?? t('theme.publishError'));
     }
   };
 
   const handleDelete = async () => {
     try {
       await deleteMutation.mutateAsync(themeIdentifier);
-      toast.success(t('common.theme.deleteSuccess'));
+      toast.success(t('theme.deleteSuccess'));
     } catch (error: any) {
-      toast.error(error?.message ?? t('common.theme.deleteError'));
+      toast.error(error?.message ?? t('theme.deleteError'));
     } finally {
       setShowDeleteDialog(false);
     }
@@ -91,15 +91,15 @@ export function ThemeCard({ theme }: ThemeCardProps) {
             {theme.isActive && (
               <Badge variant="default" className="gap-1">
                 <Check className="h-3 w-3" />
-                {t('common.theme.active')}
+                {t('theme.active')}
               </Badge>
             )}
             {theme.isPublished ? (
               <Badge variant="secondary">
-                {t('common.theme.published')}
+                {t('theme.published')}
               </Badge>
             ) : (
-              <Badge variant="outline">{t('common.theme.draft')}</Badge>
+              <Badge variant="outline">{t('theme.draft')}</Badge>
             )}
           </div>
 
@@ -118,14 +118,14 @@ export function ThemeCard({ theme }: ThemeCardProps) {
                   <>
                     <DropdownMenuItem onClick={handlePublish}>
                       <Sparkles className="mr-2 h-4 w-4" />
-                      {t('common.theme.publish')}
+                      {t('theme.publish')}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                   </>
                 )}
                 <DropdownMenuItem onClick={() => setShowDuplicateDialog(true)}>
                   <Copy className="mr-2 h-4 w-4" />
-                  {t('common.theme.duplicate')}
+                  {t('theme.duplicate')}
                 </DropdownMenuItem>
                 {!theme.isActive && (
                   <DropdownMenuItem
@@ -145,7 +145,7 @@ export function ThemeCard({ theme }: ThemeCardProps) {
           {/* Theme Preview Placeholder */}
           <div className="aspect-video bg-gradient-to-br from-primary/10 to-secondary/10 rounded-lg mb-4 flex items-center justify-center">
             <div className="text-center text-muted-foreground text-sm">
-              {t('common.theme.preview')}
+              {t('theme.preview')}
             </div>
           </div>
 
@@ -159,7 +159,7 @@ export function ThemeCard({ theme }: ThemeCardProps) {
             )}
             {theme.sectionsCount !== undefined && (
               <p className="text-xs text-muted-foreground mt-2">
-                {theme.sectionsCount} {t('common.theme.sections')}
+                {theme.sectionsCount} {t('theme.sections')}
               </p>
             )}
           </div>
@@ -172,7 +172,7 @@ export function ThemeCard({ theme }: ThemeCardProps) {
             onClick={handleCustomize}
           >
             <Palette className="h-4 w-4" />
-            {t('common.theme.customize')}
+            {t('theme.customize')}
           </Button>
           <Button
             className="flex-1 min-w-[100px]"
@@ -199,9 +199,9 @@ export function ThemeCard({ theme }: ThemeCardProps) {
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{t('common.theme.deleteTitle')}</AlertDialogTitle>
+            <AlertDialogTitle>{t('theme.deleteTitle')}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t('common.theme.deleteConfirmation')}
+              {t('theme.deleteConfirmation')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

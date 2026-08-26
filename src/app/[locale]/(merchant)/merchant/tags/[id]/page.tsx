@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 /**
  * Merchant Workspace — Tag View Page (Redirects to Edit).
@@ -12,6 +13,7 @@ import { useEffect } from 'react';
 export default function MerchantTagViewPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
+  const t = useTranslations();
   const tagId = params.id;
 
   useEffect(() => {
@@ -21,7 +23,7 @@ export default function MerchantTagViewPage() {
 
   return (
     <div className="flex items-center justify-center min-h-[400px]">
-      <p className="text-muted-foreground">Redirecting...</p>
+      <p className="text-muted-foreground">{t('redirecting')}</p>
     </div>
   );
 }

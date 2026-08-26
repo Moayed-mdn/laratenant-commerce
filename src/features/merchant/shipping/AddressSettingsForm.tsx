@@ -204,7 +204,7 @@ export function AddressSettingsForm({ storeSlug }: AddressSettingsFormProps) {
 
         {/* Additional Options */}
         <div className="space-y-4">
-          <Label className="text-base">Additional Options</Label>
+          <Label className="text-base">{t('addressSettings.options.title')}</Label>
 
           <div className="space-y-4">
             <div className="flex items-start justify-between">

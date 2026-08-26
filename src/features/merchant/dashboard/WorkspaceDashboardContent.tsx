@@ -178,11 +178,11 @@ function StatCard({ title, value, change, isUp, icon }: {
         <div className="text-2xl font-bold">{value}</div>
         <div className="mt-1 flex items-center gap-1">
           {isUp ? (
-            <TrendingUp className="h-3 w-3 text-green-500" />
+            <TrendingUp className="h-3 w-3 text-success" />
           ) : (
             <TrendingDown className="h-3 w-3 text-destructive" />
           )}
-          <span className={cn("text-xs font-medium", isUp ? "text-green-500" : "text-destructive")}>
+          <span className={cn("text-xs font-medium", isUp ? "text-success" : "text-destructive")}>
             {change}
           </span>
         </div>

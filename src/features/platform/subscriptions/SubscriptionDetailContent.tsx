@@ -5,7 +5,7 @@
  */
 
 import { useSubscriptionDetail } from '@/hooks/platform/useSubscriptions';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { logger } from '@/lib/logger';
 import { Link } from '@/lib/navigation';
 import { ROUTES } from '@/config/routes';
@@ -22,7 +22,8 @@ interface Props {
 
 export default function SubscriptionDetailContent({ subscriptionId }: Props) {
   const t = useTranslations('subscriptions');
-  const { data: subscription, isLoading, error } = useSubscriptionDetail(subscriptionId);
+  const locale = useLocale();
+  const { data: subscription, isLoading, error } = useSubscriptionDetail(subscriptionId, locale);
 
   if (error) {
     logger.error('[SubscriptionDetailContent] Failed to load subscription', error);

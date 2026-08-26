@@ -6,6 +6,7 @@
  */
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,6 +20,7 @@ interface ColorSchemeManagerProps {
 }
 
 export function ColorSchemeManager({ colorSchemes, onChange }: ColorSchemeManagerProps) {
+  const t = useTranslations('theme-settings.colorSchemeManager');
   const [editingScheme, setEditingScheme] = useState<{ key: string; scheme: ColorScheme } | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
@@ -53,7 +55,7 @@ export function ColorSchemeManager({ colorSchemes, onChange }: ColorSchemeManage
     setEditingScheme({
       key: '',
       scheme: {
-        name: 'New Scheme',
+        name: t('newSchemeDefaultName'),
         background: '#FFFFFF',
         text: '#1F2937',
         button_background: '#3B82F6',
@@ -69,14 +71,14 @@ export function ColorSchemeManager({ colorSchemes, onChange }: ColorSchemeManage
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Color Schemes</CardTitle>
+            <CardTitle>{t('title')}</CardTitle>
             <CardDescription>
-              Manage pre-defined color schemes for sections. Merchants can apply these to different sections for consistent styling.
+              {t('description')}
             </CardDescription>
           </div>
           <Button onClick={handleCreateNew} size="sm">
             <Plus className="mr-2 h-4 w-4" />
-            Add Scheme
+            {t('addScheme')}
           </Button>
         </div>
       </CardHeader>
@@ -95,7 +97,7 @@ export function ColorSchemeManager({ colorSchemes, onChange }: ColorSchemeManage
 
           {schemes.length === 0 && (
             <div className="col-span-full py-12 text-center text-muted-foreground">
-              No color schemes defined. Add one to get started.
+              {t('empty')}
             </div>
           )}
         </div>

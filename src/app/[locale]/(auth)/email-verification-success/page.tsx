@@ -14,8 +14,8 @@ export default function EmailVerificationSuccessPage() {
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md text-center">
         <CardHeader>
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
-            <CheckCircle2 className="h-6 w-6 text-green-600 dark:text-green-400" />
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-success-bg">
+            <CheckCircle2 className="h-6 w-6 text-success" />
           </div>
           <CardTitle>{t('successTitle')}</CardTitle>
         </CardHeader>

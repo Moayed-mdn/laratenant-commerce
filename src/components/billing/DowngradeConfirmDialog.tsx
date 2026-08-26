@@ -118,8 +118,8 @@ export function DowngradeConfirmDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-amber-50 dark:bg-amber-950/20">
-            <TrendingDown className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-warning-bg">
+            <TrendingDown className="h-6 w-6 text-warning" />
           </div>
           <DialogTitle className="text-center">{t('confirmTitle')}</DialogTitle>
           <DialogDescription className="text-center">
@@ -132,14 +132,14 @@ export function DowngradeConfirmDialog({
         </DialogHeader>
 
         <div className="space-y-3">
-          <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/50 dark:bg-amber-950/20">
+          <div className="rounded-lg border border-warning/30 bg-warning-bg p-4">
             <div className="flex items-start gap-3">
-              <AlertTriangle className="h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400" />
+              <AlertTriangle className="h-5 w-5 shrink-0 text-warning" />
               <div className="space-y-1">
-                <p className="text-sm font-medium text-amber-900 dark:text-amber-100">
+                <p className="text-sm font-medium text-warning">
                   {t('whatHappens')}
                 </p>
-                <ul className="list-inside list-disc space-y-1 text-sm text-amber-700 dark:text-amber-300">
+                <ul className="list-inside list-disc space-y-1 text-sm text-warning">
                   <li>{t('reducedLimits')}</li>
                   <li>{t('fewerFeatures')}</li>
                   <li>{t('lowerPriority')}</li>

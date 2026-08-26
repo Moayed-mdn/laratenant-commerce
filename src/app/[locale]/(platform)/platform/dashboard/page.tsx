@@ -14,9 +14,10 @@ export async function generateMetadata() {
   };
 }
 
-export default function PlatformDashboardPage() {
+export default async function PlatformDashboardPage() {
+  const t = await getTranslations('common');
   return (
-    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+    <Suspense fallback={<div className="p-8 text-center">{t('loading')}</div>}>
       <PlatformDashboardContent />
     </Suspense>
   );

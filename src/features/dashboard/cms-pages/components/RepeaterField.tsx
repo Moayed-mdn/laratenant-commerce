@@ -7,6 +7,7 @@
 
 import { useState } from 'react';
 import { ChevronDown, ChevronUp, Plus, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
@@ -30,9 +31,12 @@ export function RepeaterField({
   onMoveDown,
   renderItem,
   getItemLabel,
-  addLabel = 'Add item',
-  emptyLabel = 'No items yet',
+  addLabel,
+  emptyLabel,
 }: RepeaterFieldProps) {
+  const t = useTranslations('cmsPages.sections');
+  const resolvedAddLabel = addLabel ?? t('repeater.addItem');
+  const resolvedEmptyLabel = emptyLabel ?? t('repeater.noItems');
   const [collapsed, setCollapsed] = useState<Record<number, boolean>>({});
 
   const toggleCollapse = (index: number) => {
@@ -44,13 +48,13 @@ export function RepeaterField({
       {/* Add button */}
       <Button type="button" variant="outline" size="sm" onClick={onAdd}>
         <Plus className="h-4 w-4 mr-1" />
-        {addLabel}
+        {resolvedAddLabel}
       </Button>
 
       {/* Empty state */}
       {items.length === 0 && (
         <div className="rounded-lg border border-dashed p-6 text-center">
-          <p className="text-sm text-muted-foreground">{emptyLabel}</p>
+          <p className="text-sm text-muted-foreground">{resolvedEmptyLabel}</p>
         </div>
       )}
 
@@ -76,7 +80,7 @@ export function RepeaterField({
                     onClick={() => onMoveUp(index)}
                     disabled={index === 0}
                     className="p-1 rounded hover:bg-muted disabled:opacity-30"
-                    title="Move up"
+                    title={t('moveUp')}
                   >
                     <ChevronUp className="h-3 w-3 text-muted-foreground" />
                   </button>
@@ -87,7 +91,7 @@ export function RepeaterField({
                     onClick={() => onMoveDown(index)}
                     disabled={index === items.length - 1}
                     className="p-1 rounded hover:bg-muted disabled:opacity-30"
-                    title="Move down"
+                    title={t('moveDown')}
                   >
                     <ChevronDown className="h-3 w-3 text-muted-foreground" />
                   </button>
@@ -97,7 +101,7 @@ export function RepeaterField({
                     type="button"
                     onClick={() => toggleCollapse(index)}
                     className="p-1 rounded hover:bg-muted"
-                    title={isCollapsed ? 'Expand' : 'Collapse'}
+                    title={isCollapsed ? t('expand') : t('collapse')}
                   >
                     {isCollapsed ? (
                       <ChevronDown className="h-3 w-3 text-muted-foreground" />
@@ -111,7 +115,7 @@ export function RepeaterField({
                     type="button"
                     onClick={() => onRemove(index)}
                     className="p-1 rounded hover:bg-destructive/10 text-destructive"
-                    title="Remove"
+                    title={t('removeItem')}
                   >
                     <Trash2 className="h-3 w-3" />
                   </button>

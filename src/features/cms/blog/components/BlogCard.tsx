@@ -25,7 +25,7 @@ export function BlogCard({ post, locale }: BlogCardProps) {
         <div className="flex justify-between items-center mb-2">
           <Badge variant="secondary">{post.category.name}</Badge>
           {post.published_at && (
-            <span className="text-xs text-muted-foreground">{formatDate(post.published_at)}</span>
+            <span className="text-xs text-muted-foreground">{formatDate(post.published_at, 'MMM d, yyyy', locale as 'en' | 'ar')}</span>
           )}
         </div>
         <Link href={`/${locale}/blog/${post.slug}`} className="hover:text-primary transition-colors">

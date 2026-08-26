@@ -28,9 +28,9 @@ export default function MerchantStoreSettingsPage() {
           <h1 className="text-2xl font-bold">{t('stores')}</h1>
         </div>
         <div className="rounded-lg border border-dashed p-8 text-center">
-          <h3 className="text-lg font-semibold text-destructive">Store not found</h3>
+          <h3 className="text-lg font-semibold text-destructive">{tSettings('storeNotFound.title')}</h3>
           <p className="mt-2 text-sm text-muted-foreground">
-            We couldn't find the store you're looking for. It may have been deleted or you may not have access to it.
+            {tSettings('storeNotFound.description')}
           </p>
         </div>
       </div>

@@ -12,6 +12,7 @@
 //   - section aria-labelledby references SectionHeading id
 // =============================================================================
 
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import SectionContainer from '@/features/marketing/layouts/SectionContainer'
 import SectionHeading from '@/features/marketing/components/SectionHeading'
@@ -31,6 +32,7 @@ export default function FeatureGridSection({
   subtitle,
   items,
 }: FeatureGridSectionProps) {
+  const t = useTranslations('marketing.sections.features')
   return (
     <section
       aria-labelledby="features-heading"
@@ -54,7 +56,7 @@ export default function FeatureGridSection({
             'sm:grid-cols-2 lg:grid-cols-4',
           )}
           role="list"
-          aria-label="Platform features"
+          aria-label={t('a11yLabel')}
         >
           {items.map((item) => (
             <div key={item.id} role="listitem">

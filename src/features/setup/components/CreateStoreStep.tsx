@@ -304,7 +304,7 @@ export function CreateStoreStep({ onSuccess, fullPage = true }: Props) {
                     <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                   ) : null}
                   {!isCheckingSlug && slugStatus === 'available' ? (
-                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                    <CheckCircle2 className="h-4 w-4 text-success" />
                   ) : null}
                   {!isCheckingSlug && slugStatus === 'taken' ? (
                     <XCircle className="h-4 w-4 text-destructive" />
@@ -318,7 +318,7 @@ export function CreateStoreStep({ onSuccess, fullPage = true }: Props) {
                 <p className="text-sm text-destructive">{t('slugTaken')}</p>
               ) : null}
               {!errors.slug && slugStatus === 'available' ? (
-                <p className="text-sm text-green-600">{t('slugAvailable')}</p>
+                <p className="text-sm text-success">{t('slugAvailable')}</p>
               ) : null}
               {slugStatus === 'error' ? (
                 <p className="text-sm text-muted-foreground">

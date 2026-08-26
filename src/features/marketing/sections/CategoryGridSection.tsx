@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import SectionContainer from '@/features/marketing/layouts/SectionContainer'
 import SectionHeading from '@/features/marketing/components/SectionHeading'
@@ -10,15 +11,17 @@ interface CategoryGridSectionProps {
 
 export default function CategoryGridSection({
   categories,
-  heading = 'Explore Categories',
+  heading,
 }: CategoryGridSectionProps) {
+  const t = useTranslations('marketing.sections.categories')
   if (!categories || categories.length === 0) return null
+  const resolvedHeading = heading ?? t('defaultHeading')
 
   return (
     <section className="w-full py-20 sm:py-28">
       <SectionContainer>
         <SectionHeading
-          heading={heading}
+          heading={resolvedHeading}
           align="center"
         />
 
@@ -44,7 +47,7 @@ export default function CategoryGridSection({
                   <p className="text-muted-foreground leading-relaxed">{description}</p>
                 )}
                 <div className="mt-6 flex items-center text-sm font-semibold text-primary">
-                  <span>View content</span>
+                  <span>{t('viewContent')}</span>
                   <svg
                     className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1"
                     fill="none"

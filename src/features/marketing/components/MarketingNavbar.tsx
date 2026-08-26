@@ -64,14 +64,14 @@ export default function MarketingNavbar({
     >
       <nav
         className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-8"
-        aria-label="Main navigation"
+        aria-label={t('a11y.mainNavigation')}
       >
         {/* Logo */}
         <Link
           href="/"
           className="flex items-center gap-2 text-lg font-bold text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           onClick={closeMenu}
-          aria-label="LaraTenant Commerce — Home"
+          aria-label={t('a11y.homeLink', { brand: t('brandName') })}
         >
           <span
             className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-sm font-black text-primary-foreground"
@@ -189,7 +189,7 @@ export default function MarketingNavbar({
         id="mobile-menu"
         role="dialog"
         aria-modal="true"
-        aria-label="Mobile navigation"
+        aria-label={t('a11y.mobileNavigation')}
         className={cn(
           'fixed inset-x-0 top-16 z-40 md:hidden',
           'border-b border-border bg-background',

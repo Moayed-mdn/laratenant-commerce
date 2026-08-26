@@ -20,11 +20,12 @@ export async function generateMetadata() {
   };
 }
 
-export default function SubscriptionDetailPage({ params }: Props) {
+export default async function SubscriptionDetailPage({ params }: Props) {
   const subscriptionId = parseInt(params.id, 10);
+  const t = await getTranslations('common');
 
   return (
-    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+    <Suspense fallback={<div className="p-8 text-center">{t('loading')}</div>}>
       <SubscriptionDetailContent subscriptionId={subscriptionId} />
     </Suspense>
   );

@@ -91,7 +91,7 @@ export default function MenuItemNode({
         className={cn(
           'flex items-center gap-2 rounded-lg border p-3',
           !item.isActive && 'opacity-50',
-          isBroken && 'border-amber-300 bg-amber-50'
+          isBroken && 'border-warning/40 bg-warning-bg'
         )}
         style={{ marginLeft: `${level * 24}px` }}
       >
@@ -114,17 +114,17 @@ export default function MenuItemNode({
         {/* Label */}
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <span className={cn("font-medium", isGroup && "text-blue-700")}>
+            <span className={cn("font-medium", isGroup && "text-info")}>
               {getResourceIcon()} {label}
             </span>
             {isBroken && (
-              <Badge variant="destructive" className="text-xs bg-amber-200 text-amber-900">
+              <Badge variant="destructive" className="text-xs bg-warning/20 text-warning">
                 <AlertTriangle className="h-3 w-3 mr-1" />
                 {t('broken')}
               </Badge>
             )}
             {isGroup && (
-              <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-700">
+              <Badge variant="secondary" className="text-xs bg-info-bg text-info">
                 {t('group')}
               </Badge>
             )}
@@ -153,7 +153,7 @@ export default function MenuItemNode({
             }
           </p>
           {isBroken && (
-            <p className="text-xs text-amber-700 mt-1">
+            <p className="text-xs text-warning mt-1">
               ⚠️ {t('brokenLinkWarning')}
             </p>
           )}

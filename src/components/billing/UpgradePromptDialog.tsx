@@ -60,8 +60,8 @@ export function UpgradePromptDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-amber-50 dark:bg-amber-950/20">
-            <AlertCircle className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-warning-bg">
+            <AlertCircle className="h-6 w-6 text-warning" />
           </div>
           <DialogTitle className="text-center">{t('title')}</DialogTitle>
           <DialogDescription className="text-center">{getDefaultMessage()}</DialogDescription>
@@ -77,7 +77,7 @@ export function UpgradePromptDialog({
             </div>
             <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-secondary">
               <div
-                className="h-full bg-amber-500 transition-all"
+                className="h-full bg-warning transition-all"
                 style={{ width: `${Math.min((current / limit) * 100, 100)}%` }}
               />
             </div>

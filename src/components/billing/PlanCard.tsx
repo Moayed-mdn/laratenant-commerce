@@ -152,7 +152,7 @@ export function PlanCard({
 
             return (
               <li key={feature.id} className="flex items-start gap-3">
-                <Check className="h-5 w-5 shrink-0 text-green-600 dark:text-green-400" />
+                <Check className="h-5 w-5 shrink-0 text-success" />
                 <div>
                   <div className="text-sm font-medium">
                     {getFeatureLabel(feature.feature_key, locale)}

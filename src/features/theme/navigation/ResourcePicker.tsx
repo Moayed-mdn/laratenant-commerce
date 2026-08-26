@@ -209,7 +209,7 @@ export default function ResourcePicker({ storeSlug, type, selectedId, onSelect }
       {/* Selected Resource Info */}
       {selectedResource && (
         <div className="flex items-start gap-2 rounded-lg border bg-muted/50 p-2">
-          <CheckCircle2 className="h-4 w-4 mt-0.5 text-green-600 flex-shrink-0" />
+          <CheckCircle2 className="h-4 w-4 mt-0.5 text-success flex-shrink-0" />
           <div className="flex-1 min-w-0">
             <p className="text-xs font-medium truncate">
               {getDisplayLabel(selectedResource)}

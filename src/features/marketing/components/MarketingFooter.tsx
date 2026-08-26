@@ -26,7 +26,7 @@ export default async function MarketingFooter() {
   return (
     <footer
       className="w-full border-t border-border bg-background"
-      aria-label="Site footer"
+      aria-label={t('a11y.siteFooter')}
     >
       <div className="mx-auto max-w-[1280px] px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-4">
@@ -39,7 +39,7 @@ export default async function MarketingFooter() {
                 'text-base font-bold text-foreground',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
               )}
-              aria-label="LaraTenant Commerce — Home"
+              aria-label={t('a11y.homeLink', { brand: t('brandName') })}
             >
               <span
                 className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-xs font-black text-primary-foreground"

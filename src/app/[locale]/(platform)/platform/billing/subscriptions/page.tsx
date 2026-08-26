@@ -15,9 +15,10 @@ export async function generateMetadata() {
   };
 }
 
-export default function SubscriptionsPage() {
+export default async function SubscriptionsPage() {
+  const t = await getTranslations('common');
   return (
-    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+    <Suspense fallback={<div className="p-8 text-center">{t('loading')}</div>}>
       <SubscriptionsContent initialFilters={defaultSubscriptionFilters} />
     </Suspense>
   );

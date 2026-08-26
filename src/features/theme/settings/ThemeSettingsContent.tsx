@@ -131,7 +131,7 @@ export function ThemeSettingsContent({ themeIdentifier }: { themeIdentifier: str
 
   const handleSave = async () => {
     if (!currentTheme) {
-      toast.error(t('common.theme.settings.noThemeFound'));
+      toast.error(t('theme.settings.noThemeFound'));
       return;
     }
 
@@ -149,10 +149,10 @@ export function ThemeSettingsContent({ themeIdentifier }: { themeIdentifier: str
         },
       });
 
-      toast.success(t('common.theme.settings.saveSuccess'));
+      toast.success(t('theme.settings.saveSuccess'));
       setHasChanges(false);
     } catch (error: any) {
-      toast.error(error?.message ?? t('common.theme.settings.saveError'));
+      toast.error(error?.message ?? t('theme.settings.saveError'));
     }
   };
 
@@ -172,13 +172,13 @@ export function ThemeSettingsContent({ themeIdentifier }: { themeIdentifier: str
         <Card>
           <CardContent className="py-12 text-center">
             <p className="text-muted-foreground">
-              {t('common.theme.settings.noThemeFound')}
+              {t('theme.settings.noThemeFound')}
             </p>
             <Button
               className="mt-4"
               onClick={() => router.push(ROUTES.merchant.theme.overview())}
             >
-              {t('common.theme.goToThemes')}
+              {t('theme.goToThemes')}
             </Button>
           </CardContent>
         </Card>
@@ -201,10 +201,10 @@ export function ThemeSettingsContent({ themeIdentifier }: { themeIdentifier: str
           </Button>
           <div>
             <h1 className="text-3xl font-bold tracking-tight">
-              {t('common.theme.settings.title')}
+              {t('theme.settings.title')}
             </h1>
             <p className="text-muted-foreground">
-              {t('common.theme.settings.subtitle')}
+              {t('theme.settings.subtitle')}
             </p>
           </div>
         </div>
@@ -220,12 +220,12 @@ export function ThemeSettingsContent({ themeIdentifier }: { themeIdentifier: str
       {/* Current Theme Info */}
       <Card>
         <CardHeader>
-          <CardTitle>{t('common.theme.settings.editingTheme')}</CardTitle>
+          <CardTitle>{t('theme.settings.editingTheme')}</CardTitle>
           <CardDescription>
             {currentTheme.name}
             {currentTheme.isActive && (
               <span className="ml-2 text-xs text-primary">
-                ({t('common.theme.active')})
+                ({t('theme.active')})
               </span>
             )}
           </CardDescription>
@@ -235,43 +235,43 @@ export function ThemeSettingsContent({ themeIdentifier }: { themeIdentifier: str
       {/* Color Settings */}
       <Card>
         <CardHeader>
-          <CardTitle>{t('common.theme.settings.colors')}</CardTitle>
+          <CardTitle>{t('theme.settings.colors')}</CardTitle>
           <CardDescription>
-            {t('common.theme.settings.colorsDescription')}
+            {t('theme.settings.colorsDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="space-y-2">
-              <Label>{t('common.theme.settings.primaryColor')}</Label>
+              <Label>{t('theme.settings.primaryColor')}</Label>
               <ColorPicker
                 value={colors.primary}
                 onChange={(value) => handleColorChange('primary', value)}
               />
             </div>
             <div className="space-y-2">
-              <Label>{t('common.theme.settings.secondaryColor')}</Label>
+              <Label>{t('theme.settings.secondaryColor')}</Label>
               <ColorPicker
                 value={colors.secondary}
                 onChange={(value) => handleColorChange('secondary', value)}
               />
             </div>
             <div className="space-y-2">
-              <Label>{t('common.theme.settings.accentColor')}</Label>
+              <Label>{t('theme.settings.accentColor')}</Label>
               <ColorPicker
                 value={colors.accent}
                 onChange={(value) => handleColorChange('accent', value)}
               />
             </div>
             <div className="space-y-2">
-              <Label>{t('common.theme.settings.backgroundColor')}</Label>
+              <Label>{t('theme.settings.backgroundColor')}</Label>
               <ColorPicker
                 value={colors.background}
                 onChange={(value) => handleColorChange('background', value)}
               />
             </div>
             <div className="space-y-2">
-              <Label>{t('common.theme.settings.textColor')}</Label>
+              <Label>{t('theme.settings.textColor')}</Label>
               <ColorPicker
                 value={colors.text}
                 onChange={(value) => handleColorChange('text', value)}
@@ -284,22 +284,22 @@ export function ThemeSettingsContent({ themeIdentifier }: { themeIdentifier: str
       {/* Font Settings */}
       <Card>
         <CardHeader>
-          <CardTitle>{t('common.theme.settings.typography')}</CardTitle>
+          <CardTitle>{t('theme.settings.typography')}</CardTitle>
           <CardDescription>
-            {t('common.theme.settings.typographyDescription')}
+            {t('theme.settings.typographyDescription')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label>{t('common.theme.settings.headingFont')}</Label>
+              <Label>{t('theme.settings.headingFont')}</Label>
               <FontSelector
                 value={fonts.heading}
                 onChange={(value) => handleFontChange('heading', value)}
               />
             </div>
             <div className="space-y-2">
-              <Label>{t('common.theme.settings.bodyFont')}</Label>
+              <Label>{t('theme.settings.bodyFont')}</Label>
               <FontSelector
                 value={fonts.body}
                 onChange={(value) => handleFontChange('body', value)}

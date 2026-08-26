@@ -112,7 +112,7 @@ export function TagSelect({ storeSlug, value, onChange }: Props) {
                 className="rounded-full p-0.5 hover:bg-muted"
               >
                 <X className="h-3 w-3" />
-                <span className="sr-only">Remove {tag.name}</span>
+                <span className="sr-only">{t('tagSelect.removeTag', { name: tag.name })}</span>
               </button>
             </Badge>
           ))}

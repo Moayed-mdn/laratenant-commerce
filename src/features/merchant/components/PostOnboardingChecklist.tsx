@@ -172,7 +172,7 @@ export function PostOnboardingChecklist() {
                     aria-label={done ? tAria('markIncomplete', { label: item.label }) : tAria('markComplete', { label: item.label })}
                   >
                     {done ? (
-                      <CheckCircle2 className="h-4 w-4 text-green-500" />
+                      <CheckCircle2 className="h-4 w-4 text-success" />
                     ) : (
                       <Circle className="h-4 w-4 text-muted-foreground" />
                     )}

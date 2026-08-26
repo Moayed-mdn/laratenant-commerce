@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { Store } from '@/types/store';
 import { StoreListItem } from './StoreListItem';
 import { WorkspaceEmptyState } from '../components/WorkspaceEmptyState';
@@ -15,13 +16,15 @@ interface StoreListProps {
  * Renders an empty state if no stores exist.
  */
 export function StoreList({ stores }: StoreListProps) {
+  const t = useTranslations('stores');
+
   if (stores.length === 0) {
     return (
       <WorkspaceEmptyState
         icon={Building2}
-        title="No stores found"
-        message="You haven't created any stores yet. Create your first store to start selling."
-        actionLabel="Create first store"
+        title={t('noStoresFound.title')}
+        message={t('noStoresFound.message')}
+        actionLabel={t('noStoresFound.actionLabel')}
         actionHref={ROUTES.setup()}
       />
     );

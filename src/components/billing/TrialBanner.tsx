@@ -6,6 +6,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Clock, X } from 'lucide-react';
 import Link from 'next/link';
@@ -17,6 +18,8 @@ interface TrialBannerProps {
 
 export function TrialBanner({ trialEndsAt }: TrialBannerProps) {
   const [isDismissed, setIsDismissed] = useState(false);
+  const t = useTranslations('billing.trialBanner');
+  const locale = useLocale();
 
   if (isDismissed) {
     return null;
@@ -33,7 +36,7 @@ export function TrialBanner({ trialEndsAt }: TrialBannerProps) {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -46,48 +49,45 @@ export function TrialBanner({ trialEndsAt }: TrialBannerProps) {
     <div
       className={cn(
         'flex items-center justify-between gap-4 rounded-lg border px-4 py-3',
-        variant === 'destructive' &&
-          'border-red-200 bg-red-50 dark:border-red-900/50 dark:bg-red-950/20',
-        variant === 'warning' &&
-          'border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-950/20',
-        variant === 'default' &&
-          'border-blue-200 bg-blue-50 dark:border-blue-900/50 dark:bg-blue-950/20'
+        variant === 'destructive' && 'border-danger/30 bg-danger-bg',
+        variant === 'warning' && 'border-warning/30 bg-warning-bg',
+        variant === 'default' && 'border-info/30 bg-info-bg'
       )}
     >
       <div className="flex items-center gap-3">
         <Clock
           className={cn(
             'h-4 w-4',
-            variant === 'destructive' && 'text-red-600 dark:text-red-400',
-            variant === 'warning' && 'text-amber-600 dark:text-amber-400',
-            variant === 'default' && 'text-blue-600 dark:text-blue-400'
+            variant === 'destructive' && 'text-danger',
+            variant === 'warning' && 'text-warning',
+            variant === 'default' && 'text-info'
           )}
         />
         <span
           className={cn(
             'text-sm',
-            variant === 'destructive' && 'text-red-900 dark:text-red-100',
-            variant === 'warning' && 'text-amber-900 dark:text-amber-100',
-            variant === 'default' && 'text-blue-900 dark:text-blue-100'
+            variant === 'destructive' && 'text-danger',
+            variant === 'warning' && 'text-warning',
+            variant === 'default' && 'text-info'
           )}
         >
           <strong>
-            {daysRemaining} {daysRemaining === 1 ? 'day' : 'days'} remaining
+            {t('daysRemaining', { days: daysRemaining })}
           </strong>{' '}
-          in your free trial. Choose a plan to continue after {formatDate(trialEndsAt)}.
+          {t('trialEndsMessage', { date: formatDate(trialEndsAt) })}
         </span>
       </div>
       <div className="flex shrink-0 gap-2">
         <Link href="/merchant/billing/plans">
           <Button size="sm" variant="default">
-            Choose a Plan
+            {t('choosePlan')}
           </Button>
         </Link>
         <Button
           size="sm"
           variant="ghost"
           onClick={() => setIsDismissed(true)}
-          aria-label="Dismiss banner"
+          aria-label={t('dismiss')}
         >
           <X className="h-4 w-4" />
         </Button>

@@ -6,6 +6,7 @@
  */
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
@@ -15,6 +16,7 @@ interface ColorPickerProps {
 }
 
 export function ColorPicker({ value, onChange }: ColorPickerProps) {
+  const t = useTranslations('theme-settings.colorPicker');
   const [localValue, setLocalValue] = useState(value);
 
   useEffect(() => {
@@ -46,14 +48,14 @@ export function ColorPicker({ value, onChange }: ColorPickerProps) {
               type="button"
               className="h-10 w-12 rounded-md border-2 border-input p-0"
               style={{ backgroundColor: value }}
-              aria-label="Pick color"
+              aria-label={t('pickColor')}
             />
           }
         />
         <PopoverContent className="w-64">
           <div className="space-y-3">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Color Picker</label>
+              <label className="text-sm font-medium">{t('colorPicker')}</label>
               <input
                 type="color"
                 value={value}
@@ -62,7 +64,7 @@ export function ColorPicker({ value, onChange }: ColorPickerProps) {
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">HEX Value</label>
+              <label className="text-sm font-medium">{t('hexValue')}</label>
               <Input
                 value={localValue}
                 onChange={handleInputChange}

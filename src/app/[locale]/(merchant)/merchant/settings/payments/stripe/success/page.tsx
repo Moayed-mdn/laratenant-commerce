@@ -82,7 +82,7 @@ export default function StripeConnectSuccessPage() {
 
           {!polling && succeeded && (
             <>
-              <CheckCircle2 className="mx-auto h-16 w-16 text-green-500" />
+              <CheckCircle2 className="mx-auto h-16 w-16 text-success" />
               <h1 className="mt-4 text-2xl font-bold">{t('successTitle')}</h1>
               <p className="mt-2 text-muted-foreground">{t('successMessage')}</p>
               <Button className="mt-6" onClick={goToSettings}>

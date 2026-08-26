@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useBootstrapStore } from '@/stores/bootstrapStore';
 import { useSystemTemplate } from '@/hooks/system-templates/useSystemTemplate';
 import { useUpdateSystemTemplate } from '@/hooks/system-templates/useSystemTemplateMutations';
@@ -30,6 +31,7 @@ import { getStoreRouteParam } from '@/lib/stores/route-param';
 export function SystemTemplateEditContent() {
   const router = useRouter();
   const params = useParams();
+  const t = useTranslations('systemTemplates.edit');
   const themeIdentifier = params?.theme as string;
   const templateId = params?.templateId as string;
   const activeStore = useBootstrapStore((state) => state.activeStore);
@@ -64,13 +66,13 @@ export function SystemTemplateEditContent() {
 
   const handleBack = useCallback(() => {
     if (isDirty) {
-      if (window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
+      if (window.confirm(t('unsavedChangesConfirm'))) {
         router.push(ROUTES.merchant.theme.systemTemplates.list(themeIdentifier));
       }
     } else {
       router.push(ROUTES.merchant.theme.systemTemplates.list(themeIdentifier));
     }
-  }, [isDirty, router, themeIdentifier]);
+  }, [isDirty, router, themeIdentifier, t]);
 
   const moveSection = useCallback((index: number, direction: 'up' | 'down') => {
     setSections((prev) => {
@@ -108,12 +110,12 @@ export function SystemTemplateEditContent() {
         ),
       );
       await updateBlock(activeStoreSlug!, themeIdentifier, sectionId.toString(), blockId.toString(), { is_enabled: isEnabled });
-      toast.success(isEnabled ? 'Block enabled' : 'Block disabled');
+      toast.success(isEnabled ? t('blockEnabled') : t('blockDisabled'));
     } catch (error: any) {
-      toast.error(error?.message ?? 'Failed to update block');
+      toast.error(error?.message ?? t('blockUpdateError'));
       setSections((prev) => prev.map((s) => ({ ...s, blocks: [...s.blocks] })));
     }
-  }, [activeStoreSlug, themeIdentifier]);
+  }, [activeStoreSlug, themeIdentifier, t]);
 
   const handleBlockMove = useCallback(async (blockId: number, sectionId: number, direction: 'up' | 'down') => {
     const section = sections.find((s) => s.id === sectionId);
@@ -135,9 +137,9 @@ export function SystemTemplateEditContent() {
         ),
       );
     } catch (error: any) {
-      toast.error(error?.message ?? 'Failed to reorder blocks');
+      toast.error(error?.message ?? t('reorderBlocksError'));
     }
-  }, [activeStoreSlug, themeIdentifier, sections]);
+  }, [activeStoreSlug, themeIdentifier, sections, t]);
 
   const handleBlockConfigure = useCallback((block: ThemeBlock) => {
     setConfiguringBlock(block);
@@ -171,13 +173,13 @@ export function SystemTemplateEditContent() {
       });
 
       setIsDirty(false);
-      toast.success('Template saved successfully');
+      toast.success(t('saveSuccess'));
     } catch (error: any) {
       // ApiError has message directly on the error object
-      const errorMessage = error?.message || 'Failed to save template';
+      const errorMessage = error?.message || t('saveError');
       toast.error(errorMessage);
     }
-  }, [template, updateMutation, formData, sections, sectionOverrides]);
+  }, [template, updateMutation, formData, sections, sectionOverrides, t]);
 
   useEffect(() => {
     if (!isDirty) return;
@@ -210,10 +212,10 @@ export function SystemTemplateEditContent() {
       <div className="flex flex-col items-center justify-center min-h-100 gap-2">
         <AlertCircle className="h-8 w-8 text-destructive" />
         <p className="text-destructive font-medium">
-          {isError ? 'Error loading template' : 'Template not found'}
+          {isError ? t('errorLoading') : t('notFound')}
         </p>
         <Button variant="outline" size="sm" onClick={() => router.push(ROUTES.merchant.theme.systemTemplates.list(themeIdentifier))}>
-          Go back
+          {t('goBack')}
         </Button>
       </div>
     );
@@ -240,7 +242,7 @@ export function SystemTemplateEditContent() {
           <div>
             <h1 className="text-xl font-semibold">{template.name}</h1>
             <p className="text-sm text-muted-foreground">
-              Editing {getTemplateTypeLabel(template.type)}
+              {t('editingType', { type: getTemplateTypeLabel(template.type) })}
             </p>
           </div>
         </div>
@@ -254,7 +256,7 @@ export function SystemTemplateEditContent() {
             ) : (
               <Save className="mr-2 h-4 w-4" />
             )}
-            {updateMutation.isPending ? 'Saving...' : 'Save'}
+            {updateMutation.isPending ? t('saving') : t('save')}
           </Button>
         </div>
       </header>
@@ -265,11 +267,11 @@ export function SystemTemplateEditContent() {
             <div className="p-4 space-y-4">
               <Card>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-sm">Template Details</CardTitle>
+                  <CardTitle className="text-sm">{t('templateDetails')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="space-y-1">
-                    <Label htmlFor="template-name">Name</Label>
+                    <Label htmlFor="template-name">{t('name')}</Label>
                     <Input
                       id="template-name"
                       value={formData.name}
@@ -280,7 +282,7 @@ export function SystemTemplateEditContent() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label htmlFor="template-description">Description</Label>
+                    <Label htmlFor="template-description">{t('description')}</Label>
                     <Textarea
                       id="template-description"
                       value={formData.description}
@@ -292,7 +294,7 @@ export function SystemTemplateEditContent() {
                     />
                   </div>
                   <div className="space-y-1">
-                    <Label>Type</Label>
+                    <Label>{t('type')}</Label>
                     <p className="text-sm text-muted-foreground">
                       {getTemplateTypeLabel(template.type)}
                     </p>
@@ -302,7 +304,7 @@ export function SystemTemplateEditContent() {
 
               <div>
                 <h3 className="text-sm font-medium mb-2">
-                  Sections
+                  {t('sectionsTitle')}
                   <span className="text-muted-foreground ml-1">({sections.length})</span>
                 </h3>
                 <div className="space-y-1">
@@ -322,8 +324,8 @@ export function SystemTemplateEditContent() {
                             {schemasByType[section.sectionType]?.name ?? section.sectionType}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            Position {section.position + 1}
-                            {section.blocks.length > 0 && ` · ${section.blocks.length} blocks`}
+                            {t('position', { position: section.position + 1 })}
+                            {section.blocks.length > 0 && ` · ${t('blocksCount', { count: section.blocks.length })}`}
                           </p>
                         </div>
                         <div className="flex items-center gap-0.5 shrink-0">
@@ -372,7 +374,7 @@ export function SystemTemplateEditContent() {
                   ))}
                   {sections.length === 0 && (
                     <p className="text-sm text-muted-foreground text-center py-4">
-                      No sections assigned to this template
+                      {t('noSectionsAssigned')}
                     </p>
                   )}
                 </div>
@@ -390,17 +392,17 @@ export function SystemTemplateEditContent() {
                     {schemasByType[selectedSection.sectionType]?.name ?? selectedSection.sectionType}
                   </Badge>
                   <span className="text-sm text-muted-foreground">
-                    Section settings & overrides
+                    {t('sectionSettingsAndOverrides')}
                   </span>
                 </div>
 
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-sm font-medium mb-3">
-                      Section Overrides
+                      {t('sectionOverrides')}
                     </h3>
                     <p className="text-xs text-muted-foreground mb-4">
-                      These settings override the section defaults for this specific template.
+                      {t('sectionOverridesDescription')}
                     </p>
                     <SectionSettingsForm
                       storeSlug={activeStoreSlug!}
@@ -412,7 +414,7 @@ export function SystemTemplateEditContent() {
 
                   <div>
                     <h3 className="text-sm font-medium mb-3">
-                      Blocks in this section
+                      {t('blocksInSection')}
                       <span className="text-muted-foreground ml-1">({selectedSection.blocks.length})</span>
                     </h3>
                     <BlockManager
@@ -430,7 +432,7 @@ export function SystemTemplateEditContent() {
               <div className="text-center">
                 <Eye className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                 <p className="text-muted-foreground">
-                  Select a section to edit its settings and overrides
+                  {t('selectSectionPrompt')}
                 </p>
               </div>
             </div>

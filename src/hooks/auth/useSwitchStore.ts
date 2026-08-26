@@ -1,6 +1,7 @@
 'use client';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl';
 import { queryKeys } from '@/lib/queryKeys';
 import { useBootstrapStore } from '@/stores/bootstrapStore';
 import { useRouter, usePathname } from '@/lib/navigation';
@@ -16,6 +17,7 @@ export function useSwitchStore() {
   const router = useRouter();
   const pathname = usePathname();
   const switchStore = useBootstrapStore((state) => state.switchStore);
+  const t = useTranslations('stores');
 
   return useMutation({
     mutationKey: ['store-switch'],
@@ -46,7 +48,7 @@ export function useSwitchStore() {
       postAuthChannelMessage('active-store-changed', {
         activeStoreId: bootstrap.active_store_id,
       });
-      toast.success('Store switched successfully');
+      toast.success(t('switchSuccess'));
 
       const accessState = resolveBootstrapAccessState(bootstrap);
 
@@ -64,7 +66,7 @@ export function useSwitchStore() {
       router.push(accessState.redirectPath);
     },
     onError: (error: ApiError) => {
-      toast.error(error.message || 'Failed to switch store');
+      toast.error(error.message || t('switchError'));
       if (error.code === 'STORE_ACCESS_DENIED') {
         void queryClient.invalidateQueries({ queryKey: queryKeys.merchant.me() });
         router.push(normalizeBackendRedirectPath(error.redirect) ?? ROUTES.dashboard.home());

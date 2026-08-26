@@ -1,4 +1,4 @@
-import { getLocale } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -24,14 +24,16 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     const post = await cmsService.getBlogPost(slug);
     return buildMetadataFromSeo(post.seo, locale);
   } catch (error) {
+    const t = await getTranslations({ locale, namespace: 'marketing.sections.blog' });
     return {
-      title: 'Blog Post Not Found',
+      title: t('post.notFound'),
     };
   }
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug, locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'marketing.sections.blog' });
 
   try {
     const post = await cmsService.getBlogPost(slug);
@@ -50,7 +52,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 </Badge>
                 {post.published_at && (
                   <time className="text-sm text-muted-foreground" dateTime={post.published_at}>
-                    {formatDate(post.published_at)}
+                    {formatDate(post.published_at, 'MMM d, yyyy', locale as 'en' | 'ar')}
                   </time>
                 )}
               </div>
@@ -65,7 +67,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 )}
                 <div className="text-left">
                   <p className="text-sm font-semibold">{post.author.name}</p>
-                  <p className="text-xs text-muted-foreground">Author</p>
+                  <p className="text-xs text-muted-foreground">{t('post.author')}</p>
                 </div>
               </div>
             </div>

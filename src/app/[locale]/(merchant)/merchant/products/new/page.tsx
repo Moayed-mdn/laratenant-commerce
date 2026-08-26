@@ -65,7 +65,7 @@ export default function MerchantProductCreatePage() {
         </div>
         <Card>
           <CardContent className="py-10 text-center">
-            <p className="text-sm text-muted-foreground">Checking product limits...</p>
+            <p className="text-sm text-muted-foreground">{t('quotaLimit.checking')}</p>
           </CardContent>
         </Card>
       </div>
@@ -86,9 +86,9 @@ export default function MerchantProductCreatePage() {
                 <AlertCircle className="h-5 w-5 text-destructive" />
               </div>
               <div>
-                <CardTitle>Product Limit Reached</CardTitle>
+                <CardTitle>{t('quotaLimit.title')}</CardTitle>
                 <CardDescription>
-                  You've reached your plan's product limit
+                  {t('quotaLimit.description')}
                 </CardDescription>
               </div>
             </div>
@@ -97,26 +97,26 @@ export default function MerchantProductCreatePage() {
             <div className="rounded-lg border bg-muted/50 p-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium">Current Usage</p>
+                  <p className="text-sm font-medium">{t('quotaLimit.currentUsage')}</p>
                   <p className="text-2xl font-bold">
                     {quotaCheck.currentCount || 0} / {quotaCheck.limit || 0}
                   </p>
-                  <p className="text-sm text-muted-foreground">products created</p>
+                  <p className="text-sm text-muted-foreground">{t('quotaLimit.productsCreated')}</p>
                 </div>
                 <Package className="h-8 w-8 text-muted-foreground" />
               </div>
             </div>
 
             <p className="text-sm text-muted-foreground">
-              Upgrade your plan to create more products and unlock additional features.
+              {t('quotaLimit.upgradeHint')}
             </p>
 
             <div className="flex gap-2">
               <Button asChild>
-                <Link href={ROUTES.merchant.billing.plans()}>View Plans</Link>
+                <Link href={ROUTES.merchant.billing.plans()}>{t('quotaLimit.viewPlans')}</Link>
               </Button>
               <Button asChild variant="outline">
-                <Link href={ROUTES.merchant.products.list()}>Back to Products</Link>
+                <Link href={ROUTES.merchant.products.list()}>{t('quotaLimit.backToProducts')}</Link>
               </Button>
             </div>
           </CardContent>

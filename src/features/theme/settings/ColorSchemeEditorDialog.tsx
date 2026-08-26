@@ -6,6 +6,7 @@
  */
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -33,6 +34,7 @@ export function ColorSchemeEditorDialog({
   onSave,
   onClose,
 }: ColorSchemeEditorDialogProps) {
+  const t = useTranslations('theme-settings.colorSchemeEditor');
   const [key, setKey] = useState(schemeKey);
   const [name, setName] = useState(scheme.name);
   const [background, setBackground] = useState(scheme.background);
@@ -45,26 +47,26 @@ export function ColorSchemeEditorDialog({
   const handleSave = () => {
     // Validation
     if (!name.trim()) {
-      toast.error('Scheme name is required');
+      toast.error(t('errors.nameRequired'));
       return;
     }
 
     if (!key.trim()) {
-      toast.error('Scheme key is required');
+      toast.error(t('errors.keyRequired'));
       return;
     }
 
     // Check for duplicate keys (only for new schemes or if key changed)
     if (isNew || key !== schemeKey) {
       if (existingKeys.includes(key)) {
-        toast.error(`A scheme with key "${key}" already exists`);
+        toast.error(t('errors.keyExists', { key }));
         return;
       }
     }
 
     // Validate key format (alphanumeric, underscores, hyphens only)
     if (!/^[a-z0-9_-]+$/i.test(key)) {
-      toast.error('Key can only contain letters, numbers, underscores, and hyphens');
+      toast.error(t('errors.keyFormat'));
       return;
     }
 
@@ -78,16 +80,16 @@ export function ColorSchemeEditorDialog({
       border,
     });
 
-    toast.success(isNew ? 'Color scheme created' : 'Color scheme updated');
+    toast.success(isNew ? t('createSuccess') : t('updateSuccess'));
   };
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{isNew ? 'Create Color Scheme' : 'Edit Color Scheme'}</DialogTitle>
+          <DialogTitle>{isNew ? t('createTitle') : t('editTitle')}</DialogTitle>
           <DialogDescription>
-            Define a coordinated set of colors that can be applied to sections
+            {t('dialogDescription')}
           </DialogDescription>
         </DialogHeader>
 
@@ -95,31 +97,31 @@ export function ColorSchemeEditorDialog({
           {/* Name and Key */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="scheme-name">Scheme Name</Label>
+              <Label htmlFor="scheme-name">{t('schemeName')}</Label>
               <Input
                 id="scheme-name"
-                placeholder="e.g., Dark, Light, Brand"
+                placeholder={t('schemeNamePlaceholder')}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              <p className="text-xs text-muted-foreground">Display name shown to users</p>
+              <p className="text-xs text-muted-foreground">{t('schemeNameHelp')}</p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="scheme-key">Scheme Key</Label>
+              <Label htmlFor="scheme-key">{t('schemeKey')}</Label>
               <Input
                 id="scheme-key"
-                placeholder="e.g., dark, light, brand"
+                placeholder={t('schemeKeyPlaceholder')}
                 value={key}
                 onChange={(e) => setKey(e.target.value.toLowerCase())}
                 disabled={!isNew && schemeKey === 'default'}
               />
-              <p className="text-xs text-muted-foreground">Unique identifier (lowercase)</p>
+              <p className="text-xs text-muted-foreground">{t('schemeKeyHelp')}</p>
             </div>
           </div>
 
           {/* Preview */}
           <div className="space-y-2">
-            <Label>Preview</Label>
+            <Label>{t('preview')}</Label>
             <div
               className="rounded-lg p-6 border-2"
               style={{
@@ -128,9 +130,9 @@ export function ColorSchemeEditorDialog({
                 borderColor: border,
               }}
             >
-              <h3 className="text-lg font-semibold mb-2">Section Heading</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('previewHeading')}</h3>
               <p className="text-sm mb-4 opacity-90">
-                This is how your section will look with this color scheme applied.
+                {t('previewBody')}
               </p>
               <div className="flex gap-3">
                 <button
@@ -140,7 +142,7 @@ export function ColorSchemeEditorDialog({
                     color: buttonText,
                   }}
                 >
-                  Primary Button
+                  {t('previewPrimaryButton')}
                 </button>
                 <div
                   className="px-4 py-2 rounded-lg text-sm"
@@ -149,7 +151,7 @@ export function ColorSchemeEditorDialog({
                     color: text,
                   }}
                 >
-                  Secondary Background
+                  {t('previewSecondaryBackground')}
                 </div>
               </div>
             </div>
@@ -158,49 +160,49 @@ export function ColorSchemeEditorDialog({
           {/* Color Fields */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Background Color</Label>
+              <Label>{t('fields.background.label')}</Label>
               <ColorPicker value={background} onChange={setBackground} />
-              <p className="text-xs text-muted-foreground">Main background color</p>
+              <p className="text-xs text-muted-foreground">{t('fields.background.help')}</p>
             </div>
 
             <div className="space-y-2">
-              <Label>Text Color</Label>
+              <Label>{t('fields.text.label')}</Label>
               <ColorPicker value={text} onChange={setText} />
-              <p className="text-xs text-muted-foreground">Main text color</p>
+              <p className="text-xs text-muted-foreground">{t('fields.text.help')}</p>
             </div>
 
             <div className="space-y-2">
-              <Label>Button Background</Label>
+              <Label>{t('fields.buttonBackground.label')}</Label>
               <ColorPicker value={buttonBackground} onChange={setButtonBackground} />
-              <p className="text-xs text-muted-foreground">Primary button color</p>
+              <p className="text-xs text-muted-foreground">{t('fields.buttonBackground.help')}</p>
             </div>
 
             <div className="space-y-2">
-              <Label>Button Text</Label>
+              <Label>{t('fields.buttonText.label')}</Label>
               <ColorPicker value={buttonText} onChange={setButtonText} />
-              <p className="text-xs text-muted-foreground">Button text color</p>
+              <p className="text-xs text-muted-foreground">{t('fields.buttonText.help')}</p>
             </div>
 
             <div className="space-y-2">
-              <Label>Secondary Background</Label>
+              <Label>{t('fields.secondaryBackground.label')}</Label>
               <ColorPicker value={secondaryBackground} onChange={setSecondaryBackground} />
-              <p className="text-xs text-muted-foreground">Cards, accents</p>
+              <p className="text-xs text-muted-foreground">{t('fields.secondaryBackground.help')}</p>
             </div>
 
             <div className="space-y-2">
-              <Label>Border Color</Label>
+              <Label>{t('fields.border.label')}</Label>
               <ColorPicker value={border} onChange={setBorder} />
-              <p className="text-xs text-muted-foreground">Border and dividers</p>
+              <p className="text-xs text-muted-foreground">{t('fields.border.help')}</p>
             </div>
           </div>
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            Cancel
+            {t('cancel')}
           </Button>
           <Button onClick={handleSave}>
-            {isNew ? 'Create Scheme' : 'Save Changes'}
+            {isNew ? t('createScheme') : t('saveChanges')}
           </Button>
         </DialogFooter>
       </DialogContent>

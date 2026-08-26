@@ -50,9 +50,9 @@ export function AssetCard({ asset }: AssetCardProps) {
   const handleDelete = async () => {
     try {
       await deleteMutation.mutateAsync(asset.id.toString());
-      toast.success(t('assets.deleteSuccess'));
+      toast.success(t('theme.assets.deleteSuccess'));
     } catch (error) {
-      toast.error(t('assets.deleteError'));
+      toast.error(t('theme.assets.deleteError'));
     } finally {
       setShowDeleteDialog(false);
     }
@@ -60,7 +60,7 @@ export function AssetCard({ asset }: AssetCardProps) {
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(asset.fileUrl);
-    toast.success(t('assets.urlCopied'));
+    toast.success(t('theme.assets.urlCopied'));
   };
 
   const formatFileSize = (bytes: number): string => {
@@ -106,11 +106,11 @@ export function AssetCard({ asset }: AssetCardProps) {
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={handleCopyUrl}>
                     <Copy className="mr-2 h-4 w-4" />
-                    {t('assets.copyUrl')}
+                    {t('theme.assets.copyUrl')}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => window.open(asset.fileUrl, '_blank', 'noopener,noreferrer')}>
                     <ExternalLink className="mr-2 h-4 w-4" />
-                    {t('assets.viewFull')}
+                    {t('theme.assets.viewFull')}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => setShowDeleteDialog(true)}
@@ -147,9 +147,9 @@ export function AssetCard({ asset }: AssetCardProps) {
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{t('assets.deleteTitle')}</AlertDialogTitle>
+            <AlertDialogTitle>{t('theme.assets.deleteTitle')}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t('assets.deleteConfirmation')}
+              {t('theme.assets.deleteConfirmation')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

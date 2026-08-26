@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { AlertTriangle } from 'lucide-react';
 import { useCancelSubscription } from '@/hooks/billing/useCancelSubscription';
 import { useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
 
 interface CancelSubscriptionDialogProps {
   open: boolean;
@@ -33,6 +34,8 @@ export function CancelSubscriptionDialog({
 }: CancelSubscriptionDialogProps) {
   const cancelMutation = useCancelSubscription();
   const [isProcessing, setIsProcessing] = useState(false);
+  const t = useTranslations('billing.cancelDialog');
+  const locale = useLocale();
 
   const handleCancel = async () => {
     try {
@@ -49,7 +52,7 @@ export function CancelSubscriptionDialog({
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -60,36 +63,32 @@ export function CancelSubscriptionDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-50 dark:bg-red-950/20">
-            <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-danger-bg">
+            <AlertTriangle className="h-6 w-6 text-danger" />
           </div>
-          <DialogTitle className="text-center">Cancel Subscription?</DialogTitle>
+          <DialogTitle className="text-center">{t('title')}</DialogTitle>
           <DialogDescription className="text-center">
             {periodEndDate ? (
               <>
-                Your subscription will be canceled at the end of your current billing period on{' '}
-                <strong>{formatDate(periodEndDate)}</strong>. You&apos;ll continue to have
-                access until then.
+                {t('descriptionWithDate.before')}{' '}
+                <strong>{formatDate(periodEndDate)}</strong>
+                {t('descriptionWithDate.after')}
               </>
             ) : (
-              <>
-                Your subscription will be canceled at the end of your current billing period.
-                You&apos;ll continue to have access until then.
-              </>
+              t('descriptionNoDate')
             )}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-900/50 dark:bg-amber-950/20">
-          <p className="text-sm text-amber-900 dark:text-amber-100">
-            <strong>Note:</strong> You can resume your subscription anytime before the end of your
-            billing period.
+        <div className="rounded-lg border border-warning/30 bg-warning-bg p-4">
+          <p className="text-sm text-warning">
+            <strong>{t('noteLabel')}</strong> {t('noteBody')}
           </p>
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isProcessing}>
-            Keep Subscription
+            {t('keepSubscription')}
           </Button>
           <Button
             variant="destructive"
@@ -97,8 +96,8 @@ export function CancelSubscriptionDialog({
             disabled={isProcessing || cancelMutation.isPending}
           >
             {isProcessing || cancelMutation.isPending
-              ? 'Canceling...'
-              : 'Cancel Subscription'}
+              ? t('canceling')
+              : t('cancelSubscription')}
           </Button>
         </DialogFooter>
       </DialogContent>

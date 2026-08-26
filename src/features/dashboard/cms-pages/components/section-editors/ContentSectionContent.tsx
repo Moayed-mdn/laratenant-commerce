@@ -86,7 +86,7 @@ export function ContentSectionContent({ index }: ContentSectionContentProps) {
               </div>
               <div className="space-y-2">
                 <Label className="text-xs">{t('sections.editors.content.statLabel')}</Label>
-                <Input {...register(`${basePath}.stats.${i}.label` as any)} placeholder="Customers" />
+                <Input {...register(`${basePath}.stats.${i}.label` as any)} placeholder={t('sections.editors.content.statLabelPlaceholder')} />
               </div>
             </div>
           )}

@@ -51,13 +51,13 @@ export default function NavigationHealthWidget({ items, onEditItem, onCreatePage
   // If no potential issues, show success state
   if (potentialBrokenLinks.length === 0) {
     return (
-      <Card className="border-green-200 bg-green-50">
+      <Card className="border-success/30 bg-success-bg">
         <CardHeader className="pb-3">
           <div className="flex items-center gap-2">
             <span className="text-2xl">✅</span>
             <div>
-              <CardTitle className="text-green-900">{t('allGood')}</CardTitle>
-              <CardDescription className="text-green-700">
+              <CardTitle className="text-success">{t('allGood')}</CardTitle>
+              <CardDescription className="text-success">
                 {t('allGoodDescription')}
               </CardDescription>
             </div>
@@ -68,21 +68,21 @@ export default function NavigationHealthWidget({ items, onEditItem, onCreatePage
   }
 
   return (
-    <Card className="border-amber-200 bg-amber-50">
+    <Card className="border-warning/30 bg-warning-bg">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5 text-amber-600" />
+            <AlertTriangle className="h-5 w-5 text-warning" />
             <div>
-              <CardTitle className="text-amber-900">
+              <CardTitle className="text-warning">
                 {t('title', { count: potentialBrokenLinks.length })}
               </CardTitle>
-              <CardDescription className="text-amber-700">
+              <CardDescription className="text-warning">
                 {t('description')}
               </CardDescription>
             </div>
           </div>
-          <Badge variant="secondary" className="bg-amber-200 text-amber-900">
+          <Badge variant="secondary" className="bg-warning/20 text-warning">
             {potentialBrokenLinks.length}
           </Badge>
         </div>
@@ -91,14 +91,14 @@ export default function NavigationHealthWidget({ items, onEditItem, onCreatePage
         {potentialBrokenLinks.slice(0, 5).map((item) => (
           <div
             key={item.id}
-            className="rounded-lg border border-amber-200 bg-white p-3"
+            className="rounded-lg border border-warning/30 bg-surface p-3"
           >
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm text-amber-900">
+                <p className="font-medium text-sm text-warning">
                   {item.label.en || item.label.ar}
                 </p>
-                <p className="text-xs text-amber-700 mt-0.5 font-mono truncate">
+                <p className="text-xs text-warning mt-0.5 font-mono truncate">
                   {item.url}
                 </p>
               </div>
@@ -129,7 +129,7 @@ export default function NavigationHealthWidget({ items, onEditItem, onCreatePage
         ))}
         
         {potentialBrokenLinks.length > 5 && (
-          <p className="text-xs text-amber-700 text-center pt-2">
+          <p className="text-xs text-warning text-center pt-2">
             {t('andMore', { count: potentialBrokenLinks.length - 5 })}
           </p>
         )}

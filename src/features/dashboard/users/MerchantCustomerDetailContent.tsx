@@ -30,8 +30,8 @@ export default function MerchantCustomerDetailContent() {
           <h1 className="text-2xl font-bold">{t('detail.title')}</h1>
         </div>
         <WorkspaceEmptyState
-          title="No active store"
-          message="Select a store from the switcher to view customer details."
+          title={t('noActiveStore.title')}
+          message={t('noActiveStore.message')}
         />
       </div>
     );

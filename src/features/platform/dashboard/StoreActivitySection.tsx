@@ -18,8 +18,8 @@ export function StoreActivitySection({ stats }: Props) {
   const t = useTranslations('platformDashboard.storeActivity');
 
   const getTrendIcon = (direction: 'up' | 'down' | 'neutral') => {
-    if (direction === 'up') return <TrendingUp className="h-4 w-4 text-green-600" />;
-    if (direction === 'down') return <TrendingDown className="h-4 w-4 text-red-600" />;
+    if (direction === 'up') return <TrendingUp className="h-4 w-4 text-success" />;
+    if (direction === 'down') return <TrendingDown className="h-4 w-4 text-danger" />;
     return <Minus className="h-4 w-4 text-muted-foreground" />;
   };
 
@@ -75,15 +75,15 @@ export function StoreActivitySection({ stats }: Props) {
                 <p className="text-xs text-muted-foreground">{t('total')}</p>
               </div>
               <div>
-                <div className="text-2xl font-bold text-green-600">{stats.activeStores}</div>
+                <div className="text-2xl font-bold text-success">{stats.activeStores}</div>
                 <p className="text-xs text-muted-foreground">{t('active')}</p>
               </div>
               <div>
-                <div className="text-2xl font-bold text-yellow-600">{stats.pendingStores}</div>
+                <div className="text-2xl font-bold text-warning">{stats.pendingStores}</div>
                 <p className="text-xs text-muted-foreground">{t('pendingStores')}</p>
               </div>
               <div>
-                <div className="text-2xl font-bold text-red-600">{stats.suspendedStores}</div>
+                <div className="text-2xl font-bold text-danger">{stats.suspendedStores}</div>
                 <p className="text-xs text-muted-foreground">{t('suspended')}</p>
               </div>
             </div>

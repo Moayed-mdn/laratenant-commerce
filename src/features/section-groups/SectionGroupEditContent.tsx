@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useBootstrapStore } from '@/stores/bootstrapStore';
 import { useSectionGroups } from '@/hooks/section-groups/useSectionGroups';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,7 @@ import { getStoreRouteParam } from '@/lib/stores/route-param';
 export function SectionGroupEditContent() {
   const router = useRouter();
   const params = useParams();
+  const t = useTranslations('sectionGroups.edit');
   const themeIdentifier = params?.theme as string;
   const groupId = params?.groupId as string;
   const activeStore = useBootstrapStore((state) => state.activeStore);
@@ -49,13 +51,13 @@ export function SectionGroupEditContent() {
         sections: localSections,
         order: localOrder,
       });
-      toast.success('Section group saved');
+      toast.success(t('saveSuccess'));
     } catch (error: any) {
-      toast.error(error?.message ?? 'Failed to save section group');
+      toast.error(error?.message ?? t('saveError'));
     } finally {
       setSaving(false);
     }
-  }, [activeStoreSlug, themeIdentifier, groupId, group, localSections, localOrder]);
+  }, [activeStoreSlug, themeIdentifier, groupId, group, localSections, localOrder, t]);
 
   if (isLoading) {
     return (
@@ -70,10 +72,10 @@ export function SectionGroupEditContent() {
       <div className="flex flex-col items-center justify-center min-h-100 gap-2">
         <AlertCircle className="h-8 w-8 text-destructive" />
         <p className="text-destructive font-medium">
-          {isError ? 'Error loading section groups' : 'Section group not found'}
+          {isError ? t('errorLoading') : t('notFound')}
         </p>
         <Button variant="outline" size="sm" onClick={handleBack}>
-          Go back
+          {t('goBack')}
         </Button>
       </div>
     );
@@ -96,7 +98,7 @@ export function SectionGroupEditContent() {
           <div>
             <h1 className="text-xl font-semibold">{group.name}</h1>
             <p className="text-sm text-muted-foreground">
-              Manage sections in this group
+              {t('subtitle')}
             </p>
           </div>
         </div>
@@ -106,7 +108,7 @@ export function SectionGroupEditContent() {
           ) : (
             <Save className="mr-2 h-4 w-4" />
           )}
-          Save
+          {t('save')}
         </Button>
       </header>
 
@@ -114,14 +116,14 @@ export function SectionGroupEditContent() {
         <Card>
           <CardHeader>
             <CardTitle>
-              Sections
+              {t('sectionsTitle')}
               <span className="text-muted-foreground ml-1">({sectionEntries.length})</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
             {sectionEntries.length === 0 && (
               <p className="text-sm text-muted-foreground text-center py-4">
-                No sections in this group
+                {t('noSections')}
               </p>
             )}
             <div className="space-y-2">
@@ -161,11 +163,11 @@ export function SectionGroupEditContent() {
                   <div className="flex-1">
                     <p className="text-sm font-medium">{section.type}</p>
                     <p className="text-xs text-muted-foreground">
-                      {Object.keys(section.settings ?? {}).length} settings
+                      {t('settingsCount', { count: Object.keys(section.settings ?? {}).length })}
                     </p>
                   </div>
                   <Badge variant="outline">
-                    Position {idx + 1}
+                    {t('position', { position: idx + 1 })}
                   </Badge>
                 </div>
               ))}

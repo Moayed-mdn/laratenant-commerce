@@ -9,7 +9,7 @@ import { useQueryState, parseAsString, parseAsInteger, parseAsStringLiteral } fr
 import { useDebounce } from '@/lib/hooks/useDebounce';
 import { useSubscriptions } from '@/hooks/platform/useSubscriptions';
 import type { SubscriptionFilters as SubscriptionFiltersType } from '@/types/billing/subscription';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { logger } from '@/lib/logger';
 import SubscriptionsTable from './SubscriptionsTable';
 import SubscriptionFilters from './SubscriptionFilters';
@@ -58,7 +58,8 @@ export default function SubscriptionsContent({ initialFilters }: Props) {
   };
 
   // Fetch subscriptions
-  const { data, isLoading, error, isError } = useSubscriptions(filters);
+  const locale = useLocale();
+  const { data, isLoading, error, isError } = useSubscriptions(filters, locale);
 
   // Handler functions
   const handleSearchChange = (value: string) => {

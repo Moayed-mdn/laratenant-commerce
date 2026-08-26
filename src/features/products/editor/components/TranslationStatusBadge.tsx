@@ -17,7 +17,7 @@ export function TranslationStatusBadge({ isComplete }: Props) {
     <Badge 
       variant={isComplete ? 'secondary' : 'outline'}
       className={cn(
-        !isComplete && 'bg-amber-50 border-amber-300 text-amber-800 dark:bg-amber-950 dark:border-amber-800 dark:text-amber-300'
+        !isComplete && 'bg-warning-bg border-warning/40 text-warning'
       )}
     >
       {isComplete ? t('editor.translationStatus.complete') : t('editor.translationStatus.incomplete')}

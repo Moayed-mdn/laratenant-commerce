@@ -46,9 +46,9 @@ export function EntitlementUsageCard({
   const productPercentage = productsMax !== null ? (currentProducts / productsMax) * 100 : 0;
 
   const getProgressColor = (percentage: number) => {
-    if (percentage >= 90) return 'bg-red-500';
-    if (percentage >= 75) return 'bg-amber-500';
-    return 'bg-green-500';
+    if (percentage >= 90) return 'bg-danger';
+    if (percentage >= 75) return 'bg-warning';
+    return 'bg-success';
   };
 
   // Extract boolean features
@@ -79,7 +79,7 @@ export function EntitlementUsageCard({
             <>
               <Progress value={storePercentage} className="h-2" />
               {storePercentage >= 90 && (
-                <p className="text-xs text-amber-600 dark:text-amber-400">
+                <p className="text-xs text-warning">
                   {t('approachingLimit')}
                 </p>
               )}

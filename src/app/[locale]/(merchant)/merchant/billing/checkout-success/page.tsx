@@ -7,6 +7,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, Loader2, XCircle } from 'lucide-react';
@@ -15,6 +16,7 @@ export default function CheckoutSuccessPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
+  const t = useTranslations('billing.checkoutSuccess');
   const [status, setStatus] = useState<'verifying' | 'success' | 'error'>('verifying');
 
   useEffect(() => {
@@ -23,8 +25,8 @@ export default function CheckoutSuccessPage() {
     if (!sessionId) {
       setStatus('error');
       toast({
-        title: 'Invalid Session',
-        description: 'No checkout session ID found. Please try again.',
+        title: t('invalidSession.title'),
+        description: t('invalidSession.description'),
         variant: 'destructive',
       });
       return;
@@ -36,8 +38,8 @@ export default function CheckoutSuccessPage() {
     const timer = setTimeout(() => {
       setStatus('success');
       toast({
-        title: 'Subscription Activated!',
-        description: 'Your subscription has been successfully activated.',
+        title: t('activated.title'),
+        description: t('activated.description'),
       });
       
       // Redirect to billing page after 2 seconds
@@ -48,7 +50,7 @@ export default function CheckoutSuccessPage() {
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [searchParams, router, toast]);
+  }, [searchParams, router, toast, t]);
 
   return (
     <div className="container mx-auto px-4 py-16">
@@ -57,19 +59,19 @@ export default function CheckoutSuccessPage() {
           {status === 'verifying' && (
             <>
               <Loader2 className="mx-auto h-16 w-16 animate-spin text-primary" />
-              <h1 className="mt-4 text-2xl font-bold">Verifying Payment</h1>
+              <h1 className="mt-4 text-2xl font-bold">{t('verifying.title')}</h1>
               <p className="mt-2 text-muted-foreground">
-                Please wait while we confirm your subscription...
+                {t('verifying.description')}
               </p>
             </>
           )}
 
           {status === 'success' && (
             <>
-              <CheckCircle2 className="mx-auto h-16 w-16 text-green-500" />
-              <h1 className="mt-4 text-2xl font-bold">Payment Successful!</h1>
+              <CheckCircle2 className="mx-auto h-16 w-16 text-success" />
+              <h1 className="mt-4 text-2xl font-bold">{t('success.title')}</h1>
               <p className="mt-2 text-muted-foreground">
-                Your subscription has been activated. Redirecting to billing...
+                {t('success.description')}
               </p>
               <Button
                 className="mt-6"
@@ -78,7 +80,7 @@ export default function CheckoutSuccessPage() {
                   router.refresh();
                 }}
               >
-                Go to Billing
+                {t('goToBilling')}
               </Button>
             </>
           )}
@@ -86,19 +88,19 @@ export default function CheckoutSuccessPage() {
           {status === 'error' && (
             <>
               <XCircle className="mx-auto h-16 w-16 text-destructive" />
-              <h1 className="mt-4 text-2xl font-bold">Something Went Wrong</h1>
+              <h1 className="mt-4 text-2xl font-bold">{t('error.title')}</h1>
               <p className="mt-2 text-muted-foreground">
-                We couldn't verify your payment. Please contact support if the issue persists.
+                {t('error.description')}
               </p>
               <div className="mt-6 flex gap-4">
                 <Button
                   variant="outline"
                   onClick={() => router.push('/merchant/billing/plans')}
                 >
-                  Back to Plans
+                  {t('backToPlans')}
                 </Button>
                 <Button onClick={() => router.push('/merchant/billing')}>
-                  Go to Billing
+                  {t('goToBilling')}
                 </Button>
               </div>
             </>

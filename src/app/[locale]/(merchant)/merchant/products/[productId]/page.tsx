@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 /**
  * Merchant Workspace — Product View Page (Redirects to Edit).
@@ -13,6 +14,7 @@ import { useEffect } from 'react';
 export default function MerchantProductViewPage() {
   const params = useParams<{ productId: string }>();
   const router = useRouter();
+  const t = useTranslations();
   const productId = params.productId;
 
   useEffect(() => {
@@ -22,7 +24,7 @@ export default function MerchantProductViewPage() {
 
   return (
     <div className="flex items-center justify-center min-h-[400px]">
-      <p className="text-muted-foreground">Redirecting...</p>
+      <p className="text-muted-foreground">{t('redirecting')}</p>
     </div>
   );
 }

@@ -3,7 +3,7 @@
  * Shows status, plan, pricing, and all period/trial/cancellation dates.
  */
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import type { SubscriptionDetailView } from '@/types/billing/subscription';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { SubscriptionStatusBadge } from './SubscriptionStatusBadge';
@@ -16,10 +16,11 @@ interface Props {
 
 export function SubscriptionOverview({ subscription }: Props) {
   const t = useTranslations('subscriptions.detail');
+  const locale = useLocale();
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return '—';
-    return new Date(dateString).toLocaleDateString('en-US', {
+    return new Date(dateString).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -62,12 +63,12 @@ export function SubscriptionOverview({ subscription }: Props) {
 
         {/* Pending Plan Change */}
         {subscription.pendingPlan && (
-          <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+          <div className="rounded-lg border border-info/30 bg-info-bg p-4">
             <div className="flex items-start gap-3">
-              <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5" />
+              <AlertCircle className="h-5 w-5 text-info mt-0.5" />
               <div>
-                <h4 className="font-medium text-blue-900">{t('pendingChange')}</h4>
-                <p className="text-sm text-blue-700 mt-1">
+                <h4 className="font-medium text-info">{t('pendingChange')}</h4>
+                <p className="text-sm text-info mt-1">
                   {t('changingTo')} <strong>{subscription.pendingPlan.name}</strong> {t('on')}{' '}
                   {subscription.pendingPlanEffectiveAtFormatted}
                 </p>

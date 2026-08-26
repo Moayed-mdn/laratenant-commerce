@@ -191,7 +191,7 @@ export function CreateProductReviewStep({ state }: Props) {
                       })}
                     </span>
                     {variantsWithoutMedia > 0 && (
-                      <span className="text-xs text-amber-600 dark:text-amber-400">
+                      <span className="text-xs text-warning">
                         {t('create.review.variantsFallback', {
                           count: variantsWithoutMedia,
                         })}

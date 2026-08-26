@@ -68,7 +68,7 @@ export default function VerifyEmailPage({ params }: PageProps) {
           )}
           {status === 'success' && (
             <>
-              <CheckCircle2 className="h-12 w-12 text-green-500" />
+              <CheckCircle2 className="h-12 w-12 text-success" />
               <p className="text-lg font-medium">{t('success')}</p>
               <p className="text-sm text-muted-foreground">{t('redirecting')}</p>
             </>

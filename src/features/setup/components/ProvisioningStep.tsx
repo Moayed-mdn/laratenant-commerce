@@ -141,13 +141,13 @@ export function ProvisioningStep() {
         <div className="flex justify-center">
           <div className="relative flex h-20 w-20 items-center justify-center">
             {status === 'completed' ? (
-              <CheckCircle2 className="h-14 w-14 text-green-500" />
+              <CheckCircle2 className="h-14 w-14 text-success" />
             ) : status === 'failed' || isError ? (
               <AlertCircle className="h-14 w-14 text-destructive" />
             ) : hardTimedOut ? (
-              <Clock3 className="h-14 w-14 text-amber-500" />
+              <Clock3 className="h-14 w-14 text-warning" />
             ) : !isOnline ? (
-              <WifiOff className="h-14 w-14 text-amber-500" />
+              <WifiOff className="h-14 w-14 text-warning" />
             ) : (
               <>
                 <div className="absolute inset-0 animate-ping rounded-full bg-primary/20" />
@@ -182,7 +182,7 @@ export function ProvisioningStep() {
                   <li key={step.key} className="flex items-center gap-3">
                     <div className="flex h-5 w-5 shrink-0 items-center justify-center">
                       {isDone ? (
-                        <CheckCircle2 className="h-5 w-5 text-green-500" />
+                        <CheckCircle2 className="h-5 w-5 text-success" />
                       ) : isActive ? (
                         <Loader2 className="h-4 w-4 animate-spin text-primary" />
                       ) : (

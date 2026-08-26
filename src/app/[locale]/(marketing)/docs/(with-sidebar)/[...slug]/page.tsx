@@ -1,4 +1,4 @@
-import { getLocale } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -26,8 +26,9 @@ export async function generateMetadata({ params }: DocsPageProps): Promise<Metad
     const page = await cmsService.getDocsPage(slugPath);
     return buildMetadataFromSeo(page.seo, locale);
   } catch (error) {
+    const t = await getTranslations({ locale, namespace: 'marketing.sections.docs' });
     return {
-      title: 'Documentation Not Found',
+      title: t('notFound'),
     };
   }
 }
@@ -35,6 +36,7 @@ export async function generateMetadata({ params }: DocsPageProps): Promise<Metad
 export default async function DocsPage({ params }: DocsPageProps) {
   const { slug, locale } = await params;
   const slugPath = slug.join('/');
+  const t = await getTranslations({ locale, namespace: 'marketing.sections.docs' });
 
   try {
     const page = await cmsService.getDocsPage(slugPath);
@@ -50,7 +52,7 @@ export default async function DocsPage({ params }: DocsPageProps) {
           <header className="mb-10">
             <h1 className="text-4xl font-bold tracking-tight mb-4">{page.title}</h1>
             <div className="flex items-center text-sm text-muted-foreground">
-              <span>Last updated on {formatDate(page.updated_at)}</span>
+              <span>{t('lastUpdated', { date: formatDate(page.updated_at, 'MMM d, yyyy', locale as 'en' | 'ar') })}</span>
             </div>
           </header>
           
@@ -59,7 +61,7 @@ export default async function DocsPage({ params }: DocsPageProps) {
           {/* Mobile TOC - shown only on small screens */}
           {headings.length > 0 && (
             <div className="lg:hidden mb-10 p-4 bg-muted/30 rounded-xl border border-border/50">
-              <DocsTableOfContents headings={headings} title="Table of Contents" />
+              <DocsTableOfContents headings={headings} title={t('tableOfContents')} />
             </div>
           )}
           
