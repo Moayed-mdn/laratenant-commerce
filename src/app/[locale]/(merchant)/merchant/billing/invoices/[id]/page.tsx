@@ -5,6 +5,9 @@
 
 import { Metadata } from 'next';
 
+// Force dynamic rendering - requires auth and user-specific invoice data
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Invoice Details',

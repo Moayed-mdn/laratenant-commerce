@@ -7,6 +7,9 @@ import { cmsService } from '@/services/cms/cms.service'
 import { JsonLd } from '@/components/cms/JsonLd'
 import { CmsSectionRenderer } from '@/components/cms/CmsSectionRenderer'
 
+// Force dynamic rendering since CMS content should be fresh
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale()
   try {

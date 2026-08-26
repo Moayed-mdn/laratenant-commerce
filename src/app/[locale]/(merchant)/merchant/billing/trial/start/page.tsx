@@ -9,6 +9,9 @@ import { TrialStartWrapper } from './TrialStartWrapper';
 import { getPlans } from '@/lib/api/billing';
 import type { Plan } from '@/types/billing/plan';
 
+// Force dynamic rendering - this page requires auth and fetches user-specific data
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Start Your Free Trial',

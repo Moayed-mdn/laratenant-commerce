@@ -5,6 +5,9 @@
 
 'use client';
 
+// Force dynamic rendering - handles payment verification
+export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';

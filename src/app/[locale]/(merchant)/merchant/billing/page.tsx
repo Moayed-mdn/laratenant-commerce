@@ -11,6 +11,9 @@ import { Button } from '@/components/ui/button';
 import { Receipt, ExternalLink, CreditCard } from 'lucide-react';
 import Link from 'next/link';
 
+// Force dynamic rendering - requires auth and user-specific subscription data
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Subscription & Billing',
   description: 'Manage your subscription, view usage, and access billing information',

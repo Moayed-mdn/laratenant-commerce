@@ -5,6 +5,9 @@ import { WorkspaceSidebarNav } from '@/features/merchant/components/WorkspaceSid
 import { WorkspaceStoreSwitcher } from '@/features/merchant/components/WorkspaceStoreSwitcher';
 import { BillingBanners } from './BillingBanners';
 
+// Force all merchant routes to be dynamic - they require authentication and user-specific data
+export const dynamic = 'force-dynamic';
+
 interface MerchantLayoutProps {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;

@@ -5,6 +5,9 @@
 
 import { Metadata } from 'next';
 
+// Force dynamic rendering - requires auth and user-specific invoice data
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Invoices',
   description: 'View and manage your billing invoices',
