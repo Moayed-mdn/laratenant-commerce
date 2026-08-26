@@ -1,7 +1,0 @@
-node_modules
-.next
-vendor
-dist
-build
-coverage
-storage/logs
