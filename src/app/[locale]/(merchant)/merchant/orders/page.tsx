@@ -23,13 +23,14 @@ const INITIAL_FILTERS = {
 export default function MerchantOrdersPage() {
   const activeStore = useBootstrapStore((state) => state.activeStore);
   const t = useTranslations('nav');
+  const to = useTranslations('orders');
 
   if (!activeStore) {
     return (
       <div className="flex flex-col gap-6">
         <MerchantPageHeader
           title={t('orders')}
-          description="View and manage customer orders."
+          description={to('subtitle')}
         />
         <WorkspaceEmptyState icon={ShoppingCart} />
       </div>
@@ -40,7 +41,7 @@ export default function MerchantOrdersPage() {
     <div className="space-y-6">
       <MerchantPageHeader
         title={t('orders')}
-        description="View and manage customer orders."
+        description={to('subtitle')}
       />
       <OrdersContent storeSlug={getStoreRouteParam(activeStore)} initialFilters={INITIAL_FILTERS} />
     </div>

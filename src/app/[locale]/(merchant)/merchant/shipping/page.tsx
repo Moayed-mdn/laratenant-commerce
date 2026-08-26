@@ -24,7 +24,7 @@ export default function MerchantShippingPage() {
       <div className="flex flex-col gap-6">
         <MerchantPageHeader
           title={t('title')}
-          description="Manage shipping methods, zones, and address validation."
+          description={t('subtitle')}
         />
         <WorkspaceEmptyState icon={Truck} />
       </div>
@@ -35,7 +35,7 @@ export default function MerchantShippingPage() {
     <div className="space-y-6">
       <MerchantPageHeader
         title={t('title')}
-        description="Manage shipping methods, zones, and address validation."
+        description={t('subtitle')}
       />
       
       <Tabs defaultValue="methods" className="space-y-6">

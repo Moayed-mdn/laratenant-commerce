@@ -24,26 +24,25 @@ const INITIAL_FILTERS = {
 export default function MerchantCategoriesPage() {
   const activeStore = useBootstrapStore((state) => state.activeStore);
   const t = useTranslations('nav');
+  const ct = useTranslations('categories');
 
   if (!activeStore) {
     return (
       <div className="flex flex-col gap-6">
         <MerchantPageHeader
           title={t('categories')}
-          description="Organise your products with categories."
+          description={ct('subtitle')}
         />
         <WorkspaceEmptyState icon={FolderTree} />
       </div>
     );
   }
 
-  const ct = useTranslations('categories');
-
   return (
     <div className="space-y-6">
       <MerchantPageHeader
         title={t('categories')}
-        description="Organise your products with categories."
+        description={ct('subtitle')}
       >
         <Link href={ROUTES.merchant.categories.new()}>
           <Button>
