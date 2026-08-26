@@ -27,12 +27,12 @@
 
   /* Borders */
   --color-border:         hsl(215 20% 91%);
-  --color-border-strong:  hsl(215 20% 82%);
+  --color-border-strong:  hsl(215 20% 58%);
 
   /* Text */
   --color-foreground:  hsl(222 47% 11%);
-  --color-muted:       hsl(215 16% 47%);
-  --color-subtle:      hsl(215 16% 65%);
+  --color-muted:       hsl(215 16% 38%);
+  --color-subtle:      hsl(215 16% 42%);
 
   /* Sidebar — Dark Navy */
   --color-sidebar:            hsl(222 47% 11%);
@@ -43,16 +43,22 @@
   --color-sidebar-accent-foreground: hsl(210 40% 98%);
   --color-sidebar-hover:      hsl(217 33% 17%);
 
-  /* Status */
-  --color-success:     hsl(142 71% 45%);
+  /* Status
+     Text-bearing lightness values are tuned for WCAG AA contrast (~5.5:1)
+     against both white/light-gray surfaces and each color's own -bg tint,
+     since light mode showed these as text (badges, inline status labels),
+     not just as button fills. Dark-mode overrides below restore lighter
+     values that already read fine against dark surfaces. */
+  --color-success:     hsl(142 71% 27%);
   --color-success-foreground: hsl(0 0% 100%);
-  --color-success-bg:  hsl(142 71% 95%);
-  --color-warning:     hsl(38  92% 50%);
-  --color-warning-bg:  hsl(38  92% 95%);
-  --color-danger:      hsl(0   84% 60%);
-  --color-danger-bg:   hsl(0   84% 95%);
-  --color-info:        hsl(199 89% 48%);
-  --color-info-bg:     hsl(199 89% 95%);
+  --color-success-bg:  hsl(142 71% 93%);
+  --color-warning:     hsl(38  92% 29%);
+  --color-warning-bg:  hsl(38  92% 93%);
+  --color-danger:      hsl(0   84% 42%);
+  --color-danger-foreground: hsl(0 0% 100%);
+  --color-danger-bg:   hsl(0   84% 93%);
+  --color-info:        hsl(199 89% 33%);
+  --color-info-bg:     hsl(199 89% 93%);
 
   /* shadcn compatibility - both var() references and utility class generation */
   --background:    hsl(0 0% 98%);
@@ -62,8 +68,8 @@
   --popover:       hsl(0 0% 100%);
   --popover-foreground: hsl(222 47% 11%);
   --muted-bg:      hsl(215 20% 96%);
-  --muted-foreground: hsl(215 16% 47%);
-  --destructive:   hsl(0 84% 60%);
+  --muted-foreground: hsl(215 16% 38%);
+  --destructive:   hsl(0 84% 42%);
   --destructive-foreground: hsl(0 0% 100%);
   --input:         hsl(215 20% 91%);
   --ring:          hsl(224 76% 48%);
@@ -82,8 +88,8 @@
   --color-popover:       hsl(0 0% 100%);
   --color-popover-foreground: hsl(222 47% 11%);
   --color-muted-bg:      hsl(215 20% 96%);
-  --color-muted-foreground: hsl(215 16% 47%);
-  --color-destructive:   hsl(0 84% 60%);
+  --color-muted-foreground: hsl(215 16% 38%);
+  --color-destructive:   hsl(0 84% 42%);
   --color-destructive-foreground: hsl(0 0% 100%);
   --color-input:         hsl(215 20% 91%);
   --color-ring:          hsl(224 76% 48%);
@@ -99,17 +105,24 @@
   --color-surface:        hsl(222 47% 11%);
   --color-surface-raised: hsl(217 33% 15%);
   --color-border:         hsl(217 33% 20%);
-  --color-border-strong:  hsl(217 33% 28%);
+  --color-border-strong:  hsl(217 33% 42%);
   --color-foreground:     hsl(210 40% 96%);
   --color-muted:          hsl(215 20% 65%);
   --color-subtle:         hsl(215 20% 45%);
 
   --color-primary-light:  hsl(224 76% 15%);
   --color-accent-light:   hsl(262 83% 15%);
+  /* Status text colors: light-mode values above are darkened for contrast
+     against light surfaces. Dark mode restores the original, lighter mid-
+     tones, which already read well (~4.7-8.4:1) against dark surfaces. */
+  --color-success:        hsl(142 71% 45%);
   --color-success-bg:     hsl(142 71% 10%);
   --color-success-foreground: hsl(0 0% 100%);
+  --color-warning:        hsl(38  92% 50%);
   --color-warning-bg:     hsl(38  92% 10%);
+  --color-danger:         hsl(0   84% 60%);
   --color-danger-bg:      hsl(0   84% 10%);
+  --color-info:           hsl(199 89% 48%);
   --color-info-bg:        hsl(199 89% 10%);
 
   /* shadcn compatibility - both var() references and utility class generation */
