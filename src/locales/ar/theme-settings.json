@@ -10,7 +10,8 @@
   "tabs": {
     "buttons": "أنماط الأزرار",
     "colors": "الألوان",
-    "typography": "الطباعة"
+    "typography": "الطباعة",
+    "colorSchemes": "أنظمة الألوان"
   },
   "colors": {
     "title": "إعدادات الألوان",
@@ -177,5 +178,78 @@
       "lift": "رفع",
       "scale": "تكبير"
     }
+  },
+  "colorPicker": {
+    "pickColor": "اختيار لون",
+    "colorPicker": "منتقي الألوان",
+    "hexValue": "قيمة HEX"
+  },
+  "colorSchemeCard": {
+    "keyLabel": "المعرف: {key}",
+    "preview": "معاينة",
+    "previewSample": "هكذا يظهر النص",
+    "button": "زر",
+    "background": "الخلفية",
+    "text": "النص"
+  },
+  "colorSchemeEditor": {
+    "errors": {
+      "nameRequired": "اسم النظام مطلوب",
+      "keyRequired": "معرّف النظام مطلوب",
+      "keyExists": "يوجد بالفعل نظام بالمعرّف \"{key}\"",
+      "keyFormat": "يمكن أن يحتوي المعرّف على أحرف وأرقام وشرطات سفلية وشرطات فقط"
+    },
+    "createSuccess": "تم إنشاء نظام الألوان",
+    "updateSuccess": "تم تحديث نظام الألوان",
+    "createTitle": "إنشاء نظام ألوان",
+    "editTitle": "تعديل نظام الألوان",
+    "dialogDescription": "حدّد مجموعة ألوان متناسقة يمكن تطبيقها على الأقسام",
+    "schemeName": "اسم النظام",
+    "schemeNamePlaceholder": "مثال: داكن، فاتح، العلامة التجارية",
+    "schemeNameHelp": "الاسم المعروض للمستخدمين",
+    "schemeKey": "معرّف النظام",
+    "schemeKeyPlaceholder": "مثال: dark، light، brand",
+    "schemeKeyHelp": "معرّف فريد (أحرف صغيرة)",
+    "preview": "معاينة",
+    "previewHeading": "عنوان القسم",
+    "previewBody": "هكذا سيبدو قسمك عند تطبيق نظام الألوان هذا.",
+    "previewPrimaryButton": "الزر الأساسي",
+    "previewSecondaryBackground": "الخلفية الثانوية",
+    "fields": {
+      "background": {
+        "label": "لون الخلفية",
+        "help": "لون الخلفية الرئيسي"
+      },
+      "text": {
+        "label": "لون النص",
+        "help": "لون النص الرئيسي"
+      },
+      "buttonBackground": {
+        "label": "خلفية الزر",
+        "help": "لون الزر الأساسي"
+      },
+      "buttonText": {
+        "label": "نص الزر",
+        "help": "لون نص الزر"
+      },
+      "secondaryBackground": {
+        "label": "الخلفية الثانوية",
+        "help": "البطاقات والعناصر الثانوية"
+      },
+      "border": {
+        "label": "لون الحدود",
+        "help": "الحدود والفواصل"
+      }
+    },
+    "cancel": "إلغاء",
+    "createScheme": "إنشاء النظام",
+    "saveChanges": "حفظ التغييرات"
+  },
+  "colorSchemeManager": {
+    "title": "أنظمة الألوان",
+    "description": "إدارة أنظمة الألوان المعرّفة مسبقًا للأقسام. يمكن للتجار تطبيقها على أقسام مختلفة للحصول على تنسيق متسق.",
+    "addScheme": "إضافة نظام",
+    "empty": "لا توجد أنظمة ألوان معرّفة. أضف واحدًا للبدء.",
+    "newSchemeDefaultName": "نظام جديد"
   }
 }

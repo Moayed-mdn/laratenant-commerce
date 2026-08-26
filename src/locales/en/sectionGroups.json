@@ -1,0 +1,27 @@
+{
+  "manager": {
+    "title": "Section Groups",
+    "subtitle": "Manage header and footer section groups",
+    "cardTitle": "All Section Groups",
+    "cardDescription": "Section groups define which sections appear in the header and footer areas.",
+    "sectionsCount": "{count, plural, =1 {# section} other {# sections}}",
+    "loadError": "Failed to load section groups",
+    "empty": {
+      "title": "No section groups found",
+      "description": "Section groups are created automatically when a theme is installed."
+    }
+  },
+  "edit": {
+    "subtitle": "Manage sections in this group",
+    "save": "Save",
+    "saveSuccess": "Section group saved",
+    "saveError": "Failed to save section group",
+    "errorLoading": "Error loading section groups",
+    "notFound": "Section group not found",
+    "goBack": "Go back",
+    "sectionsTitle": "Sections",
+    "noSections": "No sections in this group",
+    "settingsCount": "{count, plural, =1 {# setting} other {# settings}}",
+    "position": "Position {position}"
+  }
+}

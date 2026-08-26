@@ -10,7 +10,8 @@
   "tabs": {
     "buttons": "Button Styles",
     "colors": "Colors",
-    "typography": "Typography"
+    "typography": "Typography",
+    "colorSchemes": "Color Schemes"
   },
   "colors": {
     "title": "Color Settings",
@@ -177,5 +178,78 @@
       "lift": "Lift",
       "scale": "Scale"
     }
+  },
+  "colorPicker": {
+    "pickColor": "Pick color",
+    "colorPicker": "Color Picker",
+    "hexValue": "HEX Value"
+  },
+  "colorSchemeCard": {
+    "keyLabel": "Key: {key}",
+    "preview": "Preview",
+    "previewSample": "This is how text appears",
+    "button": "Button",
+    "background": "Background",
+    "text": "Text"
+  },
+  "colorSchemeEditor": {
+    "errors": {
+      "nameRequired": "Scheme name is required",
+      "keyRequired": "Scheme key is required",
+      "keyExists": "A scheme with key \"{key}\" already exists",
+      "keyFormat": "Key can only contain letters, numbers, underscores, and hyphens"
+    },
+    "createSuccess": "Color scheme created",
+    "updateSuccess": "Color scheme updated",
+    "createTitle": "Create Color Scheme",
+    "editTitle": "Edit Color Scheme",
+    "dialogDescription": "Define a coordinated set of colors that can be applied to sections",
+    "schemeName": "Scheme Name",
+    "schemeNamePlaceholder": "e.g., Dark, Light, Brand",
+    "schemeNameHelp": "Display name shown to users",
+    "schemeKey": "Scheme Key",
+    "schemeKeyPlaceholder": "e.g., dark, light, brand",
+    "schemeKeyHelp": "Unique identifier (lowercase)",
+    "preview": "Preview",
+    "previewHeading": "Section Heading",
+    "previewBody": "This is how your section will look with this color scheme applied.",
+    "previewPrimaryButton": "Primary Button",
+    "previewSecondaryBackground": "Secondary Background",
+    "fields": {
+      "background": {
+        "label": "Background Color",
+        "help": "Main background color"
+      },
+      "text": {
+        "label": "Text Color",
+        "help": "Main text color"
+      },
+      "buttonBackground": {
+        "label": "Button Background",
+        "help": "Primary button color"
+      },
+      "buttonText": {
+        "label": "Button Text",
+        "help": "Button text color"
+      },
+      "secondaryBackground": {
+        "label": "Secondary Background",
+        "help": "Cards, accents"
+      },
+      "border": {
+        "label": "Border Color",
+        "help": "Border and dividers"
+      }
+    },
+    "cancel": "Cancel",
+    "createScheme": "Create Scheme",
+    "saveChanges": "Save Changes"
+  },
+  "colorSchemeManager": {
+    "title": "Color Schemes",
+    "description": "Manage pre-defined color schemes for sections. Merchants can apply these to different sections for consistent styling.",
+    "addScheme": "Add Scheme",
+    "empty": "No color schemes defined. Add one to get started.",
+    "newSchemeDefaultName": "New Scheme"
   }
 }

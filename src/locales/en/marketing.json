@@ -21,15 +21,26 @@
       "description": "Launch faster with professionally designed store templates built for modern ecommerce."
     }
   },
-
   "sections": {
     "categories": {
       "documentation_heading": "Documentation Categories",
-      "blog_heading": "Blog Categories"
+      "blog_heading": "Blog Categories",
+      "defaultHeading": "Explore Categories",
+      "viewContent": "View content"
     },
     "blog": {
       "latest_posts_heading": "Latest Posts",
-      "latest_posts_subtext": "Explore our recent articles and platform news."
+      "latest_posts_subtext": "Explore our recent articles and platform news.",
+      "post": {
+        "author": "Author",
+        "notFound": "Blog Post Not Found"
+      },
+      "list": {
+        "empty": {
+          "title": "No blog posts found.",
+          "description": "Check back later for new updates."
+        }
+      }
     },
     "enterprise": {
       "capabilities_heading": "Enterprise-grade Capabilities",
@@ -37,7 +48,13 @@
     },
     "pricing": {
       "plans_heading": "Plans for Every Stage of Growth",
-      "compare_plans_heading": "Compare our plans"
+      "compare_plans_heading": "Compare our plans",
+      "toggle": {
+        "monthly": "Monthly",
+        "annual": "Annual",
+        "badge": "Save 17%",
+        "a11yLabel": "Billing interval"
+      }
     },
     "faq": {
       "heading": "Frequently Asked Questions"
@@ -46,7 +63,8 @@
       "heading": "What our customers say"
     },
     "features": {
-      "heading": "Platform Features"
+      "heading": "Platform Features",
+      "a11yLabel": "Platform features"
     },
     "integrations": {
       "heading": "Seamless Integrations",
@@ -63,9 +81,21 @@
       "offices_subtext": "Visit us at our global headquarters.",
       "hours_heading": "Support Hours",
       "hours_subtext": "When you can expect to hear from us."
+    },
+    "docs": {
+      "onThisPage": "On this page",
+      "tableOfContents": "Table of Contents",
+      "notFound": "Documentation Not Found",
+      "lastUpdated": "Last updated on {date}"
+    },
+    "logoCloud": {
+      "sectionLabel": "Trusted by merchants",
+      "listLabel": "Partner and customer logos"
+    },
+    "stats": {
+      "a11yLabel": "Platform highlights"
     }
   },
-
   "home": {
     "hero": {
       "badge": "Multi-Tenant Commerce Platform",
@@ -75,11 +105,9 @@
       "secondaryCta": "View Demo",
       "previewAlt": "LaraTenant Commerce admin dashboard showing store overview, recent orders, and analytics"
     },
-
     "logos": {
       "label": "Trusted by merchants worldwide"
     },
-
     "features": {
       "eyebrow": "Platform Capabilities",
       "heading": "Everything You Need to Operate at Scale",
@@ -119,14 +147,12 @@
         }
       }
     },
-
     "showcase": {
       "heading": "A Dashboard Built for Merchant Productivity",
       "subtext": "Every workflow in LaraTenant Commerce is designed to reduce friction. From store setup to order fulfillment, your team works faster from day one.",
       "cta": "Start Selling",
       "previewAlt": "LaraTenant Commerce dashboard showing product management and order processing workflow"
     },
-
     "testimonials": {
       "eyebrow": "Merchant Stories",
       "heading": "Merchants Who Operate Smarter",
@@ -169,13 +195,11 @@
         }
       }
     },
-
     "pricing": {
       "eyebrow": "Pricing",
       "heading": "Simple Pricing. Serious Scale.",
       "subtitle": "Start with what you need. Upgrade as your business grows."
     },
-
     "faq": {
       "eyebrow": "FAQ",
       "heading": "Common Questions",
@@ -206,7 +230,6 @@
         }
       }
     },
-
     "cta": {
       "title": "Ready to Manage Your Stores Smarter?",
       "description": "Join merchants who manage products, orders, and storefronts from a single, unified commerce platform.",
@@ -214,18 +237,15 @@
       "secondaryCta": "View Demo"
     }
   },
-
   "pricing": {
     "eyebrow": "Pricing",
     "heading": "Simple, Transparent Pricing",
     "subtitle": "No hidden fees. No lock-in. Scale your plan as your business grows.",
-
     "toggle": {
       "monthly": "Monthly",
       "annual": "Annual",
       "badge": "Save 17%"
     },
-
     "plans": {
       "starter": {
         "name": "Starter",
@@ -243,7 +263,6 @@
         "cta": "Contact Sales"
       }
     },
-
     "features": {
       "stores1": "1 store",
       "stores5": "Up to 5 stores",
@@ -259,7 +278,6 @@
       "apiAccess": "API access",
       "prioritySupport": "Priority support"
     },
-
     "faq": {
       "eyebrow": "Pricing FAQ",
       "heading": "Questions About Pricing",
@@ -291,7 +309,6 @@
       }
     }
   },
-
   "nav": {
     "features": "Features",
     "pricing": "Pricing",
@@ -304,7 +321,6 @@
       "dashboard": "Dashboard"
     }
   },
-
   "footer": {
     "description": "Launch and manage your ecommerce business with a scalable multi-tenant commerce platform built for modern brands and merchants.",
     "copyright": "All rights reserved.",
@@ -325,7 +341,6 @@
       "contact": "Contact"
     }
   },
-
   "cta": {
     "startSelling": "Start Selling",
     "viewDemo": "View Demo",
@@ -334,5 +349,12 @@
     "contactSales": "Contact Sales",
     "login": "Sign In",
     "getStarted": "Get Started"
+  },
+  "brandName": "LaraTenant Commerce",
+  "a11y": {
+    "siteFooter": "Site footer",
+    "homeLink": "{brand} — Home",
+    "mainNavigation": "Main navigation",
+    "mobileNavigation": "Mobile navigation"
   }
 }

@@ -1,0 +1,81 @@
+{
+  "title": "التصنيفات",
+  "subtitle": "إدارة تصنيفات متجرك",
+  "new": "تصنيف جديد",
+  "loading": "جارٍ التحميل...",
+  "filters": {
+    "allStatuses": "جميع الحالات"
+  },
+  "status": {
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "deleted": "محذوف"
+  },
+  "table": {
+    "name": "الاسم",
+    "slug": "المعرّف",
+    "parent": "التصنيف الأب",
+    "products": "المنتجات",
+    "status": "الحالة",
+    "sortOrder": "الترتيب",
+    "created": "تاريخ الإنشاء",
+    "actions": "الإجراءات",
+    "edit": "تعديل",
+    "empty": "لم يتم العثور على تصنيفات",
+    "delete": "حذف",
+    "restore": "استعادة",
+    "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا التصنيف؟",
+    "of": "من",
+    "perPage": "لكل صفحة",
+    "previous": "السابق",
+    "next": "التالي",
+    "page": "صفحة {current} من {total}"
+  },
+  "form": {
+    "createTitle": "تصنيف جديد",
+    "createSubtitle": "إنشاء تصنيف منتج جديد",
+    "editTitle": "تعديل التصنيف",
+    "translations": "الترجمات",
+    "settings": "الإعدادات",
+    "parentCategory": "الفئة الأصلية",
+    "dangerZone": "منطقة الخطر",
+    "deleteDescription": "إزالة هذا التصنيف نهائياً من متجرك. لن تتأثر المنتجات الموجودة في هذا التصنيف.",
+    "restoreDescription": "استعادة هذا التصنيف لجعله متاحاً مرة أخرى.",
+    "fields": {
+      "name": "الاسم",
+      "namePlaceholder": "مثال: الملابس",
+      "slug": "المعرّف العام",
+      "translationSlug": "معرّف الرابط",
+      "slugPlaceholder": "مثال: clothing",
+      "sortOrder": "ترتيب العرض",
+      "isActive": "نشط",
+      "noParent": "بدون أب",
+      "searchParent": "ابحث في التصنيف الأب...",
+      "noCategoriesFound": "لم يتم العثور على تصنيفات.",
+      "loading": "جارٍ التحميل...",
+      "loadError": "فشل تحميل الفئات."
+    },
+    "create": "إنشاء تصنيف",
+    "creating": "جارٍ الإنشاء...",
+    "save": "حفظ التغييرات",
+    "saving": "جارٍ الحفظ...",
+    "delete": "حذف التصنيف",
+    "deleting": "جارٍ الحذف...",
+    "restore": "استعادة التصنيف",
+    "restoring": "جارٍ الاستعادة...",
+    "cancel": "إلغاء",
+    "deleteTitle": "حذف التصنيف",
+    "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا التصنيف؟ لا يمكن حذف التصنيفات التي تحتوي على تصنيفات فرعية أو منتجات.",
+    "createSuccess": "تم إنشاء التصنيف",
+    "createError": "فشل إنشاء التصنيف",
+    "updateSuccess": "تم حفظ التصنيف",
+    "updateError": "فشل تحديث التصنيف",
+    "deleteSuccess": "تم حذف التصنيف",
+    "deleteError": "فشل حذف التصنيف",
+    "restoreSuccess": "تمت استعادة التصنيف",
+    "restoreError": "فشل استعادة التصنيف"
+  },
+  "detail": {
+    "error": "فشل تحميل التصنيف"
+  }
+}

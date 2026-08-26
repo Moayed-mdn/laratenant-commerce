@@ -1,0 +1,20 @@
+{
+  "uploader": {
+    "defaultLabel": "Image",
+    "clickToUpload": "Click to upload",
+    "orDragAndDrop": "or drag and drop",
+    "acceptedFormats": "PNG, JPG, GIF, WEBP up to {maxSizeMB}MB",
+    "uploading": "Uploading... {progress}%",
+    "confirmDelete": "Are you sure you want to delete this image?",
+    "previewAlt": "Preview",
+    "iconLabel": "Icon:",
+    "deleteImage": "Delete image",
+    "pathLabel": "Path:",
+    "errors": {
+      "invalidType": "Please upload a valid image file (JPEG, PNG, GIF, or WEBP)",
+      "tooLarge": "Image size must not exceed {maxSizeMB}MB",
+      "uploadFailed": "Upload failed. Please try again.",
+      "deleteFailed": "Delete failed. Please try again."
+    }
+  }
+}

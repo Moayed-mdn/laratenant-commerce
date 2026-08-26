@@ -1,0 +1,8 @@
+{
+  "title": "Something went wrong",
+  "description": "The dashboard hit an unexpected problem, but your session and routing state can still be recovered safely.",
+  "hint": "Retry first. If the problem continues, reopen a safe route and refresh bootstrap from there.",
+  "retry": "Retry",
+  "dashboardHome": "Dashboard home",
+  "login": "Login"
+}

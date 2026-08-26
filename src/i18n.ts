@@ -16,6 +16,20 @@
 //   3. Use: getTranslations({ locale, namespace: 'my-namespace' })
 //   No config changes required.
 //
+// common.json convention (2026-08 split):
+//   common.json is reserved for the small set of generic, reused-everywhere
+//   action/status strings (save, cancel, loading, error, ...) that are read
+//   both as the root namespace (useTranslations() with no argument) and as
+//   the 'common' namespace (useTranslations('common')). Every feature-sized
+//   bundle of copy (nav, login, theme, billing, settings, cmsPages, etc.)
+//   lives in its own <namespace>.json file instead — do not add new nested
+//   feature objects to common.json, since that's exactly the sprawl this
+//   split was meant to undo. If a namespace like `settings` or `cmsPages`
+//   already exists as its own file, add new keys there directly rather than
+//   re-introducing a same-named key in common.json (the loader merges same-
+//   named files shallowly, so a re-introduced common.json.settings key would
+//   silently shadow or fight with settings.json depending on file order).
+//
 // Rules:
 //   - locale directory must exist for all supported locales
 //   - all locale directories must have key parity

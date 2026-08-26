@@ -1,0 +1,72 @@
+{
+  "title": "الوسوم",
+  "subtitle": "إدارة وسوم متجرك",
+  "new": "وسم جديد",
+  "loading": "جارٍ التحميل...",
+  "filters": {
+    "allStatuses": "جميع الحالات",
+    "allTypes": "جميع الأنواع",
+    "typePlaceholder": "تصفية حسب النوع..."
+  },
+  "status": {
+    "active": "نشط",
+    "inactive": "غير نشط"
+  },
+  "table": {
+    "name": "الاسم",
+    "type": "النوع",
+    "color": "اللون",
+    "translations": "اللغات",
+    "status": "الحالة",
+    "created": "تاريخ الإنشاء",
+    "actions": "الإجراءات",
+    "edit": "تعديل",
+    "empty": "لم يتم العثور على وسوم",
+    "delete": "حذف",
+    "restore": "استعادة",
+    "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا الوسم؟",
+    "of": "من",
+    "perPage": "لكل صفحة",
+    "previous": "السابق",
+    "next": "التالي",
+    "page": "صفحة {current} من {total}"
+  },
+  "form": {
+    "createTitle": "وسم جديد",
+    "createSubtitle": "إنشاء وسم جديد للمنتجات",
+    "editTitle": "تعديل الوسم",
+    "translations": "الترجمات",
+    "settings": "الإعدادات",
+    "dangerZone": "منطقة الخطر",
+    "deleteDescription": "إزالة هذا الوسم نهائياً من متجرك.",
+    "fields": {
+      "name": "الاسم",
+      "namePlaceholder": "مثال: تخفيض",
+      "slug": "رابط URL",
+      "slugPlaceholder": "مثال: sale",
+      "type": "النوع",
+      "typePlaceholder": "مثال: general",
+      "color": "اللون",
+      "colorPlaceholder": "#FF0000",
+      "isActive": "نشط"
+    },
+    "create": "إنشاء وسم",
+    "creating": "جارٍ الإنشاء...",
+    "save": "حفظ التغييرات",
+    "saving": "جارٍ الحفظ...",
+    "delete": "حذف الوسم",
+    "deleting": "جارٍ الحذف...",
+    "cancel": "إلغاء",
+    "deleteTitle": "حذف الوسم",
+    "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا الوسم؟",
+    "createSuccess": "تم إنشاء الوسم",
+    "createError": "فشل إنشاء الوسم",
+    "updateSuccess": "تم حفظ الوسم",
+    "updateError": "فشل حفظ الوسم",
+    "deleteSuccess": "تم حذف الوسم",
+    "deleteError": "فشل حذف الوسم"
+  },
+  "detail": {
+    "error": "فشل تحميل الوسم"
+  }
+}

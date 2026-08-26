@@ -1,25 +1,122 @@
 {
+  "title": "Marketing Pages",
+  "subtitle": "Manage your store marketing pages",
+  "new": "New page",
+  "loading": "Loading...",
+  "status": {
+    "draft": "Draft",
+    "published": "Published",
+    "scheduled": "Scheduled"
+  },
+  "templates": {
+    "landing": "Landing",
+    "campaign": "Campaign",
+    "promotion": "Promotion",
+    "generic": "Generic"
+  },
+  "filters": {
+    "searchPlaceholder": "Search pages...",
+    "allStatuses": "All statuses",
+    "allTemplates": "All templates"
+  },
+  "table": {
+    "title": "Title",
+    "template": "Template",
+    "status": "Status",
+    "sortOrder": "Order",
+    "publishedAt": "Published",
+    "created": "Created",
+    "actions": "Actions",
+    "edit": "Edit",
+    "empty": "No marketing pages found",
+    "of": "of",
+    "perPage": "Per page",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {current} of {total}"
+  },
+  "form": {
+    "createTitle": "New Marketing Page",
+    "createSubtitle": "Create a new marketing page for your store",
+    "editTitle": "Edit Marketing Page",
+    "editSubtitle": "Update your marketing page content and settings",
+    "settings": "Settings",
+    "tabs": {
+      "general": "General",
+      "content": "Content Builder",
+      "seo": "SEO"
+    },
+    "fields": {
+      "title": "Title",
+      "slug": "Slug",
+      "excerpt": "Excerpt",
+      "template": "Template",
+      "pageTemplate": "Page Template",
+      "pageTemplateNone": "None (no template)",
+      "status": "Status",
+      "publishedAt": "Publish date",
+      "sortOrder": "Sort order",
+      "isHomepage": "Use as Homepage",
+      "isHomepageHelp": "Set this page as the store homepage"
+    },
+    "errors": {
+      "titleRequired": "Title is required in at least one language",
+      "slugRequired": "Slug is required in at least one language",
+      "validationFailed": "Please fix the validation errors before saving.",
+      "pageTemplateInvalid": "Please choose a valid page template or leave the template field empty."
+    },
+    "seo": {
+      "metaTitle": "Meta Title",
+      "metaDescription": "Meta Description",
+      "technical": "Technical SEO",
+      "canonicalUrl": "Canonical URL",
+      "robots": "Robots",
+      "ogImage": "OG Image URL"
+    },
+    "create": "Create page",
+    "creating": "Creating...",
+    "save": "Save changes",
+    "saving": "Saving...",
+    "delete": "Delete page",
+    "deleting": "Deleting...",
+    "cancel": "Cancel",
+    "deleteTitle": "Delete Marketing Page",
+    "deleteConfirm": "Are you sure you want to delete \"{title}\"? This action cannot be undone.",
+    "createSuccess": "Marketing page created",
+    "createError": "Failed to create marketing page",
+    "updateSuccess": "Marketing page saved",
+    "updateError": "Failed to update marketing page",
+    "deleteSuccess": "Marketing page deleted",
+    "deleteError": "Failed to delete marketing page",
+    "publishSuccess": "Marketing page published",
+    "publishError": "Failed to publish marketing page",
+    "unpublishSuccess": "Marketing page unpublished",
+    "unpublishError": "Failed to unpublish marketing page"
+  },
   "sections": {
+    "add": "Add section",
+    "empty": "No sections yet. Add a section to build your page content.",
+    "remove": "Remove section",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "collapse": "Collapse",
+    "expand": "Expand",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "fields": {
+      "type": "Section type",
+      "identifier": "Identifier",
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "isActive": "Active"
+    },
     "editors": {
-      "common": {
-        "colorScheme": "Color Scheme",
-        "colorSchemeDescription": "Select a color scheme for this section. Changes will appear on the storefront.",
-        "preview": "Preview"
-      },
-      "hero": {
-        "heading": "Hero Section Content",
-        "eyebrow": "Eyebrow Text",
-        "headline": "Headline",
-        "subheadline": "Subheadline",
-        "ctaText": "CTA Button Text",
-        "ctaUrl": "CTA Button URL",
-        "visualType": "Visual Type",
-        "visualTypeGradient": "Gradient",
-        "visualTypeImage": "Image",
-        "gradientFrom": "Gradient From",
-        "gradientTo": "Gradient To",
-        "imageUrl": "Background Image",
-        "note": "Note: Top-level fallbacks are automatically synced for renderer compatibility."
+      "video": {
+        "heading": "Video Section",
+        "videoUrl": "Video URL",
+        "videoUrlHelp": "YouTube, Vimeo, or direct video URL",
+        "posterUrl": "Poster/Thumbnail Image",
+        "description": "Video Description"
       },
       "cta": {
         "heading": "CTA Section Content",
@@ -36,6 +133,52 @@
         "addTrustBadge": "Add Trust Badge",
         "noTrustBadges": "No trust badges yet.",
         "badgeText": "Badge Text"
+      },
+      "custom": {
+        "heading": "Custom Section",
+        "warning": "Custom sections render as a placeholder on the storefront until a custom renderer is added. Use this for advanced configurations.",
+        "content": "Content (JSON)",
+        "settings": "Settings (JSON)"
+      },
+      "features": {
+        "heading": "Features Section",
+        "addFeature": "Add Feature",
+        "noFeatures": "No features yet. Add your first feature.",
+        "title": "Feature Title",
+        "body": "Feature Description",
+        "icon": "Icon (URL or name)"
+      },
+      "faq": {
+        "heading": "FAQ Section",
+        "addQuestion": "Add Question",
+        "noQuestions": "No questions yet.",
+        "question": "Question",
+        "answer": "Answer"
+      },
+      "gallery": {
+        "heading": "Gallery/Team Section",
+        "note": "This section displays team members or a gallery of people.",
+        "showBio": "Show Bio/Description",
+        "addMember": "Add Team Member",
+        "noMembers": "No team members yet.",
+        "name": "Name",
+        "role": "Role/Title",
+        "bio": "Bio/Description",
+        "image": "Photo"
+      },
+      "testimonials": {
+        "heading": "Testimonials Section",
+        "showRating": "Show Ratings",
+        "addTestimonial": "Add Testimonial",
+        "noTestimonials": "No testimonials yet.",
+        "quote": "Quote",
+        "author": "Author Name",
+        "role": "Role/Title",
+        "rating": "Rating (1-5)",
+        "avatar": "Avatar Image",
+        "aggregate": "Aggregate Rating (Optional)",
+        "averageRating": "Average Rating",
+        "totalReviews": "Total Reviews"
       },
       "content": {
         "heading": "Content Section",
@@ -56,29 +199,8 @@
         "metricLabel": "Metric Label",
         "metricValue": "Value",
         "metricNote": "Note (optional)",
-        "disclosure": "Disclosure/Legal Note"
-      },
-      "features": {
-        "heading": "Features Section",
-        "addFeature": "Add Feature",
-        "noFeatures": "No features yet. Add your first feature.",
-        "title": "Feature Title",
-        "body": "Feature Description",
-        "icon": "Icon (URL or name)"
-      },
-      "testimonials": {
-        "heading": "Testimonials Section",
-        "showRating": "Show Ratings",
-        "addTestimonial": "Add Testimonial",
-        "noTestimonials": "No testimonials yet.",
-        "quote": "Quote",
-        "author": "Author Name",
-        "role": "Role/Title",
-        "rating": "Rating (1-5)",
-        "avatar": "Avatar Image",
-        "aggregate": "Aggregate Rating (Optional)",
-        "averageRating": "Average Rating",
-        "totalReviews": "Total Reviews"
+        "disclosure": "Disclosure/Legal Note",
+        "statLabelPlaceholder": "Customers"
       },
       "pricing": {
         "heading": "Pricing Section",
@@ -94,33 +216,75 @@
         "ctaLabel": "CTA Button Label",
         "ctaUrl": "CTA Button URL",
         "badge": "Badge (e.g., 'Most Popular')",
-        "featured": "Featured Plan"
+        "featured": "Featured Plan",
+        "featurePlaceholder": "Feature description"
       },
-      "faq": {
-        "heading": "FAQ Section",
-        "addQuestion": "Add Question",
-        "noQuestions": "No questions yet.",
-        "question": "Question",
-        "answer": "Answer"
+      "hero": {
+        "heading": "Hero Section Content",
+        "eyebrow": "Eyebrow Text",
+        "headline": "Headline",
+        "subheadline": "Subheadline",
+        "ctaText": "CTA Button Text",
+        "ctaUrl": "CTA Button URL",
+        "visualType": "Visual Type",
+        "visualTypeGradient": "Gradient",
+        "visualTypeImage": "Image",
+        "gradientFrom": "Gradient From",
+        "gradientTo": "Gradient To",
+        "imageUrl": "Background Image",
+        "note": "Note: Top-level fallbacks are automatically synced for renderer compatibility."
       },
-      "gallery": {
-        "heading": "Gallery/Team Section",
-        "note": "This section displays team members or a gallery of people.",
-        "showBio": "Show Bio/Description",
-        "addMember": "Add Team Member",
-        "noMembers": "No team members yet.",
-        "name": "Name",
-        "role": "Role/Title",
-        "bio": "Bio/Description",
-        "image": "Photo"
+      "products": {
+        "heading": "Products Section",
+        "selectProducts": "Select Products",
+        "settings": "Display Settings",
+        "columns": "Columns",
+        "style": "Display Style",
+        "styleGrid": "Grid",
+        "styleCarousel": "Carousel",
+        "styleList": "List",
+        "showPrices": "Show Prices",
+        "showAddToCart": "Show Add to Cart"
       },
-      "video": {
-        "heading": "Video Section",
-        "videoUrl": "Video URL",
-        "videoUrlHelp": "YouTube, Vimeo, or direct video URL",
-        "posterUrl": "Poster/Thumbnail Image",
-        "description": "Video Description"
+      "categoryGrid": {
+        "heading": "Category Grid Content",
+        "addCategory": "Add category",
+        "noCategories": "No categories yet",
+        "id": "Category ID",
+        "name": "Category Name",
+        "slug": "URL Slug",
+        "path": "Path",
+        "productCount": "Product Count",
+        "image": "Category Image"
+      },
+      "common": {
+        "colorScheme": "Color Scheme",
+        "colorSchemeDescription": "Select a color scheme for this section. Changes will appear on the storefront.",
+        "preview": "Preview"
       }
+    },
+    "removeItem": "Remove",
+    "repeater": {
+      "addItem": "Add item",
+      "noItems": "No items yet"
     }
+  },
+  "sectionTypes": {
+    "hero": "Hero",
+    "features": "Features",
+    "faq": "FAQ",
+    "gallery": "Gallery",
+    "testimonials": "Testimonials",
+    "category_grid": "Category Grid"
+  },
+  "detail": {
+    "error": "Failed to load marketing page"
+  },
+  "productPicker": {
+    "searchLabel": "Search products",
+    "searchPlaceholder": "Type to search...",
+    "loading": "Loading...",
+    "noProducts": "No products found",
+    "idLabel": "ID:"
   }
 }

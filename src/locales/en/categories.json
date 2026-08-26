@@ -1,0 +1,81 @@
+{
+  "title": "Categories",
+  "subtitle": "Manage your store categories",
+  "new": "New category",
+  "loading": "Loading...",
+  "filters": {
+    "allStatuses": "All statuses"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "deleted": "Deleted"
+  },
+  "table": {
+    "name": "Name",
+    "slug": "Slug",
+    "parent": "Parent",
+    "products": "Products",
+    "status": "Status",
+    "sortOrder": "Order",
+    "created": "Created",
+    "actions": "Actions",
+    "edit": "Edit",
+    "empty": "No categories found",
+    "delete": "Delete",
+    "restore": "Restore",
+    "deleteConfirm": "Are you sure you want to delete this category?",
+    "of": "of",
+    "perPage": "Per page",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {current} of {total}"
+  },
+  "form": {
+    "createTitle": "New Category",
+    "createSubtitle": "Create a new product category",
+    "editTitle": "Edit Category",
+    "translations": "Translations",
+    "settings": "Settings",
+    "parentCategory": "Parent Category",
+    "dangerZone": "Danger Zone",
+    "deleteDescription": "Permanently remove this category from your store. Products in this category will be unaffected.",
+    "restoreDescription": "Restore this category to make it available again.",
+    "fields": {
+      "name": "Name",
+      "namePlaceholder": "e.g. Clothing",
+      "slug": "Global slug",
+      "translationSlug": "URL slug",
+      "slugPlaceholder": "e.g. clothing",
+      "sortOrder": "Sort order",
+      "isActive": "Active",
+      "noParent": "No parent",
+      "searchParent": "Search parent category...",
+      "noCategoriesFound": "No categories found.",
+      "loading": "Loading...",
+      "loadError": "Failed to load categories."
+    },
+    "create": "Create category",
+    "creating": "Creating...",
+    "save": "Save changes",
+    "saving": "Saving...",
+    "delete": "Delete category",
+    "deleting": "Deleting...",
+    "restore": "Restore category",
+    "restoring": "Restoring...",
+    "cancel": "Cancel",
+    "deleteTitle": "Delete Category",
+    "deleteConfirm": "Are you sure you want to delete this category? Categories with subcategories or products cannot be deleted.",
+    "createSuccess": "Category created",
+    "createError": "Failed to create category",
+    "updateSuccess": "Category saved",
+    "updateError": "Failed to update category",
+    "deleteSuccess": "Category deleted",
+    "deleteError": "Failed to delete category",
+    "restoreSuccess": "Category restored",
+    "restoreError": "Failed to restore category"
+  },
+  "detail": {
+    "error": "Failed to load category"
+  }
+}

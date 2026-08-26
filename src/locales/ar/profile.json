@@ -1,0 +1,8 @@
+{
+  "avatarUpdateSuccess": "تم تحديث الصورة الشخصية بنجاح",
+  "avatarUpdateError": "فشل تحديث الصورة الشخصية",
+  "passwordUpdateSuccess": "تم تحديث كلمة المرور بنجاح",
+  "passwordUpdateError": "فشل تحديث كلمة المرور",
+  "profileUpdateSuccess": "تم تحديث الملف الشخصي بنجاح",
+  "profileUpdateError": "فشل تحديث الملف الشخصي"
+}

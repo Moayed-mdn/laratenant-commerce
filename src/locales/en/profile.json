@@ -1,0 +1,8 @@
+{
+  "avatarUpdateSuccess": "Avatar updated successfully",
+  "avatarUpdateError": "Failed to update avatar",
+  "passwordUpdateSuccess": "Password updated successfully",
+  "passwordUpdateError": "Failed to update password",
+  "profileUpdateSuccess": "Profile updated successfully",
+  "profileUpdateError": "Failed to update profile"
+}

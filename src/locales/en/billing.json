@@ -1,0 +1,283 @@
+{
+  "title": "Subscription & Billing",
+  "subtitle": "Manage your subscription and view billing information",
+  "loading": "Loading...",
+  "activatingSubscription": "Activating your subscription... Please wait a moment.",
+  "redirectingToTrial": "Redirecting to trial signup...",
+  "backToBilling": "Back to billing",
+  "subscription": {
+    "title": "Current Subscription",
+    "description": "Manage your subscription and billing",
+    "plan": "Plan",
+    "billedAnnually": "Billed Annually",
+    "billedMonthly": "Billed Monthly",
+    "renewsOn": "Renews on",
+    "changePlan": "Change Plan",
+    "billingPortal": "Billing Portal",
+    "cancelDowngrade": "Cancel Downgrade",
+    "resumeSubscription": "Resume Subscription"
+  },
+  "status": {
+    "incomplete": "Incomplete",
+    "trialing": "Free Trial",
+    "active": "Active",
+    "pastDue": "Payment Failed",
+    "gracePeriod": "Grace Period",
+    "paused": "Paused",
+    "canceled": "Canceled",
+    "expired": "Expired"
+  },
+  "alerts": {
+    "downgradeScheduled": "Downgrade Scheduled",
+    "downgradeMessage": "Your plan will change from {currentPlan} to {newPlan} on {date}",
+    "keepAccessMessage": "You'll keep full access to {planName} features until then. No refunds will be issued for the remaining time.",
+    "trialEnds": "Trial Ends {date}",
+    "trialMessage": "Choose a plan to continue after your trial ends",
+    "subscriptionCanceled": "Subscription Canceled",
+    "accessUntil": "Access until {date}",
+    "paymentFailed": "Payment Failed",
+    "updatePaymentBy": "Update payment by {date}",
+    "trialStarted": "Trial Started!",
+    "trialActivating": "Your subscription is being activated. This may take a few seconds...",
+    "subscriptionActive": "Success!",
+    "subscriptionActiveMessage": "Your subscription is now active."
+  },
+  "usage": {
+    "title": "Usage & Limits",
+    "description": "Current usage across your subscription",
+    "stores": "Stores",
+    "products": "Products",
+    "features": "Features",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "approachingLimit": "You're approaching your store limit",
+    "noData": "No usage data available",
+    "unlimitedStores": "Unlimited stores",
+    "unlimitedProducts": "Unlimited products",
+    "loading": "Loading usage data...",
+    "errorLoading": "Could not load usage data. Please refresh the page."
+  },
+  "upgradePrompt": {
+    "title": "Upgrade Required",
+    "storesMessage": "You've reached your plan limit of {limit} stores. Upgrade to add more stores.",
+    "storesMessageSingular": "You've reached your plan limit of {limit} store. Upgrade to add more stores.",
+    "productsMessage": "You've reached your plan limit of {limit} products. Upgrade to add more products.",
+    "customMessage": "Upgrade your plan to access this feature.",
+    "limitLabel": "Limit",
+    "maybeLater": "Maybe Later",
+    "viewPlans": "View Plans"
+  },
+  "payment": {
+    "title": "Billing & Payment",
+    "description": "Manage payment methods and view invoices",
+    "viewInvoices": "View Invoices",
+    "billingPortal": "Billing Portal",
+    "opening": "Opening...",
+    "nextInvoice": "Next Invoice",
+    "on": "on"
+  },
+  "plans": {
+    "title": "Choose Your Plan",
+    "subtitle": "Select the plan that fits your business needs",
+    "trialSubtitle": "Start your paid subscription by selecting a plan",
+    "loadingPlans": "Loading plans...",
+    "noPlans": "No plans available",
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "savePercentage": "(Save 20%)",
+    "perYear": "/year",
+    "perMonth": "/month",
+    "billedAnnually": "billed annually",
+    "currentPlan": "Current Plan",
+    "yourCurrentPlan": "Your Current Plan",
+    "legacy": "Legacy",
+    "legacyDescription": "This plan is no longer available to new subscribers. Your current pricing and limits remain unchanged and will continue until you choose to upgrade or downgrade.",
+    "yourCurrentFeatures": "Your Current Features & Limits",
+    "yourCurrentPricing": "Your Current Pricing",
+    "newVersionAvailable": "New Version Available",
+    "newVersionDescription": "An updated version of your plan is now available with improved features and benefits. Check out {plan} below to see what's new.",
+    "whatsNewInVersion": "What's new in this version:",
+    "andMoreFeatures": "...and more features",
+    "viewNewPlan": "View New Plan",
+    "upgradeNow": "Upgrade Now",
+    "planUpdated": "Plan Updated!",
+    "movedToPlan": "You've been moved to {plan}",
+    "selectPlan": "Select {plan}",
+    "popular": "Popular",
+    "upTo": "Up to {count}",
+    "included": "Included",
+    "redirectingToCheckout": "Redirecting to checkout",
+    "settingUpSubscription": "Setting up your subscription...",
+    "planUpgraded": "Plan upgraded!",
+    "upgradedTo": "You've been upgraded to {plan}",
+    "downgradeScheduled": "Downgrade scheduled",
+    "downgradeMessage": "Your plan will change to {plan} at the end of your billing period. You'll keep full access to your current plan until then.",
+    "features": {
+      "stores": "Stores",
+      "products": "Products",
+      "teamMembers": "Team Members",
+      "customDomain": "Custom Domain",
+      "apiAccess": "API Access",
+      "webhooks": "Webhooks",
+      "prioritySupport": "Priority Support",
+      "advancedAnalytics": "Advanced Analytics",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "unlimited": "Unlimited",
+      "upTo": "Up to {count}",
+      "notSpecified": "Not specified"
+    },
+    "comparisonTable": {
+      "title": "Feature Comparison",
+      "feature": "Feature"
+    }
+  },
+  "trial": {
+    "startTrial": "Start Free Trial",
+    "choosePlan": "Choose a plan to start your free trial",
+    "trialStarts": "Your trial starts immediately. After 14 days, you'll be charged based on your selected plan.",
+    "cancelAnytime": "Cancel anytime during the trial to avoid charges.",
+    "monthlyLabel": "Monthly",
+    "annualLabel": "Annual (Save 20%)",
+    "startPage": {
+      "heading": "Start Your Free Trial",
+      "subheading": "14 days free. No credit card required.",
+      "benefits": [
+        "Full access to all features",
+        "No credit card required",
+        "Cancel anytime",
+        "Upgrade to paid plan anytime"
+      ],
+      "noPlans": "No plans are available right now. Please try again later."
+    }
+  },
+  "downgrade": {
+    "confirmTitle": "Confirm Downgrade",
+    "confirmDescription": "You're about to downgrade from {currentPlan} to {targetPlan}. The change will take effect on {date}.",
+    "whatHappens": "What happens when you downgrade:",
+    "reducedLimits": "Reduced storage and feature limits",
+    "fewerFeatures": "Access to fewer premium features",
+    "lowerPriority": "Lower priority support",
+    "noteTitle": "Note:",
+    "noteMessage": "You'll keep full access to your current plan until {date}.",
+    "cancel": "Cancel",
+    "confirmButton": "Downgrade to {plan}",
+    "processing": "Processing...",
+    "failed": "Downgrade Failed",
+    "failedMessage": "Failed to schedule downgrade. Please try again."
+  },
+  "errors": {
+    "noActiveStore": "No active store found. Please select a store first.",
+    "planNotFound": "Plan not found",
+    "priceNotFound": "Price not found for selected billing cycle",
+    "checkoutFailed": "Failed to start checkout. Please try again.",
+    "planChangeFailed": "Failed to change plan. Please try again.",
+    "error": "Error",
+    "planUpdateFailed": "Failed to update plan. Please try again.",
+    "planPriceNotFound": "Plan price not found.",
+    "trialStartFailed": "Failed to start trial. Please try again."
+  },
+  "invoices": {
+    "title": "Invoices",
+    "subtitle": "View and download your billing invoices",
+    "loading": "Loading invoices...",
+    "filters": {
+      "allStatuses": "All Statuses",
+      "paid": "Paid",
+      "open": "Open",
+      "draft": "Draft",
+      "void": "Void",
+      "uncollectible": "Uncollectible",
+      "allYears": "All Years",
+      "statusPlaceholder": "All statuses",
+      "yearPlaceholder": "All years"
+    },
+    "table": {
+      "date": "Date",
+      "invoice": "Invoice",
+      "amount": "Amount",
+      "status": "Status",
+      "actions": "Actions",
+      "noInvoices": "No invoices found",
+      "viewInvoice": "View invoice",
+      "downloadPDF": "Download PDF",
+      "page": "Page {current} of {total}",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "detail": {
+      "title": "Invoice Details",
+      "loadingTitle": "Invoice Details",
+      "loadingMessage": "Loading...",
+      "notFoundTitle": "Invoice Not Found",
+      "notFoundMessage": "The requested invoice could not be found.",
+      "backToInvoices": "Back to Invoices",
+      "invoice": "Invoice",
+      "issuedOn": "Issued on",
+      "downloadPDF": "Download PDF",
+      "invoiceInfo": "Invoice Information",
+      "invoiceNumber": "Invoice Number",
+      "invoiceDate": "Invoice Date",
+      "dueDate": "Due Date",
+      "paidDate": "Paid Date",
+      "paymentSummary": "Payment Summary",
+      "subtotal": "Subtotal",
+      "tax": "Tax",
+      "discount": "Discount",
+      "total": "Total",
+      "paid": "Paid",
+      "due": "Due",
+      "lineItems": "Line Items",
+      "quantity": "Quantity"
+    }
+  },
+  "checkoutSuccess": {
+    "invalidSession": {
+      "title": "Invalid Session",
+      "description": "No checkout session ID found. Please try again."
+    },
+    "verifying": {
+      "title": "Verifying Payment",
+      "description": "Please wait while we confirm your subscription..."
+    },
+    "activated": {
+      "title": "Subscription Activated!",
+      "description": "Your subscription has been successfully activated."
+    },
+    "success": {
+      "title": "Payment Successful!",
+      "description": "Your subscription has been activated. Redirecting to billing..."
+    },
+    "error": {
+      "title": "Something Went Wrong",
+      "description": "We couldn't verify your payment. Please contact support if the issue persists."
+    },
+    "goToBilling": "Go to Billing",
+    "backToPlans": "Back to Plans"
+  },
+  "cancelDialog": {
+    "title": "Cancel Subscription?",
+    "descriptionWithDate": {
+      "before": "Your subscription will be canceled at the end of your current billing period on",
+      "after": ". You'll continue to have access until then."
+    },
+    "descriptionNoDate": "Your subscription will be canceled at the end of your current billing period. You'll continue to have access until then.",
+    "noteLabel": "Note:",
+    "noteBody": "You can resume your subscription anytime before the end of your billing period.",
+    "keepSubscription": "Keep Subscription",
+    "canceling": "Canceling...",
+    "cancelSubscription": "Cancel Subscription"
+  },
+  "gracePeriodBanner": {
+    "label": "Payment Failed:",
+    "message": "Your payment failed. You have {days, plural, =1 {# day} other {# days}} to update your payment method before your account is suspended ({date}).",
+    "updatePayment": "Update Payment",
+    "dismiss": "Dismiss banner"
+  },
+  "trialBanner": {
+    "daysRemaining": "{days, plural, =1 {# day} other {# days}} remaining",
+    "trialEndsMessage": "in your free trial. Choose a plan to continue after {date}.",
+    "choosePlan": "Choose a Plan",
+    "dismiss": "Dismiss banner"
+  }
+}

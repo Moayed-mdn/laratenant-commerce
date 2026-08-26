@@ -1,0 +1,283 @@
+{
+  "title": "الاشتراك والفواتير",
+  "subtitle": "إدارة اشتراكك وعرض معلومات الفواتير",
+  "loading": "جارٍ التحميل...",
+  "activatingSubscription": "جارٍ تفعيل اشتراكك... يرجى الانتظار لحظة.",
+  "redirectingToTrial": "جارٍ التحويل إلى تسجيل التجربة المجانية...",
+  "backToBilling": "العودة إلى الفواتير",
+  "subscription": {
+    "title": "الاشتراك الحالي",
+    "description": "إدارة اشتراكك والفواتير",
+    "plan": "الخطة",
+    "billedAnnually": "الدفع السنوي",
+    "billedMonthly": "الدفع الشهري",
+    "renewsOn": "يتجدد في",
+    "changePlan": "تغيير الخطة",
+    "billingPortal": "بوابة الفواتير",
+    "cancelDowngrade": "إلغاء التخفيض",
+    "resumeSubscription": "استئناف الاشتراك"
+  },
+  "status": {
+    "incomplete": "غير مكتمل",
+    "trialing": "تجربة مجانية",
+    "active": "نشط",
+    "pastDue": "فشل الدفع",
+    "gracePeriod": "فترة سماح",
+    "paused": "متوقف مؤقتاً",
+    "canceled": "ملغي",
+    "expired": "منتهي الصلاحية"
+  },
+  "alerts": {
+    "downgradeScheduled": "تم جدولة التخفيض",
+    "downgradeMessage": "ستتغير خطتك من {currentPlan} إلى {newPlan} في {date}",
+    "keepAccessMessage": "ستحتفظ بإمكانية الوصول الكامل إلى ميزات {planName} حتى ذلك الحين. لن يتم إصدار استرداد للوقت المتبقي.",
+    "trialEnds": "تنتهي التجربة في {date}",
+    "trialMessage": "اختر خطة للمتابعة بعد انتهاء تجربتك",
+    "subscriptionCanceled": "تم إلغاء الاشتراك",
+    "accessUntil": "الوصول حتى {date}",
+    "paymentFailed": "فشل الدفع",
+    "updatePaymentBy": "تحديث الدفع بحلول {date}",
+    "trialStarted": "بدأت التجربة!",
+    "trialActivating": "جارٍ تفعيل اشتراكك. قد يستغرق هذا بضع ثوانٍ...",
+    "subscriptionActive": "نجاح!",
+    "subscriptionActiveMessage": "اشتراكك نشط الآن."
+  },
+  "usage": {
+    "title": "الاستخدام والحدود",
+    "description": "الاستخدام الحالي عبر اشتراكك",
+    "stores": "المتاجر",
+    "products": "المنتجات",
+    "features": "المميزات",
+    "enabled": "مفعّل",
+    "disabled": "معطّل",
+    "approachingLimit": "أنت تقترب من حد المتاجر الخاص بك",
+    "noData": "لا توجد بيانات استخدام متاحة",
+    "unlimitedStores": "متاجر غير محدودة",
+    "unlimitedProducts": "منتجات غير محدودة",
+    "loading": "جارٍ تحميل بيانات الاستخدام...",
+    "errorLoading": "تعذر تحميل بيانات الاستخدام. يرجى تحديث الصفحة."
+  },
+  "upgradePrompt": {
+    "title": "ترقية مطلوبة",
+    "storesMessage": "لقد وصلت إلى حد خطتك البالغ {limit} متاجر. قم بالترقية لإضافة المزيد من المتاجر.",
+    "storesMessageSingular": "لقد وصلت إلى حد خطتك البالغ {limit} متجر. قم بالترقية لإضافة المزيد من المتاجر.",
+    "productsMessage": "لقد وصلت إلى حد خطتك البالغ {limit} منتج. قم بالترقية لإضافة المزيد من المنتجات.",
+    "customMessage": "قم بترقية خطتك للوصول إلى هذه الميزة.",
+    "limitLabel": "الحد",
+    "maybeLater": "ربما لاحقاً",
+    "viewPlans": "عرض الخطط"
+  },
+  "payment": {
+    "title": "الفواتير والدفع",
+    "description": "إدارة طرق الدفع وعرض الفواتير",
+    "viewInvoices": "عرض الفواتير",
+    "billingPortal": "بوابة الفواتير",
+    "opening": "جارٍ الفتح...",
+    "nextInvoice": "الفاتورة التالية",
+    "on": "في"
+  },
+  "plans": {
+    "title": "اختر خطتك",
+    "subtitle": "اختر الخطة التي تناسب احتياجات عملك",
+    "trialSubtitle": "ابدأ اشتراكك المدفوع باختيار خطة",
+    "loadingPlans": "جارٍ تحميل الخطط...",
+    "noPlans": "لا توجد خطط متاحة",
+    "monthly": "شهري",
+    "annual": "سنوي",
+    "savePercentage": "(وفّر 20%)",
+    "perYear": "/سنة",
+    "perMonth": "/شهر",
+    "billedAnnually": "الدفع السنوي",
+    "currentPlan": "الخطة الحالية",
+    "yourCurrentPlan": "خطتك الحالية",
+    "legacy": "قديمة",
+    "legacyDescription": "هذه الخطة لم تعد متاحة للمشتركين الجدد. ستظل أسعارك وحدودك الحالية دون تغيير وستستمر حتى تقرر الترقية أو التخفيض.",
+    "yourCurrentFeatures": "ميزاتك وحدودك الحالية",
+    "yourCurrentPricing": "أسعارك الحالية",
+    "newVersionAvailable": "إصدار جديد متاح",
+    "newVersionDescription": "إصدار محدّث من خطتك متاح الآن مع ميزات وفوائد محسّنة. تحقق من {plan} أدناه لترى ما الجديد.",
+    "whatsNewInVersion": "ما الجديد في هذا الإصدار:",
+    "andMoreFeatures": "...والمزيد من الميزات",
+    "viewNewPlan": "عرض الخطة الجديدة",
+    "upgradeNow": "الترقية الآن",
+    "planUpdated": "تم تحديث الخطة!",
+    "movedToPlan": "تم نقلك إلى {plan}",
+    "selectPlan": "اختر {plan}",
+    "popular": "الأكثر شعبية",
+    "upTo": "حتى {count}",
+    "included": "مشمول",
+    "redirectingToCheckout": "جارٍ التحويل إلى صفحة الدفع",
+    "settingUpSubscription": "جارٍ إعداد اشتراكك...",
+    "planUpgraded": "تمت ترقية الخطة!",
+    "upgradedTo": "تمت ترقيتك إلى {plan}",
+    "downgradeScheduled": "تم جدولة التخفيض",
+    "downgradeMessage": "ستتغير خطتك إلى {plan} في نهاية فترة الفوترة. ستحتفظ بإمكانية الوصول الكامل إلى خطتك الحالية حتى ذلك الحين.",
+    "features": {
+      "stores": "المتاجر",
+      "products": "المنتجات",
+      "teamMembers": "أعضاء الفريق",
+      "customDomain": "نطاق مخصص",
+      "apiAccess": "الوصول إلى API",
+      "webhooks": "Webhooks",
+      "prioritySupport": "دعم ذو أولوية",
+      "advancedAnalytics": "تحليلات متقدمة",
+      "enabled": "مفعّل",
+      "disabled": "معطّل",
+      "unlimited": "غير محدود",
+      "upTo": "حتى {count}",
+      "notSpecified": "غير محدد"
+    },
+    "comparisonTable": {
+      "title": "مقارنة الميزات",
+      "feature": "الميزة"
+    }
+  },
+  "trial": {
+    "startTrial": "ابدأ التجربة المجانية",
+    "choosePlan": "اختر خطة لبدء تجربتك المجانية",
+    "trialStarts": "تبدأ تجربتك فوراً. بعد 14 يوماً، ستُحاسب بناءً على الخطة المختارة.",
+    "cancelAnytime": "يمكنك الإلغاء في أي وقت خلال التجربة لتجنب الرسوم.",
+    "monthlyLabel": "شهري",
+    "annualLabel": "سنوي (وفّر 20%)",
+    "startPage": {
+      "heading": "ابدأ نسختك التجريبية المجانية",
+      "subheading": "١٤ يومًا مجانًا. لا حاجة لبطاقة ائتمان.",
+      "benefits": [
+        "وصول كامل لجميع الميزات",
+        "لا حاجة لبطاقة ائتمان",
+        "إلغاء في أي وقت",
+        "الترقية إلى خطة مدفوعة في أي وقت"
+      ],
+      "noPlans": "لا توجد خطط متاحة حاليًا. يرجى المحاولة مرة أخرى لاحقًا."
+    }
+  },
+  "downgrade": {
+    "confirmTitle": "تأكيد التخفيض",
+    "confirmDescription": "أنت على وشك التخفيض من {currentPlan} إلى {targetPlan}. سيصبح التغيير ساريًا في {date}.",
+    "whatHappens": "ماذا يحدث عند التخفيض:",
+    "reducedLimits": "حدود تخزين وميزات أقل",
+    "fewerFeatures": "الوصول إلى ميزات مميزة أقل",
+    "lowerPriority": "دعم ذو أولوية أقل",
+    "noteTitle": "ملاحظة:",
+    "noteMessage": "ستحتفظ بإمكانية الوصول الكامل إلى خطتك الحالية حتى {date}.",
+    "cancel": "إلغاء",
+    "confirmButton": "التخفيض إلى {plan}",
+    "processing": "جارٍ المعالجة...",
+    "failed": "فشل التخفيض",
+    "failedMessage": "فشل جدولة التخفيض. يرجى المحاولة مرة أخرى."
+  },
+  "errors": {
+    "noActiveStore": "لم يتم العثور على متجر نشط. يرجى اختيار متجر أولاً.",
+    "planNotFound": "الخطة غير موجودة",
+    "priceNotFound": "السعر غير متوفر لدورة الفوترة المحددة",
+    "checkoutFailed": "فشل بدء عملية الدفع. يرجى المحاولة مرة أخرى.",
+    "planChangeFailed": "فشل تغيير الخطة. يرجى المحاولة مرة أخرى.",
+    "error": "خطأ",
+    "planUpdateFailed": "فشل تحديث الخطة. يرجى المحاولة مرة أخرى.",
+    "planPriceNotFound": "لم يتم العثور على سعر الخطة.",
+    "trialStartFailed": "فشل بدء التجربة. يرجى المحاولة مرة أخرى."
+  },
+  "invoices": {
+    "title": "الفواتير",
+    "subtitle": "عرض وتنزيل فواتير الفوترة الخاصة بك",
+    "loading": "جارٍ تحميل الفواتير...",
+    "filters": {
+      "allStatuses": "جميع الحالات",
+      "paid": "مدفوعة",
+      "open": "مفتوحة",
+      "draft": "مسودة",
+      "void": "ملغية",
+      "uncollectible": "غير قابلة للتحصيل",
+      "allYears": "جميع السنوات",
+      "statusPlaceholder": "جميع الحالات",
+      "yearPlaceholder": "جميع السنوات"
+    },
+    "table": {
+      "date": "التاريخ",
+      "invoice": "الفاتورة",
+      "amount": "المبلغ",
+      "status": "الحالة",
+      "actions": "الإجراءات",
+      "noInvoices": "لم يتم العثور على فواتير",
+      "viewInvoice": "عرض الفاتورة",
+      "downloadPDF": "تنزيل PDF",
+      "page": "صفحة {current} من {total}",
+      "previous": "السابق",
+      "next": "التالي"
+    },
+    "detail": {
+      "title": "تفاصيل الفاتورة",
+      "loadingTitle": "تفاصيل الفاتورة",
+      "loadingMessage": "جارٍ التحميل...",
+      "notFoundTitle": "الفاتورة غير موجودة",
+      "notFoundMessage": "تعذر العثور على الفاتورة المطلوبة.",
+      "backToInvoices": "العودة إلى الفواتير",
+      "invoice": "الفاتورة",
+      "issuedOn": "صدرت في",
+      "downloadPDF": "تنزيل PDF",
+      "invoiceInfo": "معلومات الفاتورة",
+      "invoiceNumber": "رقم الفاتورة",
+      "invoiceDate": "تاريخ الفاتورة",
+      "dueDate": "تاريخ الاستحقاق",
+      "paidDate": "تاريخ الدفع",
+      "paymentSummary": "ملخص الدفع",
+      "subtotal": "المجموع الفرعي",
+      "tax": "الضريبة",
+      "discount": "الخصم",
+      "total": "الإجمالي",
+      "paid": "مدفوع",
+      "due": "مستحق",
+      "lineItems": "عناصر الفاتورة",
+      "quantity": "الكمية"
+    }
+  },
+  "checkoutSuccess": {
+    "invalidSession": {
+      "title": "جلسة غير صالحة",
+      "description": "لم يتم العثور على معرف جلسة الدفع. يرجى المحاولة مرة أخرى."
+    },
+    "verifying": {
+      "title": "جارٍ التحقق من الدفع",
+      "description": "يرجى الانتظار بينما نؤكد اشتراكك..."
+    },
+    "activated": {
+      "title": "تم تفعيل الاشتراك!",
+      "description": "تم تفعيل اشتراكك بنجاح."
+    },
+    "success": {
+      "title": "تمت عملية الدفع بنجاح!",
+      "description": "تم تفعيل اشتراكك. جارٍ التحويل إلى صفحة الفوترة..."
+    },
+    "error": {
+      "title": "حدث خطأ ما",
+      "description": "تعذّر التحقق من عملية الدفع. يرجى التواصل مع الدعم إذا استمرت المشكلة."
+    },
+    "goToBilling": "الذهاب إلى الفوترة",
+    "backToPlans": "العودة إلى الخطط"
+  },
+  "cancelDialog": {
+    "title": "إلغاء الاشتراك؟",
+    "descriptionWithDate": {
+      "before": "سيتم إلغاء اشتراكك في نهاية فترة الفوترة الحالية بتاريخ",
+      "after": ". ستستمر في الوصول حتى ذلك الحين."
+    },
+    "descriptionNoDate": "سيتم إلغاء اشتراكك في نهاية فترة الفوترة الحالية. ستستمر في الوصول حتى ذلك الحين.",
+    "noteLabel": "ملاحظة:",
+    "noteBody": "يمكنك استئناف اشتراكك في أي وقت قبل نهاية فترة الفوترة.",
+    "keepSubscription": "الاحتفاظ بالاشتراك",
+    "canceling": "جارٍ الإلغاء...",
+    "cancelSubscription": "إلغاء الاشتراك"
+  },
+  "gracePeriodBanner": {
+    "label": "فشل الدفع:",
+    "message": "فشلت عملية الدفع. أمامك {days, plural, zero {# يوم} one {يوم واحد} two {يومان} few {# أيام} many {# يومًا} other {# يوم}} لتحديث وسيلة الدفع قبل تعليق حسابك ({date}).",
+    "updatePayment": "تحديث وسيلة الدفع",
+    "dismiss": "إغلاق الشريط"
+  },
+  "trialBanner": {
+    "daysRemaining": "{days, plural, zero {# يوم} one {يوم واحد} two {يومان} few {# أيام} many {# يومًا} other {# يوم}} متبقٍ",
+    "trialEndsMessage": "في نسختك التجريبية المجانية. اختر خطة للمتابعة بعد {date}.",
+    "choosePlan": "اختيار خطة",
+    "dismiss": "إغلاق الشريط"
+  }
+}

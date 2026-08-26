@@ -1,0 +1,20 @@
+{
+  "uploader": {
+    "defaultLabel": "صورة",
+    "clickToUpload": "اضغط للرفع",
+    "orDragAndDrop": "أو اسحب وأفلت",
+    "acceptedFormats": "PNG, JPG, GIF, WEBP بحد أقصى {maxSizeMB} ميغابايت",
+    "uploading": "جارٍ الرفع... {progress}%",
+    "confirmDelete": "هل أنت متأكد من حذف هذه الصورة؟",
+    "previewAlt": "معاينة",
+    "iconLabel": "الأيقونة:",
+    "deleteImage": "حذف الصورة",
+    "pathLabel": "المسار:",
+    "errors": {
+      "invalidType": "يرجى رفع ملف صورة صالح (JPEG أو PNG أو GIF أو WEBP)",
+      "tooLarge": "يجب ألا يتجاوز حجم الصورة {maxSizeMB} ميغابايت",
+      "uploadFailed": "فشل الرفع. يرجى المحاولة مرة أخرى.",
+      "deleteFailed": "فشل الحذف. يرجى المحاولة مرة أخرى."
+    }
+  }
+}

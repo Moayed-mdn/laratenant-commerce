@@ -1,0 +1,18 @@
+{
+  "wrongAccountType": {
+    "title": "Wrong Account Type",
+    "description": "You are logged in with the wrong account type for this page."
+  },
+  "retry": "Retry",
+  "logOutAndSwitch": "Log Out and Switch Account",
+  "failed": {
+    "title": "Bootstrap Failed",
+    "description": "The app could not restore the dashboard session."
+  },
+  "offline": {
+    "protected": "The app is offline. Reconnect to restore your dashboard session.",
+    "guest": "You are offline. Sign-in and onboarding actions will resume once the connection returns."
+  },
+  "goToLogin": "Go to login",
+  "guestFallback": "Session restoration failed. You can still continue with guest actions."
+}

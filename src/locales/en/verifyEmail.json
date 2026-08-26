@@ -1,0 +1,15 @@
+{
+  "title": "Email Verification",
+  "loading": "Verifying your email...",
+  "success": "Email verified successfully!",
+  "redirecting": "Redirecting you to the success page...",
+  "error": "Verification Failed",
+  "backToLogin": "Back to Login",
+  "errors": {
+    "invalidLink": "The verification link is invalid or has expired.",
+    "verificationFailed": "We couldn't verify your email. Please try again or request a new link."
+  },
+  "successTitle": "Verification Successful",
+  "successDescription": "Your email has been verified. Please log in to continue.",
+  "goToDashboard": "Go to Dashboard"
+}

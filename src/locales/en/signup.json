@@ -1,0 +1,38 @@
+{
+  "pageTitle": "Sign Up — Admin Dashboard",
+  "pageDescription": "Create your admin account",
+  "appName": "Admin Dashboard",
+  "title": "Create an account",
+  "subtitle": "Enter your details below to create your account",
+  "alreadyHaveAccount": "Already have an account?",
+  "loginLink": "Login",
+  "nameLabel": "Name",
+  "namePlaceholder": "Enter your name",
+  "emailLabel": "Email address",
+  "emailPlaceholder": "you@example.com",
+  "passwordLabel": "Password",
+  "passwordPlaceholder": "Enter your password",
+  "passwordConfirmationLabel": "Confirm Password",
+  "passwordConfirmationPlaceholder": "Confirm your password",
+  "submitButton": "Sign Up",
+  "signingUp": "Signing up...",
+  "errors": {
+    "nameTooShort": "Name must be at least 2 characters",
+    "invalidEmail": "Please enter a valid email address",
+    "passwordTooShort": "Password must be at least 8 characters",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "genericError": "Something went wrong. Please try again."
+  },
+  "success": {
+    "registered": "Registration successful! Please check your email to verify your account."
+  },
+  "passwordStrength": {
+    "label": "Password strength",
+    "levels": {
+      "weak": "Weak",
+      "fair": "Fair",
+      "good": "Good",
+      "strong": "Strong"
+    }
+  }
+}

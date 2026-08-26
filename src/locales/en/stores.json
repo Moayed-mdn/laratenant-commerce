@@ -1,0 +1,33 @@
+{
+  "title": "Stores",
+  "subtitle": "Manage your stores and businesses",
+  "createButton": "Create Store",
+  "noStores": "You don't have any stores yet.",
+  "welcome": "Welcome!",
+  "createFirst": "Create your first store",
+  "create": {
+    "title": "Create Store",
+    "checkingLimits": "Checking store limits...",
+    "limitReachedTitle": "Store Limit Reached",
+    "limitReachedDescription": "You've reached your plan's store limit",
+    "currentUsage": "Current Usage",
+    "storesCreated": "stores created",
+    "upgradePrompt": "Upgrade your plan to create more stores and manage multiple brands.",
+    "viewPlans": "View Plans",
+    "backToStores": "Back to Stores"
+  },
+  "loading": "Loading...",
+  "selectStore": {
+    "title": "Select a Store",
+    "description": "Choose which store you want to manage"
+  },
+  "updateSuccess": "Store updated successfully",
+  "updateError": "Failed to update store",
+  "noStoresFound": {
+    "title": "No stores found",
+    "message": "You haven't created any stores yet. Create your first store to start selling.",
+    "actionLabel": "Create first store"
+  },
+  "switchSuccess": "Store switched successfully",
+  "switchError": "Failed to switch store"
+}

@@ -97,7 +97,8 @@
       "requireCompany": "Require Company Name",
       "requireCompanyDescription": "Customers must provide a company name",
       "allowPoBoxes": "Allow P.O. Boxes",
-      "allowPoBoxesDescription": "Accept P.O. Box addresses"
+      "allowPoBoxesDescription": "Accept P.O. Box addresses",
+      "title": "Additional Options"
     },
     "fields": {
       "firstName": "First Name",
@@ -110,7 +111,9 @@
       "postalCode": "Postal Code",
       "country": "Country",
       "phone": "Phone"
-    }
+    },
+    "updateSuccess": "Address settings updated successfully.",
+    "updateError": "Failed to update address settings."
   },
   "zoneMethodPricing": {
     "title": "Zone Pricing Matrix",
@@ -157,6 +160,15 @@
     "settingsUpdated": "Address settings updated successfully",
     "methodAssigned": "Method assigned to zone successfully",
     "methodRemoved": "Method removed from zone successfully",
-    "priceUpdated": "Zone pricing updated successfully"
+    "priceUpdated": "Zone pricing updated successfully",
+    "methodCreateError": "Failed to create shipping method.",
+    "methodUpdateError": "Failed to update shipping method.",
+    "methodDeleteError": "Failed to delete shipping method.",
+    "zoneCreateError": "Failed to create shipping zone.",
+    "zoneUpdateError": "Failed to update shipping zone.",
+    "zoneDeleteError": "Failed to delete shipping zone.",
+    "methodAssignError": "Failed to assign method to zone.",
+    "methodRemoveError": "Failed to remove method from zone.",
+    "priceUpdateError": "Failed to update zone pricing."
   }
 }

@@ -1,0 +1,33 @@
+{
+  "title": "المتاجر",
+  "subtitle": "إدارة متاجرك وأعمالك",
+  "createButton": "إنشاء متجر",
+  "noStores": "ليس لديك أي متاجر حتى الآن.",
+  "welcome": "أهلاً بك!",
+  "createFirst": "أنشئ متجرك الأول",
+  "create": {
+    "title": "إنشاء متجر",
+    "checkingLimits": "جارٍ التحقق من حدود المتاجر...",
+    "limitReachedTitle": "تم الوصول إلى حد المتاجر",
+    "limitReachedDescription": "لقد وصلت إلى حد خطتك للمتاجر",
+    "currentUsage": "الاستخدام الحالي",
+    "storesCreated": "متجراً تم إنشاؤها",
+    "upgradePrompt": "قم بترقية خطتك لإنشاء المزيد من المتاجر وإدارة علامات تجارية متعددة.",
+    "viewPlans": "عرض الخطط",
+    "backToStores": "العودة إلى المتاجر"
+  },
+  "loading": "جارٍ التحميل...",
+  "selectStore": {
+    "title": "اختر متجرًا",
+    "description": "اختر المتجر الذي تريد إدارته"
+  },
+  "updateSuccess": "تم تحديث المتجر بنجاح",
+  "updateError": "فشل تحديث المتجر",
+  "noStoresFound": {
+    "title": "لا توجد متاجر",
+    "message": "لم تُنشئ أي متجر بعد. أنشئ متجرك الأول لتبدأ البيع.",
+    "actionLabel": "إنشاء أول متجر"
+  },
+  "switchSuccess": "تم تبديل المتجر بنجاح",
+  "switchError": "فشل تبديل المتجر"
+}

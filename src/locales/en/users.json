@@ -1,0 +1,85 @@
+{
+  "title": "Staff & Users",
+  "subtitle": "Manage your store staff and administrators",
+  "noActiveStore": {
+    "title": "No active store",
+    "message": "Select a store from the switcher to view customer details."
+  },
+  "noActiveStoreMessage": "Select a store from the switcher to view its customers.",
+  "loading": "Loading...",
+  "create": "Create User",
+  "createSuccess": "User created successfully",
+  "accessDenied": "Access Restricted",
+  "accessDeniedMessage": "You don't have permission to view the users list. Contact your store admin if you need access.",
+  "form": {
+    "createTitle": "Create User",
+    "createDescription": "Add a new staff member or store admin to your store.",
+    "name": "Full Name",
+    "email": "Email Address",
+    "role": "Role",
+    "selectRole": "Select a role",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "submit": "Create User",
+    "creating": "Creating...",
+    "cancel": "Cancel",
+    "namePlaceholder": "John Doe"
+  },
+  "errors": {
+    "forbidden": "You do not have permission to create users.",
+    "createFailed": "Failed to create user. Please try again."
+  },
+  "filters": {
+    "search": "Search",
+    "searchPlaceholder": "Search by name or email...",
+    "role": "Role",
+    "allRoles": "All roles",
+    "status": "Status",
+    "allStatuses": "All statuses"
+  },
+  "roles": {
+    "store_admin": "Store Admin",
+    "staff": "Staff",
+    "super_admin": "Super Admin",
+    "customer": "Customer",
+    "unknown": "Unknown"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "verified": "Verified",
+    "unverified": "Unverified"
+  },
+  "table": {
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "created": "Created",
+    "actions": "Actions",
+    "view": "View",
+    "empty": "No customers found",
+    "of": "of",
+    "perPage": "Per page",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {current} of {total}"
+  },
+  "detail": {
+    "title": "Customer Details",
+    "back": "Back to customers",
+    "info": "Information",
+    "timestamps": "Timestamps",
+    "emailVerified": "Email verified",
+    "emailNotVerified": "Email not verified",
+    "joined": "Joined",
+    "lastUpdated": "Last updated",
+    "delete": "Delete customer",
+    "deleteConfirm": "Are you sure you want to delete this customer? This action cannot be undone.",
+    "deleteSuccess": "Customer deleted",
+    "deleteError": "Failed to delete customer",
+    "error": "Failed to load customer details"
+  },
+  "cancel": "Cancel",
+  "delete": "Delete"
+}

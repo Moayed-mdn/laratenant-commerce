@@ -1,0 +1,258 @@
+{
+  "title": "المنتجات",
+  "subtitle": "إدارة منتجات متجرك",
+  "description": "عرض وإدارة منتجاتك.",
+  "new": "منتج جديد",
+  "loading": "جارٍ التحميل...",
+  "cancel": "إلغاء",
+  "delete": "حذف",
+  "edit": "تعديل",
+  "actions": "الإجراءات",
+  "save": "حفظ",
+  "saving": "جارٍ الحفظ...",
+  "discard": "تجاهل",
+  "filters": {
+    "search": "بحث",
+    "searchPlaceholder": "البحث بالاسم أو SKU...",
+    "status": "الحالة",
+    "allStatuses": "جميع الحالات"
+  },
+  "table": {
+    "image": "الصورة",
+    "name": "الاسم",
+    "status": "الحالة",
+    "price": "السعر",
+    "inventory": "المخزون",
+    "sku": "SKU",
+    "created": "تاريخ الإنشاء",
+    "actions": "الإجراءات",
+    "edit": "تعديل",
+    "empty": "لم يتم العثور على منتجات",
+    "emptyExplanation": "ستظهر المنتجات التي تضيفها هنا. أنشئ أول منتج لك لبدء البيع.",
+    "inStock": "{count} في المخزون",
+    "noSku": "—",
+    "of": "من",
+    "perPage": "لكل صفحة",
+    "previous": "السابق",
+    "next": "التالي",
+    "page": "صفحة {current} من {total}"
+  },
+  "form": {
+    "createTitle": "منتج جديد",
+    "editTitle": "تعديل المنتج",
+    "sections": {
+      "basic": "المعلومات الأساسية",
+      "pricing": "التسعير",
+      "inventory": "المخزون",
+      "shipping": "الشحن",
+      "status": "حالة المنتج"
+    },
+    "fields": {
+      "name": "اسم المنتج",
+      "namePlaceholder": "مثال: تيشيرت أزرق",
+      "description": "الوصف",
+      "descriptionPlaceholder": "صف المنتج...",
+      "price": "السعر",
+      "compareAtPrice": "سعر المقارنة",
+      "costPerItem": "التكلفة لكل قطعة",
+      "sku": "SKU",
+      "skuPlaceholder": "مثال: SHIRT-BLUE-M",
+      "barcode": "الباركود",
+      "quantity": "الكمية",
+      "trackQuantity": "تتبع الكمية",
+      "weight": "الوزن",
+      "weightUnit": "الوحدة",
+      "status": "الحالة",
+      "category": "الفئة",
+      "categoryPlaceholder": "اختر فئة",
+      "noCategoryOption": "بدون فئة",
+      "brand": "العلامة التجارية",
+      "brandPlaceholder": "اختر علامة تجارية",
+      "noBrandOption": "بدون علامة تجارية",
+      "isFeatured": "منتج مميز",
+      "isFeaturedHint": "تُعرض المنتجات المميزة بشكل بارز في الواجهة.",
+      "loading": "جارٍ التحميل...",
+      "tags": "الوسوم",
+      "tagsPlaceholder": "اختر الوسوم",
+      "tagsSelected": "تم اختيار {count}",
+      "tagsSearch": "ابحث في الوسوم...",
+      "tagsEmpty": "لم يتم العثور على وسوم."
+    },
+    "status": {
+      "active": "نشط",
+      "draft": "مسودة",
+      "inactive": "غير نشط"
+    },
+    "weightUnits": {
+      "kg": "كجم",
+      "g": "جم",
+      "lb": "رطل",
+      "oz": "أوقية"
+    },
+    "errors": {
+      "nameRequired": "اسم المنتج مطلوب",
+      "priceMin": "يجب أن يكون السعر 0 أو أكبر",
+      "quantityMin": "يجب أن تكون الكمية 0 أو أكبر"
+    },
+    "validation": {
+      "translationMissingRequired": "يرجى تعبئة حقول الترجمة المطلوبة (الاسم والمعرّف).",
+      "variantSkuRequired": "رمز SKU للمتغير مطلوب.",
+      "variantPriceInvalid": "يجب أن يكون سعر المتغير 0 أو أكبر.",
+      "variantQuantityInvalid": "يجب أن تكون كمية المتغير 0 أو أكبر."
+    },
+    "validationError": "يرجى إصلاح أخطاء التحقق من الصحة قبل الحفظ.",
+    "validationErrorsTitle": "أخطاء التحقق:",
+    "submit": {
+      "create": "إنشاء منتج",
+      "update": "حفظ التغييرات",
+      "creating": "جارٍ الإنشاء...",
+      "updating": "جارٍ الحفظ..."
+    },
+    "createSuccess": "تم إنشاء المنتج",
+    "updateSuccess": "تم حفظ المنتج",
+    "deleteSuccess": "تم حذف المنتج",
+    "deleteError": "فشل حذف المنتج",
+    "deleteConfirm": "هل أنت متأكد من رغبتك في حذف هذا المنتج؟ لا يمكن التراجع عن هذا الإجراء.",
+    "delete": "حذف المنتج"
+  },
+  "variantEditor": {
+    "tabs": {
+      "general": "عام",
+      "variants": "المتغيرات",
+      "attributes": "الخصائص",
+      "seo": "SEO"
+    },
+    "unsavedChanges": "لديك تغييرات غير محفوظة.",
+    "media": {
+      "column": "الصور",
+      "add": "إضافة",
+      "dialogTitle": "{variant} — الصور",
+      "noImages": "لا توجد صور بعد. أضف رابطاً أعلاه."
+    },
+    "seoPlaceholder": "سيتم إضافة قسم SEO في مرحلة لاحقة.",
+    "shared": {
+      "yes": "نعم",
+      "no": "لا",
+      "duplicate": "نسخ",
+      "copy": "نسخة"
+    },
+    "isFeatured": "منتج مميز",
+    "general": {
+      "featured": "مميز"
+    },
+    "variants": {
+      "variant": "متغير",
+      "label": "اسم المتغير",
+      "sku": "SKU",
+      "price": "السعر",
+      "quantity": "الكمية",
+      "editVariant": "تعديل المتغير",
+      "searchVariants": "ابحث في المتغيرات...",
+      "addVariant": "إضافة متغير",
+      "active": "نشط"
+    },
+    "defaultVariant": {
+      "info": "ستستخدم الصورة الأولى للمتغير الافتراضي كصورة مصغرة للمنتج في القوائم وفي صفحة المنتج في البداية.",
+      "tooltip": "اختر المتغير الذي يمثل هذا المنتج افتراضيًا. ستصبح صورته الأولى الصورة المصغرة التي يراها العملاء في نتائج البحث وقوائم المنتجات.",
+      "columnTooltip": "المتغير الافتراضي - صورته الأولى هي الصورة المصغرة للمنتج",
+      "setDefault": "تعيين كمتغير افتراضي",
+      "unsetDefault": "إزالة كافتراضي"
+    },
+    "attributes": {
+      "attributeName": "اسم الخاصية",
+      "value": "القيمة",
+      "addValue": "إضافة قيمة",
+      "addAttribute": "إضافة خاصية",
+      "generateCombinations": "توليد التركيبات"
+    },
+    "options": {
+      "optionName": "اسم الخيار",
+      "addValue": "إضافة قيمة",
+      "addOption": "إضافة خيار",
+      "noOptions": "لم يتم تحديد خيارات بعد. أضف خيارًا لإنشاء المتغيرات.",
+      "noValues": "لم يتم تحديد قيم بعد.",
+      "valuesCount": "{count, plural, =0 {لا توجد قيم} =1 {قيمة واحدة} =2 {قيمتان} few {# قيم} many {# قيمة} other {# قيمة}}"
+    }
+  },
+  "editor": {
+    "tabs": {
+      "content": "المحتوى",
+      "structure": "البنية",
+      "options": "الخيارات",
+      "media": "الوسائط"
+    },
+    "translationStatus": {
+      "complete": "مكتمل",
+      "incomplete": "غير مكتمل"
+    },
+    "translation": {
+      "fields": {
+        "name": "الاسم",
+        "slug": "المعرّف",
+        "description": "الوصف",
+        "seoTitle": "عنوان SEO",
+        "seoDescription": "وصف SEO"
+      }
+    },
+    "media": {
+      "imagesTitle": "الصور",
+      "imagesHint": "إدارة الصور والترتيب ونصوص البديل.",
+      "altText": "نص بديل",
+      "moveUp": "تحريك للأعلى",
+      "moveDown": "تحريك للأسفل",
+      "imageUrl": "رابط الصورة",
+      "imageUrlPlaceholder": "https://...",
+      "addImage": "إضافة صورة",
+      "removeImage": "إزالة الصورة",
+      "uploadImage": "رفع صورة"
+    }
+  },
+  "detail": {
+    "back": "العودة إلى المنتجات",
+    "loadError": "تعذر تحميل هذا المنتج"
+  },
+  "create": {
+    "back": "السابق",
+    "next": "التالي",
+    "steps": {
+      "content": "المحتوى",
+      "structure": "البنية",
+      "media": "الوسائط",
+      "review": "المراجعة"
+    },
+    "review": {
+      "title": "جاهز للإنشاء",
+      "subtitle": "راجع المنتج قبل إنشائه.",
+      "status": "الحالة",
+      "translationsCount": "{count, plural, =0 {لا توجد ترجمات} =1 {ترجمة واحدة} =2 {ترجمتان} few {# ترجمات} many {# ترجمة} other {# ترجمة}}",
+      "optionsCount": "{count, plural, =0 {لا توجد خيارات} =1 {خيار واحد} =2 {خياران} few {# خيارات} many {# خيار} other {# خيار}}",
+      "variantsCount": "{count, plural, =0 {لا توجد متغيرات} =1 {متغير واحد} =2 {متغيران} few {# متغيرات} many {# متغير} other {# متغير}}",
+      "noVariants": "لم يتم تحديد متغيرات — سيتم إنشاء متغير افتراضي.",
+      "noOptions": "لم يتم تحديد خيارات — المنتج له متغير افتراضي واحد.",
+      "noTranslations": "لم يتم تحديد ترجمات.",
+      "tagsCount": "{count, plural, =0 {لا توجد وسوم} =1 {وسم واحد} =2 {وسمان} few {# وسوم} many {# وسم} other {# وسم}}",
+      "noTags": "لم يتم تحديد وسوم.",
+      "imagesCount": "{count, plural, =0 {لا توجد صور} =1 {صورة واحدة} =2 {صورتان} few {# صور} many {# صورة} other {# صورة}}",
+      "noImages": "لم يتم تحديد صور.",
+      "defaultVariant": "متغير افتراضي",
+      "variantsMore": "+ {count} إضافي",
+      "variantMedia": "صور المتغيرات",
+      "variantsWithMedia": "{count, plural, =0 {لا متغيرات} =1 {متغير واحد} other {# متغيرات}} · {images, plural, =0 {لا صور} =1 {صورة واحدة} other {# صور}}",
+      "variantsFallback": "{count, plural, =0 {لا متغيرات} =1 {متغير واحد} other {# متغيرات}} يستخدم صور المنتج",
+      "noVariantMedia": "لا توجد صور خاصة بالمتغيرات"
+    }
+  },
+  "quotaLimit": {
+    "checking": "جارٍ التحقق من حدود المنتجات...",
+    "title": "تم بلوغ الحد الأقصى للمنتجات",
+    "description": "لقد وصلت إلى الحد الأقصى للمنتجات المسموح به في خطتك",
+    "currentUsage": "الاستخدام الحالي",
+    "productsCreated": "منتج تم إنشاؤه",
+    "upgradeHint": "قم بترقية خطتك لإنشاء المزيد من المنتجات وفتح ميزات إضافية.",
+    "viewPlans": "عرض الخطط",
+    "backToProducts": "العودة إلى المنتجات"
+  },
+  "tagSelect": {
+    "removeTag": "إزالة {name}"
+  }
+}

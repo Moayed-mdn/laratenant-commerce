@@ -97,7 +97,8 @@
       "requireCompany": "طلب اسم الشركة",
       "requireCompanyDescription": "يجب على العملاء تقديم اسم شركة",
       "allowPoBoxes": "السماح بصناديق البريد",
-      "allowPoBoxesDescription": "قبول عناوين صناديق البريد"
+      "allowPoBoxesDescription": "قبول عناوين صناديق البريد",
+      "title": "خيارات إضافية"
     },
     "fields": {
       "firstName": "الاسم الأول",
@@ -110,7 +111,9 @@
       "postalCode": "الرمز البريدي",
       "country": "الدولة",
       "phone": "الهاتف"
-    }
+    },
+    "updateSuccess": "تم تحديث إعدادات العنوان بنجاح.",
+    "updateError": "فشل تحديث إعدادات العنوان."
   },
   "zoneMethodPricing": {
     "title": "جدول أسعار المناطق",
@@ -157,6 +160,15 @@
     "settingsUpdated": "تم تحديث إعدادات العنوان بنجاح",
     "methodAssigned": "تم تعيين الطريقة للمنطقة بنجاح",
     "methodRemoved": "تم إزالة الطريقة من المنطقة بنجاح",
-    "priceUpdated": "تم تحديث أسعار المنطقة بنجاح"
+    "priceUpdated": "تم تحديث أسعار المنطقة بنجاح",
+    "methodCreateError": "فشل إنشاء طريقة الشحن.",
+    "methodUpdateError": "فشل تحديث طريقة الشحن.",
+    "methodDeleteError": "فشل حذف طريقة الشحن.",
+    "zoneCreateError": "فشل إنشاء منطقة الشحن.",
+    "zoneUpdateError": "فشل تحديث منطقة الشحن.",
+    "zoneDeleteError": "فشل حذف منطقة الشحن.",
+    "methodAssignError": "فشل تعيين الطريقة للمنطقة.",
+    "methodRemoveError": "فشل إزالة الطريقة من المنطقة.",
+    "priceUpdateError": "فشل تحديث أسعار المنطقة."
   }
 }

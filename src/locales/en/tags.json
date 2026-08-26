@@ -1,0 +1,72 @@
+{
+  "title": "Tags",
+  "subtitle": "Manage your store tags",
+  "new": "New tag",
+  "loading": "Loading...",
+  "filters": {
+    "allStatuses": "All statuses",
+    "allTypes": "All types",
+    "typePlaceholder": "Filter by type..."
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "table": {
+    "name": "Name",
+    "type": "Type",
+    "color": "Color",
+    "translations": "Locales",
+    "status": "Status",
+    "created": "Created",
+    "actions": "Actions",
+    "edit": "Edit",
+    "empty": "No tags found",
+    "delete": "Delete",
+    "restore": "Restore",
+    "deleteConfirm": "Are you sure you want to delete this tag?",
+    "of": "of",
+    "perPage": "Per page",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {current} of {total}"
+  },
+  "form": {
+    "createTitle": "New Tag",
+    "createSubtitle": "Create a new product tag",
+    "editTitle": "Edit Tag",
+    "translations": "Translations",
+    "settings": "Settings",
+    "dangerZone": "Danger Zone",
+    "deleteDescription": "Permanently remove this tag from your store.",
+    "fields": {
+      "name": "Name",
+      "namePlaceholder": "e.g. Sale",
+      "slug": "URL slug",
+      "slugPlaceholder": "e.g. sale",
+      "type": "Type",
+      "typePlaceholder": "e.g. general",
+      "color": "Color",
+      "colorPlaceholder": "#FF0000",
+      "isActive": "Active"
+    },
+    "create": "Create tag",
+    "creating": "Creating...",
+    "save": "Save changes",
+    "saving": "Saving...",
+    "delete": "Delete tag",
+    "deleting": "Deleting...",
+    "cancel": "Cancel",
+    "deleteTitle": "Delete Tag",
+    "deleteConfirm": "Are you sure you want to delete this tag?",
+    "createSuccess": "Tag created",
+    "createError": "Failed to create tag",
+    "updateSuccess": "Tag saved",
+    "updateError": "Failed to update tag",
+    "deleteSuccess": "Tag deleted",
+    "deleteError": "Failed to delete tag"
+  },
+  "detail": {
+    "error": "Failed to load tag"
+  }
+}

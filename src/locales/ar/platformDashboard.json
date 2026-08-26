@@ -1,0 +1,35 @@
+{
+  "title": "لوحة تحكم المنصة",
+  "subtitle": "مقاييس المنصة ونظرة عامة على الاشتراكات",
+  "loading": "جارٍ تحميل لوحة التحكم...",
+  "error": "فشل تحميل بيانات لوحة التحكم. يرجى التحديث.",
+  "storeActivity": {
+    "title": "نشاط المتاجر",
+    "subtitle": "حجم طلبات العملاء ومبيعات المتاجر",
+    "totalOrders": "إجمالي الطلبات",
+    "storeSales": "مبيعات المتاجر",
+    "stores": "المتاجر",
+    "storesBreakdown": "توزيع حالة المتاجر",
+    "pending": "قيد الانتظار",
+    "thisMonth": "هذا الشهر",
+    "total": "الإجمالي",
+    "active": "نشط",
+    "pendingStores": "قيد الانتظار",
+    "suspended": "موقوف"
+  },
+  "platformRevenue": {
+    "title": "إيرادات المنصة",
+    "subtitle": "دخل الاشتراكات والمقاييس",
+    "subscriptionRevenue": "إيرادات الاشتراكات",
+    "subscriptions": "الاشتراكات",
+    "subscriptionsBreakdown": "توزيع حالة الاشتراكات",
+    "viewSubscriptions": "عرض الاشتراكات",
+    "thisMonth": "هذا الشهر",
+    "total": "الإجمالي",
+    "active": "نشط",
+    "trialing": "تجريبي",
+    "pastDue": "متأخر",
+    "canceled": "ملغي"
+  },
+  "shellTitle": "إدارة المنصة"
+}

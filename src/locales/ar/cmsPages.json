@@ -1,25 +1,122 @@
 {
+  "title": "صفحات التسويق",
+  "subtitle": "إدارة صفحات التسويق في متجرك",
+  "new": "صفحة جديدة",
+  "loading": "جارٍ التحميل...",
+  "status": {
+    "draft": "مسودة",
+    "published": "منشور",
+    "scheduled": "مجدول"
+  },
+  "templates": {
+    "landing": "هبوط",
+    "campaign": "حملة",
+    "promotion": "ترويج",
+    "generic": "عام"
+  },
+  "filters": {
+    "searchPlaceholder": "البحث في الصفحات...",
+    "allStatuses": "جميع الحالات",
+    "allTemplates": "جميع القوالب"
+  },
+  "table": {
+    "title": "العنوان",
+    "template": "القالب",
+    "status": "الحالة",
+    "sortOrder": "الترتيب",
+    "publishedAt": "تاريخ النشر",
+    "created": "تاريخ الإنشاء",
+    "actions": "الإجراءات",
+    "edit": "تعديل",
+    "empty": "لم يتم العثور على صفحات تسويقية",
+    "of": "من",
+    "perPage": "لكل صفحة",
+    "previous": "السابق",
+    "next": "التالي",
+    "page": "صفحة {current} من {total}"
+  },
+  "form": {
+    "createTitle": "صفحة تسويقية جديدة",
+    "createSubtitle": "إنشاء صفحة تسويقية جديدة لمتجرك",
+    "editTitle": "تعديل الصفحة التسويقية",
+    "editSubtitle": "تحديث محتوى وإعدادات الصفحة التسويقية",
+    "settings": "الإعدادات",
+    "tabs": {
+      "general": "عام",
+      "content": "منشئ المحتوى",
+      "seo": "SEO"
+    },
+    "fields": {
+      "title": "العنوان",
+      "slug": "المعرّف",
+      "excerpt": "المقتطف",
+      "template": "القالب",
+      "pageTemplate": "قالب الصفحة",
+      "pageTemplateNone": "لا شيء (بدون قالب)",
+      "status": "الحالة",
+      "publishedAt": "تاريخ النشر",
+      "sortOrder": "ترتيب العرض",
+      "isHomepage": "استخدام كصفحة رئيسية",
+      "isHomepageHelp": "تعيين هذه الصفحة كصفحة رئيسية للمتجر"
+    },
+    "errors": {
+      "titleRequired": "العنوان مطلوب بلغة واحدة على الأقل",
+      "slugRequired": "المعرّف مطلوب بلغة واحدة على الأقل",
+      "validationFailed": "يرجى إصلاح أخطاء التحقق من الصحة قبل الحفظ.",
+      "pageTemplateInvalid": "يرجى اختيار قالب صفحة صالح أو ترك حقل القالب فارغاً."
+    },
+    "seo": {
+      "metaTitle": "عنوان Meta",
+      "metaDescription": "وصف Meta",
+      "technical": "SEO التقني",
+      "canonicalUrl": "الرابط الأساسي",
+      "robots": "Robots",
+      "ogImage": "رابط صورة OG"
+    },
+    "create": "إنشاء صفحة",
+    "creating": "جارٍ الإنشاء...",
+    "save": "حفظ التغييرات",
+    "saving": "جارٍ الحفظ...",
+    "delete": "حذف الصفحة",
+    "deleting": "جارٍ الحذف...",
+    "cancel": "إلغاء",
+    "deleteTitle": "حذف الصفحة التسويقية",
+    "deleteConfirm": "هل أنت متأكد من رغبتك في حذف \"{title}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+    "createSuccess": "تم إنشاء الصفحة التسويقية",
+    "createError": "فشل إنشاء الصفحة التسويقية",
+    "updateSuccess": "تم حفظ الصفحة التسويقية",
+    "updateError": "فشل تحديث الصفحة التسويقية",
+    "deleteSuccess": "تم حذف الصفحة التسويقية",
+    "deleteError": "فشل حذف الصفحة التسويقية",
+    "publishSuccess": "تم نشر الصفحة التسويقية",
+    "publishError": "فشل نشر الصفحة التسويقية",
+    "unpublishSuccess": "تم إلغاء نشر الصفحة التسويقية",
+    "unpublishError": "فشل إلغاء نشر الصفحة التسويقية"
+  },
   "sections": {
+    "add": "إضافة قسم",
+    "empty": "لا توجد أقسام بعد. أضف قسماً لبناء محتوى صفحتك.",
+    "remove": "إزالة القسم",
+    "moveUp": "تحريك للأعلى",
+    "moveDown": "تحريك للأسفل",
+    "collapse": "طي",
+    "expand": "توسيع",
+    "activate": "تفعيل",
+    "deactivate": "إلغاء التفعيل",
+    "fields": {
+      "type": "نوع القسم",
+      "identifier": "المعرّف",
+      "title": "العنوان",
+      "subtitle": "العنوان الفرعي",
+      "isActive": "نشط"
+    },
     "editors": {
-      "common": {
-        "colorScheme": "نظام الألوان",
-        "colorSchemeDescription": "اختر نظام ألوان لهذا القسم. ستظهر التغييرات على واجهة المتجر.",
-        "preview": "معاينة"
-      },
-      "hero": {
-        "heading": "محتوى قسم البطل",
-        "eyebrow": "نص العنوان الصغير",
-        "headline": "العنوان الرئيسي",
-        "subheadline": "العنوان الفرعي",
-        "ctaText": "نص زر الدعوة للعمل",
-        "ctaUrl": "رابط زر الدعوة للعمل",
-        "visualType": "نوع المرئي",
-        "visualTypeGradient": "تدرج",
-        "visualTypeImage": "صورة",
-        "gradientFrom": "التدرج من",
-        "gradientTo": "التدرج إلى",
-        "imageUrl": "صورة الخلفية",
-        "note": "ملاحظة: يتم مزامنة الاحتياطيات تلقائياً للتوافق مع المعرض."
+      "video": {
+        "heading": "قسم الفيديو",
+        "videoUrl": "رابط الفيديو",
+        "videoUrlHelp": "رابط يوتيوب أو فيميو أو رابط فيديو مباشر",
+        "posterUrl": "صورة الغلاف/المصغرة",
+        "description": "وصف الفيديو"
       },
       "cta": {
         "heading": "محتوى قسم الدعوة للعمل",
@@ -36,6 +133,52 @@
         "addTrustBadge": "إضافة شارة ثقة",
         "noTrustBadges": "لا توجد شارات ثقة بعد.",
         "badgeText": "نص الشارة"
+      },
+      "custom": {
+        "heading": "قسم مخصص",
+        "warning": "الأقسام المخصصة تظهر كعنصر نائب على الواجهة الأمامية حتى يتم إضافة مُعالج مخصص. استخدم هذا للإعدادات المتقدمة.",
+        "content": "المحتوى (JSON)",
+        "settings": "الإعدادات (JSON)"
+      },
+      "features": {
+        "heading": "قسم الميزات",
+        "addFeature": "إضافة ميزة",
+        "noFeatures": "لا توجد ميزات بعد. أضف ميزتك الأولى.",
+        "title": "عنوان الميزة",
+        "body": "وصف الميزة",
+        "icon": "أيقونة (رابط أو اسم)"
+      },
+      "faq": {
+        "heading": "قسم الأسئلة الشائعة",
+        "addQuestion": "إضافة سؤال",
+        "noQuestions": "لا توجد أسئلة بعد.",
+        "question": "السؤال",
+        "answer": "الإجابة"
+      },
+      "gallery": {
+        "heading": "قسم المعرض/الفريق",
+        "note": "يعرض هذا القسم أعضاء الفريق أو معرض للأشخاص.",
+        "showBio": "إظهار السيرة الذاتية/الوصف",
+        "addMember": "إضافة عضو فريق",
+        "noMembers": "لا يوجد أعضاء فريق بعد.",
+        "name": "الاسم",
+        "role": "الدور/المنصب",
+        "bio": "السيرة الذاتية/الوصف",
+        "image": "الصورة"
+      },
+      "testimonials": {
+        "heading": "قسم الشهادات",
+        "showRating": "إظهار التقييمات",
+        "addTestimonial": "إضافة شهادة",
+        "noTestimonials": "لا توجد شهادات بعد.",
+        "quote": "الاقتباس",
+        "author": "اسم الكاتب",
+        "role": "الدور/المنصب",
+        "rating": "التقييم (1-5)",
+        "avatar": "صورة الملف الشخصي",
+        "aggregate": "التقييم الإجمالي (اختياري)",
+        "averageRating": "متوسط التقييم",
+        "totalReviews": "إجمالي المراجعات"
       },
       "content": {
         "heading": "قسم المحتوى",
@@ -56,29 +199,8 @@
         "metricLabel": "تسمية المقياس",
         "metricValue": "القيمة",
         "metricNote": "ملاحظة (اختياري)",
-        "disclosure": "إفصاح/ملاحظة قانونية"
-      },
-      "features": {
-        "heading": "قسم الميزات",
-        "addFeature": "إضافة ميزة",
-        "noFeatures": "لا توجد ميزات بعد. أضف ميزتك الأولى.",
-        "title": "عنوان الميزة",
-        "body": "وصف الميزة",
-        "icon": "أيقونة (رابط أو اسم)"
-      },
-      "testimonials": {
-        "heading": "قسم الشهادات",
-        "showRating": "إظهار التقييمات",
-        "addTestimonial": "إضافة شهادة",
-        "noTestimonials": "لا توجد شهادات بعد.",
-        "quote": "الاقتباس",
-        "author": "اسم الكاتب",
-        "role": "الدور/المنصب",
-        "rating": "التقييم (1-5)",
-        "avatar": "صورة الملف الشخصي",
-        "aggregate": "التقييم الإجمالي (اختياري)",
-        "averageRating": "متوسط التقييم",
-        "totalReviews": "إجمالي المراجعات"
+        "disclosure": "إفصاح/ملاحظة قانونية",
+        "statLabelPlaceholder": "العملاء"
       },
       "pricing": {
         "heading": "قسم التسعير",
@@ -94,33 +216,75 @@
         "ctaLabel": "تسمية زر الدعوة للعمل",
         "ctaUrl": "رابط زر الدعوة للعمل",
         "badge": "شارة (مثل 'الأكثر شعبية')",
-        "featured": "خطة مميزة"
+        "featured": "خطة مميزة",
+        "featurePlaceholder": "وصف الميزة"
       },
-      "faq": {
-        "heading": "قسم الأسئلة الشائعة",
-        "addQuestion": "إضافة سؤال",
-        "noQuestions": "لا توجد أسئلة بعد.",
-        "question": "السؤال",
-        "answer": "الإجابة"
+      "hero": {
+        "heading": "محتوى قسم البطل",
+        "eyebrow": "نص العنوان الصغير",
+        "headline": "العنوان الرئيسي",
+        "subheadline": "العنوان الفرعي",
+        "ctaText": "نص زر الدعوة للعمل",
+        "ctaUrl": "رابط زر الدعوة للعمل",
+        "visualType": "نوع المرئي",
+        "visualTypeGradient": "تدرج",
+        "visualTypeImage": "صورة",
+        "gradientFrom": "التدرج من",
+        "gradientTo": "التدرج إلى",
+        "imageUrl": "صورة الخلفية",
+        "note": "ملاحظة: يتم مزامنة الاحتياطيات تلقائياً للتوافق مع المعرض."
       },
-      "gallery": {
-        "heading": "قسم المعرض/الفريق",
-        "note": "يعرض هذا القسم أعضاء الفريق أو معرض للأشخاص.",
-        "showBio": "إظهار السيرة الذاتية/الوصف",
-        "addMember": "إضافة عضو فريق",
-        "noMembers": "لا يوجد أعضاء فريق بعد.",
-        "name": "الاسم",
-        "role": "الدور/المنصب",
-        "bio": "السيرة الذاتية/الوصف",
-        "image": "الصورة"
+      "products": {
+        "heading": "قسم المنتجات",
+        "selectProducts": "اختر المنتجات",
+        "settings": "إعدادات العرض",
+        "columns": "الأعمدة",
+        "style": "نمط العرض",
+        "styleGrid": "شبكة",
+        "styleCarousel": "دائري",
+        "styleList": "قائمة",
+        "showPrices": "عرض الأسعار",
+        "showAddToCart": "عرض زر الإضافة للسلة"
       },
-      "video": {
-        "heading": "قسم الفيديو",
-        "videoUrl": "رابط الفيديو",
-        "videoUrlHelp": "رابط يوتيوب أو فيميو أو رابط فيديو مباشر",
-        "posterUrl": "صورة الغلاف/المصغرة",
-        "description": "وصف الفيديو"
+      "categoryGrid": {
+        "heading": "محتوى شبكة الفئات",
+        "addCategory": "إضافة فئة",
+        "noCategories": "لا توجد فئات بعد",
+        "id": "معرف الفئة",
+        "name": "اسم الفئة",
+        "slug": "الاسم المختصر",
+        "path": "المسار",
+        "productCount": "عدد المنتجات",
+        "image": "صورة الفئة"
+      },
+      "common": {
+        "colorScheme": "نظام الألوان",
+        "colorSchemeDescription": "اختر نظام ألوان لهذا القسم. ستظهر التغييرات على واجهة المتجر.",
+        "preview": "معاينة"
       }
+    },
+    "removeItem": "إزالة",
+    "repeater": {
+      "addItem": "إضافة عنصر",
+      "noItems": "لا توجد عناصر بعد"
     }
+  },
+  "sectionTypes": {
+    "hero": "بطل",
+    "features": "مميزات",
+    "faq": "الأسئلة الشائعة",
+    "gallery": "معرض الصور",
+    "testimonials": "آراء العملاء",
+    "category_grid": "شبكة الفئات"
+  },
+  "detail": {
+    "error": "فشل تحميل الصفحة التسويقية"
+  },
+  "productPicker": {
+    "searchLabel": "بحث عن المنتجات",
+    "searchPlaceholder": "اكتب للبحث...",
+    "loading": "جارٍ التحميل...",
+    "noProducts": "لا توجد منتجات",
+    "idLabel": "المعرف:"
   }
 }

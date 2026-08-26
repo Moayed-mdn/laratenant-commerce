@@ -1,0 +1,10 @@
+{
+  "noSections": "No sections to display.",
+  "footer": {
+    "defaultStoreName": "Your Store",
+    "copyright": "© {year} {name}. All rights reserved.",
+    "navigation": "Navigation",
+    "followUs": "Follow Us",
+    "socialComingSoon": "Social links coming soon."
+  }
+}

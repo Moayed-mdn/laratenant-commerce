@@ -1,0 +1,77 @@
+{
+  "title": "الرئيسية",
+  "subtitle": "مرحباً بعودتك. إليك ما يحدث في متجرك.",
+  "noActiveStore": "لا يوجد متجر نشط",
+  "noActiveStoreMessage": "اختر متجراً من المبدّل لرؤية مبيعاتك وطلباتك وأدائك بلمحة سريعة.",
+  "viewAllStores": "عرض جميع المتاجر",
+  "error": "فشل تحميل بيانات لوحة التحكم. يرجى تحديث الصفحة.",
+  "stats": {
+    "revenue": "إجمالي الإيرادات",
+    "orders": "إجمالي الطلبات",
+    "customers": "إجمالي العملاء",
+    "products": "إجمالي المنتجات"
+  },
+  "recentOrders": {
+    "title": "الطلبات الأخيرة",
+    "empty": "لا توجد طلبات بعد",
+    "order": "الطلب",
+    "customer": "العميل",
+    "status": "الحالة",
+    "total": "الإجمالي",
+    "date": "التاريخ"
+  },
+  "topProducts": {
+    "title": "أفضل المنتجات",
+    "empty": "لا توجد منتجات بعد",
+    "sold": "مبيع"
+  },
+  "orderStatus": {
+    "pending": "قيد الانتظار",
+    "processing": "قيد المعالجة",
+    "shipped": "تم الشحن",
+    "delivered": "تم التوصيل",
+    "cancelled": "ملغي",
+    "refunded": "مسترد"
+  },
+  "paymentStatus": {
+    "pending": "قيد الانتظار",
+    "paid": "مدفوع",
+    "failed": "فشل",
+    "refunded": "مسترد",
+    "partially_refunded": "مسترد جزئياً"
+  },
+  "productStatus": {
+    "active": "نشط",
+    "draft": "مسودة",
+    "inactive": "غير نشط"
+  },
+  "postOnboarding": {
+    "title": "ابدأ هنا",
+    "hide": "إخفاء",
+    "progress": "{count} من {total} مكتمل",
+    "items": {
+      "addProduct": "أضف أول منتج لك",
+      "createCategory": "إنشاء تصنيف",
+      "customizeTheme": "تخصيص واجهة المتجر",
+      "reviewSettings": "مراجعة إعدادات المتجر"
+    },
+    "aria": {
+      "markComplete": "تحديد \"{label}\" كمكتمل",
+      "markIncomplete": "تحديد \"{label}\" كغير مكتمل"
+    }
+  },
+  "entryAccess": {
+    "blocked": {
+      "title": "الوصول إلى المتجر محظور حاليًا",
+      "description": "المتجر النشط غير جاهز للعمل حاليًا. تبقى مسارات لوحة التحكم مقفلة حتى يعود المتجر نشطًا.",
+      "currentStatus": "الحالة الحالية:"
+    },
+    "resolving": {
+      "title": "جارٍ التحقق من صلاحية الوصول للوحة التحكم",
+      "description": "يقوم التطبيق باستعادة بيانات الإعداد وجاهزية المتجر وسياق المتجر النشط."
+    },
+    "refreshSession": "تحديث الجلسة",
+    "continue": "متابعة",
+    "refreshBootstrap": "إعادة تحميل البيانات الأساسية"
+  }
+}

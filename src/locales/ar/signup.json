@@ -1,0 +1,38 @@
+{
+  "pageTitle": "إنشاء حساب — لوحة التحكم",
+  "pageDescription": "أنشئ حساب المشرف الخاص بك",
+  "appName": "لوحة التحكم",
+  "title": "إنشاء حساب",
+  "subtitle": "أدخل التفاصيل الخاصة بك أدناه لإنشاء حسابك",
+  "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+  "loginLink": "تسجيل الدخول",
+  "nameLabel": "الاسم",
+  "namePlaceholder": "أدخل اسمك",
+  "emailLabel": "البريد الإلكتروني",
+  "emailPlaceholder": "you@example.com",
+  "passwordLabel": "كلمة المرور",
+  "passwordPlaceholder": "أدخل كلمة المرور الخاصة بك",
+  "passwordConfirmationLabel": "تأكيد كلمة المرور",
+  "passwordConfirmationPlaceholder": "أعد إدخال كلمة المرور",
+  "submitButton": "إنشاء حساب",
+  "signingUp": "جارٍ الإنشاء...",
+  "errors": {
+    "nameTooShort": "يجب أن يتكون الاسم من حرفين على الأقل",
+    "invalidEmail": "يرجى إدخال عنوان بريد إلكتروني صالح",
+    "passwordTooShort": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+    "passwordsDoNotMatch": "كلمتا المرور غير متطابقتين",
+    "genericError": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+  },
+  "success": {
+    "registered": "تم التسجيل بنجاح! يرجى التحقق من بريدك الإلكتروني لتفعيل حسابك."
+  },
+  "passwordStrength": {
+    "label": "قوة كلمة المرور",
+    "levels": {
+      "weak": "ضعيفة",
+      "fair": "مقبولة",
+      "good": "جيدة",
+      "strong": "قوية"
+    }
+  }
+}

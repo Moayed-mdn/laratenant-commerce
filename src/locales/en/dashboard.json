@@ -1,0 +1,77 @@
+{
+  "title": "Dashboard",
+  "subtitle": "Welcome back. Here's what's happening in your store.",
+  "noActiveStore": "No active store",
+  "noActiveStoreMessage": "Select a store from the switcher to see your sales, orders, and performance at a glance.",
+  "viewAllStores": "View all stores",
+  "error": "Failed to load dashboard data. Please refresh.",
+  "stats": {
+    "revenue": "Total Revenue",
+    "orders": "Total Orders",
+    "customers": "Total Customers",
+    "products": "Total Products"
+  },
+  "recentOrders": {
+    "title": "Recent Orders",
+    "empty": "No orders yet",
+    "order": "Order",
+    "customer": "Customer",
+    "status": "Status",
+    "total": "Total",
+    "date": "Date"
+  },
+  "topProducts": {
+    "title": "Top Products",
+    "empty": "No products yet",
+    "sold": "sold"
+  },
+  "orderStatus": {
+    "pending": "Pending",
+    "processing": "Processing",
+    "shipped": "Shipped",
+    "delivered": "Delivered",
+    "cancelled": "Cancelled",
+    "refunded": "Refunded"
+  },
+  "paymentStatus": {
+    "pending": "Pending",
+    "paid": "Paid",
+    "failed": "Failed",
+    "refunded": "Refunded",
+    "partially_refunded": "Partially Refunded"
+  },
+  "productStatus": {
+    "active": "Active",
+    "draft": "Draft",
+    "inactive": "Inactive"
+  },
+  "postOnboarding": {
+    "title": "Getting started",
+    "hide": "Hide this",
+    "progress": "{count} of {total} complete",
+    "items": {
+      "addProduct": "Add your first product",
+      "createCategory": "Create a category",
+      "customizeTheme": "Customize your storefront",
+      "reviewSettings": "Review store settings"
+    },
+    "aria": {
+      "markComplete": "Mark \"{label}\" as complete",
+      "markIncomplete": "Mark \"{label}\" as incomplete"
+    }
+  },
+  "entryAccess": {
+    "blocked": {
+      "title": "Store access is currently blocked",
+      "description": "The active store is not operational right now. Dashboard routes stay locked until the store becomes active again.",
+      "currentStatus": "Current status:"
+    },
+    "resolving": {
+      "title": "Resolving dashboard access",
+      "description": "The app is restoring your onboarding, store readiness, and active store context from bootstrap."
+    },
+    "refreshSession": "Refresh session",
+    "continue": "Continue",
+    "refreshBootstrap": "Refresh bootstrap"
+  }
+}

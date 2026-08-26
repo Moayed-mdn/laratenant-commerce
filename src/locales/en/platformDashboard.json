@@ -1,0 +1,35 @@
+{
+  "title": "Platform Dashboard",
+  "subtitle": "Platform-wide metrics and subscription overview",
+  "loading": "Loading dashboard...",
+  "error": "Failed to load dashboard data. Please refresh.",
+  "storeActivity": {
+    "title": "Store Activity",
+    "subtitle": "Customer order volume and store sales (GMV)",
+    "totalOrders": "Total Orders",
+    "storeSales": "Store Sales (GMV)",
+    "stores": "Stores",
+    "storesBreakdown": "Store status distribution",
+    "pending": "pending",
+    "thisMonth": "this month",
+    "total": "Total",
+    "active": "Active",
+    "pendingStores": "Pending",
+    "suspended": "Suspended"
+  },
+  "platformRevenue": {
+    "title": "Platform Revenue",
+    "subtitle": "SaaS subscription income and metrics",
+    "subscriptionRevenue": "Subscription Revenue",
+    "subscriptions": "Subscriptions",
+    "subscriptionsBreakdown": "Subscription status distribution",
+    "viewSubscriptions": "View Subscriptions",
+    "thisMonth": "this month",
+    "total": "Total",
+    "active": "Active",
+    "trialing": "Trialing",
+    "pastDue": "Past Due",
+    "canceled": "Canceled"
+  },
+  "shellTitle": "Platform Admin"
+}
