@@ -1,11 +1,19 @@
 "use client"
 
-import { useTheme } from "next-themes"
 import { Toaster as Sonner, type ToasterProps } from "sonner"
 import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from "lucide-react"
+import { useUiStore, selectTheme } from "@/stores/uiStore"
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
+  // The dashboard's light/dark mode is driven by useUiStore (persisted to
+  // localStorage, toggles the `.dark` class on <html> — see setTheme in
+  // stores/uiStore.ts), not by next-themes. next-themes is not mounted
+  // anywhere in this app, so reading it here would silently fall back to
+  // "system" and ignore whatever the user actually picked in the app.
+  // Reading the real store keeps toast styling in sync with the rest of
+  // the UI in every case, including when the OS preference and the user's
+  // in-app choice differ.
+  const theme = useUiStore(selectTheme)
 
   return (
     <Sonner

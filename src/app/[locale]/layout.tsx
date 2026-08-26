@@ -1,13 +1,24 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, getTranslations } from 'next-intl/server';
+import { Geist, Geist_Mono } from 'next/font/google';
 import { routing } from '@/i18n/routing';
 import { QueryProvider } from '@/components/providers/QueryProvider';
 import { BootstrapProvider } from '@/components/providers/BootstrapProvider';
 import { Toaster } from '@/components/ui/sonner';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import '../globals.css';
+
+const geistSans = Geist({
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
+});
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+});
 
 function isLocalHostname(hostname: string): boolean {
   return (
@@ -46,13 +57,18 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  const headerList = await headers();
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const [headerList, { locale }] = await Promise.all([headers(), params]);
+  const t = await getTranslations({ locale, namespace: 'common' });
 
   return {
     metadataBase: resolveMetadataBaseHost(headerList),
-    title: 'LaraTenant Commerce',
-    description: 'Multi-tenant e-commerce platform',
+    title: t('siteTitle'),
+    description: t('siteDescription'),
   };
 }
 
@@ -73,15 +89,24 @@ export default async function RootLayout({ children, params }: RootLayoutProps) 
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
   return (
-    <NuqsAdapter>
-      <QueryProvider>
-        <NextIntlClientProvider messages={messages}>
-          <BootstrapProvider>
-            {children}
-          </BootstrapProvider>
-          <Toaster />
-        </NextIntlClientProvider>
-      </QueryProvider>
-    </NuqsAdapter>
+    <html
+      lang={locale}
+      dir={dir}
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body suppressHydrationWarning className="min-h-full flex flex-col">
+        <NuqsAdapter>
+          <QueryProvider>
+            <NextIntlClientProvider messages={messages}>
+              <BootstrapProvider>
+                {children}
+              </BootstrapProvider>
+              <Toaster />
+            </NextIntlClientProvider>
+          </QueryProvider>
+        </NuqsAdapter>
+      </body>
+    </html>
   );
 }
