@@ -28,6 +28,7 @@ const FONT_OPTIONS = [
   'Montserrat',
   'Poppins',
   'Raleway',
+  'cursive',
   'Ubuntu',
   'Playfair Display',
   'Merriweather',
