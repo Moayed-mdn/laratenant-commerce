@@ -17,6 +17,7 @@ import { cn } from '@/lib/utils';
 import { useIsMutating } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { CommandPalette } from '@/components/shared/CommandPalette';
+import { PushNotificationRegistrar } from './PushNotificationRegistrar';
 
 interface DashboardShellProps {
   children: React.ReactNode;
@@ -71,6 +72,9 @@ export function DashboardShell({ children, nav, switcher }: DashboardShellProps)
       
       {/* Command Palette (Heuristic 6: Recognition Rather Than Recall) */}
       <CommandPalette />
+
+      {/* Push notification registration (side-effect only, renders nothing) */}
+      <PushNotificationRegistrar />
     </div>
   );
 }

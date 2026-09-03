@@ -1,0 +1,12 @@
+{
+  "bellAriaLabel": "Notifications",
+  "unreadBadgeAriaLabel": "{count, plural, one {# unread notification} other {# unread notifications}}",
+  "panelTitle": "Notifications",
+  "markAllAsRead": "Mark all as read",
+  "loading": "Loading notifications...",
+  "loadError": "Couldn't load notifications. Please try again.",
+  "retry": "Retry",
+  "emptyTitle": "You're all caught up",
+  "emptyDescription": "New notifications about your orders, inventory, and account will show up here.",
+  "justNow": "Just now"
+}

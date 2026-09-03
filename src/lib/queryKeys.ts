@@ -232,6 +232,18 @@ export const queryKeys = {
     entitlements: (storeSlug: string) =>
       ['billing', 'entitlements', storeSlug] as const,
   },
+
+  // ── NOTIFICATIONS ─────────────────────────────────────────────
+  // Not store-scoped: a merchant user's notifications and device tokens
+  // span all stores they belong to, mirroring the backend's
+  // /api/v1/merchant/notifications/* routes.
+  notifications: {
+    all:         () => ['notifications'] as const,
+    lists:       () => ['notifications', 'list'] as const,
+    list:        (filters: Record<string, unknown> = {}) =>
+      ['notifications', 'list', filters] as const,
+    unreadCount: () => ['notifications', 'unread-count'] as const,
+  },
 };
 
 /** @deprecated Use queryKeys.merchant.me() */

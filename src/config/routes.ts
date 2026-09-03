@@ -173,6 +173,18 @@ export const API_ROUTES = {
       provisioningStatus: (storeSlug: string) =>
         `/api/v1/merchant/stores/${storeSlug}/provisioning-status`,
     },
+    notifications: {
+      list:             () => '/api/v1/merchant/notifications',
+      unreadCount:      () => '/api/v1/merchant/notifications/unread-count',
+      markAsRead: (notificationId: string) =>
+        `/api/v1/merchant/notifications/${notificationId}/read`,
+      markAllAsRead:    () => '/api/v1/merchant/notifications/read-all',
+      deviceTokens: {
+        register:       () => '/api/v1/merchant/notifications/device-tokens',
+        remove: (token: string) =>
+          `/api/v1/merchant/notifications/device-tokens/${encodeURIComponent(token)}`,
+      },
+    },
   },
 
   // ── CUSTOMER CONTEXT ──────────────────────────────────────────

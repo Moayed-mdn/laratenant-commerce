@@ -12,6 +12,7 @@ import { UserMenu } from './UserMenu';
 import { StoreSwitcher } from './StoreSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 import { LocaleToggle } from './LocaleToggle';
+import { NotificationBell } from './NotificationBell';
 import { Button } from '@/components/ui/button';
 import { Menu, PanelLeftOpen, PanelLeftClose, Search } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -98,6 +99,7 @@ export function Topbar({ switcher }: TopbarProps) {
 
         <Separator orientation="vertical" className="mx-1 h-6 hidden md:block" />
 
+        {FEATURES.enableNotifications && <NotificationBell />}
         {FEATURES.enableDarkMode && <ThemeToggle />}
         {FEATURES.enableRTL && <LocaleToggle />}
         <Separator orientation="vertical" className="h-6" />
