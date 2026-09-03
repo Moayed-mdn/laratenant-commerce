@@ -30,7 +30,9 @@ export default function middleware(request: NextRequest): NextResponse {
   if (
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
-    pathname === '/favicon.ico'
+    pathname === '/favicon.ico' ||
+    pathname === '/firebase-messaging-sw.js' ||
+    pathname.endsWith('.js') && pathname.startsWith('/firebase')
   ) {
     return NextResponse.next();
   }
@@ -90,5 +92,5 @@ export default function middleware(request: NextRequest): NextResponse {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|api).*)'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|firebase-messaging-sw.js|api).*)'],
 };
